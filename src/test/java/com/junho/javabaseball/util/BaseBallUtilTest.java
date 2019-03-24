@@ -43,4 +43,108 @@ public class BaseBallUtilTest {
 
         return true;
     }
+
+    @Test
+    public void shouldGetThreeStrike() {
+        // given
+        int[] generatedNumbers = {2, 6, 7};
+        int[] guessNumbers = {2, 6, 7};
+
+        // when
+        String maybeThreeStrike = BaseBallUtil.guessBaseBall(generatedNumbers, guessNumbers);
+
+        // then
+        assertThat(maybeThreeStrike).isEqualTo("3 스트라이크");
+    }
+
+    @Test
+    public void shouldGetNothing() {
+        // given
+        int[] generatedNumbers = {1, 2, 3};
+        int[] guessNumbers = {4, 5, 6};
+
+        // when
+        String maybeThreeStrike = BaseBallUtil.guessBaseBall(generatedNumbers, guessNumbers);
+
+        // then
+        assertThat(maybeThreeStrike).isEqualTo("낫싱");
+    }
+
+    @Test
+    public void shouldGetOneStrike() {
+        // given
+        int[] generatedNumbers = {1, 2, 3};
+        int[] guessNumbers = {1, 7, 8};
+
+        // when
+        String maybeThreeStrike = BaseBallUtil.guessBaseBall(generatedNumbers, guessNumbers);
+
+        // then
+        assertThat(maybeThreeStrike).isEqualTo("1 스트라이크");
+    }
+
+    @Test
+    public void shouldGetTwoStrike() {
+        // given
+        int[] generatedNumbers = {1, 2, 3};
+        int[] guessNumbers = {1, 2, 8};
+
+        // when
+        String maybeThreeStrike = BaseBallUtil.guessBaseBall(generatedNumbers, guessNumbers);
+
+        // then
+        assertThat(maybeThreeStrike).isEqualTo("2 스트라이크");
+    }
+
+    @Test
+    public void shouldGetOneStrikeTwoBall() {
+        // given
+        int[] generatedNumbers = {1, 2, 3};
+        int[] guessNumbers = {1, 3, 2};
+
+        // when
+        String maybeThreeStrike = BaseBallUtil.guessBaseBall(generatedNumbers, guessNumbers);
+
+        // then
+        assertThat(maybeThreeStrike).isEqualTo("1 스트라이크 2볼");
+    }
+
+    @Test
+    public void shouldGetTwoStrikeOneBall() {
+        // given
+        int[] generatedNumbers = {1, 2, 3};
+        int[] guessNumbers = {3, 2, 3};
+
+        // when
+        String maybeThreeStrike = BaseBallUtil.guessBaseBall(generatedNumbers, guessNumbers);
+
+        // then
+        assertThat(maybeThreeStrike).isEqualTo("2 스트라이크 1볼");
+    }
+
+    @Test
+    public void shouldGetOneBall() {
+        // given
+        int[] generatedNumbers = {1, 2, 3};
+        int[] guessNumbers = {3, 7, 8};
+
+        // when
+        String maybeThreeStrike = BaseBallUtil.guessBaseBall(generatedNumbers, guessNumbers);
+
+        // then
+        assertThat(maybeThreeStrike).isEqualTo("1볼");
+    }
+
+    @Test
+    public void shouldGetTwoBall() {
+        // given
+        int[] generatedNumbers = {1, 2, 3};
+        int[] guessNumbers = {3, 1, 8};
+
+        // when
+        String maybeThreeStrike = BaseBallUtil.guessBaseBall(generatedNumbers, guessNumbers);
+
+        // then
+        assertThat(maybeThreeStrike).isEqualTo("2볼");
+    }
 }
