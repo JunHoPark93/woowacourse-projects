@@ -1,3 +1,14 @@
+/*
+ * Class:   BaseBallUtilTest
+ *
+ * Version: 1.0.0
+ *
+ * Date:    2019-03-26
+ *
+ * Author:  Jun Ho Park
+ *
+ */
+
 package com.junho.javabaseball.util;
 
 import org.junit.Test;
@@ -7,10 +18,6 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-/**
- * @author junho.park
- */
 public class BaseBallUtilTest {
 
     @Test

@@ -1,3 +1,14 @@
+/*
+ * Class:   GameHelperTest
+ *
+ * Version: 1.0.0
+ *
+ * Date:    2019-03-26
+ *
+ * Author:  Jun Ho Park
+ *
+ */
+
 package com.junho.javabaseball;
 
 import org.assertj.core.util.Lists;
@@ -11,10 +22,6 @@ import java.util.Scanner;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-
-/**
- * @author junho.park
- */
 public class GameHelperTest {
     private static final List<String> ANSWER_LIST = Lists.newArrayList("1볼", "2볼", "낫싱", "1 스트라이크", "2 스트라이크", "1 스트라이크 1볼", "2스트라이크 1볼");
     private static final int RESTART = 1;
@@ -77,8 +84,14 @@ public class GameHelperTest {
 
     @Test
     public void gameSimulateSuccess() {
+        // given
         int[] input = {2,3,5};
-        GameHelper.play(rightInput, input);
+
+        // when
+        boolean isEnd = GameHelper.play(rightInput, input);
+
+        // then
+        assertThat(isEnd).isTrue();
     }
 
     @Test
