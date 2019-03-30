@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
 
 public class GameUtilTest {
     @Test
@@ -51,6 +52,30 @@ public class GameUtilTest {
 
         // when
         boolean isValid = GameUtil.isCarNameStringValid(input);
+
+        // then
+        assertThat(isValid).isFalse();
+    }
+
+    @Test
+    public void shouldGetValidInputLoop_정상적_숫자_입력() {
+        // given
+        String input = "3";
+
+        // when
+        boolean isValid = GameUtil.isLoopNumberValue(input);
+
+        // then
+        assertThat(isValid).isTrue();
+    }
+
+    @Test
+    public void shouldNotGetValidInputLoop_비정상_문자_입력() {
+        // given
+        String input = "dd";
+
+        // when
+        boolean isValid = GameUtil.isLoopNumberValue(input);
 
         // then
         assertThat(isValid).isFalse();

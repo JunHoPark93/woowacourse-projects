@@ -41,6 +41,15 @@ public class GameUtil {
         return carList;
     }
 
+    public static boolean isLoopNumberValue(String input) {
+        try {
+            Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
     private static boolean isContainsConsecutiveComma(String input) {
         int inputLength = input.length();
         for (int i = 0; i < inputLength-1; i++) {
