@@ -11,6 +11,11 @@
 
 package com.junhopark.javaracingcar.util;
 
+import com.junhopark.javaracingcar.domain.Car;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameUtil {
     private static final int MAX_NAME_LENGTH = 5;
 
@@ -25,6 +30,15 @@ public class GameUtil {
             }
         }
         return true;
+    }
+
+    public static List<Car> getCarList(String input) {
+        String[] carNames = input.split(",");
+        List<Car> carList = new ArrayList<>();
+        for (String carName : carNames) {
+            carList.add(new Car(carName));
+        }
+        return carList;
     }
 
     private static boolean isContainsConsecutiveComma(String input) {

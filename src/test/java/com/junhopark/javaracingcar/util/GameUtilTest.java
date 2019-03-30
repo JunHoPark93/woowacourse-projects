@@ -11,7 +11,11 @@
 
 package com.junhopark.javaracingcar.util;
 
+import com.junhopark.javaracingcar.domain.Car;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,5 +54,21 @@ public class GameUtilTest {
 
         // then
         assertThat(isValid).isFalse();
+    }
+
+    @Test
+    public void shouldGetValidCarList_자동차_리스트_반환() {
+        // given
+        String input = "pobi,crong,honux";
+        List<Car> expected = new ArrayList<>();
+        expected.add(new Car("pobi"));
+        expected.add(new Car("crong"));
+        expected.add(new Car("honux"));
+
+        // when
+        List<Car> actual = GameUtil.getCarList(input);
+
+        // then
+        assertThat(expected.retainAll(actual)).isTrue();
     }
 }
