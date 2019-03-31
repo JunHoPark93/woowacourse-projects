@@ -13,6 +13,7 @@ package com.junhopark.javaracingcar;
 
 import com.junhopark.javaracingcar.domain.Car;
 import com.junhopark.javaracingcar.util.GameUtil;
+import com.junhopark.javaracingcar.util.GameValidator;
 
 import java.util.List;
 import java.util.Scanner;
@@ -33,7 +34,7 @@ public class Main {
     private static List<Car> getCarListFromUser(Scanner sc) {
         while (true) {
             String input = sc.nextLine();
-            if (!GameUtil.isCarNameStringValid(input)) {
+            if (!GameValidator.isCarNameInputValid(input)) {
                 System.out.println("유효하지 않은 입력입니다. 재입력 입력하세요.");
                 continue;
             }
@@ -44,7 +45,7 @@ public class Main {
     private static int getLoopFromUser(Scanner sc) {
         while (true) {
             String input = sc.nextLine();
-            if (!GameUtil.isLoopNumberValue(input)) {
+            if (!GameValidator.isLoopNumberInputValid(input)) {
                 System.out.println("숫자가 아닙니다. 재입력 하세요");
                 continue;
             }
