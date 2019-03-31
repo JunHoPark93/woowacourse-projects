@@ -16,6 +16,7 @@ import com.junhopark.javaracingcar.domain.Car;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class GameUtil {
     private static final int MAX_NAME_LENGTH = 5;
@@ -56,6 +57,13 @@ public class GameUtil {
     public static boolean isMoveCondition() {
         int randomInt = ThreadLocalRandom.current().nextInt(RANDOM_NUMBER_RANGE) + 1;
         return randomInt >= MOVE_FORWARD;
+    }
+
+    public static List<String> getNameListWithPosition(int position, List<Car> carList) {
+        return carList.stream()
+                .filter(car -> car.getPosition() == position)
+                .map(Car::getName)
+                .collect(Collectors.toList());
     }
 
     private static boolean isContainsConsecutiveComma(String input) {

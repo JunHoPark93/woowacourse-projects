@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.in;
 
 public class GameUtilTest {
     @Test
@@ -95,5 +94,26 @@ public class GameUtilTest {
 
         // then
         assertThat(expected.retainAll(actual)).isTrue();
+    }
+
+    @Test
+    public void shouldGetNameList_특정_위치_자동차이름_반환() {
+        // given
+        int position = 1;
+        List<Car> carList = new ArrayList<>();
+        carList.add(new Car("pobi"));
+        carList.add(new Car("crong"));
+        carList.add(new Car("honux"));
+        carList.get(0).moveForward();
+        carList.get(2).moveForward();
+        List<String> expected = new ArrayList<>();
+        expected.add("pobi");
+        expected.add("honux");
+
+        // when
+        List<String> actual = GameUtil.getNameListWithPosition(position, carList);
+
+        // then
+        assertThat(actual.equals(expected)).isTrue();
     }
 }
