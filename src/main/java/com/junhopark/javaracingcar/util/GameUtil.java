@@ -15,9 +15,12 @@ import com.junhopark.javaracingcar.domain.Car;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GameUtil {
     private static final int MAX_NAME_LENGTH = 5;
+    private static final int MOVE_FORWARD = 4;
+    private static final int RANDOM_NUMBER_RANGE = 9;
 
     public static boolean isCarNameStringValid(String input) {
         if (isContainsConsecutiveComma(input)) {
@@ -48,6 +51,11 @@ public class GameUtil {
             return false;
         }
         return true;
+    }
+
+    public static boolean isMoveCondition() {
+        int randomInt = ThreadLocalRandom.current().nextInt(RANDOM_NUMBER_RANGE) + 1;
+        return randomInt >= MOVE_FORWARD;
     }
 
     private static boolean isContainsConsecutiveComma(String input) {

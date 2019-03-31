@@ -27,6 +27,7 @@ public class Main {
         sc.close();
 
         GamePlay gamePlay = new GamePlay(carList, loop);
+        gamePlay.play();
     }
 
     private static List<Car> getCarListFromUser(Scanner sc) {
