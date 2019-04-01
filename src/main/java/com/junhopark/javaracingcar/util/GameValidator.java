@@ -36,15 +36,15 @@ public class GameValidator {
 
     private static boolean isContainsConsecutiveComma(String input) {
         int inputLength = input.length();
-        for (int i = 0; i < inputLength-1; i++) {
-            if (input.charAt(i) == ',' && input.charAt(i+1) == ',') {
+        for (int i = 0; i < inputLength - 1; i++) {
+            if (input.charAt(i) == ',' && input.charAt(i + 1) == ',') {
                 return true;
             }
         }
         return false;
     }
 
-    private static boolean isValidNameLength(String s) {
-        return s.length() <= MAX_NAME_LENGTH;
+    private static boolean isValidNameLength(String name) {
+        return name.length() <= MAX_NAME_LENGTH;
     }
 }

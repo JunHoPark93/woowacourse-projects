@@ -74,6 +74,6 @@ public class GamePlay {
         winnerNameList.stream()
                 .map(s -> s + ", ")
                 .forEach(sb::append);
-        System.out.println(sb.substring(0, sb.length()-2) + "가 최종 우승했습니다.");
+        System.out.println(sb.substring(0, sb.length() - 2) + "가 최종 우승했습니다.");
     }
 }
