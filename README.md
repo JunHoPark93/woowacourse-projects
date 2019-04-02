@@ -58,6 +58,8 @@ java/com/junhopark/javaracingcar/Main.java
 pobi,crong,honux
 시도할 회수는 몇회인가요?
 5
+
+실행결과
 pobi : -
 crong : -
 honux : 

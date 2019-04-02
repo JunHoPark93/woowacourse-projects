@@ -28,6 +28,7 @@ public class GamePlay {
     }
 
     public void play() {
+        System.out.println("실행결과");
         playWithLoopNumber();
         List<String> winnerNameList = findWinner();
         printWinner(winnerNameList);
