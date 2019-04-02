@@ -58,7 +58,7 @@ public class GameValidatorTest {
         String input = "3";
 
         // when
-        boolean isValid = GameValidator.isLoopNumberInputValid(input);
+        boolean isValid = GameValidator.isInteger(input);
 
         // then
         assertThat(isValid).isTrue();
@@ -70,7 +70,7 @@ public class GameValidatorTest {
         String input = "dd";
 
         // when
-        boolean isValid = GameValidator.isLoopNumberInputValid(input);
+        boolean isValid = GameValidator.isInteger(input);
 
         // then
         assertThat(isValid).isFalse();

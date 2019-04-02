@@ -25,7 +25,7 @@ public class GameValidator {
                 .allMatch(GameValidator::isValidNameLength);
     }
 
-    public static boolean isLoopNumberInputValid(String input) {
+    public static boolean isInteger(String input) {
         try {
             Integer.parseInt(input);
         } catch (NumberFormatException e) {

@@ -45,8 +45,8 @@ public class Main {
     private static int getLoopFromUser(Scanner sc) {
         while (true) {
             String input = sc.nextLine();
-            if (!GameValidator.isLoopNumberInputValid(input)) {
-                System.out.println("숫자가 아닙니다. 재입력 하세요");
+            if (!GameValidator.isInteger(input)) {
+                System.out.println("유효하지 않은 입력입니다. 재입력 입력하세요.");
                 continue;
             }
             return Integer.valueOf(input);
