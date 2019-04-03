@@ -4,25 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+    private static final char NEW_LINE = '\n';
+
     private final int id;
     private final String name;
-    private final int currentCapacity;
-    private List<PlayingTime> playingSchedule = new ArrayList<>();
+    private List<PlaySchedule> playSchedules = new ArrayList<>();
 
-    public Movie(int id, String name, int currentCapacity) {
+    public Movie(int id, String name) {
         this.id = id;
         this.name = name;
-        this.currentCapacity = currentCapacity;
     }
 
-    public void addPlayingTime(PlayingTime playingTime) {
-        playingSchedule.add(playingTime);
+    public void addPlaySchedule(PlaySchedule playSchedule) {
+        playSchedules.add(playSchedule);
     }
 
     @Override
     public String toString() {
-        return id + " - " + name + ", " +
-                "예매가능인원 : " + currentCapacity + "\n"
-                + playingSchedule;
+        StringBuilder sb = new StringBuilder();
+        for (PlaySchedule playSchedule : playSchedules) {
+            sb.append(playSchedule);
+        }
+        return id + " - " + name + ", " + NEW_LINE
+                + sb.toString();
     }
 }

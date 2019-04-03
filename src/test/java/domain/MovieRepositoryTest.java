@@ -4,10 +4,10 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class MoviesTest {
+public class MovieRepositoryTest {
     @Test
     public void 영화_출력() {
-        List<Movie> movies = Movies.getMovies();
+        List<Movie> movies = MovieRepository.getMovies();
         for (Movie movie : movies) {
             System.out.println(movie);
         }
