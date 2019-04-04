@@ -9,22 +9,22 @@ public class MovieRepository {
     private static List<Movie> movies = new ArrayList<>();
 
     static {
-        Movie movie1 = new Movie(1, "돈");
-        movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-15 12:00"), 6));
-        movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-15 14:40"), 6));
-        movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-15 17:00"), 6));
-        movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-15 19:40"), 3));
-        movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-15 22:00"), 3));
+        Movie movie1 = new Movie(1, "돈", 8_000);
+        movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 12:00"), 6));
+        movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 14:40"), 6));
+        movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 17:00"), 6));
+        movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 19:40"), 3));
+        movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 22:00"), 3));
         movies.add(movie1);
 
-        Movie movie2 = new Movie(2, "명량");
+        Movie movie2 = new Movie(2, "명량", 10_000);
         movie2.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 08:00"), 3));
         movie2.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 10:30"), 5));
         movie2.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 13:00"), 5));
         movie2.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 15:30"), 5));
         movies.add(movie2);
 
-        Movie movie3 = new Movie(3, "극한직업");
+        Movie movie3 = new Movie(3, "극한직업", 9_000);
         movie3.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 13:00"), 4));
         movie3.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 15:40"), 4));
         movie3.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 18:00"), 4));
