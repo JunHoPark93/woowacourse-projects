@@ -1,4 +1,4 @@
-package domain;
+package com.junhopark.javalotto.domain;
 
 import java.util.List;
 
