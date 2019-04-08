@@ -39,7 +39,7 @@ public class GameValidatorTest {
         long input = 300;
 
         // when
-        boolean isValid = GameValidator.isOverMinimumLottoPrice(input);
+        boolean isValid = GameValidator.checkValidMoney(input);
 
         // then
         assertThat(isValid).isFalse();
@@ -51,7 +51,7 @@ public class GameValidatorTest {
         long input = -100;
 
         // when
-        boolean isValid = GameValidator.isPositivePrice(input);
+        boolean isValid = GameValidator.checkValidMoney(input);
 
         // then
         assertThat(isValid).isFalse();
@@ -93,7 +93,7 @@ public class GameValidatorTest {
         list.add(6);
 
         // when
-        boolean isValid = GameValidator.isListValidLottoSize(list);
+        boolean isValid = GameValidator.checkValidLotto(list);
 
         // then
         assertThat(isValid).isTrue();
@@ -110,7 +110,7 @@ public class GameValidatorTest {
         list.add(5);
 
         // when
-        boolean isValid = GameValidator.isListValidLottoSize(list);
+        boolean isValid = GameValidator.checkValidLotto(list);
 
         // then
         assertThat(isValid).isFalse();
@@ -146,7 +146,7 @@ public class GameValidatorTest {
         list.add(5);
 
         // when
-        boolean isValid = GameValidator.isListAllValidLottoNumberRange(list);
+        boolean isValid = GameValidator.checkValidLotto(list);
 
         // then
         assertThat(isValid).isFalse();
@@ -164,7 +164,7 @@ public class GameValidatorTest {
         list.add(-6);
 
         // when
-        boolean isValid = GameValidator.isListAllValidLottoNumberRange(list);
+        boolean isValid = GameValidator.checkValidLotto(list);
 
         // then
         assertThat(isValid).isFalse();
@@ -190,10 +190,10 @@ public class GameValidatorTest {
         int bonusBall = 7;
 
         // when
-        boolean isValid = GameValidator.isLottoNumbersContainsBonusBall(lotto, bonusBall);
+        boolean isValid = GameValidator.checkValidBonusBall(lotto, bonusBall);
 
         // then
-        assertThat(isValid).isFalse();
+        assertThat(isValid).isTrue();
     }
 
     @Test
@@ -204,7 +204,7 @@ public class GameValidatorTest {
         int bonusBall = 100;
 
         // when
-        boolean isValid = GameValidator.isLottoNumbersContainsBonusBall(lotto, bonusBall);
+        boolean isValid = GameValidator.checkValidBonusBall(lotto, bonusBall);
 
         // then
         assertThat(isValid).isFalse();
@@ -218,9 +218,9 @@ public class GameValidatorTest {
         int bonusBall = 6;
 
         // when
-        boolean isValid = GameValidator.isLottoNumbersContainsBonusBall(lotto, bonusBall);
+        boolean isValid = GameValidator.checkValidBonusBall(lotto, bonusBall);
 
         // then
-        assertThat(isValid).isTrue();
+        assertThat(isValid).isFalse();
     }
 }
