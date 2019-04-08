@@ -11,6 +11,7 @@
 
 package com.junhopark.javalotto.util;
 
+import com.junhopark.javalotto.domain.Lotto;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -27,10 +28,10 @@ public class LottoGeneratorTest {
     public void 로또번호가_범위에맞게_생성되야한다() {
         for (int i = 0; i < 1000; i++) {
             // given
-            List<Integer> generatedLotto = LottoGenerator.generateLotto();
+            Lotto generatedLotto = LottoGenerator.generateLotto();
 
             // when
-            boolean isValid = generatedLotto.stream().allMatch(this::isValidLottoRange);
+            boolean isValid = generatedLotto.getNumbers().stream().allMatch(this::isValidLottoRange);
 
             // then
             assertThat(isValid).isTrue();
@@ -40,10 +41,10 @@ public class LottoGeneratorTest {
     @Test
     public void 로또번호가_6개_생성되야한다() {
         // given
-        List<Integer> generatedLotto = LottoGenerator.generateLotto();
+        Lotto generatedLotto = LottoGenerator.generateLotto();
 
         // when
-        int lottoLength = generatedLotto.size();
+        int lottoLength = generatedLotto.getNumbers().size();
 
         // then
         assertThat(lottoLength).isEqualTo(LOTTO_NUM);
@@ -53,10 +54,10 @@ public class LottoGeneratorTest {
     public void 로또번호가_중복생성_되면안된다() {
         for (int i = 0; i < 1000; i++) {
             // given
-            List<Integer> generatedLotto = LottoGenerator.generateLotto();
+            Lotto generatedLotto = LottoGenerator.generateLotto();
 
             // when
-            boolean isDuplicate = isContainDuplicateNumber(generatedLotto);
+            boolean isDuplicate = isContainDuplicateNumber(generatedLotto.getNumbers());
 
             // then
             assertThat(isDuplicate).isFalse();
