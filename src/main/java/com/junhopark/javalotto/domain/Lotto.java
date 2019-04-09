@@ -1,3 +1,14 @@
+/*
+ * Class:   Lotto
+ *
+ * Version: 1.0.0
+ *
+ * Date:    2019-04-09
+ *
+ * Author:  WooWaBros
+ *
+ */
+
 package com.junhopark.javalotto.domain;
 
 import java.util.List;

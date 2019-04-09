@@ -1,3 +1,14 @@
+/*
+ * Class:   Rank
+ *
+ * Version: 1.0.0
+ *
+ * Date:    2019-04-09
+ *
+ * Author:  WooWaBros
+ *
+ */
+
 package com.junhopark.javalotto.domain;
 
 /**
@@ -38,6 +49,10 @@ public enum Rank {
             return SECOND;
         }
 
+        if (THIRD.matchCount(countOfMatch) && !matchBonus) {
+            return THIRD;
+        }
+
         for (Rank rank : values()) {
             if (rank.matchCount(countOfMatch)) {
                 return rank;
@@ -45,6 +60,10 @@ public enum Rank {
         }
 
         throw new IllegalArgumentException(countOfMatch + "는 유효하지 않은 값입니다.");
+    }
+
+    public void printResult(Long totalCount) {
+        System.out.println(countOfMatch + "개 일치 " + "(" + winningMoney + "원)-" + totalCount + "개");
     }
 
     private boolean matchCount(int countOfMatch) {
