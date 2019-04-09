@@ -44,6 +44,7 @@ public class GamePlay {
         getBonusNumberUsingWinLottoFromUserInput();
         makeWinningLotto();
         showHittingStatus();
+        showProfitRatio();
     }
 
     private void getPurchaseMoneyFromUserInput() {
@@ -131,5 +132,15 @@ public class GamePlay {
         rankLongHashMap = new LinkedHashMap<>();
         Arrays.stream(Rank.values()).forEach(rank -> rankLongHashMap.put(rank, 0L));
         rankList.forEach(rank -> rankLongHashMap.put(rank, rankLongHashMap.get(rank) + 1));
+    }
+
+    private void showProfitRatio() {
+        long totalHitMoney = calculateTotalHitMoney();
+        GameUtil.printProfitResult(totalHitMoney, money);
+    }
+
+    private long calculateTotalHitMoney() {
+        return rankLongHashMap.entrySet().stream()
+                .mapToLong(e -> e.getKey().getWinningMoney() * e.getValue()).sum();
     }
 }

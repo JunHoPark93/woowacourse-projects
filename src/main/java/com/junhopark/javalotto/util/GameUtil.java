@@ -32,4 +32,10 @@ public class GameUtil {
                 .filter(e -> e.getKey().getWinningMoney() != 0)
                 .forEach(e -> e.getKey().printResult(map.get(e.getKey())));
     }
+
+    public static void printProfitResult(long totalHitMoney, long money) {
+        System.out.print("총 수익률은 ");
+        System.out.format("%.3f", (totalHitMoney / (double) money));
+        System.out.println("입니다.");
+    }
 }
