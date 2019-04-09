@@ -67,6 +67,7 @@ public class GamePlay {
     }
 
     private void generateLottoWithNumber(long purchaseNumber) {
+        System.out.println(purchaseNumber + "개를 구매했습니다.");
         List<Lotto> lottoList = new ArrayList<>();
         for (long i = 0; i < purchaseNumber; i++) {
             lottoList.add(LottoGenerator.generateLotto());
