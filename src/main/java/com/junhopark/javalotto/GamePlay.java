@@ -12,14 +12,13 @@
 package com.junhopark.javalotto;
 
 import com.junhopark.javalotto.domain.Lotto;
+import com.junhopark.javalotto.domain.Rank;
 import com.junhopark.javalotto.domain.WinningLotto;
+import com.junhopark.javalotto.util.GameUtil;
 import com.junhopark.javalotto.util.GameValidator;
 import com.junhopark.javalotto.util.LottoGenerator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GamePlay {
@@ -30,6 +29,8 @@ public class GamePlay {
     private Lotto lastWeekWinningLotto;
     private WinningLotto winningLotto;
     private int bonusNumber;
+    private List<Rank> rankList;
+    private HashMap<Rank, Long> rankLongHashMap;
 
     public GamePlay() {
         sc = new Scanner(System.in);
@@ -38,10 +39,11 @@ public class GamePlay {
     public void play() {
         getPurchaseMoneyFromUserInput();
         generateLottoWithNumber(money / LOTTO_PRICE);
-        printLottoList(purchasedLottoList);
+        GameUtil.printLottoList(purchasedLottoList);
         getWinningLottoNumberFromUserInput();
         getBonusNumberUsingWinLottoFromUserInput();
         makeWinningLotto();
+        showHittingStatus();
     }
 
     private void getPurchaseMoneyFromUserInput() {
@@ -69,10 +71,6 @@ public class GamePlay {
             lottoList.add(LottoGenerator.generateLotto());
         }
         purchasedLottoList = lottoList;
-    }
-
-    private void printLottoList(List<Lotto> purchasedLottoList) {
-        purchasedLottoList.stream().map(Lotto::getNumbers).forEach(System.out::println);
     }
 
     private void getWinningLottoNumberFromUserInput() {
@@ -116,5 +114,22 @@ public class GamePlay {
 
     private void makeWinningLotto() {
         winningLotto = new WinningLotto(lastWeekWinningLotto, bonusNumber);
+    }
+
+    private void showHittingStatus() {
+        initializeRankList();
+        calculateLottoHit();
+        GameUtil.printHittingResult(rankLongHashMap);
+    }
+
+    private void initializeRankList() {
+        rankList = new ArrayList<>();
+        purchasedLottoList.forEach(lotto -> rankList.add(winningLotto.match(lotto)));
+    }
+
+    private void calculateLottoHit() {
+        rankLongHashMap = new LinkedHashMap<>();
+        Arrays.stream(Rank.values()).forEach(rank -> rankLongHashMap.put(rank, 0L));
+        rankList.forEach(rank -> rankLongHashMap.put(rank, rankLongHashMap.get(rank) + 1));
     }
 }

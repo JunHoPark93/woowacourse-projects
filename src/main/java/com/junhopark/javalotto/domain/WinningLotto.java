@@ -1,3 +1,14 @@
+/*
+ * Class:   WinningLotto
+ *
+ * Version: 1.0.0
+ *
+ * Date:    2019-04-09
+ *
+ * Author:  WooWaBros
+ *
+ */
+
 package com.junhopark.javalotto.domain;
 
 /**
@@ -13,7 +24,13 @@ public class WinningLotto {
     }
 
     public Rank match(Lotto userLotto) {
-        // TODO 로직 구현
-        return null;
+        int count = (int) userLotto.getNumbers().stream()
+                .filter(i -> lotto.getNumbers().contains(i))
+                .count();
+
+        boolean isBonusMatch = userLotto.getNumbers().stream()
+                .anyMatch(i -> i == bonusNo);
+
+        return Rank.valueOf(count, isBonusMatch);
     }
 }
