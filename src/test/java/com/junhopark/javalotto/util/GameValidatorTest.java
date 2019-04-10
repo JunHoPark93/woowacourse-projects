@@ -183,6 +183,18 @@ public class GameValidatorTest {
     }
 
     @Test
+    public void 당첨번호입력_중복된_입력을_처리한다() {
+        // given
+        List<Integer> lottoNumber = Arrays.asList(1,1,2,3,4,5);
+
+        // when
+        boolean isValid = GameValidator.checkUniqueNumberLotto(lottoNumber);
+
+        // then
+        assertThat(isValid).isFalse();
+    }
+
+    @Test
     public void 보너스볼_입력_정상입력을_확인한다() {
         // given
         List<Integer> lottoNumber = Arrays.asList(1,2,3,4,5,6);
