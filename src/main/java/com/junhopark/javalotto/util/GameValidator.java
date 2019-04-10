@@ -34,7 +34,7 @@ public class GameValidator {
         return true;
     }
 
-    public static boolean checkValidLotto(List<Integer> list) {
+    public static boolean checkValidNumberLotto(List<Integer> list) {
         if (!GameValidator.isListValidLottoSize(list)) {
             System.out.println("로또는 6개의 숫자가 필요합니다.");
             return false;
@@ -43,7 +43,11 @@ public class GameValidator {
             System.out.println("로또 숫자 범위는 1~45 입니다.");
             return false;
         }
-        if (!GameValidator.isListDuplicateEachOther(list)) {
+        return true;
+    }
+
+    public static boolean checkUniqueNumberLotto(List<Integer> list) {
+        if (GameValidator.isListDuplicateEachOther(list)) {
             System.out.println("로또 숫자는 서로 중복될 수 없습니다.");
             return false;
         }
@@ -111,6 +115,6 @@ public class GameValidator {
 
     private static boolean isListDuplicateEachOther(List<Integer> list) {
         HashSet<Integer> hashSet = new HashSet<>(list);
-        return hashSet.size() == list.size();
+        return hashSet.size() != list.size();
     }
 }

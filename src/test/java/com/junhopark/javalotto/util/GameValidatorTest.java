@@ -93,7 +93,7 @@ public class GameValidatorTest {
         list.add(6);
 
         // when
-        boolean isValid = GameValidator.checkValidLotto(list);
+        boolean isValid = GameValidator.checkValidNumberLotto(list);
 
         // then
         assertThat(isValid).isTrue();
@@ -110,7 +110,7 @@ public class GameValidatorTest {
         list.add(5);
 
         // when
-        boolean isValid = GameValidator.checkValidLotto(list);
+        boolean isValid = GameValidator.checkValidNumberLotto(list);
 
         // then
         assertThat(isValid).isFalse();
@@ -146,7 +146,7 @@ public class GameValidatorTest {
         list.add(5);
 
         // when
-        boolean isValid = GameValidator.checkValidLotto(list);
+        boolean isValid = GameValidator.checkValidNumberLotto(list);
 
         // then
         assertThat(isValid).isFalse();
@@ -164,7 +164,7 @@ public class GameValidatorTest {
         list.add(-6);
 
         // when
-        boolean isValid = GameValidator.checkValidLotto(list);
+        boolean isValid = GameValidator.checkValidNumberLotto(list);
 
         // then
         assertThat(isValid).isFalse();

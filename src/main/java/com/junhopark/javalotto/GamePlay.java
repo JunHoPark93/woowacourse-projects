@@ -77,7 +77,7 @@ public class GamePlay {
         List<Integer> list;
         do {
             list = getIntegerListWithCommaFromUser();
-        } while (!GameValidator.checkValidLotto(list));
+        } while (!GameValidator.checkValidNumberLotto(list) || !GameValidator.checkUniqueNumberLotto(list));
 
         lastWeekWinningLotto = new Lotto(list);
     }
