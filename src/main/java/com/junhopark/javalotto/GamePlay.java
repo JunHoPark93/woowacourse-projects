@@ -29,8 +29,6 @@ public class GamePlay {
     private Lotto lastWeekWinningLotto;
     private WinningLotto winningLotto;
     private int bonusNumber;
-    private List<Rank> rankList;
-    private HashMap<Rank, Long> rankLongHashMap;
 
     public GamePlay() {
         sc = new Scanner(System.in);
@@ -43,8 +41,7 @@ public class GamePlay {
         getWinningLottoNumberFromUserInput();
         getBonusNumberUsingWinLottoFromUserInput();
         makeWinningLotto();
-        showHittingStatus();
-        showProfitRatio();
+        showGameResult();
     }
 
     private void getPurchaseMoneyFromUserInput() {
@@ -118,29 +115,33 @@ public class GamePlay {
         winningLotto = new WinningLotto(lastWeekWinningLotto, bonusNumber);
     }
 
-    private void showHittingStatus() {
-        initializeRankList();
-        calculateLottoHit();
+    private void showGameResult() {
+        List<Rank> rankList = initializeRankList();
+        HashMap<Rank, Long> rankLongHashMap = getRankLongHashMap(rankList);
         GameUtil.printHittingResult(rankLongHashMap);
+
+        long totalHitMoney = calculateTotalHitMoney(rankLongHashMap);
+        GameUtil.printProfitResult(totalHitMoney, money);
     }
 
-    private void initializeRankList() {
-        rankList = new ArrayList<>();
+    private List<Rank> initializeRankList() {
+        List<Rank> rankList = new ArrayList<>();
         purchasedLottoList.forEach(lotto -> rankList.add(winningLotto.match(lotto)));
+        return rankList;
     }
 
-    private void calculateLottoHit() {
-        rankLongHashMap = new LinkedHashMap<>();
+    private HashMap<Rank, Long> getRankLongHashMap(List<Rank> rankList) {
+        HashMap<Rank, Long> rankLongHashMap = new LinkedHashMap<>();
+        calculateLottoHit(rankList, rankLongHashMap);
+        return rankLongHashMap;
+    }
+
+    private void calculateLottoHit(List<Rank> rankList, HashMap<Rank, Long> rankLongHashMap) {
         Arrays.stream(Rank.values()).forEach(rank -> rankLongHashMap.put(rank, 0L));
         rankList.forEach(rank -> rankLongHashMap.put(rank, rankLongHashMap.get(rank) + 1));
     }
 
-    private void showProfitRatio() {
-        long totalHitMoney = calculateTotalHitMoney();
-        GameUtil.printProfitResult(totalHitMoney, money);
-    }
-
-    private long calculateTotalHitMoney() {
+    private long calculateTotalHitMoney(HashMap<Rank, Long> rankLongHashMap) {
         return rankLongHashMap.entrySet().stream()
                 .mapToLong(e -> e.getKey().getWinningMoney() * e.getValue()).sum();
     }
