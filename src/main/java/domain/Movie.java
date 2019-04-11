@@ -9,6 +9,7 @@ public class Movie {
     private final int id;
     private final String name;
     private final int price;
+
     private List<PlaySchedule> playSchedules = new ArrayList<>();
 
     public Movie(int id, String name, int price) {
@@ -17,7 +18,7 @@ public class Movie {
         this.price = price;
     }
 
-    public void addPlaySchedule(PlaySchedule playSchedule) {
+    void addPlaySchedule(PlaySchedule playSchedule) {
         playSchedules.add(playSchedule);
     }
 
