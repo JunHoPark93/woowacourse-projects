@@ -17,14 +17,14 @@ public class MovieRepository {
         movie1.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 22:00"), 3));
         movies.add(movie1);
 
-        Movie movie2 = new Movie(2, "돈", 10_000);
+        Movie movie2 = new Movie(5, "돈", 10_000);
         movie2.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 08:00"), 3));
         movie2.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 10:30"), 5));
         movie2.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 13:00"), 5));
         movie2.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 15:30"), 5));
         movies.add(movie2);
 
-        Movie movie3 = new Movie(3, "파이브피트", 9_000);
+        Movie movie3 = new Movie(7, "파이브피트", 9_000);
         movie3.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 13:00"), 4));
         movie3.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 15:40"), 4));
         movie3.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 18:00"), 4));
@@ -32,7 +32,7 @@ public class MovieRepository {
         movie3.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 23:15"), 3));
         movies.add(movie3);
 
-        Movie movie4 = new Movie(4, "덤보", 9_000);
+        Movie movie4 = new Movie(8, "덤보", 9_000);
         movie4.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 11:30"), 2));
         movie4.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 16:00"), 3));
         movie4.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 21:30"), 2));
