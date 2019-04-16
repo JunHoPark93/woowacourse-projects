@@ -16,4 +16,16 @@ public class InputView {
             return inputMovieId();
         }
     }
+
+    public static int inputMovieSchedule() {
+        System.out.println("## 예약할 시간표를 선택하세요.");
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("잘못된 입력입니다.");
+            scanner.nextLine();
+            return inputMovieSchedule();
+        }
+    }
+
 }

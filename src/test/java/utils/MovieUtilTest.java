@@ -2,6 +2,7 @@ package utils;
 
 import domain.Movie;
 import domain.MovieRepository;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -9,7 +10,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MovieUtilTest {
-    private static List<Movie> movies = MovieRepository.getMovies();
+    private static List<Movie> movies;
+
+    @Before
+    public void setUp() {
+        movies = MovieRepository.getMovies();
+    }
 
     @Test
     public void 유효한_영화_아이디_반환() {
@@ -31,6 +37,32 @@ public class MovieUtilTest {
 
         // when
         boolean isValid = MovieUtil.checkValidMovie(movieId, movies);
+
+        // then
+        assertThat(isValid).isFalse();
+    }
+
+    @Test
+    public void 유효한_시간표_입력() {
+        // given
+        int schedule = 1;
+        Movie movie = movies.get(0); // 첫 번째 영화
+
+        // when
+        boolean isValid = MovieUtil.checkValidMovieSchedule(schedule, movie);
+
+        // then
+        assertThat(isValid).isTrue();
+    }
+
+    @Test
+    public void 유효하지_않은_시간표_입력() {
+        // given
+        int schedule = 7;
+        Movie movie = movies.get(0); // 첫 번째 영화
+
+        // when
+        boolean isValid = MovieUtil.checkValidMovieSchedule(schedule, movie);
 
         // then
         assertThat(isValid).isFalse();

@@ -35,4 +35,9 @@ public class Movie {
     public int getId() {
         return id;
     }
+
+    public boolean checkValidSchedule(int schedule) {
+        int size = playSchedules.size();
+        return 1 <= schedule && schedule <= size;
+    }
 }
