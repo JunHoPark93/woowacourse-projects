@@ -14,6 +14,7 @@ public class OutputView {
     }
 
     public static void printResult(ReserveStatusList reserveStatusList) {
+        System.out.println("예약 내역");
         reserveStatusList.printResult();
     }
 
