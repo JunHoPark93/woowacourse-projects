@@ -14,11 +14,18 @@ public class PlaySchedule {
     }
 
     public boolean isValidCapacity(int capacity) {
-        return this.capacity >= capacity;
+        if (this.capacity < capacity) {
+            throw new IllegalArgumentException("예약 인원 초과입니다.");
+        }
+        return true;
     }
 
     @Override
     public String toString() {
         return "시작시간: " + format(startDateTime) + " 예약가능인원: " + capacity + "\n";
+    }
+
+    public String printSchedule() {
+        return "시작시간: " + format(startDateTime);
     }
 }

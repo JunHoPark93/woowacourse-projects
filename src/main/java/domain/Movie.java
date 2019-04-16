@@ -32,16 +32,27 @@ public class Movie {
                 + sb.toString();
     }
 
+    public String printMovie() {
+        return id + " - " + name + ", " + price + "원";
+    }
+
     public int getId() {
         return id;
     }
 
     public boolean checkValidSchedule(int schedule) {
         int size = playSchedules.size();
-        return 1 <= schedule && schedule <= size;
+        if (1 > schedule || schedule > size) {
+            throw new IllegalArgumentException("해당 스케줄은 존재하지 않습니다.");
+        }
+        return true;
     }
 
     public boolean checkValidPeopleCapacity(int movieSchedule, int peopleCapacity) {
         return playSchedules.get(movieSchedule - 1).isValidCapacity(peopleCapacity);
+    }
+
+    public PlaySchedule getPlaySchedule(int schedule) {
+        return playSchedules.get(schedule - 1);
     }
 }
