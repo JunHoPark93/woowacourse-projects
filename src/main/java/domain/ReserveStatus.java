@@ -11,6 +11,15 @@ public class ReserveStatus {
         this.reservePeople = reservePeople;
     }
 
+    public PlaySchedule getPlaySchedule() {
+        return playSchedule;
+    }
+
+    public boolean isOneHourOverLap(ReserveStatus reserveStatus) {
+        System.out.println(reserveStatus.getPlaySchedule());
+        System.out.println(this.playSchedule.getStartDateTime());
+        return playSchedule.isOneHourOverLap(reserveStatus.getPlaySchedule());
+    }
     @Override
     public String toString() {
         return movie.printMovie() + "\n" + playSchedule.printSchedule() + "\n" + reservePeople.toString() + "\n";
