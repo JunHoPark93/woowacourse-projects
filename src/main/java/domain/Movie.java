@@ -40,4 +40,8 @@ public class Movie {
         int size = playSchedules.size();
         return 1 <= schedule && schedule <= size;
     }
+
+    public boolean checkValidPeopleCapacity(int movieSchedule, int peopleCapacity) {
+        return playSchedules.get(movieSchedule - 1).isValidCapacity(peopleCapacity);
+    }
 }

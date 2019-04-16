@@ -68,4 +68,32 @@ public class MovieUtilTest {
         assertThat(isValid).isFalse();
     }
 
+    @Test
+    public void 유효한_인원_입력() {
+        // given
+        int capacity = 3;
+        int schedule = 1;
+        Movie movie = movies.get(0);
+
+        // when
+        boolean isValid = MovieUtil.checkValidPeopleCapacity(movie, schedule, capacity);
+
+        // then
+        assertThat(isValid).isTrue();
+    }
+
+    @Test
+    public void 유효하지_않은_인원_입력() {
+        // given
+        int capacity = 10;
+        int schedule = 1;
+        Movie movie = movies.get(0);
+
+        // when
+        boolean isValid = MovieUtil.checkValidPeopleCapacity(movie, schedule, capacity);
+
+        // then
+        assertThat(isValid).isFalse();
+    }
+
 }

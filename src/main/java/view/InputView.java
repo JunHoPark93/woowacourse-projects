@@ -28,4 +28,14 @@ public class InputView {
         }
     }
 
+    public static int inputPeopleCapacity() {
+        System.out.println("## 예약할 인원을 입력하세요.");
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("잘못된 입력입니다.");
+            scanner.nextLine();
+            return inputPeopleCapacity();
+        }
+    }
 }

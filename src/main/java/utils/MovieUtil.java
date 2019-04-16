@@ -22,4 +22,11 @@ public class MovieUtil {
         }
         throw new IllegalArgumentException("유효하지 않은 입력입니다");
     }
+
+    public static boolean checkValidPeopleCapacity(Movie movie, int movieSchedule, int peopleCapacity) {
+        if (peopleCapacity <= 0) {
+            return false;
+        }
+        return movie.checkValidPeopleCapacity(movieSchedule, peopleCapacity);
+    }
 }
