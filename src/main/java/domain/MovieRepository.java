@@ -42,4 +42,13 @@ public class MovieRepository {
     public static List<Movie> getMovies() {
         return movies;
     }
+
+    public static Movie getMovieWithId(int id) {
+        for (Movie movie : movies) {
+            if (movie.getId() == id) {
+                return movie;
+            }
+        }
+        throw new IllegalArgumentException("해당 영화는 존재하지 않습니다");
+    }
 }
