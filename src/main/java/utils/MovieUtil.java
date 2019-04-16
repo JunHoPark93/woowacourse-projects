@@ -13,16 +13,6 @@ public class MovieUtil {
         return movie.checkValidSchedule(schedule);
     }
 
-    public static Movie getMovie(int movieId, List<Movie> movies) {
-        // TODO depth 줄이기
-        for (Movie m : movies) {
-            if (m.getId() == movieId) {
-                return m;
-            }
-        }
-        throw new IllegalArgumentException("유효하지 않은 입력입니다");
-    }
-
     public static boolean checkValidPeopleCapacity(Movie movie, int movieSchedule, int peopleCapacity) {
         if (peopleCapacity <= 0) {
             return false;
