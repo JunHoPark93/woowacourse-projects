@@ -1,8 +1,8 @@
 package view;
 
 import domain.Movie;
-import domain.ReserveStatus;
 import domain.ReserveStatusList;
+import domain.TotalPrice;
 
 import java.util.List;
 
@@ -15,5 +15,9 @@ public class OutputView {
 
     public static void printResult(ReserveStatusList reserveStatusList) {
         reserveStatusList.printResult();
+    }
+
+    public static void printTotalPrice(TotalPrice totalPrice) {
+        System.out.println(totalPrice.toString());
     }
 }

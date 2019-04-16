@@ -10,6 +10,10 @@ public class ReservePeople {
         this.people = people;
     }
 
+    public int getPeople() {
+        return people;
+    }
+
     @Override
     public String toString() {
         return "예약 인원:" + people + "명";

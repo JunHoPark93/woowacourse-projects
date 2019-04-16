@@ -22,6 +22,14 @@ public class Movie {
         playSchedules.add(playSchedule);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -36,10 +44,6 @@ public class Movie {
         return id + " - " + name + ", " + price + "원";
     }
 
-    public int getId() {
-        return id;
-    }
-
     public boolean checkValidSchedule(int schedule) {
         int size = playSchedules.size();
         if (1 > schedule || schedule > size) {
@@ -51,15 +55,15 @@ public class Movie {
         return true;
     }
 
-    private boolean checkValidTime(PlaySchedule playSchedule) {
-        return playSchedule.isValidTime();
-    }
-
     public boolean checkValidPeopleCapacity(int movieSchedule, int peopleCapacity) {
         return playSchedules.get(movieSchedule - 1).isValidCapacity(peopleCapacity);
     }
 
     public PlaySchedule getPlaySchedule(int schedule) {
         return playSchedules.get(schedule - 1);
+    }
+
+    private boolean checkValidTime(PlaySchedule playSchedule) {
+        return playSchedule.isValidTime();
     }
 }

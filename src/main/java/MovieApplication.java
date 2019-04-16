@@ -7,6 +7,9 @@ import java.util.List;
 public class MovieApplication {
     private static ReserveStatusList reserveStatusList = new ReserveStatusList();
     private static List<Movie> movies = MovieRepository.getMovies();
+    private static TotalPrice totalPrice;
+    private static Point point;
+    private static PurchaseMean purchaseMean;
 
     public static void main(String[] args) {
         OutputView.printMovies(movies);
@@ -17,6 +20,43 @@ public class MovieApplication {
         }
 
         OutputView.printResult(reserveStatusList);
+        point = getPoint();
+        totalPrice = new TotalPrice(calculateTotalPriceWithoutDiscount(reserveStatusList), point);
+
+        // TODO 결제 수단 추가
+        //setPurchaseMean();
+        setTotalPrice();
+        OutputView.printTotalPrice(totalPrice);
+    }
+
+    private static PurchaseMean setPurchaseMean() {
+        int purchaseMean = InputView.getPurchaseMean();
+
+        try {
+            return new PurchaseMean(purchaseMean);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return setPurchaseMean();
+        }
+    }
+
+    private static void setTotalPrice() {
+        totalPrice = new TotalPrice(calculateTotalPriceWithoutDiscount(reserveStatusList), point);
+    }
+
+    private static Point getPoint() {
+        int inputPoint = InputView.inputPoint();
+
+        try {
+            return new Point(inputPoint);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return getPoint();
+        }
+    }
+
+    private static int calculateTotalPriceWithoutDiscount(ReserveStatusList reserveStatusList) {
+        return reserveStatusList.getTotalPrice();
     }
 
     private static void selectMovie() {

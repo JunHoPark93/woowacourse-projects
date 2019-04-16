@@ -56,9 +56,32 @@ public class InputView {
         }
     }
 
+    public static int inputPoint() {
+        System.out.println("## 결제를 진행합니다.");
+        System.out.println("## 포인트 사용 금액을 입력하세요. 포인트가 없으면 0 입력");
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
+            scanner.nextLine();
+            return inputPoint();
+        }
+    }
+
     private static void checkValidDoneOrNot(int input) {
         if (input != 1 && input != 2) {
             throw new IllegalArgumentException("1 혹은 2를 입력하세요");
+        }
+    }
+
+    public static int getPurchaseMean() {
+        System.out.println("신용카드는 1번 ,현금은 2번");
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println(e.getMessage());
+            scanner.nextLine();
+            return getPurchaseMean();
         }
     }
 }

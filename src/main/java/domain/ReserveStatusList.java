@@ -26,4 +26,8 @@ public class ReserveStatusList {
             System.out.println(status.toString());
         }
     }
+
+    public int getTotalPrice() {
+        return reserveStatuses.stream().mapToInt(ReserveStatus::getPrice).sum();
+    }
 }
