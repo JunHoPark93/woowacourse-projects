@@ -1,5 +1,7 @@
 package domain;
 
+import utils.DateTimeUtils;
+
 import java.time.LocalDateTime;
 
 import static utils.DateTimeUtils.format;
@@ -20,6 +22,20 @@ public class PlaySchedule {
         return true;
     }
 
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public boolean isValidTime() {
+        // TODO
+        long time = System.currentTimeMillis();
+        return true;
+    }
+
+    public boolean isOneHourOverLap(PlaySchedule playSchedule) {
+        return DateTimeUtils.isOneHourWithinRange(this.startDateTime, playSchedule.startDateTime);
+    }
+
     @Override
     public String toString() {
         return "시작시간: " + format(startDateTime) + " 예약가능인원: " + capacity + "\n";
@@ -28,4 +44,5 @@ public class PlaySchedule {
     public String printSchedule() {
         return "시작시간: " + format(startDateTime);
     }
+
 }

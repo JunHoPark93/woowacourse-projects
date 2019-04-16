@@ -20,4 +20,10 @@ public class ReserveStatusList {
     private boolean checkValidTimeRange(ReserveStatus reserveStatus) {
         return reserveStatuses.stream().noneMatch(status -> status.isOneHourOverLap(reserveStatus));
     }
+
+    public void printResult() {
+        for (ReserveStatus status : reserveStatuses) {
+            System.out.println(status.toString());
+        }
+    }
 }

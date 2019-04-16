@@ -16,8 +16,6 @@ public class ReserveStatus {
     }
 
     public boolean isOneHourOverLap(ReserveStatus reserveStatus) {
-        System.out.println(reserveStatus.getPlaySchedule());
-        System.out.println(this.playSchedule.getStartDateTime());
         return playSchedule.isOneHourOverLap(reserveStatus.getPlaySchedule());
     }
     @Override

@@ -2,11 +2,10 @@ import domain.*;
 import view.InputView;
 import view.OutputView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieApplication {
-    private static List<ReserveStatus> reserveStatus = new ArrayList<>();
+    private static ReserveStatusList reserveStatusList = new ReserveStatusList();
     private static List<Movie> movies = MovieRepository.getMovies();
 
     public static void main(String[] args) {
@@ -17,8 +16,7 @@ public class MovieApplication {
             selectMovie();
         }
 
-        OutputView.printResult(reserveStatus);
-
+        OutputView.printResult(reserveStatusList);
     }
 
     private static void selectMovie() {
@@ -27,7 +25,11 @@ public class MovieApplication {
         PlaySchedule playSchedule = getSchedule(movie);
         ReservePeople reservePeople = getPeople(playSchedule);
 
-        reserveStatus.add(new ReserveStatus(movie, playSchedule, reservePeople));
+        try {
+            reserveStatusList.putResult(new ReserveStatus(movie, playSchedule, reservePeople));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static Movie getMovie() {

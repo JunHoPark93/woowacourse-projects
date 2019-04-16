@@ -45,7 +45,14 @@ public class Movie {
         if (1 > schedule || schedule > size) {
             throw new IllegalArgumentException("해당 스케줄은 존재하지 않습니다.");
         }
+        if (!checkValidTime(getPlaySchedule(schedule))) {
+            throw new IllegalArgumentException("영화 상영 시간이 지났습니다");
+        }
         return true;
+    }
+
+    private boolean checkValidTime(PlaySchedule playSchedule) {
+        return playSchedule.isValidTime();
     }
 
     public boolean checkValidPeopleCapacity(int movieSchedule, int peopleCapacity) {
