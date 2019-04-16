@@ -1,5 +1,6 @@
 package view;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InputView {
@@ -7,6 +8,12 @@ public class InputView {
 
     public static int inputMovieId() {
         System.out.println("## 예약할 영화를 선택하세요.");
-        return scanner.nextInt();
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("잘못된 입력입니다.");
+            scanner.nextLine();
+            return inputMovieId();
+        }
     }
 }
