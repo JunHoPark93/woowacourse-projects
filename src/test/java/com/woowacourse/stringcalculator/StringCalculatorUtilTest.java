@@ -1,3 +1,6 @@
+package com.woowacourse.stringcalculator;
+
+import com.woowacourse.stringcalculator.StringCalculatorUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

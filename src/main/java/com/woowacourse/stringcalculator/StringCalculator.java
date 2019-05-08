@@ -1,3 +1,5 @@
+package com.woowacourse.stringcalculator;
+
 import java.util.Queue;
 
 public class StringCalculator {
