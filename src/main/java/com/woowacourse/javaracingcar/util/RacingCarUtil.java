@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class RacingCarUtil {
     private static final int MAX_NAME_LENGTH = 5;
@@ -51,10 +52,16 @@ public class RacingCarUtil {
     }
 
     private static void checkIfDuplicateNames(String[] names) {
-        HashSet<String> hashSet = new HashSet<>(Arrays.asList(names));
-        if (hashSet.size() != names.length) {
+        String[] lowerCaseNames = convertStringArrayToLowerCase(names);
+        HashSet<String> hashSet = new HashSet<>(Arrays.asList(lowerCaseNames));
+        if (hashSet.size() != lowerCaseNames.length) {
             throw new IllegalArgumentException("중복된 이름을 입력할 수 없습니다");
         }
+    }
+
+    private static String[] convertStringArrayToLowerCase(String[] names) {
+        IntStream.range(0, names.length).forEach(i -> names[i] = names[i].toLowerCase());
+        return names;
     }
 
     private static void checkIfEmptyString(String name) {

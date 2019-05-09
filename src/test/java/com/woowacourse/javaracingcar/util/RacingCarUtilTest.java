@@ -44,6 +44,7 @@ class RacingCarUtilTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"pobi,crong,crong",
+                            "Jay, jay, Pobi",
                             "pobi,pobi,Bobi"})
     void 비정상_중복된이름(String inputs) {
         assertThrows(IllegalArgumentException.class,
