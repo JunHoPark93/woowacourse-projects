@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 public class RacingCarUtil {
     private static final int MAX_NAME_LENGTH = 5;
 
+    private RacingCarUtil() {
+    }
+
     public static String[] splitIntoNames(String input) {
         String[] names = input.split(",");
         for (int i = 0; i < names.length; i++) {
