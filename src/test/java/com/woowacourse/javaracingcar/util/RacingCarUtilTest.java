@@ -1,62 +1,52 @@
 package com.woowacourse.javaracingcar.util;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RacingCarUtilTest {
-    @Test
-    void 정상이름_입력() {
-        // given
-        String input = "pobi,crong,honux";
-
-        // when then
-        assertThat(RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(input))).isTrue();
+    @ParameterizedTest
+    @ValueSource(strings = {"pobi,crong,honux",
+                            "pobi,jay,jason",
+                            "pobi, jay, jason, tim",
+                            "jay,lisa"})
+    void 정상_이름_입력(String inputs) {
+        assertThat(RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(inputs))).isTrue();
     }
 
-    @Test
-    void 비정상_이름_입력_5자초과() {
-        // given
-        String input = "pobi,crong,honuxxx";
-
-        // when then
-        assertThrows(IllegalArgumentException.class, () -> RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(input)));
+    @ParameterizedTest
+    @ValueSource(strings = {"pobi   ,   crong, honux ",
+                            "   pobi, crong,honux",
+                            "pobi, crong,      honux"})
+    void 정상_이름_입력_공백처리(String inputs) {
+        assertThat(RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(inputs))).isTrue();
     }
 
-    @Test
-    void 정상이름_입력_공백처리() {
-        // given
-        String input = "pobi   ,  crong,  honux   ";
-
-        // when then
-        assertThat(RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(input))).isTrue();
+    @ParameterizedTest
+    @ValueSource(strings = {"pobi,crong,honuxxx",
+            "pobiiiiiiiiii,crong,honux",
+            "thelongestnameintheword"})
+    void 비정상_이름_입력_5자초과(String inputs) {
+        assertThrows(IllegalArgumentException.class,
+                () -> RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(inputs)));
     }
 
-    @Test
-    void 공백처리_예외() {
-        // given
-        String input  = "p obi, crong, ho  x";
-
-        // when then
-        assertThrows(IllegalArgumentException.class, () -> RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(input)));
+    @ParameterizedTest
+    @ValueSource(strings = {"p obi, crong,ho x",
+                            " po bi, cro n",
+                            "pobi,crong,hon x"})
+    void 비정상_공백처리(String inputs) {
+        assertThrows(IllegalArgumentException.class,
+                () -> RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(inputs)));
     }
 
-    @Test
-    void 이름공백처리_예외() {
-        // given
-        String input  = "pobi,crong, ,honux";
-
-        // when then
-        assertThrows(IllegalArgumentException.class, () -> RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(input)));
-    }
-
-    @Test
-    void 중복된이름_예외() {
-        // given
-        String input = "pobi,crong,crong";
-
-        // when then
-        assertThrows(IllegalArgumentException.class, () -> RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(input)));
+    @ParameterizedTest
+    @ValueSource(strings = {"pobi,crong,crong",
+                            "pobi,pobi,Bobi"})
+    void 비정상_중복된이름(String inputs) {
+        assertThrows(IllegalArgumentException.class,
+                () -> RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(inputs)));
     }
 }
