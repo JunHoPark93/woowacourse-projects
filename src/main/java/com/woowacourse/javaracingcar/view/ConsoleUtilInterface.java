@@ -53,8 +53,12 @@ public class ConsoleUtilInterface implements UserInterface {
 
     @Override
     public void printWinners(List<CarDto> winners) {
-        String str = RacingCarUtil.joinCarNames(winners);
-        System.out.println(str + "가 최종 우승했습니다.");
+        if (winners.size() == 0) {
+            System.out.println("아무도 출발하지 못하여 우승자가 존재하지 않습니다.");
+            return;
+        }
+        String names = RacingCarUtil.joinCarNames(winners);
+        System.out.println(names + "가 최종 우승했습니다.");
     }
 
     @Override

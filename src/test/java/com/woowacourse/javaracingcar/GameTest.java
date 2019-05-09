@@ -13,6 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GameTest {
+    private static final int CUSTOM_LOOP = 3;
     private NumberGenerator numberGenerator;
     private Game game;
     private List<Car> cars;
@@ -55,7 +56,7 @@ class GameTest {
         game = new Game(numberGenerator, cars);
 
         // when
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < CUSTOM_LOOP; i++) {
             game.play();
         }
 
@@ -76,7 +77,7 @@ class GameTest {
         game = new Game(numberGenerator, cars);
 
         // when
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < CUSTOM_LOOP; i++) {
             game.play();
         }
         List<CarDto> actualWinnerList = game.getWinners();
@@ -84,6 +85,27 @@ class GameTest {
         // then
         assertThat(actualWinnerList)
                 .hasSize(2)
+                .isEqualTo(expectedWinnerList);
+    }
+
+    @Test
+    void 정상_게임_종료_아무도_우승을_하지_못한경우() {
+        //given
+        int[] expected = {1,1,1,1,1,1,1,1,1};
+        numberGenerator = new TestNumberGenerator(expected);
+        List<CarDto> expectedWinnerList = new ArrayList<>(); // 비어 있는 리스트 반환
+
+        game = new Game(numberGenerator, cars);
+
+        // when
+        for (int i = 0; i < CUSTOM_LOOP; i++) {
+            game.play();
+        }
+        List<CarDto> actualWinnerList = game.getWinners();
+
+        // then
+        assertThat(actualWinnerList)
+                .hasSize(0)
                 .isEqualTo(expectedWinnerList);
     }
 }

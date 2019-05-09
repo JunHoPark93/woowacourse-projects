@@ -4,10 +4,7 @@ import com.woowacourse.javaracingcar.domain.Car;
 import com.woowacourse.javaracingcar.dto.CarDto;
 import com.woowacourse.javaracingcar.util.interfaces.NumberGenerator;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game {
@@ -33,8 +30,11 @@ public class Game {
     public List<CarDto> getWinners() {
         // 우승자 선정
         int max = calculateMaxPosition();
-        List<Car> winners = new ArrayList<>();
+        if (max == 0) {
+            return Collections.emptyList();
+        }
 
+        List<Car> winners = new ArrayList<>();
         cars.stream().filter(car -> car.getPosition() == max)
                 .map(winners::add)
                 .collect(Collectors.toList());
