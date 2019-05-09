@@ -15,7 +15,6 @@ public class ConsoleUtilInterface implements UserInterface {
 
     public ConsoleUtilInterface() {
         this.scanner = new Scanner(System.in);
-        isResultTitlePrinted = true;
     }
 
     @Override
