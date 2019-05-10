@@ -34,8 +34,8 @@ class RacingCarUtilTest {
     @Order(3)
     @ParameterizedTest
     @ValueSource(strings = {"pobi,crong,honuxxx",
-            "pobiiiiiiiiii,crong,honux",
-            "thelongestnameintheword"})
+                            "pobiiiiiiiiii,crong,honux",
+                            "thelongestnameintheword"})
     void 비정상_이름_입력_5자초과처리(String inputs) {
         assertThrows(IllegalArgumentException.class,
                 () -> RacingCarUtil.isValidNameInput(RacingCarUtil.splitIntoNames(inputs)));
