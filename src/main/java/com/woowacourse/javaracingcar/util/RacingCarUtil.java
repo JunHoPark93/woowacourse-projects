@@ -1,7 +1,9 @@
 package com.woowacourse.javaracingcar.util;
 
+import com.woowacourse.javaracingcar.domain.Car;
 import com.woowacourse.javaracingcar.dto.CarDto;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +25,12 @@ public class RacingCarUtil {
         return names;
     }
 
+    private static void checkIfEmptyString(String name) {
+        if (name.length() == 0) {
+            throw new IllegalArgumentException("이름은 비어있을 수 없습니다");
+        }
+    }
+
     public static boolean isValidNameInput(String[] names) {
         checkIfDuplicateNames(names);
         for (String name : names) {
@@ -31,24 +39,6 @@ public class RacingCarUtil {
         }
 
         return true;
-    }
-
-    public static String joinCarNames(List<CarDto> cars) {
-        return cars.stream()
-                .map(CarDto::getName)
-                .collect(Collectors.joining(", "));
-    }
-
-    private static void checkIfValidNames(String name) {
-        if (name.length() > MAX_NAME_LENGTH) {
-            throw new IllegalArgumentException("이름은 5자를 넘을 수 없습니다");
-        }
-    }
-
-    private static void checkIfNameIncludesSpace(String name) {
-        if (name.contains(" ")) {
-            throw new IllegalArgumentException("이름에 공백을 포함할 수 없습니다");
-        }
     }
 
     private static void checkIfDuplicateNames(String[] names) {
@@ -64,9 +54,29 @@ public class RacingCarUtil {
         return names;
     }
 
-    private static void checkIfEmptyString(String name) {
-        if (name.length() == 0) {
-            throw new IllegalArgumentException("이름은 비어있을 수 없습니다");
+    private static void checkIfNameIncludesSpace(String name) {
+        if (name.contains(" ")) {
+            throw new IllegalArgumentException("이름에 공백을 포함할 수 없습니다");
         }
+    }
+
+    private static void checkIfValidNames(String name) {
+        if (name.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException("이름은 5자를 넘을 수 없습니다");
+        }
+    }
+
+    public static String joinCarNames(List<CarDto> cars) {
+        return cars.stream()
+                .map(CarDto::getName)
+                .collect(Collectors.joining(", "));
+    }
+
+    public static List<CarDto> convertCarToCarDto(List<Car> cars) {
+        List<CarDto> list = new ArrayList<>();
+        for (Car c : cars) {
+            list.add(new CarDto(c.getName(), c.getPosition()));
+        }
+        return list;
     }
 }

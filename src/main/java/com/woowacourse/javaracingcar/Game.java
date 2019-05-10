@@ -2,6 +2,7 @@ package com.woowacourse.javaracingcar;
 
 import com.woowacourse.javaracingcar.domain.Car;
 import com.woowacourse.javaracingcar.dto.CarDto;
+import com.woowacourse.javaracingcar.util.RacingCarUtil;
 import com.woowacourse.javaracingcar.util.interfaces.NumberGenerator;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Game {
             c.moveForward(calculateMovingPosition(numberGenerator.generateNumber()));
         }
 
-        return convertCarToCarDto(cars);
+        return RacingCarUtil.convertCarToCarDto(cars);
     }
 
     private int calculateMovingPosition(int generatedNumber) {
@@ -41,14 +42,6 @@ public class Game {
 
     public List<CarDto> getWinners() {
         gameResult = new GameResult(cars);
-        return convertCarToCarDto(gameResult.getWinnerCars());
-    }
-
-    private List<CarDto> convertCarToCarDto(List<Car> cars) {
-        List<CarDto> list = new ArrayList<>();
-        for (Car c : cars) {
-            list.add(new CarDto(c.getName(), c.getPosition()));
-        }
-        return list;
+        return RacingCarUtil.convertCarToCarDto(gameResult.getWinnerCars());
     }
 }
