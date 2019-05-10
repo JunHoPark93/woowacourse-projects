@@ -3,10 +3,7 @@ package com.woowacourse.javaracingcar.util;
 import com.woowacourse.javaracingcar.domain.Car;
 import com.woowacourse.javaracingcar.dto.CarDto;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -31,14 +28,12 @@ public class RacingCarUtil {
         }
     }
 
-    public static boolean isValidNameInput(String[] names) {
+    public static void checkValidNameInput(String[] names) {
         checkIfDuplicateNames(names);
         for (String name : names) {
             checkIfNameIncludesSpace(name);
             checkIfValidNames(name);
         }
-
-        return true;
     }
 
     private static void checkIfDuplicateNames(String[] names) {
@@ -78,5 +73,15 @@ public class RacingCarUtil {
             list.add(new CarDto(c.getName(), c.getPosition()));
         }
         return list;
+    }
+
+    public static int convertTriesStringToInteger(String input) {
+        return Integer.parseInt(input);
+    }
+
+    public static void checkValidTriesInput(int tries) {
+        if (tries <= 0) {
+            throw new IllegalArgumentException("1이상 입력이 필요합니다");
+        }
     }
 }
