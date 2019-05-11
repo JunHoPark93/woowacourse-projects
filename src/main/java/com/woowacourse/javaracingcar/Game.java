@@ -10,22 +10,31 @@ import java.util.List;
 public class Game {
     private List<Car> cars;
     private NumberGenerator numberGenerator;
+    private int tries;
 
-    public Game(NumberGenerator generator, List<Car> cars) {
+    public Game(NumberGenerator generator, List<Car> cars, int tries) {
         numberGenerator = generator;
         this.cars = cars;
+        this.tries = tries;
     }
 
     public List<CarDto> play() {
-        // 게임 루프: 자동차 한 대 씩 랜덤 숫자를 넘겨준다.
+        attemptToMoveCars();
+        return RacingCarUtil.convertCarToCarDto(cars);
+    }
+
+    private void attemptToMoveCars() {
         for (Car car : cars) {
             car.attemptMove(numberGenerator.generateNumber());
         }
-
-        return RacingCarUtil.convertCarToCarDto(cars);
+        tries--;
     }
 
     public GameResult getGameResult() {
         return new GameResult(cars);
+    }
+
+    public boolean isEnd() {
+        return tries == 0;
     }
 }

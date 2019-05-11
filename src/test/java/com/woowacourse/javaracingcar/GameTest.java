@@ -31,7 +31,7 @@ class GameTest {
         numberGenerator = new TestNumberGenerator(expected);
         List<Car> cars = new ArrayList<>();
         cars.add(new Car("pobi"));
-        game = new Game(numberGenerator, cars);
+        game = new Game(numberGenerator, cars, 3);
         Car movedPobi = new Car("pobi", 1);
 
         // when
@@ -50,7 +50,7 @@ class GameTest {
         // given
         int[] expected = {1, 2, 3, 1, 2, 4, 4, 5, 6};
         numberGenerator = new TestNumberGenerator(expected);
-        game = new Game(numberGenerator, cars);
+        game = new Game(numberGenerator, cars, 3);
         Car winnerHonux = new Car("honux", 2);
 
         // when
@@ -69,7 +69,7 @@ class GameTest {
         // given
         int[] expected = {4, 1, 4, 5, 2, 5, 6, 4, 6};
         numberGenerator = new TestNumberGenerator(expected);
-        game = new Game(numberGenerator, cars);
+        game = new Game(numberGenerator, cars, 3);
         Car winnerPobi = new Car("pobi", 3);
         Car winnerHonux = new Car("honux", 3);
 
@@ -89,7 +89,7 @@ class GameTest {
         //given
         int[] expected = {1, 1, 1, 1, 1, 1, 1, 1, 1};
         numberGenerator = new TestNumberGenerator(expected);
-        game = new Game(numberGenerator, cars);
+        game = new Game(numberGenerator, cars, 3);
 
         // when
         for (int i = 0; i < CUSTOM_LOOP; i++) {

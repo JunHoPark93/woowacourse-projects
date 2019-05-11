@@ -24,8 +24,8 @@ public class Main {
         }
 
         // 게임 진행
-        Game game = new Game(numberGenerator, cars);
-        for (int i = 0; i < tries; i++) {
+        Game game = new Game(numberGenerator, cars, tries);
+        while (!game.isEnd()) {
             userInterface.printResult(game.play());
         }
 
