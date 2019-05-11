@@ -8,8 +8,6 @@ import com.woowacourse.javaracingcar.util.interfaces.NumberGenerator;
 import java.util.List;
 
 public class Game {
-    private static final int MOVE_BOUND = 4;
-
     private List<Car> cars;
     private NumberGenerator numberGenerator;
 
@@ -20,18 +18,11 @@ public class Game {
 
     public List<CarDto> play() {
         // 게임 루프: 자동차 한 대 씩 랜덤 숫자를 넘겨준다.
-        for (Car c : cars) {
-            c.moveForward(calculateMovingPosition(numberGenerator.generateNumber()));
+        for (Car car : cars) {
+            car.attemptMove(numberGenerator.generateNumber());
         }
 
         return RacingCarUtil.convertCarToCarDto(cars);
-    }
-
-    private int calculateMovingPosition(int generatedNumber) {
-        if (generatedNumber >= MOVE_BOUND) {
-            return 1;
-        }
-        return 0;
     }
 
     public GameResult getGameResult() {

@@ -1,5 +1,7 @@
 package com.woowacourse.javaracingcar.domain;
 
+import com.woowacourse.javaracingcar.util.RacingCarUtil;
+
 public class Car {
     private final String name;
     private int position;
@@ -13,8 +15,14 @@ public class Car {
         this.position = position;
     }
 
-    public void moveForward(int position) {
-        this.position += position;
+    public void attemptMove(int number) {
+        if (number >= RacingCarUtil.MOVE_BOUND) {
+            moveForward();
+        }
+    }
+
+    private void moveForward() {
+        this.position ++;
     }
 
     public String getName() {

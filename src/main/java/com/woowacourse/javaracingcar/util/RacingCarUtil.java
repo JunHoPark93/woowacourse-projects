@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 
 public class RacingCarUtil {
     private static final int MAX_NAME_LENGTH = 5;
+    public static final int MOVE_BOUND = 4;
 
     private RacingCarUtil() {
     }
