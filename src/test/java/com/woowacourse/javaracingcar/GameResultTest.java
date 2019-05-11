@@ -3,7 +3,7 @@ package com.woowacourse.javaracingcar;
 import com.woowacourse.javaracingcar.domain.Car;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,20 +14,18 @@ class GameResultTest {
     @Test
     void 정상적인_우승자_자동차_반환() {
         // given
-        List<Car> cars = new ArrayList<>();
-        cars.add(new Car("pobi", 3));
-        cars.add(new Car("jay", 3));
-        cars.add(new Car("crong", 2));
+        List<Car> cars = Arrays.asList(new Car("pobi", 3),
+                new Car("jay", 3),
+                new Car("crong", 2));
 
-        List<Car> expectedWinnerCars = new ArrayList<>();
-        expectedWinnerCars.add(new Car("pobi", 3));
-        expectedWinnerCars.add(new Car("jay", 3));
+        Car winnerPobi = new Car("pobi", 3);
+        Car winnerJay = new Car("jay", 3);
 
         // when
         GameResult gameResult = new GameResult(cars);
 
         // then
-        assertThat(gameResult.getWinnerCars()).isEqualTo(expectedWinnerCars);
+        assertThat(gameResult.getWinnerCars()).containsExactly(winnerPobi, winnerJay);
     }
 
     @Test

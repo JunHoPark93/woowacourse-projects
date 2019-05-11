@@ -30,6 +30,6 @@ public class Main {
         }
 
         // 결과 출력
-        userInterface.printWinners(game.getWinners());
+        userInterface.printWinners(game.getGameResult());
     }
 }

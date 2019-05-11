@@ -34,4 +34,8 @@ public class GameResult {
                 .filter(car -> car.getPosition() == maxPosition)
                 .collect(Collectors.toList());
     }
+
+    public boolean isNobodyMovedForward() {
+        return cars.size() == 0;
+    }
 }

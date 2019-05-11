@@ -1,5 +1,6 @@
 package com.woowacourse.javaracingcar.view;
 
+import com.woowacourse.javaracingcar.GameResult;
 import com.woowacourse.javaracingcar.dto.CarDto;
 import com.woowacourse.javaracingcar.view.interfaces.UserInterface;
 import com.woowacourse.javaracingcar.util.RacingCarUtil;
@@ -65,12 +66,12 @@ public class ConsoleUtilInterface implements UserInterface {
     }
 
     @Override
-    public void printWinners(List<CarDto> winners) {
-        if (winners.size() == 0) {
+    public void printWinners(GameResult gameResult) {
+        if (gameResult.isNobodyMovedForward()) {
             System.out.println("아무도 출발하지 못하여 우승자가 존재하지 않습니다.");
-            return;
         }
-        String names = RacingCarUtil.joinCarNames(winners);
+        String names = RacingCarUtil
+                .joinCarNames(RacingCarUtil.convertCarToCarDto(gameResult.getWinnerCars()));
         System.out.println(names + "가 최종 우승했습니다.");
     }
 
@@ -84,10 +85,6 @@ public class ConsoleUtilInterface implements UserInterface {
     public int onInvalidTries() {
         System.out.println("잘못된 입력입니다");
         return promptTries();
-    }
-
-    private boolean isValidTries(int tries) {
-        return tries > 0;
     }
 
     private void checkResultTitlePrinted() {

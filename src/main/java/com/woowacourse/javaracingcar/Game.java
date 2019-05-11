@@ -12,7 +12,6 @@ public class Game {
 
     private List<Car> cars;
     private NumberGenerator numberGenerator;
-    private GameResult gameResult;
 
     public Game(NumberGenerator generator, List<Car> cars) {
         numberGenerator = generator;
@@ -35,8 +34,7 @@ public class Game {
         return 0;
     }
 
-    public List<CarDto> getWinners() {
-        gameResult = new GameResult(cars);
-        return RacingCarUtil.convertCarToCarDto(gameResult.getWinnerCars());
+    public GameResult getGameResult() {
+        return new GameResult(cars);
     }
 }
