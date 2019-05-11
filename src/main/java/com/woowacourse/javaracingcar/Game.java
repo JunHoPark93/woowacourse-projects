@@ -5,11 +5,9 @@ import com.woowacourse.javaracingcar.dto.CarDto;
 import com.woowacourse.javaracingcar.util.RacingCarUtil;
 import com.woowacourse.javaracingcar.util.interfaces.NumberGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    private static final int STOP_BOUND = 3;
     private static final int MOVE_BOUND = 4;
 
     private List<Car> cars;
@@ -34,10 +32,7 @@ public class Game {
         if (generatedNumber >= MOVE_BOUND) {
             return 1;
         }
-        if (generatedNumber <= STOP_BOUND) {
-            return 0;
-        }
-        throw new IllegalArgumentException("올바르지 않은 인수: " + generatedNumber);
+        return 0;
     }
 
     public List<CarDto> getWinners() {
