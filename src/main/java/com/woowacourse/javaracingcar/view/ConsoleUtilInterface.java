@@ -21,13 +21,6 @@ public class ConsoleUtilInterface implements UserInterface {
         String input = scanner.nextLine();
         String[] splitNames = RacingCarUtil.splitIntoNames(input);
 
-        try {
-            RacingCarUtil.checkValidNameInput(splitNames);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return promptUserNames();
-        }
-
         return parseStringArrayToList(splitNames);
     }
 
@@ -39,21 +32,9 @@ public class ConsoleUtilInterface implements UserInterface {
     }
 
     @Override
-    public int promptTries() {
+    public String promptTries() {
         System.out.println("시도할 회수는 몇회인가요?");
-        String input = scanner.nextLine();
-
-        try {
-            int tries = RacingCarUtil.convertTriesStringToInteger(input);
-            RacingCarUtil.checkValidTriesInput(tries);
-            return tries;
-        } catch (NumberFormatException e) {
-            System.out.println("잘못된 입력입니다");
-            return promptTries();
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return promptTries();
-        }
+        return scanner.nextLine();
     }
 
     @Override
@@ -69,22 +50,11 @@ public class ConsoleUtilInterface implements UserInterface {
     public void printWinners(GameResult gameResult) {
         if (gameResult.isNobodyMovedForward()) {
             System.out.println("아무도 출발하지 못하여 우승자가 존재하지 않습니다.");
+            return;
         }
         String names = RacingCarUtil
                 .joinCarNames(RacingCarUtil.convertCarToCarDto(gameResult.getWinnerCars()));
         System.out.println(names + "가 최종 우승했습니다.");
-    }
-
-    @Override
-    public List<String> onInvalidUserNames() {
-        System.out.println("잘못된 입력입니다");
-        return promptUserNames();
-    }
-
-    @Override
-    public int onInvalidTries() {
-        System.out.println("잘못된 입력입니다");
-        return promptTries();
     }
 
     private void checkResultTitlePrinted() {

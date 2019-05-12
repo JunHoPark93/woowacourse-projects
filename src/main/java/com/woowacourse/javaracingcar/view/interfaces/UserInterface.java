@@ -7,10 +7,7 @@ import java.util.List;
 
 public interface UserInterface {
     List<String> promptUserNames();
-    int promptTries();
+    String promptTries();
     void printResult(List<CarDto> cars);
     void printWinners(GameResult gameResult);
-
-    List<String> onInvalidUserNames();
-    int onInvalidTries();
 }

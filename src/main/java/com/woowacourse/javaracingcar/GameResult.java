@@ -36,6 +36,6 @@ public class GameResult {
     }
 
     public boolean isNobodyMovedForward() {
-        return cars.size() == 0;
+        return maxPosition == 0;
     }
 }

@@ -1,12 +1,12 @@
 package com.woowacourse.javaracingcar;
 
 import com.woowacourse.javaracingcar.domain.Car;
+import com.woowacourse.javaracingcar.domain.Cars;
 import com.woowacourse.javaracingcar.testgenerator.TestNumberGenerator;
 import com.woowacourse.javaracingcar.util.interfaces.NumberGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,12 +16,13 @@ class GameTest {
     private static final int CUSTOM_LOOP = 3;
     private NumberGenerator numberGenerator;
     private Game game;
-    private List<Car> cars;
+    private Cars cars;
+    private List<String> names;
 
     @BeforeEach
     void setUp() {
-        cars = new ArrayList<>();
-        cars = Arrays.asList(new Car("pobi"), new Car("crong"), new Car("honux"));
+        names = Arrays.asList("pobi", "crong", "honux");
+        cars = new Cars(names);
     }
 
     @Test
@@ -29,8 +30,7 @@ class GameTest {
         // given
         int[] expected = {1, 2, 5};
         numberGenerator = new TestNumberGenerator(expected);
-        List<Car> cars = new ArrayList<>();
-        cars.add(new Car("pobi"));
+        Cars cars = new Cars(Arrays.asList("pobi"));
         game = new Game(numberGenerator, cars, 3);
         Car movedPobi = new Car("pobi", 1);
 
