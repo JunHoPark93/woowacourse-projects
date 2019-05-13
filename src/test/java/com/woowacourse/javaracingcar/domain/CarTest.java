@@ -22,7 +22,7 @@ class CarTest {
     void 비정상_이름_입력_5자초과(String name) {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
             Car car = new Car(name);
-        }).withMessage("자동차 이름이 적절하지 않습니다");
+        }).withMessage("이름은 5글자를 넘을 수 없습니다");
     }
 
     @ParameterizedTest
@@ -30,7 +30,7 @@ class CarTest {
     void 비정상_이름_입력_중간공백(String name) {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
             Car car = new Car(name);
-        }).withMessage("자동차 이름이 적절하지 않습니다");
+        }).withMessage("이름은 공백을 포함할 수 없습니다");
     }
 
     @ParameterizedTest

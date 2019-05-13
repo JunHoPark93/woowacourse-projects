@@ -4,6 +4,7 @@ import com.woowacourse.javaracingcar.util.RacingCarUtil;
 
 public class Car {
     private static final int MAX_NAME_LENGTH = 5;
+    public static final int MOVE_BOUND = 4;
     private static final String BLANK_SPACE = " ";
 
     private final String name;
@@ -14,22 +15,38 @@ public class Car {
     }
 
     public Car(String name, int position) {
-        if (!isProperName(name)) {
-            throw new IllegalArgumentException("자동차 이름이 적절하지 않습니다");
-        }
+        isProperName(name);
         this.name = name;
         this.position = position;
     }
 
-    private boolean isProperName(String name) {
+    private void isProperName(String name) {
         // 빈문자열, 5글자, 이름에 공백
-        return name.length() != 0
-                && name.length() <= MAX_NAME_LENGTH
-                && !name.contains(BLANK_SPACE);
+        validateEmptyName(name);
+        validateNameLength(name);
+        validateNameContainsBlank(name);
+    }
+
+    private void validateEmptyName(String name) {
+        if (name.length() == 0) {
+            throw new IllegalArgumentException("비어 있는 이름을 입력할 수 없습니다");
+        }
+    }
+
+    private void validateNameLength(String name) {
+        if (name.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException("이름은 5글자를 넘을 수 없습니다");
+        }
+    }
+
+    private void validateNameContainsBlank(String name) {
+        if (name.contains(BLANK_SPACE)) {
+            throw new IllegalArgumentException("이름은 공백을 포함할 수 없습니다");
+        }
     }
 
     public void attemptMove(int number) {
-        if (number >= RacingCarUtil.MOVE_BOUND) {
+        if (number >= MOVE_BOUND) {
             moveForward();
         }
     }
