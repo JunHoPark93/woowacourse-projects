@@ -52,7 +52,7 @@ public class Car {
     }
 
     private void moveForward() {
-        this.position ++;
+        this.position++;
     }
 
     public String getName() {

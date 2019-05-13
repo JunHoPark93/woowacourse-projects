@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.*;
 class RacingCarUtilTest {
     @Order(1)
     @ParameterizedTest
-    @ValueSource(ints = {1,5,200})
+    @ValueSource(ints = {1, 5, 200})
     void 정상_시도횟수_입력(int tries) {
         assertThatCode(() -> RacingCarUtil.checkValidTriesInput(tries))
                 .doesNotThrowAnyException();
@@ -20,7 +20,7 @@ class RacingCarUtilTest {
 
     @Order(2)
     @ParameterizedTest
-    @ValueSource(ints = {-1,-100,-256})
+    @ValueSource(ints = {-1, -100, -256})
     void 비정상_시도횟수_입력(int tries) {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() ->
                 RacingCarUtil.checkValidTriesInput(tries))
