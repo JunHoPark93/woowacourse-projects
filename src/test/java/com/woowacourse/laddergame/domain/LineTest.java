@@ -11,7 +11,7 @@ public class LineTest {
     void 라인_사람수만큼_포지션_초기화() {
         int countOfPerson = 4;
 
-        Line line = new Line(countOfPerson);
+        Line line = new Line(new NaturalNumber(countOfPerson));
 
         assertThat(line.getPositionCount()).isEqualTo(4);
     }
@@ -20,7 +20,7 @@ public class LineTest {
     void 정상적_사다리_초기화() {
         int countOfPerson = 4;
 
-        Line line = new Line(countOfPerson);
+        Line line = new Line(new NaturalNumber(countOfPerson));
 
         //    |-----|     |-----|
         line.putBridge(new NaturalNumber(1));
@@ -34,7 +34,7 @@ public class LineTest {
     void 비정상적_사다리_초기화_() {
         int countOfPerson = 4;
 
-        Line line = new Line(countOfPerson);
+        Line line = new Line(new NaturalNumber(countOfPerson));
 
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() ->
                 line.putBridge(new NaturalNumber(4))).withMessage("다리를 놓을 수 없습니다");
@@ -44,7 +44,7 @@ public class LineTest {
     void 비정상적_사다리_초기화_인덱스_음수() {
         int countOfPerson = 4;
 
-        Line line = new Line(countOfPerson);
+        Line line = new Line(new NaturalNumber(countOfPerson));
 
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() ->
                 line.putBridge(new NaturalNumber(-1))).withMessage("자연수가 아닙니다.");

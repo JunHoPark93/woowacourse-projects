@@ -8,10 +8,10 @@ import java.util.List;
 public class Line {
     private List<Position> positions;
 
-    public Line(int countOfPerson) {
+    public Line(NaturalNumber countOfPerson) {
         positions = new ArrayList<>();
 
-        for (int i = 0; i < countOfPerson; i++) {
+        for (int i = 0; i < countOfPerson.getNumber(); i++) {
             positions.add(Position.NONE);
         }
     }
