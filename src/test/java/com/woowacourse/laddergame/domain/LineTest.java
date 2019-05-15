@@ -104,4 +104,9 @@ public class LineTest {
             line.putBridge(new NaturalNumber(5));
         });
     }
+
+    @Test
+    void 동일한_라인인지_테스트() {
+        assertThat(new Line(new NaturalNumber(4))).isEqualTo(new Line(new NaturalNumber(4)));
+    }
 }

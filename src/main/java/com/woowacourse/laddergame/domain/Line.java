@@ -21,17 +21,18 @@ public class Line {
     }
 
 
-    public void putBridge(NaturalNumber index) {
-        if (index.convertIndex() + 1 >= positions.size()) {
-            throw new IllegalArgumentException("다리를 놓을 수 없습니다");
+    public void putBridge(NaturalNumber number) {
+        if (number.getNumber() >= positions.size()) {
+            String message = String.format("%d 다리를 놓을 수 없습니다", number.getNumber());
+            throw new IllegalArgumentException(message);
         }
 
-        if (positions.get(index.convertIndex()) != Position.NONE) {
+        if (positions.get(number.convertIndex()) != Position.NONE) {
             throw new IllegalArgumentException("다리가 존재하거나 연속되게 놓을 수 없습니다.");
         }
 
-        positions.set(index.convertIndex(), Position.RIGHT);
-        positions.set(index.convertIndex() + 1, Position.LEFT);
+        positions.set(number.convertIndex(), Position.RIGHT);
+        positions.set(number.convertIndex() + 1, Position.LEFT);
     }
 
     public boolean isBridgeExist(int index) {
@@ -52,5 +53,18 @@ public class Line {
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Line line = (Line) o;
+
+        return positions != null ? positions.equals(line.positions) : line.positions == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return positions != null ? positions.hashCode() : 0;
+    }
 }
