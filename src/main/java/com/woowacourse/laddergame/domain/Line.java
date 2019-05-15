@@ -32,6 +32,21 @@ public class Line {
 
     public boolean isBridgeExist(int index) {
         return positions.get(index) != Position.NONE;
-
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < positions.size(); i++) {
+            if (positions.get(i).equals(Position.LEFT)) {
+                sb.append("-----|");
+                continue;
+            }
+            sb.append("     |");
+
+        }
+        return sb.toString();
+    }
+
+
 }

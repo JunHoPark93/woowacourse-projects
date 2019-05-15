@@ -49,4 +49,30 @@ public class LineTest {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() ->
                 line.putBridge(new NaturalNumber(-1))).withMessage("자연수가 아닙니다.");
     }
+
+
+    @Test
+    void 사다리_그려지는_테스트_양쪽선() {
+        String ladderShape = "     |-----|     |-----|";
+        int countOfPerson = 4;
+
+        Line line = new Line(new NaturalNumber(countOfPerson));
+        line.putBridge(new NaturalNumber(1));
+        line.putBridge(new NaturalNumber(3));
+
+        assertThat(line.toString()).isEqualTo(ladderShape);
+
+    }
+
+    @Test
+    void 사다리_그려지는_테스트_중간만_선() {
+        String ladderShape = "     |     |-----|     |";
+        int countOfPerson = 4;
+
+        Line line = new Line(new NaturalNumber(countOfPerson));
+        line.putBridge(new NaturalNumber(2));
+
+        assertThat(line.toString()).isEqualTo(ladderShape);
+    }
+
 }
