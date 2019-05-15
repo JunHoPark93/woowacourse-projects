@@ -18,4 +18,36 @@ public class Ladder {
     public int getHeight() {
         return lines.size();
     }
+
+    public boolean isContainsLine(NaturalNumber height, Line line) {
+        return lines.get(height.convertIndex()).equals(line);
+    }
+
+    public void putBridge(NaturalNumber height, NaturalNumber position) {
+        lines.get(height.convertIndex()).putBridge(position);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ladder ladder = (Ladder) o;
+
+        return lines != null ? lines.equals(ladder.lines) : ladder.lines == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return lines != null ? lines.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Line line : lines) {
+            sb.append(line.toString()).append("\n");
+        }
+        return sb.toString();
+    }
 }
