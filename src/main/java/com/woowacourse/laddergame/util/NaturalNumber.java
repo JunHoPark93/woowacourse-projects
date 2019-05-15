@@ -4,7 +4,7 @@ public class NaturalNumber {
     private int number;
 
     public NaturalNumber(int number) {
-        if (number < 0) {
+        if (number <= 0) {
             throw new IllegalArgumentException("자연수가 아닙니다.");
         }
 
