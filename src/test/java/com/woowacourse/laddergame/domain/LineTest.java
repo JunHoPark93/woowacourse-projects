@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LineTest {
     @Test
@@ -75,4 +76,32 @@ public class LineTest {
         assertThat(line.toString()).isEqualTo(ladderShape);
     }
 
+    @Test
+    void 이미다리가_놓여져있을_때_예외처리() {
+        Line line = new Line(new NaturalNumber(4));
+
+        line.putBridge(new NaturalNumber(2));
+        assertThrows(IllegalArgumentException.class, () -> {
+            line.putBridge(new NaturalNumber(2));
+        });
+    }
+
+    @Test
+    void 연속해서_다리르_놓는_예외처리() {
+        Line line = new Line(new NaturalNumber(4));
+
+        line.putBridge(new NaturalNumber(2));
+        assertThrows(IllegalArgumentException.class, () -> {
+            line.putBridge(new NaturalNumber(3));
+        });
+    }
+
+    @Test
+    void 범위가_넘어가는_위치에_사다리_놓는경우_예외() {
+        Line line = new Line(new NaturalNumber(4));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            line.putBridge(new NaturalNumber(5));
+        });
+    }
 }

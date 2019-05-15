@@ -26,6 +26,10 @@ public class Line {
             throw new IllegalArgumentException("다리를 놓을 수 없습니다");
         }
 
+        if (positions.get(index.convertIndex()) != Position.NONE) {
+            throw new IllegalArgumentException("다리가 존재하거나 연속되게 놓을 수 없습니다.");
+        }
+
         positions.set(index.convertIndex(), Position.RIGHT);
         positions.set(index.convertIndex() + 1, Position.LEFT);
     }
