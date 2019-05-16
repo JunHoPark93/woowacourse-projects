@@ -10,8 +10,10 @@ class LadderGameServiceTest {
         LadderVO ladderVO = new LadderVO();
         String playerNames = "pobi,crong,honux";
         String height = "4";
+        String results = "꽝,아이스크림,500원";
         ladderVO.setNames(playerNames);
         ladderVO.setHeight(height);
+        ladderVO.setResult(results);
 
         LadderGameService ladderGameService = new LadderGameService();
         ladderGameService.drawLadder(ladderVO);
@@ -20,5 +22,6 @@ class LadderGameServiceTest {
 
         System.out.println(statusVO.getPlayerNames());
         System.out.println(statusVO.getLadderShape());
+        System.out.println(statusVO.getLadderResult());
     }
 }
