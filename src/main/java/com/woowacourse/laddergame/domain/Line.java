@@ -39,6 +39,10 @@ public class Line {
         return positions.get(index) != Position.NONE;
     }
 
+    public int takeLine(NaturalNumber positionNo) {
+        return positions.get(positionNo.convertIndex()).move(positionNo.getNumber());
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

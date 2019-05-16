@@ -18,6 +18,9 @@ class LadderGameServiceTest {
         LadderGameService ladderGameService = new LadderGameService();
         ladderGameService.drawLadder(ladderVO);
 
+        // TODO 사람검증
+        ladderGameService.playLadder("pobi");
+
         LadderStatusVO statusVO = ladderGameService.getInitialLadder();
 
         System.out.println(statusVO.getPlayerNames());

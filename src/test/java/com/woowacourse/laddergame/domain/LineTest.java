@@ -109,4 +109,13 @@ public class LineTest {
     void 동일한_라인인지_테스트() {
         assertThat(new Line(new NaturalNumber(4))).isEqualTo(new Line(new NaturalNumber(4)));
     }
+
+    @Test
+    void 라인_이동_테스트() {
+        Line line = new Line(new NaturalNumber(4));
+        line.putBridge(new NaturalNumber(1));
+        line.putBridge(new NaturalNumber(3));
+
+        assertThat(line.takeLine(new NaturalNumber(1))).isEqualTo(2);
+    }
 }

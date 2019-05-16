@@ -40,5 +40,10 @@ public class LadderGameService {
 
         return ladderStatusVO;
     }
+
+    // TODO
+    public void playLadder(String name) {
+
+    }
 }
 

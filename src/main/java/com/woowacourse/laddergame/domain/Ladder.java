@@ -50,4 +50,12 @@ public class Ladder {
         }
         return sb.toString();
     }
+
+    public int takeLadder(NaturalNumber personNo) {
+        int currentPosition = personNo.getNumber();
+        for (int i = 0; i < getHeight(); i++) {
+            currentPosition = lines.get(i).takeLine(new NaturalNumber(currentPosition));
+        }
+        return currentPosition;
+    }
 }

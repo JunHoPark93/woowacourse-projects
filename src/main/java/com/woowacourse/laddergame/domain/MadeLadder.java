@@ -26,4 +26,8 @@ public class MadeLadder {
     public String getLadderResult() {
         return results.toString();
     }
+
+    public Ladder getLadder() {
+        return ladder;
+    }
 }

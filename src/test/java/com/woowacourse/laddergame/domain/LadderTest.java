@@ -65,4 +65,32 @@ class LadderTest {
 
         assertThat(ladder.equals(ladder2)).isTrue();
     }
+
+    @Test
+    void 사다리_타기() {
+        Ladder ladder = new Ladder(new NaturalNumber(3), new NaturalNumber(4));
+
+        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(1));
+        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(3));
+        ladder.putBridge(new NaturalNumber(2), new NaturalNumber(2));
+        ladder.putBridge(new NaturalNumber(3), new NaturalNumber(3));
+
+        // 1번 사람은 4번 인덱스로 반환 되어야 함
+        int firstIdx = ladder.takeLadder(new NaturalNumber(1));
+
+        // 2번 사람은 1번 인덱스로 반환 되어야 함
+        int secondIdx = ladder.takeLadder(new NaturalNumber(2));
+
+        // 3번 사람은 3번 인덱스로 반환 되어야 함
+        int thirdIdx = ladder.takeLadder(new NaturalNumber(3));
+
+        // 4번 사람은 2번 인덱스로 반환 되어야 함
+        int fourthIdx = ladder.takeLadder(new NaturalNumber(4));
+
+
+        assertThat(firstIdx).isEqualTo(4);
+        assertThat(secondIdx).isEqualTo(1);
+        assertThat(thirdIdx).isEqualTo(3);
+        assertThat(fourthIdx).isEqualTo(2);
+    }
 }
