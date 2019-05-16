@@ -1,8 +1,10 @@
 package com.woowacourse.laddergame.service;
 
 import com.woowacourse.laddergame.domain.*;
+import com.woowacourse.laddergame.domain.vo.LadderGameResultVO;
 import com.woowacourse.laddergame.domain.vo.LadderStatusVO;
 import com.woowacourse.laddergame.domain.vo.LadderVO;
+import com.woowacourse.laddergame.domain.vo.ResultNameVO;
 import com.woowacourse.laddergame.util.NaturalNumber;
 
 public class LadderGameService {
@@ -41,9 +43,8 @@ public class LadderGameService {
         return ladderStatusVO;
     }
 
-    // TODO
-    public void playLadder(String name) {
-
+    public LadderGameResultVO playLadder(ResultNameVO resultNameVO) {
+        return madeLadder.takeLadder(resultNameVO.getName());
     }
 }
 
