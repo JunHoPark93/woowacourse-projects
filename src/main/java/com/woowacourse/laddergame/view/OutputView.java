@@ -7,6 +7,7 @@ public class OutputView {
     public static void printLadderStatus(LadderStatusVO ladderStatusVO) {
         System.out.println(ladderStatusVO.getPlayerNames());
         System.out.println(ladderStatusVO.getLadderShape());
+        System.out.println(ladderStatusVO.getLadderResult());
     }
 
     // TODO

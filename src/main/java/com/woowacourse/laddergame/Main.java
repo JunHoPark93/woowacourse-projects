@@ -12,6 +12,7 @@ public class Main {
         LadderVO ladderVO = new LadderVO();
         InputView.inputPlayerNames(ladderVO);
         InputView.inputHeight(ladderVO);
+        InputView.inputGameResult(ladderVO);
 
         // GameService 인자로 넘긴다 - 사다리 vo 반환
         LadderGameService ladderGameService = new LadderGameService();
