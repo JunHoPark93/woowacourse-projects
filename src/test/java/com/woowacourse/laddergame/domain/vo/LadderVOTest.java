@@ -57,4 +57,31 @@ class LadderVOTest {
             ladderVO.setHeight(null);
         }).withMessage("Null 은 입력할 수 없습니다");
     }
+
+    @Test
+    void 사다리_결과_정상_입력() {
+        LadderVO ladderVO = new LadderVO();
+
+        ladderVO.setNames("pobi,crong,jay,aiden,jm");
+        ladderVO.setResult("꽝,10,아이스크림,꽝,꽝");
+    }
+
+    @Test
+    void 사다리_결과_비정상_입력() {
+        LadderVO ladderVO = new LadderVO();
+
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            ladderVO.setResult("꽝,아이스크림,아이스크림,꽝,꽝");
+        }).withMessage("이름이 먼저 초기화되야 합니다");
+    }
+
+    @Test
+    void 사다리_결과_null_입력() {
+        LadderVO ladderVO = new LadderVO();
+
+        ladderVO.setNames("pobi,crong,jay,aiden,jm");
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            ladderVO.setResult(null);
+        }).withMessage("Null 은 입력할 수 없습니다");
+    }
 }
