@@ -20,9 +20,15 @@ public class InputView {
     }
 
     // TODO
-    public static String inputGameResult() {
-        System.out.println("실행 결과를 입력하세요. (결과는 쉼표(,)로 구분하세요)");
-        return scanner.nextLine();
+    public static LadderVO inputGameResult(LadderVO ladderVO) {
+        try {
+            System.out.println("실행 결과를 입력하세요. (결과는 쉼표(,)로 구분하세요)");
+            ladderVO.setResult(scanner.nextLine());
+            return ladderVO;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return inputGameResult(ladderVO);
+        }
     }
 
     public static LadderVO inputHeight(LadderVO ladderVO) {
