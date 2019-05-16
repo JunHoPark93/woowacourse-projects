@@ -34,7 +34,7 @@ public class LadderVO {
         }
 
         // Result가 들어와 있는상태에서 플레이어 이름을 다시 초기화 할 때
-        if (!pairPlayerResult(getNamesCount(names))) {
+        if (!isSameLengthBetweenResultAndNames(getNamesCount(names))) {
             throw new IllegalArgumentException("Result 개수와 맞지 않습니다");
         }
 
@@ -84,7 +84,7 @@ public class LadderVO {
         }
 
         // Result 초기화 시 이름 개수와 비교
-        if (!pairPlayerResult(getResultCount(result))) {
+        if (!isSameLengthBetweenResultAndNames(getResultCount(result))) {
             throw new IllegalArgumentException("이름과 개수가 다릅니다");
         }
     }
@@ -99,7 +99,7 @@ public class LadderVO {
         return cnt;
     }
 
-    private boolean pairPlayerResult(int count) {
+    private boolean isSameLengthBetweenResultAndNames(int count) {
         if (result != null && count != getResultCount(result)) {
             return false;
         }
