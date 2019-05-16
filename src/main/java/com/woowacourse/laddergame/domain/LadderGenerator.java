@@ -3,7 +3,7 @@ package com.woowacourse.laddergame.domain;
 import com.woowacourse.laddergame.util.NaturalNumber;
 
 public class LadderGenerator {
-    public Ladder generateLadder(NaturalNumber height, NaturalNumber countOfPerson, BooleanGenerator generator) {
+    public static Ladder generateLadder(NaturalNumber height, NaturalNumber countOfPerson, BooleanGenerator generator) {
         Ladder ladder = new Ladder(height, countOfPerson);
 
         for (int h = 1; h <= height.getNumber(); h++) {
