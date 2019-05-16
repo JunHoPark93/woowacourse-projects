@@ -10,8 +10,8 @@ public class OutputView {
         System.out.println(ladderStatusVO.getLadderResult());
     }
 
-    // TODO
     public static void printLadderGameResult(LadderGameResultVO ladderGameResultVO) {
-
+        System.out.println("실행 결과");
+        System.out.println(ladderGameResultVO.getPlayerName());
     }
 }

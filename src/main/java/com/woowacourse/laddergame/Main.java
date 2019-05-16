@@ -1,7 +1,9 @@
 package com.woowacourse.laddergame;
 
+import com.woowacourse.laddergame.domain.vo.LadderGameResultVO;
 import com.woowacourse.laddergame.domain.vo.LadderStatusVO;
 import com.woowacourse.laddergame.domain.vo.LadderVO;
+import com.woowacourse.laddergame.domain.vo.ResultNameVO;
 import com.woowacourse.laddergame.service.LadderGameService;
 import com.woowacourse.laddergame.view.InputView;
 import com.woowacourse.laddergame.view.OutputView;
@@ -21,10 +23,20 @@ public class Main {
         LadderStatusVO ladderStatusVO = ladderGameService.getInitialLadder();
         OutputView.printLadderStatus(ladderStatusVO);
 
+        while (true) {
+            ResultNameVO resultNameVO = new ResultNameVO();
+            resultNameVO = InputView.inputResultName(resultNameVO);
 
+            // TODO all 체크
+            //checkTakeLadder(resultNameVO);
+            LadderGameResultVO ladderGameResultVO = ladderGameService.playLadder(resultNameVO);
+            OutputView.printLadderGameResult(ladderGameResultVO);
+        }
+    }
 
-        // TODO Level 2
-        // while (player 결과 입력)
-        // ladderGameService.getResult(playerName);
+    // TODO
+    private static void checkTakeLadder(ResultNameVO resultNameVO) {
+        if (resultNameVO.getName().equals("all")) {
+        }
     }
 }
