@@ -1,5 +1,7 @@
 package com.woowacourse.laddergame.domain;
 
+import com.woowacourse.laddergame.util.NaturalNumber;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,14 @@ public class Results {
 
     public void add(Result result) {
         results.add(result);
+    }
+
+    public Result get(NaturalNumber resultNo) {
+        return results.get(resultNo.convertIndex());
+    }
+
+    public boolean isContains(String result) {
+        return results.contains(new Result(result));
     }
 
     @Override
