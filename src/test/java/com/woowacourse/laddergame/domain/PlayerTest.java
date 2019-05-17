@@ -29,7 +29,7 @@ public class PlayerTest {
 
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
             Player player = new Player(name);
-        }).withMessage("공백을 입력할 수 없습니다");
+        }).withMessage("이름에 공백이 있으면 안됩니다");
     }
 
     @Test

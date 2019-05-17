@@ -23,8 +23,7 @@ public class Line {
 
     public void putBridge(NaturalNumber number) {
         if (number.getNumber() >= positions.size()) {
-            String message = String.format("%d 다리를 놓을 수 없습니다", number.getNumber());
-            throw new IllegalArgumentException(message);
+            throw new IllegalArgumentException("다리를 놓을 수 없습니다");
         }
 
         if (positions.get(number.convertIndex()) != Position.NONE) {
