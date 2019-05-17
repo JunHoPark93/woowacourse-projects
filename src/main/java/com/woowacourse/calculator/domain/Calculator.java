@@ -14,7 +14,6 @@ public class Calculator {
     private String expression;
     private String delimeter;
     private List<Integer> numbers;
-    private int sum;
 
     public Calculator(String input) {
         init(input);
@@ -22,32 +21,41 @@ public class Calculator {
     }
 
     void init(String input) {
-        if (ifNullOrEmpty(input)) {
-            expression = DEFAULT_NUMBER;
-            delimeter = DEFAULT_DELIMETER;
-            return;
-        }
-
-        Matcher m = PATTERN.matcher(input);
-        if (m.find()) {
-            String customDelimiter = m.group(1);
-            expression = m.group(2);
-            delimeter = customDelimiter;
-            return;
-        }
+        if (checkEmptyOrNull(input)) return;
+        if (checkCustomDelimiter(input)) return;
 
         expression = input;
         delimeter = DEFAULT_DELIMETER;
     }
 
+    private boolean checkCustomDelimiter(String input) {
+        Matcher m = PATTERN.matcher(input);
+        if (m.find()) {
+            String customDelimiter = m.group(1);
+            expression = m.group(2);
+            delimeter = customDelimiter;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkEmptyOrNull(String input) {
+        if (ifNullOrEmpty(input)) {
+            expression = DEFAULT_NUMBER;
+            delimeter = DEFAULT_DELIMETER;
+            return true;
+        }
+        return false;
+    }
+
 
     List<Integer> parseNumbers(String expression) {
         return Arrays.stream(expression.split(delimeter))
-                .map(this::parseNumber)
+                .map(this::checkIfNegative)
                 .collect(Collectors.toList());
     }
 
-    int parseNumber(String number) {
+    int checkIfNegative(String number) {
         int no = Integer.parseInt(number);
 
         if (no < 0) {
@@ -63,13 +71,9 @@ public class Calculator {
 
     public int calculate() {
         if (numbers.size() == 0) {
-            return sum;
+            return 0;
         }
 
-        for (int number : numbers) {
-            sum += number;
-        }
-
-        return sum;
+        return numbers.stream().mapToInt(Integer::intValue).sum();
     }
 }
