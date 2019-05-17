@@ -19,6 +19,14 @@ public class Ladder {
         return lines.size();
     }
 
+    public int takeLadder(NaturalNumber personNo) {
+        int currentPosition = personNo.getNumber();
+        for (int i = 0; i < getHeight(); i++) {
+            currentPosition = lines.get(i).takeLine(new NaturalNumber(currentPosition));
+        }
+        return currentPosition;
+    }
+
     public boolean isContainsLine(NaturalNumber height, Line line) {
         return lines.get(height.convertIndex()).equals(line);
     }
@@ -49,13 +57,5 @@ public class Ladder {
             sb.append(line.toString()).append("\n");
         }
         return sb.toString();
-    }
-
-    public int takeLadder(NaturalNumber personNo) {
-        int currentPosition = personNo.getNumber();
-        for (int i = 0; i < getHeight(); i++) {
-            currentPosition = lines.get(i).takeLine(new NaturalNumber(currentPosition));
-        }
-        return currentPosition;
     }
 }
