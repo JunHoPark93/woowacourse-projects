@@ -20,10 +20,6 @@ public class Results {
         return results.get(resultNo.convertIndex());
     }
 
-    public boolean isContains(String result) {
-        return results.contains(new Result(result));
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

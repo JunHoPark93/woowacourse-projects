@@ -17,7 +17,6 @@ public class InputView {
             System.out.println(e.getMessage());
             return inputPlayerNames(ladderDto);
         }
-
     }
 
     public static LadderDto inputGameResult(LadderDto ladderDto) {

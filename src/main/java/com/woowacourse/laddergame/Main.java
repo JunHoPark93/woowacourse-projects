@@ -16,11 +16,7 @@ public class Main {
         InputView.inputHeight(ladderDto);
         InputView.inputGameResult(ladderDto);
 
-        // GameService 인자로 넘긴다 - 사다리 vo 반환
-        LadderGameService ladderGameService = new LadderGameService();
-        ladderGameService.play(ladderDto);
-
-        LadderResultDto ladderResultDto = ladderGameService.play(ladderDto);
+        LadderResultDto ladderResultDto = LadderGameService.play(ladderDto);
 
         OutputView.printLadderStatus(ladderResultDto);
 

@@ -2,6 +2,7 @@ package com.woowacourse.laddergame.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Players {
     private List<Player> players;
@@ -21,21 +22,17 @@ public class Players {
         return players.contains(player);
     }
 
-    public boolean isContains(String name) {
-        return players.contains(new Player(name));
-    }
-
     public int getPlayerNo(String name) {
         // 사다리의 번호는 1부터 시작한다
         return players.indexOf(new Player(name)) + 1;
     }
 
-    public List<String> getPlayerNames() {
-        List<String> playerNames = new ArrayList<>();
-        for (Player player : players) {
-            playerNames.add(player.getName());
-        }
-        return playerNames;
+    public int getPlayerCount() {
+        return players.size();
+    }
+
+    public List<String> getPlayersName() {
+        return players.stream().map(Player::getName).collect(Collectors.toList());
     }
 
     @Override
