@@ -19,7 +19,7 @@ public class LadderGameService {
         String[] playerNames = ladderDto.getNames().split(",");
         String[] resultList = ladderDto.getResult().split(",");
 
-        for (String playerName: playerNames) {
+        for (String playerName : playerNames) {
             players.add(new Player(playerName));
         }
 
