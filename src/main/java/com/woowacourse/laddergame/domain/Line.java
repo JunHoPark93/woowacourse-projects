@@ -20,7 +20,6 @@ public class Line {
         return positions.size();
     }
 
-
     public void putBridge(NaturalNumber number) {
         if (number.getNumber() >= positions.size()) {
             throw new IllegalArgumentException("다리를 놓을 수 없습니다");
@@ -45,13 +44,12 @@ public class Line {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < positions.size(); i++) {
-            if (positions.get(i).equals(Position.LEFT)) {
+        for (Position position : positions) {
+            if (position.equals(Position.LEFT)) {
                 sb.append("-----|");
                 continue;
             }
             sb.append("     |");
-
         }
         return sb.toString();
     }
