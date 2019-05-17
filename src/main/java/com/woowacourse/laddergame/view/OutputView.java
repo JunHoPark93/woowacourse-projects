@@ -1,17 +1,14 @@
 package com.woowacourse.laddergame.view;
 
-import com.woowacourse.laddergame.domain.vo.LadderGameResultVO;
-import com.woowacourse.laddergame.domain.vo.LadderStatusVO;
+import com.woowacourse.laddergame.domain.vo.LadderResultDto;
 
 public class OutputView {
-    public static void printLadderStatus(LadderStatusVO ladderStatusVO) {
-        System.out.println(ladderStatusVO.getPlayerNames());
-        System.out.println(ladderStatusVO.getLadderShape());
-        System.out.println(ladderStatusVO.getLadderResult());
+    public static void printLadderStatus(LadderResultDto ladderResultDto) {
+        System.out.println(ladderResultDto.getMadeLadderVO().toString());
     }
 
-    public static void printLadderGameResult(LadderGameResultVO ladderGameResultVO) {
+    public static void printLadderGameResult(String targetName, LadderResultDto ladderResultDto) {
         System.out.println("실행 결과");
-        System.out.println(ladderGameResultVO.getPlayerName());
+        System.out.println(ladderResultDto.getResult(targetName));
     }
 }
