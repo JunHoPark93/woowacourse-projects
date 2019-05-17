@@ -24,7 +24,7 @@ public class Main {
             ResultNameDto resultNameDto = new ResultNameDto();
             InputView.inputResultName(resultNameDto);
             String targetName = resultNameDto.getName();
-            OutputView.printLadderGameResult(targetName, ladderResultDto);
+            OutputView.printLadderGameResult(targetName, ladderResultDto, resultNameDto);
         }
     }
 }
