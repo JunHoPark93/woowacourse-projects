@@ -11,7 +11,14 @@ public class Players {
     }
 
     public void add(Player player) {
+        if (checkDuplicateName(player)) {
+            throw new IllegalArgumentException("이름은 중복될 수 없습니다");
+        }
         players.add(player);
+    }
+
+    private boolean checkDuplicateName(Player player) {
+        return players.contains(player);
     }
 
     public boolean isContains(String name) {
