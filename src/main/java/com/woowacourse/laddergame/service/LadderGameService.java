@@ -5,7 +5,10 @@ import com.woowacourse.laddergame.domain.vo.LadderDto;
 import com.woowacourse.laddergame.domain.vo.LadderResultDto;
 import com.woowacourse.laddergame.domain.vo.MadeLadderVO;
 import com.woowacourse.laddergame.domain.vo.WinnerVO;
+import com.woowacourse.laddergame.util.BooleanGenerator;
+import com.woowacourse.laddergame.util.LadderGenerator;
 import com.woowacourse.laddergame.util.NaturalNumber;
+import com.woowacourse.laddergame.util.RandomBooleanGenerator;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
