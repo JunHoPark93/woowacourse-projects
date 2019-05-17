@@ -1,14 +1,19 @@
 package com.woowacourse.laddergame.domain.vo;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LadderVO {
+public class LadderDto {
     private static final Pattern TOTAL_PLAYER_NAMES_PATTERN = Pattern.compile("^([A-Za-z]{1,5})(,([A-Za-z]{1,5}))+$");
     private static final Pattern SINGLE_PLAYER_NAMES_PATTERN = Pattern.compile("([A-Za-z]{1,5})");
     private static final Pattern HEIGHT_PATTERN = Pattern.compile("^([1-9])([0-9])*$");
     private static final Pattern TOTAL_RESULT_PATTERN = Pattern.compile("^([ㄱ-ㅎㅏ-ㅣ가-힣A-Za-z0-9]{1,5})(,[ㄱ-ㅎㅏ-ㅣ가-힣A-Za-z0-9]{1,5})+$");
     private static final Pattern SINGLE_RESULT_PATTERN = Pattern.compile("([ㄱ-ㅎㅏ-ㅣ가-힣A-Za-z0-9]{1,5})");
+    private static final String ILLEGAL_NAME = "all";
 
     private String names;
     private int height;
@@ -23,9 +28,14 @@ public class LadderVO {
         this.names = names;
     }
 
+    // TODO seperate
     private void checkPlayerNames(String names) {
         if (names == null) {
             throw new IllegalArgumentException("Null 은 입력할 수 없습니다");
+        }
+
+        if (names.contains(ILLEGAL_NAME)) {
+            throw new IllegalArgumentException("all은 player 이름으로 입력할 수 없습니다");
         }
 
         Matcher matcher = TOTAL_PLAYER_NAMES_PATTERN.matcher(names);
@@ -38,6 +48,15 @@ public class LadderVO {
             throw new IllegalArgumentException("Result 개수와 맞지 않습니다");
         }
 
+        if (!containsDuplicateNames(names)) {
+            throw new IllegalArgumentException("중복된 이름을 입력할 수 없습니다");
+        }
+    }
+
+    private boolean containsDuplicateNames(String names) {
+        List<String> nameTokens = Arrays.asList(names.split(","));
+        Set<String> set = new HashSet<>(nameTokens);
+        return set.size() == nameTokens.size();
     }
 
     public int getHeight() {
