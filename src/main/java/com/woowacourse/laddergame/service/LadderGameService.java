@@ -11,40 +11,63 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class LadderGameService {
-    // TODO 분리
-    public LadderResultDto play(LadderDto ladderDto) {
-        // 사다리 초기화
-        Players players = new Players();
-        Results results = new Results();
-        String[] playerNames = ladderDto.getNames().split(",");
-        String[] resultList = ladderDto.getResult().split(",");
+    public static LadderResultDto play(LadderDto ladderDto) {
+        Players players = getPlayers(ladderDto);
+        Results results = getResults(ladderDto);
+        Ladder ladder = getLadder(ladderDto, players);
 
-        for (String playerName : playerNames) {
-            players.add(new Player(playerName));
+        WinnerVO winnerVO = getWinners(players, ladder, results);
+        MadeLadderVO madeLadderVO = new MadeLadderVO(players, ladder, results);
+
+        return convertLadderResultDto(winnerVO, madeLadderVO);
+    }
+
+    private static Players getPlayers(LadderDto ladderDto) {
+        String[] playerNames = ladderDto.getNames().split(",");
+        Players players = new Players();
+
+        for (String name : playerNames) {
+            players.add(new Player(name));
         }
 
-        for (String result : resultList) {
+        return players;
+    }
+
+    private static Results getResults(LadderDto ladderDto) {
+        String[] resultNames = ladderDto.getResult().split(",");
+        Results results = new Results();
+
+        for (String result : resultNames) {
             results.add(new Result(result));
         }
 
+        return results;
+    }
+
+    private static Ladder getLadder(LadderDto ladderDto, Players players) {
         int height = ladderDto.getHeight();
-        int countOfPerson = playerNames.length;
+        int countOfPerson = players.getPlayerCount();
 
         BooleanGenerator booleanGenerator = new RandomBooleanGenerator();
-        Ladder ladder = LadderGenerator.generateLadder(new NaturalNumber(height), new NaturalNumber(countOfPerson), booleanGenerator);
 
-        // play
+        return LadderGenerator.generateLadder(new NaturalNumber(height), new NaturalNumber(countOfPerson), booleanGenerator);
+    }
+
+    private static WinnerVO getWinners(Players players, Ladder ladder, Results results) {
         HashMap<String, String> winners = new LinkedHashMap<>();
-
-        for (String playerName : playerNames) {
+        for (String playerName : players.getPlayersName()) {
             int resultNo = ladder.takeLadder(new NaturalNumber(players.getPlayerNo(playerName)));
             Result result = results.get(new NaturalNumber(resultNo));
             winners.put(playerName, result.getResult());
         }
 
+        return new WinnerVO(winners);
+    }
+
+    private static LadderResultDto convertLadderResultDto(WinnerVO winnerVO, MadeLadderVO madeLadderVO) {
         LadderResultDto ladderResultDto = new LadderResultDto();
-        ladderResultDto.setWinnerVO(new WinnerVO(winners));
-        ladderResultDto.setMadeLadderVO(new MadeLadderVO(players, ladder, results));
+        ladderResultDto.setMadeLadderVO(madeLadderVO);
+        ladderResultDto.setWinnerVO(winnerVO);
 
         return ladderResultDto;
     }
