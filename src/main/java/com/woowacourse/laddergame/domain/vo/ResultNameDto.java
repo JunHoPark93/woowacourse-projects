@@ -3,7 +3,7 @@ package com.woowacourse.laddergame.domain.vo;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ResultNameVO {
+public class ResultNameDto {
     private static final Pattern SINGLE_PLAYER_NAMES_PATTERN = Pattern.compile("^([A-Za-z]{1,5})$");
     private String name;
 

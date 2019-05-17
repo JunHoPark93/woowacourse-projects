@@ -1,6 +1,6 @@
 package com.woowacourse.laddergame.domain.vo;
 
-public class LadderGameResultVO {
+public class LadderGameResultDto {
     private String playerName;
     private String result;
 
