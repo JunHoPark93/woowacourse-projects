@@ -7,24 +7,24 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-class LadderVOTest {
+class LadderDtoTest {
     @Test
     void Player_정상이름입력() {
         String input = "pobi,crong,honux";
 
-        LadderVO ladderVO = new LadderVO();
-        ladderVO.setNames(input);
+        LadderDto ladderDto = new LadderDto();
+        ladderDto.setNames(input);
 
-        assertThat(ladderVO.getNames()).isEqualTo(input);
+        assertThat(ladderDto.getNames()).isEqualTo(input);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"pobiiii,crong,honux", "po bi,crong", "  ", ",pobi", "pobi,", "pobi, jay"})
     void Player_비정상이름입력(String input) {
-        LadderVO ladderVO = new LadderVO();
+        LadderDto ladderDto = new LadderDto();
 
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            ladderVO.setNames(input);
+            ladderDto.setNames(input);
         }).withMessage("Player 이름들이 잘못되었습니다");
     }
 
@@ -32,56 +32,56 @@ class LadderVOTest {
     void Player_null입력() {
         String input = null;
 
-        LadderVO ladderVO = new LadderVO();
+        LadderDto ladderDto = new LadderDto();
 
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            ladderVO.setNames(input);
+            ladderDto.setNames(input);
         }).withMessage("Null 은 입력할 수 없습니다");
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"01", "ab", "!!", "-1", " ", "1_000"})
     void 높이_비정상값(String input) {
-        LadderVO ladderVO = new LadderVO();
+        LadderDto ladderDto = new LadderDto();
 
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            ladderVO.setHeight(input);
+            ladderDto.setHeight(input);
         }).withMessage("정상적인 사다리 높이가 아닙니다");
     }
 
     @Test
     void 높이_null() {
-        LadderVO ladderVO = new LadderVO();
+        LadderDto ladderDto = new LadderDto();
 
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            ladderVO.setHeight(null);
+            ladderDto.setHeight(null);
         }).withMessage("Null 은 입력할 수 없습니다");
     }
 
     @Test
     void 사다리_결과_정상_입력() {
-        LadderVO ladderVO = new LadderVO();
+        LadderDto ladderDto = new LadderDto();
 
-        ladderVO.setNames("pobi,crong,jay,aiden,jm");
-        ladderVO.setResult("꽝,10,아이스크림,꽝,꽝");
+        ladderDto.setNames("pobi,crong,jay,aiden,jm");
+        ladderDto.setResult("꽝,10,아이스크림,꽝,꽝");
     }
 
     @Test
     void 사다리_결과_비정상_입력() {
-        LadderVO ladderVO = new LadderVO();
+        LadderDto ladderDto = new LadderDto();
 
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            ladderVO.setResult("꽝,아이스크림,아이스크림,꽝,꽝");
+            ladderDto.setResult("꽝,아이스크림,아이스크림,꽝,꽝");
         }).withMessage("이름이 먼저 초기화되야 합니다");
     }
 
     @Test
     void 사다리_결과_null_입력() {
-        LadderVO ladderVO = new LadderVO();
+        LadderDto ladderDto = new LadderDto();
 
-        ladderVO.setNames("pobi,crong,jay,aiden,jm");
+        ladderDto.setNames("pobi,crong,jay,aiden,jm");
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            ladderVO.setResult(null);
+            ladderDto.setResult(null);
         }).withMessage("Null 은 입력할 수 없습니다");
     }
 }
