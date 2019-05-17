@@ -1,18 +1,18 @@
 package com.woowacourse.laddergame.domain.vo;
 
 public class LadderResultDto {
+    private static final String PLAY_ALL_LADDER_RESERVED_WORD = "all";
+
     private MadeLadderVO madeLadderVO;
     private WinnerVO winnerVO;
 
     public String getResult(String name) {
-        if (name.equals("all")) {
+        if (name.equals(PLAY_ALL_LADDER_RESERVED_WORD)) {
             return winnerVO.getAllResult();
         }
-        // 이름검증
         if (!winnerVO.isContains(name)) {
             throw new IllegalArgumentException("존재하지 않는 이름입니다");
         }
-
         return winnerVO.getSingleResult(name) + "\n";
     }
 
