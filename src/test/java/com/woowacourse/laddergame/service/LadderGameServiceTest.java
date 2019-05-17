@@ -1,37 +1,59 @@
 package com.woowacourse.laddergame.service;
 
-import com.woowacourse.laddergame.domain.vo.LadderGameResultVO;
-import com.woowacourse.laddergame.domain.vo.LadderStatusVO;
-import com.woowacourse.laddergame.domain.vo.LadderVO;
-import com.woowacourse.laddergame.domain.vo.ResultNameVO;
+import com.woowacourse.laddergame.domain.*;
+import com.woowacourse.laddergame.domain.vo.LadderDto;
+import com.woowacourse.laddergame.domain.vo.LadderResultDto;
+import com.woowacourse.laddergame.domain.vo.MadeLadderVO;
+import com.woowacourse.laddergame.domain.vo.WinnerVO;
+import com.woowacourse.laddergame.util.NaturalNumber;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
 
 class LadderGameServiceTest {
     @Test
-    void 사다리_통합테스트() {
-        LadderVO ladderVO = new LadderVO();
-        String playerNames = "pobi,crong,honux";
-        String height = "4";
-        String results = "꽝,아이스크림,500원";
-        ladderVO.setNames(playerNames);
-        ladderVO.setHeight(height);
-        ladderVO.setResult(results);
+    void 사다리_통합테스트_커스텀() {
+        LadderDto ladderDto = new LadderDto();
+        ladderDto.setNames("pobi,honux,tim,crong");
+        ladderDto.setHeight("3");
+        ladderDto.setResult("꽝,꽝,꽝,300원");
+
+        // 사용자 입력
+        Players players = new Players();
+        players.add(new Player("pobi"));
+        players.add(new Player("honux"));
+        players.add(new Player("tim"));
+        players.add(new Player("crong"));
+
+        Ladder ladder = new Ladder(new NaturalNumber(3), new NaturalNumber(4));
+        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(1));
+        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(3));
+        ladder.putBridge(new NaturalNumber(2), new NaturalNumber(2));
+        ladder.putBridge(new NaturalNumber(3), new NaturalNumber(3));
+
+        Results results = new Results();
+        results.add(new Result("꽝"));
+        results.add(new Result("꽝"));
+        results.add(new Result("꽝"));
+        results.add(new Result("300원"));
+
+        HashMap<String, String> winners = new HashMap<>();
+        winners.put("pobi", "300원");
+        winners.put("honux", "꽝");
+        winners.put("tim", "꽝");
+        winners.put("crong", "꽝");
+
+        MadeLadderVO madeLadderVO = new MadeLadderVO(players, ladder, results);
+        WinnerVO winnerVO = new WinnerVO(winners);
+        LadderResultDto expectedLadderResultDto = new LadderResultDto();
+        expectedLadderResultDto.setMadeLadderVO(madeLadderVO);
+        expectedLadderResultDto.setWinnerVO(winnerVO);
 
         LadderGameService ladderGameService = new LadderGameService();
-        ladderGameService.drawLadder(ladderVO);
+        LadderResultDto actualLadderResultDto = ladderGameService.play(ladderDto);
 
-        // TODO 사람검증
-        ResultNameVO resultNameVO = new ResultNameVO();
-        resultNameVO.setName("crong");
-        ladderGameService.playLadder(resultNameVO);
-
-        LadderStatusVO statusVO = ladderGameService.getInitialLadder();
-
-        System.out.println(statusVO.getPlayerNames());
-        System.out.println(statusVO.getLadderShape());
-        System.out.println(statusVO.getLadderResult());
-
-        LadderGameResultVO ladderGameResultVO = ladderGameService.playLadder(resultNameVO);
-        System.out.println(ladderGameResultVO.getResult());
+        System.out.println(actualLadderResultDto.getMadeLadderVO());
+        System.out.println(actualLadderResultDto.getWinnerVO());
+        System.out.println(actualLadderResultDto.getMadeLadderVO());
     }
 }

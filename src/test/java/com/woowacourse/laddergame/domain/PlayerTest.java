@@ -49,4 +49,13 @@ public class PlayerTest {
             Player player = new Player(name);
         }).withMessage("이름에 공백이 있으면 안됩니다");
     }
+
+    @Test
+    void all_이라는_이름입력() {
+        String name = "all";
+
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            Player player = new Player(name);
+        }).withMessage("all은 player 이름으로 입력할 수 없습니다");
+    }
 }

@@ -30,6 +30,14 @@ public class Players {
         return players.indexOf(new Player(name)) + 1;
     }
 
+    public List<String> getPlayerNames() {
+        List<String> playerNames = new ArrayList<>();
+        for (Player player : players) {
+            playerNames.add(player.getName());
+        }
+        return playerNames;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -1,21 +1,23 @@
 package com.woowacourse.laddergame.service;
 
 import com.woowacourse.laddergame.domain.*;
-import com.woowacourse.laddergame.domain.vo.LadderGameResultVO;
-import com.woowacourse.laddergame.domain.vo.LadderStatusVO;
-import com.woowacourse.laddergame.domain.vo.LadderVO;
-import com.woowacourse.laddergame.domain.vo.ResultNameVO;
+import com.woowacourse.laddergame.domain.vo.LadderDto;
+import com.woowacourse.laddergame.domain.vo.LadderResultDto;
+import com.woowacourse.laddergame.domain.vo.MadeLadderVO;
+import com.woowacourse.laddergame.domain.vo.WinnerVO;
 import com.woowacourse.laddergame.util.NaturalNumber;
 
-public class LadderGameService {
-    private MadeLadder madeLadder;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
+public class LadderGameService {
     // TODO 분리
-    public void drawLadder(LadderVO ladderVO) {
+    public LadderResultDto play(LadderDto ladderDto) {
+        // 사다리 초기화
         Players players = new Players();
         Results results = new Results();
-        String[] playerNames = ladderVO.getNames().split(",");
-        String[] resultList = ladderVO.getResult().split(",");
+        String[] playerNames = ladderDto.getNames().split(",");
+        String[] resultList = ladderDto.getResult().split(",");
 
         for (String playerName: playerNames) {
             players.add(new Player(playerName));
@@ -25,26 +27,26 @@ public class LadderGameService {
             results.add(new Result(result));
         }
 
-        int height = ladderVO.getHeight();
+        int height = ladderDto.getHeight();
         int countOfPerson = playerNames.length;
 
         BooleanGenerator booleanGenerator = new RandomBooleanGenerator();
         Ladder ladder = LadderGenerator.generateLadder(new NaturalNumber(height), new NaturalNumber(countOfPerson), booleanGenerator);
 
-        madeLadder = new MadeLadder(players, ladder, results);
-    }
+        // play
+        HashMap<String, String> winners = new LinkedHashMap<>();
 
-    public LadderStatusVO getInitialLadder() {
-        LadderStatusVO ladderStatusVO = new LadderStatusVO();
-        ladderStatusVO.setLadderShape(madeLadder.getLadderShape());
-        ladderStatusVO.setPlayerNames(madeLadder.getPlayerNames());
-        ladderStatusVO.setLadderResult(madeLadder.getLadderResult());
+        for (String playerName : playerNames) {
+            int resultNo = ladder.takeLadder(new NaturalNumber(players.getPlayerNo(playerName)));
+            Result result = results.get(new NaturalNumber(resultNo));
+            winners.put(playerName, result.getResult());
+        }
 
-        return ladderStatusVO;
-    }
+        LadderResultDto ladderResultDto = new LadderResultDto();
+        ladderResultDto.setWinnerVO(new WinnerVO(winners));
+        ladderResultDto.setMadeLadderVO(new MadeLadderVO(players, ladder, results));
 
-    public LadderGameResultVO playLadder(ResultNameVO resultNameVO) {
-        return madeLadder.takeLadder(resultNameVO.getName());
+        return ladderResultDto;
     }
 }
 
