@@ -1,4 +1,4 @@
-package com.woowacourse.laddergame.domain;
+package com.woowacourse.laddergame.util;
 
 public class TestBooleanGenerator implements BooleanGenerator {
     private boolean[] testData;
