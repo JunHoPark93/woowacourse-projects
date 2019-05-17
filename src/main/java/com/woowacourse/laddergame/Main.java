@@ -10,7 +10,6 @@ import com.woowacourse.laddergame.view.OutputView;
 public class Main {
 
     public static void main(String[] args) {
-        // view 호출
         LadderDto ladderDto = new LadderDto();
         InputView.inputPlayerNames(ladderDto);
         InputView.inputHeight(ladderDto);
