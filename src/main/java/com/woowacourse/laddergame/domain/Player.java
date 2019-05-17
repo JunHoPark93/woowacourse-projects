@@ -2,6 +2,7 @@ package com.woowacourse.laddergame.domain;
 
 public class Player {
     private static final int MAX_NAME_LENGTH = 5;
+    private static final String ILLEGAL_NAME = "all";
 
     private final String name;
 
@@ -18,6 +19,9 @@ public class Player {
         }
         if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException("이름은 5글자 까지 가능합니다");
+        }
+        if (name.equals(ILLEGAL_NAME)) {
+            throw new IllegalArgumentException("all은 player 이름으로 입력할 수 없습니다");
         }
         this.name = name;
     }
