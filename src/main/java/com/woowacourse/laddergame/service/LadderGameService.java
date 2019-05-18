@@ -9,9 +9,6 @@ import com.woowacourse.laddergame.util.BooleanGenerator;
 import com.woowacourse.laddergame.util.NaturalNumber;
 import com.woowacourse.laddergame.util.RandomBooleanGenerator;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-
 public class LadderGameService {
     public static LadderResultDto play(LadderDto ladderDto) {
         Players players = getPlayers(ladderDto);
@@ -59,10 +56,10 @@ public class LadderGameService {
 
     private static WinnerVO getWinners(Players players, Ladder ladder, Results results) {
         Winners winners = new Winners();
-        for (String playerName : players.getPlayersName()) {
-            int resultNo = ladder.takeLadder(new NaturalNumber(players.getPlayerNo(playerName)));
+        for (Player player: players.getPlayers()) {
+            int resultNo = ladder.takeLadder(new NaturalNumber(players.getPlayerNo(player.getName())));
             Result result = results.get(new NaturalNumber(resultNo));
-            winners.add(playerName, result);
+            winners.add(player, result);
         }
 
         return new WinnerVO(winners);

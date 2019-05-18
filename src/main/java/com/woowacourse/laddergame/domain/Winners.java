@@ -4,31 +4,46 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class Winners {
-    private HashMap<String, String> winners;
+    private HashMap<Player, Result> winners;
 
     public Winners() {
         this.winners = new LinkedHashMap<>();
     }
 
-    public void add(String playerName, Result result) {
-        winners.put(playerName, result.getResult());
+    public void add(Player player, Result result) {
+        winners.put(player, result);
     }
 
     public String getSingleResult(String name) {
-        return winners.get(name);
+        return winners.get(new Player(name)).getResult();
     }
 
     public String getAllResult() {
         StringBuilder sb = new StringBuilder();
-        for (String name : winners.keySet()) {
-            sb.append(name);
+        for (Player player : winners.keySet()) {
+            sb.append(player.getName());
             sb.append(" : ");
-            sb.append(winners.get(name)).append("\n");
+            sb.append(winners.get(player).getResult()).append("\n");
         }
         return sb.toString();
     }
 
     public boolean isContains(String name) {
-        return winners.containsKey(name);
+        return winners.containsKey(new Player(name));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Winners winners1 = (Winners) o;
+
+        return winners != null ? winners.equals(winners1.winners) : winners1.winners == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return winners != null ? winners.hashCode() : 0;
     }
 }

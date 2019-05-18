@@ -31,12 +31,31 @@ public class Players {
         return players.indexOf(new Player(name)) + 1;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     public int getPlayerCount() {
         return players.size();
     }
 
     public List<String> getPlayersName() {
         return players.stream().map(Player::getName).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Players players1 = (Players) o;
+
+        return players != null ? players.equals(players1.players) : players1.players == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return players != null ? players.hashCode() : 0;
     }
 
     @Override
