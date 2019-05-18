@@ -15,15 +15,6 @@ public class MadeLadderVO {
         this.results = results;
     }
 
-    public String printLadderVO() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(players.toString()).append("\n");
-        sb.append(ladder.toString());
-        sb.append(results.toString());
-
-        return sb.toString();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,5 +33,15 @@ public class MadeLadderVO {
         result = 31 * result + (ladder != null ? ladder.hashCode() : 0);
         result = 31 * result + (results != null ? results.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(players.toString()).append("\n");
+        sb.append(ladder.toString());
+        sb.append(results.toString());
+
+        return sb.toString();
     }
 }

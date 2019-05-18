@@ -5,7 +5,7 @@ import com.woowacourse.laddergame.domain.vo.ResultNameDto;
 
 public class OutputView {
     public static void printLadderStatus(LadderResultDto ladderResultDto) {
-        System.out.println(ladderResultDto.getMadeLadderVO().printLadderVO());
+        System.out.println(ladderResultDto.getMadeLadderVO());
     }
 
     public static void printLadderGameResult(String targetName, LadderResultDto ladderResultDto, ResultNameDto resultNameDto) {
