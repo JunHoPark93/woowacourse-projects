@@ -38,7 +38,7 @@ public class Line {
     }
 
     public int takeLine(NaturalNumber positionNo) {
-        return positions.get(positionNo.convertIndex()).move(positionNo.getNumber());
+        return positions.get(positionNo.convertIndex()).move(positionNo.getNumber(), positions.size());
     }
 
     @Override

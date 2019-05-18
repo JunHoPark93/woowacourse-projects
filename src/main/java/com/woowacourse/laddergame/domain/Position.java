@@ -13,7 +13,13 @@ public enum Position {
         this.function = function;
     }
 
-    int move(int index) {
+    int move(int index, int maxIndex) {
+        if (index <= 0) {
+            throw new IllegalArgumentException("인덱스는 1부터 시작해야 합니다");
+        }
+        if (index > maxIndex) {
+            throw new IllegalArgumentException("최대 인덱스보다 큰 인덱스입니다");
+        }
         return this.function.apply(index);
     }
 }
