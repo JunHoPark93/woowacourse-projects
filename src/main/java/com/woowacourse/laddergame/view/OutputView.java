@@ -13,8 +13,7 @@ public class OutputView {
         try {
             System.out.println(ladderResultDto.getResult(targetName));
         } catch (IllegalArgumentException e) {
-            System.out.println("유효하지 않은 이름입니다");
-            printLadderGameResult(targetName, ladderResultDto, InputView.inputResultName(resultNameDto));
+            System.out.println(e.getMessage());
         }
     }
 }
