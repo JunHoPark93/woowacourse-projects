@@ -1,10 +1,11 @@
 package com.woowacourse.laddergame.util;
 
 public class NaturalNumber {
+    private static final int NATURAL_NUM_BOUNDARY = 0;
     private int number;
 
     public NaturalNumber(int number) {
-        if (number <= 0) {
+        if (number <= NATURAL_NUM_BOUNDARY) {
             throw new IllegalArgumentException("자연수가 아닙니다.");
         }
 
