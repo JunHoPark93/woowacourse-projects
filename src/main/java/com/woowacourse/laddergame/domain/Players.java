@@ -18,6 +18,10 @@ public class Players {
         players.add(player);
     }
 
+    public void addAll(List<Player> players) {
+        this.players = players;
+    }
+
     private boolean checkDuplicateName(Player player) {
         return players.contains(player);
     }
