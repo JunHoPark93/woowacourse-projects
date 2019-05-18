@@ -1,30 +1,24 @@
 package com.woowacourse.laddergame.domain.vo;
 
-import java.util.HashMap;
+import com.woowacourse.laddergame.domain.Winners;
 
 public class WinnerVO {
-    private HashMap<String, String> winners;
+    private Winners winners;
 
-    public WinnerVO(HashMap<String, String> winners) {
+    public WinnerVO(Winners winners) {
         this.winners = winners;
     }
 
     public String getSingleResult(String name) {
-        return winners.get(name);
+        return winners.getSingleResult(name);
     }
 
     public String getAllResult() {
-        StringBuilder sb = new StringBuilder();
-        for (String name : winners.keySet()) {
-            sb.append(name);
-            sb.append(" : ");
-            sb.append(winners.get(name)).append("\n");
-        }
-        return sb.toString();
+        return winners.getAllResult();
     }
 
     public boolean isContains(String name) {
-        return winners.containsKey(name);
+        return winners.isContains(name);
     }
 
     @Override

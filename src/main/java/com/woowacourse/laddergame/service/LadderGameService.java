@@ -58,11 +58,11 @@ public class LadderGameService {
     }
 
     private static WinnerVO getWinners(Players players, Ladder ladder, Results results) {
-        HashMap<String, String> winners = new LinkedHashMap<>();
+        Winners winners = new Winners();
         for (String playerName : players.getPlayersName()) {
             int resultNo = ladder.takeLadder(new NaturalNumber(players.getPlayerNo(playerName)));
             Result result = results.get(new NaturalNumber(resultNo));
-            winners.put(playerName, result.getResult());
+            winners.add(playerName, result);
         }
 
         return new WinnerVO(winners);
