@@ -1,5 +1,6 @@
 package com.woowacourse.laddergame.domain;
 
+import com.woowacourse.laddergame.util.BooleanGenerator;
 import com.woowacourse.laddergame.util.NaturalNumber;
 
 import java.util.ArrayList;
@@ -7,11 +8,30 @@ import java.util.List;
 
 public class Ladder {
     private List<Line> lines;
+    private NaturalNumber height;
+    private NaturalNumber countOfPerson;
 
     public Ladder(NaturalNumber height, NaturalNumber countOfPerson) {
         lines = new ArrayList<>();
         for (int h = 0; h < height.getNumber(); h++) {
             lines.add(new Line(countOfPerson));
+        }
+        this.height = height;
+        this.countOfPerson = countOfPerson;
+    }
+
+    public void initLadder(BooleanGenerator booleanGenerator) {
+        for (int h = 1; h <= height.getNumber(); h++) {
+            loopInPerson(booleanGenerator, h);
+        }
+    }
+
+    private void loopInPerson(BooleanGenerator booleanGenerator, int h) {
+        for (int i = 1; i < countOfPerson.getNumber(); i++) {
+            if (booleanGenerator.generate()) {
+                putBridge(new NaturalNumber(h), new NaturalNumber(i));
+                i++;
+            }
         }
     }
 

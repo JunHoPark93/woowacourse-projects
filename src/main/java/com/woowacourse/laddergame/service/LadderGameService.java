@@ -6,7 +6,6 @@ import com.woowacourse.laddergame.domain.vo.LadderResultDto;
 import com.woowacourse.laddergame.domain.vo.MadeLadderVO;
 import com.woowacourse.laddergame.domain.vo.WinnerVO;
 import com.woowacourse.laddergame.util.BooleanGenerator;
-import com.woowacourse.laddergame.util.LadderGenerator;
 import com.woowacourse.laddergame.util.NaturalNumber;
 import com.woowacourse.laddergame.util.RandomBooleanGenerator;
 
@@ -50,10 +49,12 @@ public class LadderGameService {
     private static Ladder getLadder(LadderDto ladderDto, Players players) {
         int height = ladderDto.getHeight();
         int countOfPerson = players.getPlayerCount();
-
         BooleanGenerator booleanGenerator = new RandomBooleanGenerator();
 
-        return LadderGenerator.generateLadder(new NaturalNumber(height), new NaturalNumber(countOfPerson), booleanGenerator);
+        Ladder ladder = new Ladder(new NaturalNumber(height), new NaturalNumber(countOfPerson));
+        ladder.initLadder(booleanGenerator);
+
+        return ladder;
     }
 
     private static WinnerVO getWinners(Players players, Ladder ladder, Results results) {
