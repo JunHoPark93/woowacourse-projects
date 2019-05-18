@@ -19,7 +19,10 @@ class LadderTest {
         height = new NaturalNumber(3);
         countOfPerson = new NaturalNumber(4);
         ladder = new Ladder(height, countOfPerson);
-
+        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(1));
+        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(3));
+        ladder.putBridge(new NaturalNumber(2), new NaturalNumber(2));
+        ladder.putBridge(new NaturalNumber(3), new NaturalNumber(3));
     }
 
     @Test
@@ -33,13 +36,6 @@ class LadderTest {
 
     @Test
     void 사다리에_다리_놓기() {
-        // given
-        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(1));
-        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(3));
-        ladder.putBridge(new NaturalNumber(2), new NaturalNumber(2));
-        ladder.putBridge(new NaturalNumber(3), new NaturalNumber(3));
-
-        // when
         // 첫 번째 줄
         Line line1 = new Line(new NaturalNumber(4));
         line1.putBridge(new NaturalNumber(1));
@@ -53,7 +49,6 @@ class LadderTest {
         Line line3 = new Line(new NaturalNumber(4));
         line3.putBridge(new NaturalNumber(3));
 
-        // then
         assertThat(ladder.isContainsLine(new NaturalNumber(1), line1)).isTrue();
         assertThat(ladder.isContainsLine(new NaturalNumber(2), line2)).isTrue();
         assertThat(ladder.isContainsLine(new NaturalNumber(3), line3)).isTrue();
@@ -61,12 +56,6 @@ class LadderTest {
 
     @Test
     void 사다리_비교() {
-        // given
-        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(1));
-        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(3));
-        ladder.putBridge(new NaturalNumber(2), new NaturalNumber(2));
-        ladder.putBridge(new NaturalNumber(3), new NaturalNumber(3));
-
         Ladder ladder2 = new Ladder(new NaturalNumber(3), new NaturalNumber(4));
 
         ladder2.putBridge(new NaturalNumber(1), new NaturalNumber(1));
@@ -74,37 +63,38 @@ class LadderTest {
         ladder2.putBridge(new NaturalNumber(2), new NaturalNumber(2));
         ladder2.putBridge(new NaturalNumber(3), new NaturalNumber(3));
 
-
-        // when then
         assertThat(ladder.equals(ladder2)).isTrue();
     }
 
     @Test
-    void 사다리_타기() {
-        // given
-        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(1));
-        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(3));
-        ladder.putBridge(new NaturalNumber(2), new NaturalNumber(2));
-        ladder.putBridge(new NaturalNumber(3), new NaturalNumber(3));
-
-        // when
+    void 사다리타기_1번사람() {
         // 1번 사람은 4번 인덱스로 반환 되어야 함
         int firstIdx = ladder.takeLadder(new NaturalNumber(1));
 
+        assertThat(firstIdx).isEqualTo(4);
+    }
+
+    @Test
+    void 사다리타기_2번사람() {
         // 2번 사람은 1번 인덱스로 반환 되어야 함
         int secondIdx = ladder.takeLadder(new NaturalNumber(2));
 
+        assertThat(secondIdx).isEqualTo(1);
+    }
+
+    @Test
+    void 사다리타기_3번사람() {
         // 3번 사람은 3번 인덱스로 반환 되어야 함
         int thirdIdx = ladder.takeLadder(new NaturalNumber(3));
 
+        assertThat(thirdIdx).isEqualTo(3);
+    }
+
+    @Test
+    void 사다리타기_4번사람() {
         // 4번 사람은 2번 인덱스로 반환 되어야 함
         int fourthIdx = ladder.takeLadder(new NaturalNumber(4));
 
-
-        // then
-        assertThat(firstIdx).isEqualTo(4);
-        assertThat(secondIdx).isEqualTo(1);
-        assertThat(thirdIdx).isEqualTo(3);
         assertThat(fourthIdx).isEqualTo(2);
     }
 }
