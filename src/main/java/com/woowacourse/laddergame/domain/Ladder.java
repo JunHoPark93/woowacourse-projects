@@ -17,7 +17,7 @@ public class Ladder {
         initLadder(booleanGenerator, height, countOfPerson);
     }
 
-    public void initLadder(BooleanGenerator booleanGenerator, NaturalNumber height, NaturalNumber countOfPerson) {
+    private void initLadder(BooleanGenerator booleanGenerator, NaturalNumber height, NaturalNumber countOfPerson) {
         for (int h = 1; h <= height.getNumber(); h++) {
             loopInPerson(booleanGenerator, h, countOfPerson);
         }
