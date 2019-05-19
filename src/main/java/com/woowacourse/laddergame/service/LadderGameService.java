@@ -9,6 +9,9 @@ import com.woowacourse.laddergame.util.BooleanGenerator;
 import com.woowacourse.laddergame.util.NaturalNumber;
 import com.woowacourse.laddergame.util.RandomBooleanGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LadderGameService {
     public static LadderResultDto play(LadderDto ladderDto) {
         Players players = getPlayers(ladderDto);
@@ -22,25 +25,25 @@ public class LadderGameService {
     }
 
     private static Players getPlayers(LadderDto ladderDto) {
-        String[] playerNames = ladderDto.getNames().split(",");
-        Players players = new Players();
+        String[] playerNameTokens = ladderDto.getNames().split(",");
+        List<Player> players = new ArrayList<>();
 
-        for (String name : playerNames) {
+        for (String name : playerNameTokens) {
             players.add(new Player(name));
         }
 
-        return players;
+        return new Players(players);
     }
 
     private static Results getResults(LadderDto ladderDto) {
-        String[] resultNames = ladderDto.getResult().split(",");
-        Results results = new Results();
+        String[] resultNameTokens = ladderDto.getResult().split(",");
+        List<Result> results = new ArrayList<>();
 
-        for (String result : resultNames) {
+        for (String result : resultNameTokens) {
             results.add(new Result(result));
         }
 
-        return results;
+        return new Results(results);
     }
 
     private static Ladder getLadder(LadderDto ladderDto, Players players) {

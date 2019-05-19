@@ -1,29 +1,23 @@
 package com.woowacourse.laddergame.domain;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Players {
-    private List<Player> players;
+    private final List<Player> players;
 
-    public Players() {
-        players = new ArrayList<>();
-    }
-
-    public void add(Player player) {
-        if (checkDuplicateName(player)) {
-            throw new IllegalArgumentException("이름은 중복될 수 없습니다");
-        }
-        players.add(player);
-    }
-
-    public void addAll(List<Player> players) {
+    public Players(List<Player> players) {
+        checkDuplicateName(players);
         this.players = players;
     }
 
-    private boolean checkDuplicateName(Player player) {
-        return players.contains(player);
+    private void checkDuplicateName(List<Player> players) {
+        Set<Player> nameSet = new HashSet<>(players);
+        if (nameSet.size() != players.size()) {
+            throw new IllegalArgumentException("이름은 중복될 수 없습니다");
+        }
     }
 
     public int getPlayerNo(String name) {
