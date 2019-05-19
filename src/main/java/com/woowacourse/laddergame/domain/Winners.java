@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class Winners {
-    private HashMap<Player, Result> winners;
+    private final HashMap<Player, Result> winners;
 
-    public Winners() {
-        this.winners = new LinkedHashMap<>();
+    public Winners(HashMap<Player, Result> winners) {
+        this.winners = winners;
     }
 
-    public void add(Player player, Result result) {
-        winners.put(player, result);
-    }
+//    public void add(Player player, Result result) {
+//        winners.put(player, result);
+//    }
 
     public String getSingleResult(String name) {
         return winners.get(new Player(name)).getResult();

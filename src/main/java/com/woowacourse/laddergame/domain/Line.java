@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Line {
-    private List<Position> positions;
+    private final List<Position> positions;
 
     public Line(NaturalNumber countOfPerson) {
         positions = new ArrayList<>();
