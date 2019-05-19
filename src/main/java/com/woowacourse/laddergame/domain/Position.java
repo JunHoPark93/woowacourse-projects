@@ -7,6 +7,8 @@ public enum Position {
     RIGHT((index) -> index + 1),
     NONE((index) -> index);
 
+    private static final int LADDER_INDEX_BOUNDARY = 0;
+
     Function<Integer, Integer> function;
 
     Position(Function<Integer, Integer> function) {
@@ -14,7 +16,7 @@ public enum Position {
     }
 
     int move(int index, int maxIndex) {
-        if (index <= 0) {
+        if (index <= LADDER_INDEX_BOUNDARY) {
             throw new IllegalArgumentException("인덱스는 1부터 시작해야 합니다");
         }
         if (index > maxIndex) {
