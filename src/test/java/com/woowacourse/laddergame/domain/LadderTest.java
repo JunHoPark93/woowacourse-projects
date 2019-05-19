@@ -1,6 +1,8 @@
 package com.woowacourse.laddergame.domain;
 
+import com.woowacourse.laddergame.util.BooleanGenerator;
 import com.woowacourse.laddergame.util.NaturalNumber;
+import com.woowacourse.laddergame.util.TestBooleanGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,16 +15,16 @@ class LadderTest {
     private NaturalNumber height;
     private NaturalNumber countOfPerson;
     private Ladder ladder;
+    private BooleanGenerator booleanGenerator;
+    private boolean[] testBooleanData;
 
     @BeforeEach
     void setUp() {
         height = new NaturalNumber(3);
         countOfPerson = new NaturalNumber(4);
-        ladder = new Ladder(height, countOfPerson);
-        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(1));
-        ladder.putBridge(new NaturalNumber(1), new NaturalNumber(3));
-        ladder.putBridge(new NaturalNumber(2), new NaturalNumber(2));
-        ladder.putBridge(new NaturalNumber(3), new NaturalNumber(3));
+        testBooleanData = new boolean[]{true, true, false, true, false, false, true};
+        booleanGenerator = new TestBooleanGenerator(testBooleanData);
+        ladder = new Ladder(height, countOfPerson, booleanGenerator);
     }
 
     @Test
@@ -52,18 +54,6 @@ class LadderTest {
         assertThat(ladder.isContainsLine(new NaturalNumber(1), line1)).isTrue();
         assertThat(ladder.isContainsLine(new NaturalNumber(2), line2)).isTrue();
         assertThat(ladder.isContainsLine(new NaturalNumber(3), line3)).isTrue();
-    }
-
-    @Test
-    void 사다리_비교() {
-        Ladder ladder2 = new Ladder(new NaturalNumber(3), new NaturalNumber(4));
-
-        ladder2.putBridge(new NaturalNumber(1), new NaturalNumber(1));
-        ladder2.putBridge(new NaturalNumber(1), new NaturalNumber(3));
-        ladder2.putBridge(new NaturalNumber(2), new NaturalNumber(2));
-        ladder2.putBridge(new NaturalNumber(3), new NaturalNumber(3));
-
-        assertThat(ladder.equals(ladder2)).isTrue();
     }
 
     @Test

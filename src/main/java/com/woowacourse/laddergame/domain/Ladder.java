@@ -7,32 +7,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ladder {
-    private List<Line> lines;
-    private NaturalNumber height;
-    private NaturalNumber countOfPerson;
+    private final List<Line> lines;
 
-    public Ladder(NaturalNumber height, NaturalNumber countOfPerson) {
+    public Ladder(NaturalNumber height, NaturalNumber countOfPerson, BooleanGenerator booleanGenerator) {
         lines = new ArrayList<>();
         for (int h = 0; h < height.getNumber(); h++) {
             lines.add(new Line(countOfPerson));
         }
-        this.height = height;
-        this.countOfPerson = countOfPerson;
+        initLadder(booleanGenerator, height, countOfPerson);
     }
 
-    public void initLadder(BooleanGenerator booleanGenerator) {
+    public void initLadder(BooleanGenerator booleanGenerator, NaturalNumber height, NaturalNumber countOfPerson) {
         for (int h = 1; h <= height.getNumber(); h++) {
-            loopInPerson(booleanGenerator, h);
+            loopInPerson(booleanGenerator, h, countOfPerson);
         }
     }
 
-    private void loopInPerson(BooleanGenerator booleanGenerator, int h) {
+    private void loopInPerson(BooleanGenerator booleanGenerator, int height, NaturalNumber countOfPerson) {
         for (int i = 1; i < countOfPerson.getNumber(); i++) {
             if (booleanGenerator.generate()) {
-                putBridge(new NaturalNumber(h), new NaturalNumber(i));
+                putBridge(new NaturalNumber(height), new NaturalNumber(i));
                 i++;
             }
         }
+    }
+
+    private void putBridge(NaturalNumber height, NaturalNumber position) {
+        lines.get(height.convertIndex()).putBridge(position);
     }
 
     public int getHeight() {
@@ -49,10 +50,6 @@ public class Ladder {
 
     public boolean isContainsLine(NaturalNumber height, Line line) {
         return lines.get(height.convertIndex()).equals(line);
-    }
-
-    public void putBridge(NaturalNumber height, NaturalNumber position) {
-        lines.get(height.convertIndex()).putBridge(position);
     }
 
     @Override

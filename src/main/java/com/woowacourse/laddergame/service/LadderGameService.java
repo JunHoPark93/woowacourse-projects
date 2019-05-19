@@ -51,10 +51,7 @@ public class LadderGameService {
         int countOfPerson = players.getPlayerCount();
         BooleanGenerator booleanGenerator = new RandomBooleanGenerator();
 
-        Ladder ladder = new Ladder(new NaturalNumber(height), new NaturalNumber(countOfPerson));
-        ladder.initLadder(booleanGenerator);
-
-        return ladder;
+        return new Ladder(new NaturalNumber(height), new NaturalNumber(countOfPerson), booleanGenerator);
     }
 
     private static WinnerVO getWinners(Players players, Ladder ladder, Results results) {
