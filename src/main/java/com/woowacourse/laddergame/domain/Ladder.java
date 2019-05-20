@@ -33,7 +33,11 @@ public class Ladder {
     }
 
     private void putBridge(NaturalNumber height, NaturalNumber position) {
-        lines.get(height.convertIndex()).putBridge(position);
+        getLine(height).putBridge(position);
+    }
+
+    private Line getLine(NaturalNumber height) {
+        return lines.get(height.convertIndex());
     }
 
     public int getHeight() {
@@ -49,7 +53,7 @@ public class Ladder {
     }
 
     public boolean isContainsLine(NaturalNumber height, Line line) {
-        return lines.get(height.convertIndex()).equals(line);
+        return getLine(height).equals(line);
     }
 
     @Override
