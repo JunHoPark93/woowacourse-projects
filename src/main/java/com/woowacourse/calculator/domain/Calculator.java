@@ -10,6 +10,7 @@ public class Calculator {
     private static final Pattern PATTERN = Pattern.compile("//(.)\n(.*)");
     private static final String DEFAULT_NUMBER = "0";
     private static final String DEFAULT_DELIMETER = ":|,";
+    private static final int NEGATIVE_BOUND = 0;
 
     private String expression;
     private String delimeter;
@@ -58,7 +59,7 @@ public class Calculator {
     int checkIfNegative(String number) {
         int no = Integer.parseInt(number);
 
-        if (no < 0) {
+        if (no < NEGATIVE_BOUND) {
             throw new RuntimeException("음수는 입력할 수 없습니다");
         }
 
