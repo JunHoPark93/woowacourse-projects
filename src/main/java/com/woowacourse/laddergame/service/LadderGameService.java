@@ -2,7 +2,6 @@ package com.woowacourse.laddergame.service;
 
 import com.woowacourse.laddergame.domain.*;
 import com.woowacourse.laddergame.domain.vo.LadderDto;
-import com.woowacourse.laddergame.domain.vo.LadderResultDto;
 import com.woowacourse.laddergame.domain.vo.MadeLadderVO;
 import com.woowacourse.laddergame.domain.vo.WinnerVO;
 import com.woowacourse.laddergame.util.BooleanGenerator;
@@ -15,15 +14,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class LadderGameService {
-    public static LadderResultDto play(LadderDto ladderDto) {
-        Players players = getPlayers(ladderDto);
-        Results results = getResults(ladderDto);
-        Ladder ladder = getLadder(ladderDto, players);
+    private Players players;
+    private Results results;
+    private Ladder ladder;
 
-        WinnerVO winnerVO = getWinners(players, ladder, results);
-        MadeLadderVO madeLadderVO = new MadeLadderVO(players, ladder, results);
-
-        return convertLadderResultDto(winnerVO, madeLadderVO);
+    public LadderGameService(LadderDto ladderDto) {
+        this.players = getPlayers(ladderDto);
+        this.results = getResults(ladderDto);
+        this.ladder = getLadder(ladderDto, players);
     }
 
     private static Players getPlayers(LadderDto ladderDto) {
@@ -56,6 +54,14 @@ public class LadderGameService {
         return new Ladder(new NaturalNumber(height), new NaturalNumber(countOfPerson), booleanGenerator);
     }
 
+    public MadeLadderVO getLadderResult() {
+        return new MadeLadderVO(players, ladder, results);
+    }
+
+    public WinnerVO play() {
+        return getWinners(players, ladder, results);
+    }
+
     private static WinnerVO getWinners(Players players, Ladder ladder, Results results) {
         HashMap<Player, Result> winnerHashMap = new LinkedHashMap<>();
         for (Player player: players.getPlayers()) {
@@ -66,14 +72,6 @@ public class LadderGameService {
 
         Winners winners = new Winners(winnerHashMap);
         return new WinnerVO(winners);
-    }
-
-    private static LadderResultDto convertLadderResultDto(WinnerVO winnerVO, MadeLadderVO madeLadderVO) {
-        LadderResultDto ladderResultDto = new LadderResultDto();
-        ladderResultDto.setMadeLadderVO(madeLadderVO);
-        ladderResultDto.setWinnerVO(winnerVO);
-
-        return ladderResultDto;
     }
 }
 

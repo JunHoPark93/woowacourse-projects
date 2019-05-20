@@ -1,9 +1,8 @@
 package com.woowacourse.laddergame;
 
-import com.woowacourse.laddergame.domain.vo.LadderDto;
-import com.woowacourse.laddergame.domain.vo.LadderResultDto;
-import com.woowacourse.laddergame.domain.vo.ResultNameDto;
+import com.woowacourse.laddergame.domain.vo.*;
 import com.woowacourse.laddergame.service.LadderGameService;
+import com.woowacourse.laddergame.util.ConsoleUtil;
 import com.woowacourse.laddergame.view.InputView;
 import com.woowacourse.laddergame.view.OutputView;
 
@@ -15,8 +14,12 @@ public class Main {
         InputView.inputHeight(ladderDto);
         InputView.inputGameResult(ladderDto);
 
-        LadderResultDto ladderResultDto = LadderGameService.play(ladderDto);
+        LadderGameService ladderGameService = new LadderGameService(ladderDto);
 
+        MadeLadderVO madeLadderVO = ladderGameService.getLadderResult();
+        WinnerVO winnerVO = ladderGameService.play();
+
+        LadderResultDto ladderResultDto = ConsoleUtil.convertLadderResultDto(winnerVO, madeLadderVO);
         OutputView.printLadderStatus(ladderResultDto);
 
         while (true) {
