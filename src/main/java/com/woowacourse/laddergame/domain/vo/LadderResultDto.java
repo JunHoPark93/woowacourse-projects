@@ -7,6 +7,9 @@ public class LadderResultDto {
     private WinnerVO winnerVO;
 
     public String getResult(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("이름이 존재하지 않습니다");
+        }
         if (name.equals(PLAY_ALL_LADDER_RESERVED_WORD)) {
             return winnerVO.getAllResult();
         }
