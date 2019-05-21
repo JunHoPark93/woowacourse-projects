@@ -9,12 +9,12 @@ public class K5 extends Car {
     }
 
     @Override
-    String getName() {
+    public String getName() {
         return CAR_NAME;
     }
 
     @Override
-    double getChargeQuantity() {
+    public double getChargeQuantity() {
         return super.getChargeQuantity();
     }
 }

@@ -9,12 +9,12 @@ public class Sonata extends Car {
     }
 
     @Override
-    String getName() {
+    public String getName() {
         return CAR_NAME;
     }
 
     @Override
-    double getChargeQuantity() {
+    public double getChargeQuantity() {
         return super.getChargeQuantity();
     }
 }

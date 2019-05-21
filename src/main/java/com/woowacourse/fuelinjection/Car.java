@@ -1,6 +1,6 @@
 package com.woowacourse.fuelinjection;
 
-public abstract class Car {
+public abstract class Car implements CarInterface {
     private int tripDistance;
     private int distancePerLiter;
 
@@ -10,14 +10,10 @@ public abstract class Car {
     }
 
     /**
-     * 차종의 이름
-     */
-    abstract String getName();
-
-    /**
      * 주입해야할 연료량을 구한다.
      */
-    double getChargeQuantity() {
+    @Override
+    public double getChargeQuantity() {
         return (double) tripDistance / distancePerLiter;
     }
 }
