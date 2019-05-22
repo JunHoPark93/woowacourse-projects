@@ -19,6 +19,7 @@ public class OutputView {
 
         // 마지막 줄
         printXAxis();
+        printXAxisNumber();
         System.out.println();
     }
 
@@ -27,26 +28,19 @@ public class OutputView {
             return;
         }
 
-        if (checkYAxisZeroLIne(i)) {
-            return;
-        }
         System.out.println("  " + "|" + lines.get(i));
     }
 
-    private static boolean checkYAxisMarkingLine(List<CoordinateLine> lines, int i) {
-        if (i != 0 && i % 2 == 0) {
-            System.out.println(String.format("%2d|", i) + lines.get(i));
-
-            return true;
-        }
-        return false;
+    private static void printXAxis() {
+        System.out.print("  +");
+        printDash();
+        System.out.println();
     }
 
-    private static boolean checkYAxisZeroLIne(int i) {
-        if (i == 0) {
-            System.out.print(" 0+");
-            printDash();
-            System.out.println();
+    private static boolean checkYAxisMarkingLine(List<CoordinateLine> lines, int i) {
+        if (i % 2 == 0) {
+            System.out.println(String.format("%2d|", i) + lines.get(i));
+
             return true;
         }
         return false;
@@ -58,7 +52,7 @@ public class OutputView {
         }
     }
 
-    private static void printXAxis() {
+    private static void printXAxisNumber() {
         System.out.print("   0");
         for (int i = 1; i <= MAX_COORDINATE; i++) {
             checkEvenXAxis(i);
