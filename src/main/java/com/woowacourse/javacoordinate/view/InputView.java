@@ -1,7 +1,7 @@
 package com.woowacourse.javacoordinate.view;
 
-import com.woowacourse.javacoordinate.domain.Point;
-import com.woowacourse.javacoordinate.domain.Points;
+import com.woowacourse.javacoordinate.domain.*;
+import com.woowacourse.javacoordinate.util.ShapeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class InputView {
     private static final Pattern POINTS_PATTERN = Pattern.compile(POINT + "(?:-" + POINT + "){1,3}");
     private static final String END_INPUT = "-1";
 
-    public static Points inputCoordinatePoints() {
+    public static Figure inputCoordinatePoints() {
         System.out.println("좌표를 입력해주세요.");
         try {
             String input = SCANNER.nextLine();
@@ -24,16 +24,17 @@ public class InputView {
 
             return parseInput(input);
         } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
             return inputCoordinatePoints();
         }
     }
 
-    private static Points parseInput(String input) {
+    private static Figure parseInput(String input) {
         List<Point> points = new ArrayList<>();
         String[] tokens = input.split("-");
         SpitPoints(points, tokens);
 
-        return new Points(points);
+        return ShapeUtil.makeShape(new Points(points));
     }
 
     private static void SpitPoints(List<Point> points, String[] tokens) {

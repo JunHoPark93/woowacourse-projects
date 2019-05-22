@@ -9,34 +9,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Application {
-    private static final int LINE_VERTEX = 2;
-    private static final int TRIANGLE_VERTEX = 3;
-    private static final int RECTANGLE_VERTEX = 4;
 
     public static void main(String[] args) {
         while (true) {
-            Points points = InputView.inputCoordinatePoints();
-            Figure figure = makeShape(points);
-            CoordinateSystem coordinateSystem = drawCoordinate(points);
+            Figure figure = InputView.inputCoordinatePoints();
+            CoordinateSystem coordinateSystem = drawCoordinate(figure.getPoints());
 
             OutputView.printCoordinateSystem(coordinateSystem);
             OutputView.printResult(calculate(figure));
         }
-    }
-
-    private static Figure makeShape(Points points) {
-        int size = points.getSize();
-
-        if (size == LINE_VERTEX) {
-            return new Line(points);
-        }
-        if (size == TRIANGLE_VERTEX) {
-            return new Triangle(points);
-        }
-        if (size == RECTANGLE_VERTEX) {
-            return new Rectangle(points);
-        }
-        throw new IllegalArgumentException("Points 형식이 잘못 되었습니다");
     }
 
     private static CoordinateSystem drawCoordinate(Points points) {
