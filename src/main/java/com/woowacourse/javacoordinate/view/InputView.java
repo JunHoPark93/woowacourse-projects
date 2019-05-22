@@ -38,7 +38,6 @@ public class InputView {
 
     private static void SpitPoints(List<Point> points, String[] tokens) {
         for (int i = 0; i < tokens.length; i++) {
-            // TODO replace All
             tokens[i] = tokens[i].replace("(", "");
             tokens[i] = tokens[i].replace(")", "");
 
