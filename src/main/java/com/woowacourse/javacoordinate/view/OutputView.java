@@ -79,13 +79,13 @@ public class OutputView {
 
     private static void checkResultIfTriangle(Result result) {
         if (result.getResultType().equals("Triangle")) {
-            System.out.println("삼각형 넓이는" + String.format("%.1f", result.getResult()));
+            System.out.println("삼각형 넓이는 " + String.format("%.1f", result.getResult()));
         }
     }
 
     private static void checkResultIfRectangle(Result result) {
         if (result.getResultType().equals("Rectangle")) {
-            System.out.println("사각형 넓이는" + String.format("%.0f", result.getResult()));
+            System.out.println("사각형 넓이는 " + String.format("%.0f", result.getResult()));
         }
     }
 }

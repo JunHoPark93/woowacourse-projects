@@ -13,15 +13,30 @@ public class Application {
     private static final int TRIANGLE_VERTEX = 3;
     private static final int RECTANGLE_VERTEX = 4;
 
-
     public static void main(String[] args) {
         while (true) {
             Points points = InputView.inputCoordinatePoints();
+            Figure figure = makeShape(points);
             CoordinateSystem coordinateSystem = drawCoordinate(points);
 
             OutputView.printCoordinateSystem(coordinateSystem);
-            OutputView.printResult(calculate(points));
+            OutputView.printResult(calculate(figure));
         }
+    }
+
+    private static Figure makeShape(Points points) {
+        int size = points.getSize();
+
+        if (size == LINE_VERTEX) {
+            return new Line(points);
+        }
+        if (size == TRIANGLE_VERTEX) {
+            return new Triangle(points);
+        }
+        if (size == RECTANGLE_VERTEX) {
+            return new Rectangle(points);
+        }
+        throw new IllegalArgumentException("Points 형식이 잘못 되었습니다");
     }
 
     private static CoordinateSystem drawCoordinate(Points points) {
@@ -61,41 +76,34 @@ public class Application {
         }
     }
 
-    private static Result calculate(Points points) {
-        int size = points.getSize();
-        if (size == LINE_VERTEX) {
-            return calculateLine(points);
+    private static Result calculate(Figure figure) {
+        if (figure instanceof Line) {
+            return calculateLine(figure);
         }
-        if (size == TRIANGLE_VERTEX) {
-            return calculateTriangle(points);
+        if (figure instanceof Triangle) {
+            return calculateTriangle(figure);
         }
-        if (size == RECTANGLE_VERTEX) {
-            return calculateRectangle(points);
+        if (figure instanceof Rectangle) {
+            return calculateRectangle(figure);
         }
         throw new IllegalArgumentException("Points 형식이 잘못 되었습니다");
     }
 
-    private static Result calculateLine(Points points) {
-        Point point1 = points.getPoints().get(0);
-        Point point2 = points.getPoints().get(1);
-        double result = Calculator.calculateLineDistance(point1, point2);
+    private static Result calculateLine(Figure figure) {
+        double result = figure.calculateLength();
+
         return new Result(result, "Line");
     }
 
-    private static Result calculateTriangle(Points points) {
-        Point point1 = points.getPoints().get(0);
-        Point point2 = points.getPoints().get(1);
-        Point point3 = points.getPoints().get(2);
-        double result = Calculator.calculateTriangleArea(point1, point2, point3);
+    private static Result calculateTriangle(Figure figure) {
+        double result = figure.calculateArea();
+
         return new Result(result, "Triangle");
     }
 
-    private static Result calculateRectangle(Points points) {
-        Point point1 = points.getPoints().get(0);
-        Point point2 = points.getPoints().get(1);
-        Point point3 = points.getPoints().get(2);
-        Point point4 = points.getPoints().get(3);
-        double result = Calculator.calculateRectangleArea(point1, point2, point3, point4);
+    private static Result calculateRectangle(Figure figure) {
+        double result = figure.calculateArea();
+
         return new Result(result, "Rectangle");
     }
 }
