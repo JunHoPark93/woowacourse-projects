@@ -3,7 +3,7 @@ package com.woowacourse.javacoordinate.domain;
 import java.util.List;
 
 public class CoordinateSystem {
-    private List<CoordinateLine> coordinateLines;
+    private final List<CoordinateLine> coordinateLines;
 
     public CoordinateSystem(List<CoordinateLine> coordinateLines) {
         this.coordinateLines = coordinateLines;

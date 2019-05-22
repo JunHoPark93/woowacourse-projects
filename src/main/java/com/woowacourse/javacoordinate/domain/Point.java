@@ -5,8 +5,8 @@ public class Point {
     private static final int MIN_BOUNDARY = 0;
     private static final int MAX_BOUNDARY = 24;
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public Point(int x, int y) {
         checkValidPointRange(x, y);

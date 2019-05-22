@@ -3,12 +3,11 @@ package com.woowacourse.javacoordinate.domain;
 import java.util.List;
 
 public class CoordinateLine {
-    private List<Boolean> line;
+    private final List<Boolean> line;
 
     public CoordinateLine(List<Boolean> line) {
         this.line = line;
     }
-
 
     public boolean isMarked(int index) {
         return line.get(index);
