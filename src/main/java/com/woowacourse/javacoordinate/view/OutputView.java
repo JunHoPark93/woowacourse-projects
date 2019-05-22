@@ -16,7 +16,7 @@ public class OutputView {
                 continue;
             }
             if (i == 0) {
-                System.out.print("  +");
+                System.out.print(" 0+");
                 for (int j = 0; j < 24; j++) {
                     System.out.print("--");
                 }
@@ -29,7 +29,7 @@ public class OutputView {
         // 마지막 줄
         for (int i = 0; i <= 24; i++) {
             if (i == 0) {
-                System.out.print(" 0 ");
+                System.out.print("   0");
                 continue;
             }
             if (i % 2 == 0) {
