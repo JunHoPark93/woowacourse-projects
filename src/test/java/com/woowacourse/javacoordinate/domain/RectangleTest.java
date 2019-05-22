@@ -29,9 +29,18 @@ public class RectangleTest {
     void 사각형_초기화_오류() {
         points = new Points(Arrays.asList(new Point(10, 10),
                 new Point(22, 10), new Point(22, 18)));
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            new Rectangle(points);
-        }).withMessage("사각형은 4개의 Point가 필요합니다");
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new Rectangle(points))
+                .withMessage("사각형은 4개의 Point가 필요합니다");
+    }
+
+    @Test
+    void 사각형_초기화_오류_직사각형아님() {
+        points = new Points(Arrays.asList(new Point(1, 1),
+                new Point(2, 2), new Point(3, 2), new Point(4, 1)));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new Rectangle(points))
+                .withMessage("유효한 사각형이 아닙니다");
     }
 
     @Test
