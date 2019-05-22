@@ -14,4 +14,16 @@ public class CalculatorTest {
         assertThat(Calculator.calculateLineDistance(point1, point2))
                 .isEqualTo(6.403124, offset(0.00099));
     }
+
+    @Test
+    void 직사각형_계산() {
+        Point point1 = new Point(10, 10);
+        Point point2 = new Point(22, 10);
+        Point point3 = new Point(22, 18);
+        Point point4 = new Point(10, 18);
+
+        assertThat(Calculator.calculateSquareArea(point1, point2, point3, point4)).isEqualTo(96);
+
+    }
+
 }
