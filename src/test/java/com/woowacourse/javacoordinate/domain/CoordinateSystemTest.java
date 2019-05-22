@@ -17,9 +17,9 @@ public class CoordinateSystemTest {
 
         line1[20] = true;
 
-        CoordinateLine coordinateLine1 = new CoordinateLine(Arrays.asList(line1));
+        CoordinateLine coordinateLine = new CoordinateLine(Arrays.asList(line1));
         CoordinateSystem coordinateSystem
-                = new CoordinateSystem(Arrays.asList(coordinateLine1));
+                = new CoordinateSystem(Arrays.asList(coordinateLine));
 
         assertThat(coordinateSystem.isMarked(20,0)).isTrue();
         assertThat(coordinateSystem.isMarked(19,0)).isFalse();
