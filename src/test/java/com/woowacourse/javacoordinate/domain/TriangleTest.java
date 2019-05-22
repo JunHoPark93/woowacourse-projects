@@ -44,4 +44,14 @@ public class TriangleTest {
 
         assertThat(triangle.calculateLength()).isEqualTo(25.8, offset(0.99));
     }
+
+    @Test
+    void 삼각형_초기화_오류_일직선상() {
+        points = new Points(Arrays.asList(new Point(1, 1),
+                new Point(2, 2), new Point(3, 3)));
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new Triangle(points))
+                .withMessage("삼각형은 세 점이 일직선상에 있으면 안됩니다");
+    }
 }

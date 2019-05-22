@@ -10,6 +10,26 @@ public class Triangle extends Figure {
         if (points.getSize() != 3) {
             throw new IllegalArgumentException("삼각형은 3개의 Point가 필요합니다");
         }
+        checkValidTriangle(points);
+    }
+
+    private void checkValidTriangle(Points points) {
+        List<Point> vertices = points.getPoints();
+
+        Point point1 = vertices.get(0);
+        Point point2 = vertices.get(1);
+        Point point3 = vertices.get(2);
+
+        if (getDegrees(point1, point2) == getDegrees(point2, point3)) {
+            throw new IllegalArgumentException("삼각형은 세 점이 일직선상에 있으면 안됩니다");
+        }
+    }
+
+    private double getDegrees(Point point1, Point point2) {
+        double xDiff = point2.getX() - point1.getX();
+        double yDiff = point2.getY() - point1.getY();
+
+        return Math.toDegrees(Math.atan2(yDiff, xDiff));
     }
 
     @Override
