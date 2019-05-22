@@ -2,6 +2,7 @@ package com.woowacourse.javacoordinate.view;
 
 import com.woowacourse.javacoordinate.domain.CoordinateLine;
 import com.woowacourse.javacoordinate.domain.CoordinateSystem;
+import com.woowacourse.javacoordinate.domain.Result;
 
 import java.util.List;
 
@@ -70,7 +71,27 @@ public class OutputView {
         }
     }
 
-    public static void printResult(double result) {
-        System.out.println("두 점 사이의 거리는 " + result);
+    public static void printResult(Result result) {
+        checkResultIfLine(result);
+        checkResultIfTriangle(result);
+        checkResultIfRectangle(result);
+    }
+
+    private static void checkResultIfLine(Result result) {
+        if (result.getResultType().equals("Line")) {
+            System.out.println("두 점 사이의 거리는 " + result.getResult());
+        }
+    }
+
+    private static void checkResultIfTriangle(Result result) {
+        if (result.getResultType().equals("Triangle")) {
+            System.out.println("삼각형 넓이는" + String.format("%.1f", result.getResult()));
+        }
+    }
+
+    private static void checkResultIfRectangle(Result result) {
+        if (result.getResultType().equals("Rectangle")) {
+            System.out.println("사각형 넓이는" + String.format("%.0f", result.getResult()));
+        }
     }
 }
