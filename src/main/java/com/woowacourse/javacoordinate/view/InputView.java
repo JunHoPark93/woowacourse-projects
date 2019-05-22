@@ -13,9 +13,9 @@ public class InputView {
     private static final Scanner SCANNER = new Scanner(System.in);
     // TODO
     //private static final Pattern POINTS_PATTERN = Pattern.compile("(\\([1-9][0-9]*,[1-9][0-9]*\\))-(\\([1-9][0-9]*,[1-9][0-9]*\\))(-(\\([1-9][0-9]*,[1-9][0-9]*\\))){0,2}");
-    private static final String NATURAL_NUMBER = "([1-9][0-9]*)";
-    private static final String POINT = "\\(" + NATURAL_NUMBER + "," + NATURAL_NUMBER + "\\)";
-    private static final Pattern POINTS_PATTERN = Pattern.compile(POINT + "(-" + POINT + "){1,3}");
+    private static final String NATURAL_NUMBER = "[1-9][0-9]*";
+    private static final String POINT = "\\((" + NATURAL_NUMBER + "," + NATURAL_NUMBER + ")\\)";
+    private static final Pattern POINTS_PATTERN = Pattern.compile(POINT + "(?:-" + POINT + "){1,3}");
 
     public static Points inputCoordinatePoints() {
         System.out.println("좌표를 입력해주세요.");

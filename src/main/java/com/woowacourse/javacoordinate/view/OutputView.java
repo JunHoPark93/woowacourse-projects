@@ -36,5 +36,10 @@ public class OutputView {
                 System.out.print(String.format("%4d", i));
             }
         }
+        System.out.println();
+    }
+
+    public static void printResult(double result) {
+        System.out.println("두 점 사이의 거리는 " + result);
     }
 }
