@@ -35,9 +35,18 @@ public class RectangleTest {
     }
 
     @Test
-    void 사각형_초기화_오류_직사각형아님() {
+    void 사각형_초기화_오류_사다리꼴() {
         points = new Points(Arrays.asList(new Point(1, 1),
                 new Point(2, 2), new Point(3, 2), new Point(4, 1)));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new Rectangle(points))
+                .withMessage("유효한 사각형이 아닙니다");
+    }
+
+    @Test
+    void 사각형_초기화_오류_사다리꼴2() {
+        points = new Points(Arrays.asList(new Point(1, 1),
+                new Point(1, 2), new Point(2, 2), new Point(3, 1)));
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> new Rectangle(points))
                 .withMessage("유효한 사각형이 아닙니다");

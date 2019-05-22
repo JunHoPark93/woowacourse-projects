@@ -1,8 +1,6 @@
 package com.woowacourse.javacoordinate.domain;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Rectangle extends Figure {
     private static final int RECTANGLE_POINT_NUMBER = 4;
@@ -17,22 +15,17 @@ public class Rectangle extends Figure {
     }
 
     private void checkValidRectangle(Points points) {
-        List<Point> vertices = points.getPoints();
-        Point point1 = vertices.get(0);
-        Point point2 = vertices.get(1);
-        Point point3 = vertices.get(2);
-        Point point4 = vertices.get(3);
+        Set<Integer> xSet = new HashSet<>();
+        Set<Integer> ySet = new HashSet<>();
 
-        double distance1 = point1.getDistance(point2);
-        double distance2 = point1.getDistance(point3);
-        double distance3 = point1.getDistance(point4);
-        double distance4 = point2.getDistance(point3);
-        double distance5 = point2.getDistance(point4);
+        points.getPoints().stream()
+                .map(Point::getX)
+                .forEach(xSet::add);
+        points.getPoints().stream()
+                .map(Point::getY)
+                .forEach(ySet::add);
 
-        List<Double> list = Arrays.asList(distance1, distance2, distance3, distance4, distance5);
-        Collections.sort(list);
-
-        if (!list.get(4).equals(list.get(3))) {
+        if (xSet.size() != 2 || ySet.size() != 2) {
             throw new IllegalArgumentException("유효한 사각형이 아닙니다");
         }
     }
