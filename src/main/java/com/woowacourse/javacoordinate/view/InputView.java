@@ -22,6 +22,7 @@ public class InputView {
         try {
             String input = SCANNER.nextLine();
             checkInput(input);
+
             return parseInput(input);
         } catch (IllegalArgumentException e) {
             return inputCoordinatePoints();
@@ -31,6 +32,12 @@ public class InputView {
     private static Points parseInput(String input) {
         List<Point> points = new ArrayList<>();
         String[] tokens = input.split("-");
+        SpitPoints(points, tokens);
+
+        return new Points(points);
+    }
+
+    private static void SpitPoints(List<Point> points, String[] tokens) {
         for (int i = 0; i < tokens.length; i++) {
             // TODO replace All
             tokens[i] = tokens[i].replace("(", "");
@@ -39,7 +46,6 @@ public class InputView {
             String[] numbers = tokens[i].split(",");
             points.add(new Point(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1])));
         }
-        return new Points(points);
     }
 
     private static void checkInput(String input) {

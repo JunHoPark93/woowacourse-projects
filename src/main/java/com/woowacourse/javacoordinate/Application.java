@@ -14,13 +14,13 @@ public class Application {
         while (true) {
             Points points = InputView.inputCoordinatePoints();
             CoordinateSystem coordinateSystem = drawCoordinate(points);
+
             OutputView.printCoordinateSystem(coordinateSystem);
             OutputView.printResult(calculate(points));
         }
     }
 
     private static CoordinateSystem drawCoordinate(Points points) {
-
         List<CoordinateLine> coordinateLines = new ArrayList<>();
 
         for (int yAxis = 0; yAxis < 25; yAxis++) {
@@ -32,7 +32,6 @@ public class Application {
 
     private static CoordinateLine createLine(Points points, int yAxis) {
         Boolean[] line = new Boolean[25];
-
         for (int i = 0; i < line.length; i++) {
             line[i] = false;
         }
@@ -42,12 +41,16 @@ public class Application {
             int x = point.getX();
             int y = point.getY();
 
-            if (yAxis == y) {
-                line[x] = true;
-            }
+            checkMark(yAxis, line, x, y);
         }
 
         return new CoordinateLine(Arrays.asList(line));
+    }
+
+    private static void checkMark(int yAxis, Boolean[] line, int x, int y) {
+        if (yAxis == y) {
+            line[x] = true;
+        }
     }
 
     private static double calculate(Points points) {
