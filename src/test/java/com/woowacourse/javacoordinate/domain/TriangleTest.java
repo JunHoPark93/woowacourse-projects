@@ -42,6 +42,6 @@ public class TriangleTest {
     void 삼각형_둘레_구하기() {
         Figure triangle = new Triangle(points);
 
-        assertThat(triangle.calculateLength()).isEqualTo(16.0, offset(0.99));
+        assertThat(triangle.calculateLength()).isEqualTo(25.8, offset(0.99));
     }
 }

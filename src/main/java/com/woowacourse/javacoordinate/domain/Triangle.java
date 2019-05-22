@@ -1,5 +1,6 @@
 package com.woowacourse.javacoordinate.domain;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Triangle extends Figure {
@@ -13,6 +14,21 @@ public class Triangle extends Figure {
 
     @Override
     public double calculateArea() {
+        List<Double> distances = getDistances();
+
+        double s = (distances.get(0) + distances.get(1) + distances.get(2)) / 2;
+
+        return Math.sqrt(s * (s - distances.get(0)) * (s - distances.get(1)) * (s - distances.get(2)));
+    }
+
+    @Override
+    public double calculateLength() {
+        List<Double> distances = getDistances();
+
+        return distances.get(0) + distances.get(1) + distances.get(2);
+    }
+
+    private List<Double> getDistances() {
         List<Point> vertices = points.getPoints();
         Point point1 = vertices.get(0);
         Point point2 = vertices.get(1);
@@ -22,8 +38,7 @@ public class Triangle extends Figure {
         double distance2 = point1.getDistance(point3);
         double distance3 = point2.getDistance(point3);
 
-        double s = (distance1 + distance2 + distance3) / 2;
-
-        return Math.sqrt(s * (s - distance1) * (s - distance2) * (s - distance3));
+        return Arrays.asList(distance1,distance2,distance3);
     }
+
 }
