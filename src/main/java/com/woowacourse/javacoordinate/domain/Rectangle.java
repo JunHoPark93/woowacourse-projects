@@ -18,12 +18,8 @@ public class Rectangle extends Figure {
         Set<Integer> xSet = new HashSet<>();
         Set<Integer> ySet = new HashSet<>();
 
-        points.getPoints().stream()
-                .map(Point::getX)
-                .forEach(xSet::add);
-        points.getPoints().stream()
-                .map(Point::getY)
-                .forEach(ySet::add);
+        points.getPoints().stream().map(Point::getX).forEach(xSet::add);
+        points.getPoints().stream().map(Point::getY).forEach(ySet::add);
 
         if (xSet.size() != 2 || ySet.size() != 2) {
             throw new IllegalArgumentException("유효한 사각형이 아닙니다");
