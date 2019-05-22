@@ -23,6 +23,10 @@ public class Points {
         return points;
     }
 
+    public int getSize() {
+        return points.size();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

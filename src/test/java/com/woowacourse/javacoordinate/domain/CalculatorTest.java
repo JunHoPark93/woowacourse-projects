@@ -11,7 +11,7 @@ public class CalculatorTest {
         Point point1 = new Point(10, 10);
         Point point2 = new Point(14, 15);
 
-        assertThat(Calculator.getDistanceBetweenTwoPoints(point1, point2))
+        assertThat(Calculator.calculateLineDistance(point1, point2))
                 .isEqualTo(6.403124, offset(0.00099));
     }
 }
