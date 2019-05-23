@@ -2,12 +2,12 @@ package com.woowacourse.javacoordinate.util;
 
 import com.woowacourse.javacoordinate.domain.*;
 
-public class ShapeUtil {
+public class FigureFactory {
     private static final int LINE_VERTEX = 2;
     private static final int TRIANGLE_VERTEX = 3;
     private static final int RECTANGLE_VERTEX = 4;
 
-    public static Figure makeShape(Points points) {
+    public static Figure createFigure(Points points) {
         int size = points.getSize();
 
         if (size == LINE_VERTEX) {
