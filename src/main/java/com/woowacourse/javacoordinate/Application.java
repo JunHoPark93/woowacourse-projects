@@ -1,6 +1,7 @@
 package com.woowacourse.javacoordinate;
 
 import com.woowacourse.javacoordinate.domain.*;
+import com.woowacourse.javacoordinate.util.FigureFactory;
 import com.woowacourse.javacoordinate.view.InputView;
 import com.woowacourse.javacoordinate.view.OutputView;
 
@@ -16,7 +17,7 @@ public class Application {
             CoordinateSystem coordinateSystem = drawCoordinate(figure.getPoints());
 
             OutputView.printCoordinateSystem(coordinateSystem);
-            OutputView.printResult(calculate(figure));
+            OutputView.printResult(FigureFactory.createResult(figure));
         }
     }
 
@@ -55,36 +56,5 @@ public class Application {
         if (yAxis == y) {
             line[x] = true;
         }
-    }
-
-    private static Result calculate(Figure figure) {
-        if (figure instanceof Line) {
-            return calculateLine(figure);
-        }
-        if (figure instanceof Triangle) {
-            return calculateTriangle(figure);
-        }
-        if (figure instanceof Rectangle) {
-            return calculateRectangle(figure);
-        }
-        throw new IllegalArgumentException("Points 형식이 잘못 되었습니다");
-    }
-
-    private static Result calculateLine(Figure figure) {
-        double result = figure.calculateLength();
-
-        return new Result(result, "Line");
-    }
-
-    private static Result calculateTriangle(Figure figure) {
-        double result = figure.calculateArea();
-
-        return new Result(result, "Triangle");
-    }
-
-    private static Result calculateRectangle(Figure figure) {
-        double result = figure.calculateArea();
-
-        return new Result(result, "Rectangle");
     }
 }
