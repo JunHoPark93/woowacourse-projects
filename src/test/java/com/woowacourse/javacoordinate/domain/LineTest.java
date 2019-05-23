@@ -1,6 +1,7 @@
 package com.woowacourse.javacoordinate.domain;
 
 import com.woowacourse.javacoordinate.util.FigureFactory;
+import com.woowacourse.javacoordinate.util.FigureUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -25,7 +26,7 @@ public class LineTest {
 
         Points points = new Points(Arrays.asList(point1,point2));
 
-        Figure line = FigureFactory.createFigure(points);
+        Figure line = FigureFactory.getShape(points);
 
         assertThat(line.calculateLength()).isEqualTo(6.403124, offset(0.00099));
     }
@@ -37,7 +38,7 @@ public class LineTest {
 
         Points points = new Points(Arrays.asList(point1,point2));
 
-        Figure line = FigureFactory.createFigure(points);
+        Figure line = FigureFactory.getShape(points);
 
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(line::calculateArea)

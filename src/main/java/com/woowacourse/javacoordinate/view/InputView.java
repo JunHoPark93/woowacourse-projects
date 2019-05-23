@@ -36,7 +36,7 @@ public class InputView {
         String[] tokens = input.split("-");
         SpitPoints(points, tokens);
 
-        return FigureFactory.createFigure(new Points(points));
+        return FigureFactory.getShape(new Points(points));
     }
 
     private static void SpitPoints(List<Point> points, String[] tokens) {

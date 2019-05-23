@@ -1,7 +1,7 @@
 package com.woowacourse.javacoordinate;
 
 import com.woowacourse.javacoordinate.domain.*;
-import com.woowacourse.javacoordinate.util.FigureFactory;
+import com.woowacourse.javacoordinate.util.FigureUtil;
 import com.woowacourse.javacoordinate.view.InputView;
 import com.woowacourse.javacoordinate.view.OutputView;
 
@@ -17,7 +17,7 @@ public class Application {
             CoordinateSystem coordinateSystem = drawCoordinate(figure.getPoints());
 
             OutputView.printCoordinateSystem(coordinateSystem);
-            OutputView.printResult(FigureFactory.createResult(figure));
+            OutputView.printResult(FigureUtil.createResult(figure));
         }
     }
 

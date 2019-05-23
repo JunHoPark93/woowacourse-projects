@@ -2,54 +2,21 @@ package com.woowacourse.javacoordinate.util;
 
 import com.woowacourse.javacoordinate.domain.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
 public class FigureFactory {
-    private static final int LINE_VERTEX = 2;
-    private static final int TRIANGLE_VERTEX = 3;
-    private static final int RECTANGLE_VERTEX = 4;
+    private final static Map<Integer, Function<Points, Figure>> map = new HashMap<>();
 
-    public static Figure createFigure(Points points) {
-        int size = points.getSize();
-
-        if (size == LINE_VERTEX) {
-            return new Line(points);
-        }
-        if (size == TRIANGLE_VERTEX) {
-            return new Triangle(points);
-        }
-        if (size == RECTANGLE_VERTEX) {
-            return new Rectangle(points);
-        }
-        throw new IllegalArgumentException("Points 형식이 잘못 되었습니다");
+    static {
+        map.put(2, Line::new);
+        map.put(3, Triangle::new);
+        map.put(4, Rectangle::new);
     }
 
-    public static Result createResult(Figure figure) {
-        if (figure instanceof Line) {
-            return calculateLine(figure);
-        }
-        if (figure instanceof Triangle) {
-            return calculateTriangle(figure);
-        }
-        if (figure instanceof Rectangle) {
-            return calculateRectangle(figure);
-        }
-        throw new IllegalArgumentException("Points 형식이 잘못 되었습니다");
-    }
-
-    private static Result calculateLine(Figure figure) {
-        double result = figure.calculateLength();
-
-        return new Result(result, "Line");
-    }
-
-    private static Result calculateTriangle(Figure figure) {
-        double result = figure.calculateArea();
-
-        return new Result(result, "Triangle");
-    }
-
-    private static Result calculateRectangle(Figure figure) {
-        double result = figure.calculateArea();
-
-        return new Result(result, "Rectangle");
+    public static Figure getShape(Points points) {
+        Function<Points, Figure> figureFunction = map.get(points.getSize());
+        return figureFunction.apply(points);
     }
 }
