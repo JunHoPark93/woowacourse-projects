@@ -1,5 +1,6 @@
 package com.woowacourse.javacoordinate.domain;
 
+import com.woowacourse.javacoordinate.util.FigureFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,14 +34,14 @@ public class TriangleTest {
 
     @Test
     void 삼각형_면적_구하기() {
-        Figure triangle = new Triangle(points);
+        Figure triangle = FigureFactory.createFigure(points);
 
         assertThat(triangle.calculateArea()).isEqualTo(29.0, offset(0.99));
     }
 
     @Test
     void 삼각형_둘레_구하기() {
-        Figure triangle = new Triangle(points);
+        Figure triangle = FigureFactory.createFigure(points);
 
         assertThat(triangle.calculateLength()).isEqualTo(25.8, offset(0.99));
     }

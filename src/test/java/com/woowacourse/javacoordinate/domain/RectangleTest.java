@@ -1,5 +1,6 @@
 package com.woowacourse.javacoordinate.domain;
 
+import com.woowacourse.javacoordinate.util.FigureFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,14 +55,14 @@ public class RectangleTest {
 
     @Test
     void 사각형_넓이() {
-        Figure rectangle = new Rectangle(points);
+        Figure rectangle = FigureFactory.createFigure(points);
 
         assertThat(rectangle.calculateArea()).isEqualTo(96);
     }
 
     @Test
     void 사각형_둘레() {
-        Figure rectangle = new Rectangle(points);
+        Figure rectangle = FigureFactory.createFigure(points);
 
         assertThat(rectangle.calculateLength()).isEqualTo(40);
     }
