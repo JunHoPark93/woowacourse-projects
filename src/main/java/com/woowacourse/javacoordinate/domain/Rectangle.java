@@ -3,6 +3,7 @@ package com.woowacourse.javacoordinate.domain;
 import java.util.*;
 
 public class Rectangle extends Figure {
+    private static final String SHAPE_NAME = "사각형";
     private static final int RECTANGLE_POINT_NUMBER = 4;
 
     public Rectangle(Points points) {
@@ -55,5 +56,10 @@ public class Rectangle extends Figure {
         List<Double> list = Arrays.asList(distance1, distance2, distance3);
         Collections.sort(list);
         return list;
+    }
+
+    @Override
+    public String getName() {
+        return SHAPE_NAME;
     }
 }

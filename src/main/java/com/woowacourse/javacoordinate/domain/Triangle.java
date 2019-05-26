@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Triangle extends Figure {
+    private static final String SHAPE_NAME = "삼각형";
+
     public Triangle(Points points) {
         super(points);
 
@@ -61,4 +63,8 @@ public class Triangle extends Figure {
         return Arrays.asList(distance1,distance2,distance3);
     }
 
+    @Override
+    public String getName() {
+        return SHAPE_NAME;
+    }
 }

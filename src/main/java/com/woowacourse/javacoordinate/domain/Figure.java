@@ -1,6 +1,6 @@
 package com.woowacourse.javacoordinate.domain;
 
-public abstract class Figure implements FigureCalculator{
+public abstract class Figure implements FigureCalculable {
     protected Points points;
 
     public Figure(Points points) {

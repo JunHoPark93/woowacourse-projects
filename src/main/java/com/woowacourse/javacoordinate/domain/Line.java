@@ -3,6 +3,9 @@ package com.woowacourse.javacoordinate.domain;
 import java.util.List;
 
 public class Line extends Figure {
+    private static final String SHAPE_NAME = "선분";
+    private static final Double LINE_AREA = 0.0;
+
     public Line(Points points) {
         super(points);
 
@@ -13,7 +16,7 @@ public class Line extends Figure {
 
     @Override
     public double calculateArea() {
-        throw new RuntimeException("선은 넓이가 존재하지 않습니다.");
+        return LINE_AREA;
     }
 
     @Override
@@ -27,5 +30,10 @@ public class Line extends Figure {
         }
 
         return distance;
+    }
+
+    @Override
+    public String getName() {
+        return SHAPE_NAME;
     }
 }

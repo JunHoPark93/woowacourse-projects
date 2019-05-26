@@ -1,14 +1,14 @@
 package com.woowacourse.javacoordinate.view;
 
-import com.woowacourse.javacoordinate.domain.CoordinateLine;
-import com.woowacourse.javacoordinate.domain.CoordinateSystem;
-import com.woowacourse.javacoordinate.domain.Result;
+import com.woowacourse.javacoordinate.domain.*;
 
 import java.util.List;
 
 public class OutputView {
     private static final int MIN_COORDINATE = 0;
     private static final int MAX_COORDINATE = 24;
+    private static final int LENGTH_CAL_CODE = 1;
+    private static final int AREA_CAL_CODE = 2;
 
     public static void printCoordinateSystem(CoordinateSystem coordinateSystem) {
         List<CoordinateLine> lines = coordinateSystem.getCoordinateLines();
@@ -65,27 +65,13 @@ public class OutputView {
         }
     }
 
-    public static void printResult(Result result) {
-        checkResultIfLine(result);
-        checkResultIfTriangle(result);
-        checkResultIfRectangle(result);
-    }
-
-    private static void checkResultIfLine(Result result) {
-        if (result.getResultType().equals("Line")) {
-            System.out.println("두 점 사이의 거리는 " + result.getResult());
+    public static void printResult(Figure figure, int calculateCode) {
+        if (calculateCode == LENGTH_CAL_CODE) {
+            System.out.println(figure.getName() + "길이는 "+ figure.calculateLength());
+            return;
         }
-    }
-
-    private static void checkResultIfTriangle(Result result) {
-        if (result.getResultType().equals("Triangle")) {
-            System.out.println("삼각형 넓이는 " + String.format("%.1f", result.getResult()));
-        }
-    }
-
-    private static void checkResultIfRectangle(Result result) {
-        if (result.getResultType().equals("Rectangle")) {
-            System.out.println("사각형 넓이는 " + String.format("%.0f", result.getResult()));
+        if (calculateCode == AREA_CAL_CODE) {
+            System.out.println(figure.getName() + "넓이는 "+ figure.calculateArea());
         }
     }
 }

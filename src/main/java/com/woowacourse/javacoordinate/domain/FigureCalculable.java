@@ -1,6 +1,7 @@
 package com.woowacourse.javacoordinate.domain;
 
-public interface FigureCalculator {
+public interface FigureCalculable {
     double calculateArea();
     double calculateLength();
+    String getName();
 }

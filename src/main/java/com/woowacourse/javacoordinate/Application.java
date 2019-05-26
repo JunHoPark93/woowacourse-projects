@@ -17,7 +17,8 @@ public class Application {
             CoordinateSystem coordinateSystem = drawCoordinate(figure.getPoints());
 
             OutputView.printCoordinateSystem(coordinateSystem);
-            OutputView.printResult(FigureUtil.createResult(figure));
+            int calculateCode = InputView.inputCalculateNo();
+            OutputView.printResult(figure, calculateCode);
         }
     }
 

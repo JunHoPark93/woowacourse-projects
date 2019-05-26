@@ -63,4 +63,26 @@ public class InputView {
             System.exit(0);
         }
     }
+
+    public static int inputCalculateNo() {
+        System.out.println("길이는 1번, 넓이는 2번을 입력하세요");
+        try {
+            String input = SCANNER.nextLine();
+            int number = Integer.parseInt(input);
+            checkCalculateNo(number);
+            return number;
+        } catch (NumberFormatException e) {
+            System.out.println("유효한 숫자가 아닙니다");
+            return inputCalculateNo();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return inputCalculateNo();
+        }
+    }
+
+    private static void checkCalculateNo(int input) {
+        if (input != 1 && input != 2) {
+            throw new IllegalArgumentException("1또는 2를 입력하세요");
+        }
+    }
 }
