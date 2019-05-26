@@ -5,6 +5,7 @@ import java.util.*;
 public class Rectangle extends Figure {
     private static final String SHAPE_NAME = "사각형";
     private static final int RECTANGLE_POINT_NUMBER = 4;
+    private static final int RIGHT_RECTANGLE_COORDINATE_SET = 2;
 
     public Rectangle(Points points) {
         super(points);
@@ -22,7 +23,7 @@ public class Rectangle extends Figure {
         points.getPoints().stream().map(Point::getX).forEach(xSet::add);
         points.getPoints().stream().map(Point::getY).forEach(ySet::add);
 
-        if (xSet.size() != 2 || ySet.size() != 2) {
+        if (xSet.size() != RIGHT_RECTANGLE_COORDINATE_SET || ySet.size() != RIGHT_RECTANGLE_COORDINATE_SET) {
             throw new IllegalArgumentException("유효한 사각형이 아닙니다");
         }
     }
