@@ -13,6 +13,19 @@ public class CoordinateLine {
         return line.get(index);
     }
 
+    public String printLine() {
+        StringBuilder sb = new StringBuilder();
+
+        for (Boolean point : line) {
+            if (point) {
+                sb.append("*");
+                continue;
+            }
+            sb.append("  ");
+        }
+        return sb.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -26,19 +39,5 @@ public class CoordinateLine {
     @Override
     public int hashCode() {
         return line != null ? line.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        for (Boolean point : line) {
-            if (point) {
-                sb.append("*");
-                continue;
-            }
-            sb.append("  ");
-        }
-        return sb.toString();
     }
 }

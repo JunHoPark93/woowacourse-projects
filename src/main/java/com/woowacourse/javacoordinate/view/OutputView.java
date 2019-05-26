@@ -28,7 +28,7 @@ public class OutputView {
             return;
         }
 
-        System.out.println("  " + "|" + lines.get(i));
+        System.out.println("  " + "|" + lines.get(i).printLine());
     }
 
     private static void printXAxis() {
@@ -39,7 +39,7 @@ public class OutputView {
 
     private static boolean checkYAxisMarkingLine(List<CoordinateLine> lines, int i) {
         if (i % 2 == 0) {
-            System.out.println(String.format("%2d|", i) + lines.get(i));
+            System.out.println(String.format("%2d|", i) + lines.get(i).printLine());
 
             return true;
         }
