@@ -5,11 +5,12 @@ import java.util.List;
 public class Line extends Figure {
     private static final String SHAPE_NAME = "선분";
     private static final Double LINE_AREA = 0.0;
+    private static final int TRIANGLE_POINT_NUMBER = 2;
 
     public Line(Points points) {
         super(points);
 
-        if (points.getSize() != 2) {
+        if (points.getSize() != TRIANGLE_POINT_NUMBER) {
             throw new IllegalArgumentException("라인은 2개의 Point가 필요합니다");
         }
     }

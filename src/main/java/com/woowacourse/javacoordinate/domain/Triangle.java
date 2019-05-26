@@ -5,11 +5,12 @@ import java.util.List;
 
 public class Triangle extends Figure {
     private static final String SHAPE_NAME = "삼각형";
+    private static final int TRIANGLE_POINT_NUMBER = 3;
 
     public Triangle(Points points) {
         super(points);
 
-        if (points.getSize() != 3) {
+        if (points.getSize() != TRIANGLE_POINT_NUMBER) {
             throw new IllegalArgumentException("삼각형은 3개의 Point가 필요합니다");
         }
         checkValidTriangle(points);
