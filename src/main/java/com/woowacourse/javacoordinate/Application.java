@@ -2,7 +2,9 @@ package com.woowacourse.javacoordinate;
 
 import com.woowacourse.javacoordinate.domain.CoordinateSystem;
 import com.woowacourse.javacoordinate.domain.Figure;
+import com.woowacourse.javacoordinate.domain.Result;
 import com.woowacourse.javacoordinate.service.CoordinateService;
+import com.woowacourse.javacoordinate.util.FigureUtil;
 import com.woowacourse.javacoordinate.view.InputView;
 import com.woowacourse.javacoordinate.view.OutputView;
 
@@ -13,8 +15,11 @@ public class Application {
             Figure figure = InputView.inputCoordinatePoints();
             CoordinateSystem coordinateSystem = CoordinateService.makeCoordinateSystem(figure.getPoints());
             OutputView.printCoordinateSystem(coordinateSystem);
+
             int calculateCode = InputView.inputCalculateNo();
-            OutputView.printResult(figure, calculateCode);
+            Result result = FigureUtil.createResult(figure, calculateCode);
+
+            OutputView.printResult(result);
         }
     }
 }

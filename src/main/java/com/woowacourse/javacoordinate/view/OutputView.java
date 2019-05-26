@@ -1,14 +1,14 @@
 package com.woowacourse.javacoordinate.view;
 
-import com.woowacourse.javacoordinate.domain.*;
+import com.woowacourse.javacoordinate.domain.CoordinateLine;
+import com.woowacourse.javacoordinate.domain.CoordinateSystem;
+import com.woowacourse.javacoordinate.domain.Result;
 
 import java.util.List;
 
 public class OutputView {
     private static final int MIN_COORDINATE = 0;
     private static final int MAX_COORDINATE = 24;
-    private static final int LENGTH_CAL_CODE = 1;
-    private static final int AREA_CAL_CODE = 2;
 
     public static void printCoordinateSystem(CoordinateSystem coordinateSystem) {
         List<CoordinateLine> lines = coordinateSystem.getCoordinateLines();
@@ -65,13 +65,7 @@ public class OutputView {
         }
     }
 
-    public static void printResult(Figure figure, int calculateCode) {
-        if (calculateCode == LENGTH_CAL_CODE) {
-            System.out.println(figure.getName() + "길이는 "+ figure.calculateLength());
-            return;
-        }
-        if (calculateCode == AREA_CAL_CODE) {
-            System.out.println(figure.getName() + "넓이는 "+ figure.calculateArea());
-        }
+    public static void printResult(Result result) {
+        System.out.println(result.getFigureName() + result.getResultType() + "는 " + result.getResult());
     }
 }
