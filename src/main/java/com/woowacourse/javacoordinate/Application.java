@@ -4,7 +4,7 @@ import com.woowacourse.javacoordinate.domain.CoordinateSystem;
 import com.woowacourse.javacoordinate.domain.Figure;
 import com.woowacourse.javacoordinate.domain.Result;
 import com.woowacourse.javacoordinate.service.CoordinateService;
-import com.woowacourse.javacoordinate.util.FigureUtil;
+import com.woowacourse.javacoordinate.util.ResultFactory;
 import com.woowacourse.javacoordinate.view.InputView;
 import com.woowacourse.javacoordinate.view.OutputView;
 
@@ -17,7 +17,7 @@ public class Application {
             OutputView.printCoordinateSystem(coordinateSystem);
 
             int calculateCode = InputView.inputCalculateNo();
-            Result result = FigureUtil.createResult(figure, calculateCode);
+            Result result = ResultFactory.createResult(figure, calculateCode);
 
             OutputView.printResult(result);
         }
