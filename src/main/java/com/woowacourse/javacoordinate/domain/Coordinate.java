@@ -20,4 +20,19 @@ public class Coordinate {
     public int getCoordinate() {
         return coordinate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Coordinate that = (Coordinate) o;
+
+        return coordinate == that.coordinate;
+    }
+
+    @Override
+    public int hashCode() {
+        return coordinate;
+    }
 }

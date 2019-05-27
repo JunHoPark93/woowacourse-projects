@@ -22,13 +22,4 @@ public class PointsTest {
                     , new Point(5, 5), new Point(3, 3)));
         }).withMessage("중복된 좌표는 입력할 수 없습니다");
     }
-
-
-    @Test
-    void 직사각형_아닌_네점() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            new Points(Arrays.asList(new Point(10, 10), new Point(22, 10),
-                    new Point(22, 18), new Point(10, 19)));
-        }).withMessage("유효한 사각형이 아닙니다");
-    }
 }
