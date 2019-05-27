@@ -3,6 +3,9 @@ package com.woowacourse.javacoordinate.domain;
 import java.util.List;
 
 public class CoordinateLine {
+    private static final String COORDINATE_SPOT = "*";
+    private static final String COORDINATE_BLANK = "  ";
+
     private final List<Boolean> line;
 
     public CoordinateLine(List<Boolean> line) {
@@ -18,10 +21,10 @@ public class CoordinateLine {
 
         for (Boolean point : line) {
             if (point) {
-                sb.append("*");
+                sb.append(COORDINATE_SPOT);
                 continue;
             }
-            sb.append("  ");
+            sb.append(COORDINATE_BLANK);
         }
         return sb.toString();
     }
