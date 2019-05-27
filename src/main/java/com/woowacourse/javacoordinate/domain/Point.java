@@ -1,38 +1,27 @@
 package com.woowacourse.javacoordinate.domain;
 
-
 public class Point {
-    private static final int MIN_BOUNDARY = 0;
-    private static final int MAX_BOUNDARY = 24;
-
-    private final int x;
-    private final int y;
+    private final Coordinate x;
+    private final Coordinate y;
 
     public Point(int x, int y) {
-        checkValidPointRange(x, y);
-        this.x = x;
-        this.y = y;
-    }
-
-    private void checkValidPointRange(int x, int y) {
-        if (x < MIN_BOUNDARY || x > MAX_BOUNDARY || y < MIN_BOUNDARY || y > MAX_BOUNDARY) {
-            throw new IllegalArgumentException("좌표 입력 범위를 넘어갔습니다");
-        }
+        this.x = new Coordinate(x);
+        this.y = new Coordinate(y);
     }
 
     public double getDistance(Point point) {
         int thatX = point.getX();
         int thatY = point.getY();
 
-        return Math.sqrt(Math.pow(thatX - this.x,2) + Math.pow(thatY - this.y , 2));
+        return Math.sqrt(Math.pow(thatX - this.x.getCoordinate(),2) + Math.pow(thatY - this.y.getCoordinate() , 2));
     }
 
     public int getX() {
-        return x;
+        return x.getCoordinate();
     }
 
     public int getY() {
-        return y;
+        return y.getCoordinate();
     }
 
     @Override
@@ -42,14 +31,14 @@ public class Point {
 
         Point point = (Point) o;
 
-        if (x != point.x) return false;
-        return y == point.y;
+        if (x != null ? !x.equals(point.x) : point.x != null) return false;
+        return y != null ? y.equals(point.y) : point.y == null;
     }
 
     @Override
     public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
+        int result = x != null ? x.hashCode() : 0;
+        result = 31 * result + (y != null ? y.hashCode() : 0);
         return result;
     }
 }
