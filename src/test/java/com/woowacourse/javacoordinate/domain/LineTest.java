@@ -1,7 +1,6 @@
 package com.woowacourse.javacoordinate.domain;
 
 import com.woowacourse.javacoordinate.util.FigureFactory;
-import com.woowacourse.javacoordinate.util.FigureUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -26,7 +25,7 @@ public class LineTest {
 
         Points points = new Points(Arrays.asList(point1,point2));
 
-        Figure line = FigureFactory.getShape(points);
+        Figure line = FigureFactory.getFigure(points);
 
         assertThat(line.calculateLength()).isEqualTo(6.403124, offset(0.00099));
     }
@@ -38,10 +37,8 @@ public class LineTest {
 
         Points points = new Points(Arrays.asList(point1,point2));
 
-        Figure line = FigureFactory.getShape(points);
+        Figure line = FigureFactory.getFigure(points);
 
-        assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(line::calculateArea)
-                .withMessage("선은 넓이가 존재하지 않습니다.");
+        assertThat(line.calculateArea()).isEqualTo(0);
     }
 }

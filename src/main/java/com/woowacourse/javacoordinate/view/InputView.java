@@ -1,9 +1,9 @@
 package com.woowacourse.javacoordinate.view;
 
 import com.woowacourse.javacoordinate.domain.Figure;
+import com.woowacourse.javacoordinate.util.FigureFactory;
 import com.woowacourse.javacoordinate.domain.Point;
 import com.woowacourse.javacoordinate.domain.Points;
-import com.woowacourse.javacoordinate.util.FigureFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,8 @@ public class InputView {
         String[] tokens = input.split("-");
         SpitPoints(points, tokens);
 
-        return FigureFactory.getShape(new Points(points));
+        return FigureFactory.getFigure(new Points(points));
+//        return FigureFactory.getShape(new Points(points));
     }
 
     private static void SpitPoints(List<Point> points, String[] tokens) {

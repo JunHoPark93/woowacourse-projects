@@ -2,21 +2,30 @@ package com.woowacourse.javacoordinate.util;
 
 import com.woowacourse.javacoordinate.domain.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 import java.util.function.Function;
 
-public class FigureFactory {
-    private final static Map<Integer, Function<Points, Figure>> map = new HashMap<>();
+public enum FigureFactory {
+    LINE(2, Line::new),
+    TRIANGLE(3, Triangle::new),
+    RECTANGLE(4, Rectangle::new);
 
-    static {
-        map.put(2, Line::new);
-        map.put(3, Triangle::new);
-        map.put(4, Rectangle::new);
+    int pointCount;
+    Function<Points, Figure> function;
+
+    FigureFactory(int pointCount, Function<Points, Figure> function) {
+        this.pointCount = pointCount;
+        this.function = function;
     }
 
-    public static Figure getShape(Points points) {
-        Function<Points, Figure> figureFunction = map.get(points.getSize());
-        return figureFunction.apply(points);
+    public static Figure getFigure(Points points) {
+        int pointCount = points.getSize();
+
+        FigureFactory figureFactory = Arrays.stream(FigureFactory.values())
+                .filter(shape -> shape.pointCount == pointCount)
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+
+        return figureFactory.function.apply(points);
     }
 }
