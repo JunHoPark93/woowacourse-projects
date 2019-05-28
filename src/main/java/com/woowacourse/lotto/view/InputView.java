@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class InputView {
     private static final Scanner SCANNER = new Scanner(System.in);
 
-    public PurchaseMoney getPurchaseNameFromUser() {
+    public static PurchaseMoney getMoneyFromUser() {
         try {
             System.out.println("구입금액을 입력해 주세요.");
             String input = SCANNER.nextLine();
@@ -18,11 +18,11 @@ public class InputView {
             return new PurchaseMoney(Integer.parseInt(input));
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return getPurchaseNameFromUser();
+            return getMoneyFromUser();
         }
     }
 
-    public Lotto getWinningLottoFromUser() {
+    public static Lotto getWinningLottoFromUser() {
         try {
             System.out.println("지난 주 당첨 번호를 입력해 주세요.");
             String input = SCANNER.nextLine();

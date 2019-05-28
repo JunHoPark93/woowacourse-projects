@@ -2,6 +2,7 @@ package com.woowacourse.lotto.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Lotto {
     private final int LOTTO_COMPOSITION_NUMBER = 6;
@@ -32,6 +33,10 @@ public class Lotto {
                 .anyMatch(lottoNumbers -> lottoNumbers.getLottoNum() == num);
     }
 
+    public List<LottoNumber> getLottoNumbers() {
+        return lottoNumbers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,5 +50,20 @@ public class Lotto {
     @Override
     public int hashCode() {
         return lottoNumbers != null ? lottoNumbers.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        String lotto = lottoNumbers.stream()
+                .map(LottoNumber::getLottoNum)
+                .map(String::valueOf)
+                .collect(Collectors.joining(", "));
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        sb.append(lotto);
+        sb.append("]");
+
+        return sb.toString();
     }
 }
