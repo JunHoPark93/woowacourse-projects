@@ -16,4 +16,24 @@ public class LottoNumber {
             throw new IllegalArgumentException("로또 숫자 범위는 1~45 입니다");
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LottoNumber that = (LottoNumber) o;
+
+        if (MIN_LOTTO_NUM != that.MIN_LOTTO_NUM) return false;
+        if (MAX_LOTTO_NUM != that.MAX_LOTTO_NUM) return false;
+        return lottoNum == that.lottoNum;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = MIN_LOTTO_NUM;
+        result = 31 * result + MAX_LOTTO_NUM;
+        result = 31 * result + lottoNum;
+        return result;
+    }
 }
