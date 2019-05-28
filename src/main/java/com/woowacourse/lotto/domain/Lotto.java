@@ -1,6 +1,7 @@
 package com.woowacourse.lotto.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ public class Lotto {
         while (lottoNumbers.size() < LOTTO_COMPOSITION_NUMBER) {
             initSingleLottoNumber(generator);
         }
+        Collections.sort(lottoNumbers);
     }
 
     private void initSingleLottoNumber(LottoGenerator generator) {

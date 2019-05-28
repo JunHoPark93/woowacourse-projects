@@ -1,6 +1,6 @@
 package com.woowacourse.lotto.domain;
 
-public class LottoNumber {
+public class LottoNumber implements Comparable<LottoNumber> {
     private static final int MIN_LOTTO_NUM = 1;
     private static final int MAX_LOTTO_NUM = 45;
 
@@ -39,5 +39,18 @@ public class LottoNumber {
         result = 31 * result + MAX_LOTTO_NUM;
         result = 31 * result + lottoNum;
         return result;
+    }
+
+    @Override
+    public int compareTo(LottoNumber o) {
+        if (this.lottoNum > o.lottoNum) {
+            return 1;
+        }
+
+        if (this.lottoNum < o.lottoNum) {
+            return -1;
+        }
+
+        return 0;
     }
 }
