@@ -1,7 +1,7 @@
 package com.woowacourse.lotto.util;
 
+import com.woowacourse.lotto.domain.IntendedLottoGenerator;
 import com.woowacourse.lotto.domain.Lotto;
-import com.woowacourse.lotto.domain.LottoNumber;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -9,14 +9,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.*;
 
 public class InputUtilTest {
     @Test
     void 구입금액_입력_검증() {
-        assertThatCode(() -> InputUtil.checkPurchaseMoneyInput("14000")).doesNotThrowAnyException();;
+        assertThatCode(() -> InputUtil.checkPurchaseMoneyInput("14000")).doesNotThrowAnyException();
     }
 
     @Test
@@ -42,10 +40,10 @@ public class InputUtilTest {
     @Test
     void 입력을_로또로_파싱() {
         String input = "1,2,3,4,5,6";
-        List<LottoNumber> lottoNumbers = Arrays.asList(new LottoNumber(1), new LottoNumber(2),
-                new LottoNumber(3), new LottoNumber(4), new LottoNumber(5), new LottoNumber(6));
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6);
+        IntendedLottoGenerator intendedLottoGenerator = new IntendedLottoGenerator(list);
 
-        Lotto lotto = new Lotto(lottoNumbers);
+        Lotto lotto = new Lotto(intendedLottoGenerator);
 
         assertThat(InputUtil.parseStringToLotto(input)).isEqualTo(lotto);
     }

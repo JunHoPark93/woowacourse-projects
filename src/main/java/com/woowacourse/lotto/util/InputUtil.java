@@ -1,12 +1,15 @@
 package com.woowacourse.lotto.util;
 
+import com.woowacourse.lotto.domain.IntendedLottoGenerator;
 import com.woowacourse.lotto.domain.Lotto;
 import com.woowacourse.lotto.domain.LottoNumber;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class InputUtil {
     private static final Pattern PURCHASE_MONEY_PATTERN = Pattern.compile("^[0-9]*$");
@@ -30,12 +33,13 @@ public class InputUtil {
 
     public static Lotto parseStringToLotto(String input) {
         String[] tokens = input.split(",");
-        List<LottoNumber> lottoNumbers = new ArrayList<>();
 
-        for (String token : tokens) {
-            lottoNumbers.add(new LottoNumber(Integer.parseInt(token.trim())));
-        }
+        List<Integer> lottoNumbers = Arrays.stream(tokens)
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
 
-        return new Lotto(lottoNumbers);
+        IntendedLottoGenerator intendedLottoGenerator = new IntendedLottoGenerator(lottoNumbers);
+
+        return new Lotto(intendedLottoGenerator);
     }
 }

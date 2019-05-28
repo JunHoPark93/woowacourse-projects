@@ -17,6 +17,10 @@ public class LottoNumber {
         }
     }
 
+    public int getLottoNum() {
+        return lottoNum;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
