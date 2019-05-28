@@ -2,6 +2,7 @@ package com.woowacourse.lotto.util;
 
 import com.woowacourse.lotto.domain.IntendedLottoGenerator;
 import com.woowacourse.lotto.domain.Lotto;
+import com.woowacourse.lotto.domain.LottoGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -41,9 +42,9 @@ public class InputUtilTest {
     void 입력을_로또로_파싱() {
         String input = "1,2,3,4,5,6";
         List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6);
-        IntendedLottoGenerator intendedLottoGenerator = new IntendedLottoGenerator(list);
+        LottoGenerator lottoGenerator = new IntendedLottoGenerator(list);
 
-        Lotto lotto = new Lotto(intendedLottoGenerator);
+        Lotto lotto = new Lotto(lottoGenerator);
 
         assertThat(InputUtil.parseStringToLotto(input)).isEqualTo(lotto);
     }

@@ -9,28 +9,28 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class LottoTest {
     @Test
-    void 정상_로또_초기화() {
-        IntendedLottoGenerator intendedLottoGenerator = new IntendedLottoGenerator(Arrays.asList(1, 2, 3, 4, 5, 6));
+    void 의도된_로또_초기화() {
+        LottoGenerator lottoGenerator = new IntendedLottoGenerator(Arrays.asList(1, 2, 3, 4, 5, 6));
 
-        assertThatCode(() -> new Lotto(intendedLottoGenerator)).doesNotThrowAnyException();
+        assertThatCode(() -> new Lotto(lottoGenerator)).doesNotThrowAnyException();
     }
 
     @Test
     void 비정상_로또_중복숫자() {
-        IntendedLottoGenerator intendedLottoGenerator = new IntendedLottoGenerator(Arrays.asList(1, 2, 3, 4, 5, 5));
+        LottoGenerator lottoGenerator = new IntendedLottoGenerator(Arrays.asList(1, 2, 3, 4, 5, 5));
 
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> new Lotto(intendedLottoGenerator))
+                .isThrownBy(() -> new Lotto(lottoGenerator))
                 .withMessage("로또 생성 에러");
 
     }
 
     @Test
     void 비정상_로또_6개가아닌_숫자() {
-        IntendedLottoGenerator intendedLottoGenerator = new IntendedLottoGenerator(Arrays.asList(1, 2, 3, 4, 5));
+        LottoGenerator lottoGenerator = new IntendedLottoGenerator(Arrays.asList(1, 2, 3, 4, 5));
 
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> new Lotto(intendedLottoGenerator))
+                .isThrownBy(() -> new Lotto(lottoGenerator))
                 .withMessage("로또 생성 에러");
     }
 }
