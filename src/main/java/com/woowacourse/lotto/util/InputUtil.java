@@ -35,6 +35,7 @@ public class InputUtil {
         String[] tokens = input.split(",");
 
         List<Integer> lottoNumbers = Arrays.stream(tokens)
+                .map(String::trim)
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
 
