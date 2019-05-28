@@ -1,4 +1,4 @@
-package lotto;
+package com.woowacourse.lotto;
 
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
