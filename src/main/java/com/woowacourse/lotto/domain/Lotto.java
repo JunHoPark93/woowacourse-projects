@@ -32,4 +32,19 @@ public class Lotto {
             throw new IllegalArgumentException("중복된 로또 숫자입니다");
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Lotto lotto = (Lotto) o;
+
+        return lottoNumbers != null ? lottoNumbers.equals(lotto.lottoNumbers) : lotto.lottoNumbers == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return lottoNumbers != null ? lottoNumbers.hashCode() : 0;
+    }
 }
