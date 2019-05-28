@@ -15,4 +15,8 @@ public class PurchaseMoney {
             throw new IllegalArgumentException("구입 금액이 부족합니다");
         }
     }
+
+    public int getAvailableLottoSize() {
+        return money / MIN_PURCHASE_MONEY;
+    }
 }
