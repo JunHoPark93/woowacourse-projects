@@ -27,11 +27,12 @@ public class InputUtilTest {
 
     @Test
     void 당첨번호_입력_검증() {
-        assertThatCode(() -> InputUtil.checkWinningLottoInput("1, 2, 3, 4, 5, 6")).doesNotThrowAnyException();
+        assertThatCode(() -> InputUtil.checkWinningLottoInput("1, 2, 3, 4, 5, 6"))
+                .doesNotThrowAnyException();
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"d, f, 2, 3", "1, 2, 3, 4, 5", "2, 3, 5, 6, 7, f"})
+    @ValueSource(strings = {"d, f, 2, 3", "1, 2, 3, 4, 5", "1, 2, 4, 5, 6, f"})
     void 당첨번호_비정상_입력(String input) {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
             InputUtil.checkWinningLottoInput(input);
@@ -47,5 +48,19 @@ public class InputUtilTest {
         Lotto lotto = new Lotto(lottoGenerator);
 
         assertThat(InputUtil.parseStringToLotto(input)).isEqualTo(lotto);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"1", "45"})
+    void 보너스볼_정상_입력(String input) {
+        assertThatCode(() -> InputUtil.checkBonusBallInput(input)).doesNotThrowAnyException();;
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"d", "zlzl"})
+    void 보너스볼_비정상_입력(String input) {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> InputUtil.checkBonusBallInput(input))
+                .withMessage("보너스 볼 입력이 잘못 되었습니다");
     }
 }
