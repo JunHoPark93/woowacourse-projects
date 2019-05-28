@@ -31,16 +31,16 @@ public class InputUtilTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"d,f,2,3", "1,2,3,4,5", "2,3,5,6,7,f"})
-    void 당첨번호_비정상_입력() {
+    @ValueSource(strings = {"d, f, 2, 3", "1, 2, 3, 4, 5", "2, 3, 5, 6, 7, f"})
+    void 당첨번호_비정상_입력(String input) {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            InputUtil.checkWinningLottoInput("d,f,2,3");
+            InputUtil.checkWinningLottoInput(input);
         }).withMessage("당첨 번호 입력이 잘못 되었습니다");
     }
 
     @Test
     void 입력을_로또로_파싱() {
-        String input = "1,2,3,4,5,6";
+        String input = "1, 2, 3, 4, 5, 6";
         List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6);
         LottoGenerator lottoGenerator = new IntendedLottoGenerator(list);
 
