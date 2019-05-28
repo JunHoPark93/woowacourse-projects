@@ -23,16 +23,16 @@ public class Lotto {
     }
 
     private void initSingleLottoNumber(LottoGenerator generator) {
-        int num = generator.generateNumber();
-        if (containsNumber(num)) {
+        LottoNumber lottoNumber = new LottoNumber(generator.generateNumber());
+        if (contains(lottoNumber)) {
             return;
         }
-        lottoNumbers.add(new LottoNumber(num));
+        lottoNumbers.add(lottoNumber);
     }
 
-    private boolean containsNumber(int num) {
+    public boolean contains(LottoNumber lottoNumber) {
         return lottoNumbers.stream()
-                .anyMatch(lottoNumbers -> lottoNumbers.getLottoNum() == num);
+                .anyMatch(lottoNumbers -> lottoNumbers.getLottoNum() == lottoNumber.getLottoNum());
     }
 
     public List<LottoNumber> getLottoNumbers() {
