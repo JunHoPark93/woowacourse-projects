@@ -26,15 +26,18 @@ public class WinningLotto {
 
     public LottoResult getResult(LottoBuyList lottoBuyList) {
         Map<Rank, Integer> map = initResultMap();
+        makeResult(lottoBuyList, map);
 
+        return new LottoResult(map);
+    }
+
+    private void makeResult(LottoBuyList lottoBuyList, Map<Rank, Integer> map) {
         for (Lotto lotto: lottoBuyList.getLottoBuyList()) {
             int matchCount = this.lotto.matchCount(lotto);
             boolean isBonusMatch = lotto.isBonusMatch(bonusNumber);
             Rank rank = Rank.getRank(matchCount, isBonusMatch);
             map.put(rank, map.get(rank) + 1);
         }
-
-        return new LottoResult(map);
     }
 
     private Map<Rank, Integer> initResultMap() {

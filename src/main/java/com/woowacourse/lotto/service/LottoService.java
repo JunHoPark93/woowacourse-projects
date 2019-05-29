@@ -25,8 +25,8 @@ public class LottoService {
 
     private static List<Lotto> createAutoLottoList(PurchaseMoney purchaseMoney, ManualNumber manualNumber) {
         List<Lotto> lottoBuyList = new ArrayList<>();
-
         LottoGenerator lottoGenerator = new RandomLottoGenerator();
+
         int loop = purchaseMoney.getAvailableLottoSize() - manualNumber.getNum();
         for (int i = 0; i < loop; i++) {
             lottoBuyList.add(new Lotto(lottoGenerator));

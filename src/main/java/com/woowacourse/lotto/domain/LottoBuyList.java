@@ -24,7 +24,6 @@ public class LottoBuyList {
         return lottoBuyList;
     }
 
-
     public LottoBuyList joinBuyList(LottoBuyList lottoBuyList) {
         List<Lotto> joinedBuyList = new ArrayList<>(this.lottoBuyList);
         joinedBuyList.addAll(lottoBuyList.getLottoBuyList());
