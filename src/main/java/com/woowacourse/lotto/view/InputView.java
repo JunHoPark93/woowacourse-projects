@@ -4,11 +4,8 @@ import com.woowacourse.lotto.domain.*;
 import com.woowacourse.lotto.service.LottoService;
 import com.woowacourse.lotto.util.InputUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class InputView {
     private static final int LOTTO_PRICE = 1000;
