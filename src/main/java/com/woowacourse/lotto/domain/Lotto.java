@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Lotto {
-    private final int LOTTO_COMPOSITION_NUMBER = 6;
+    private static final int LOTTO_COMPOSITION_NUMBER = 6;
 
     private final List<LottoNumber> lottoNumbers;
 

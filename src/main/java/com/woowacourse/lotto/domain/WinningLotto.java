@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class WinningLotto {
-    private Lotto lotto;
-    private LottoNumber bonusNumber;
+    private final Lotto lotto;
+    private final LottoNumber bonusNumber;
 
     public WinningLotto(Lotto lotto, LottoNumber bonusNumber) {
         checkDuplicateBonusNum(lotto, bonusNumber);
