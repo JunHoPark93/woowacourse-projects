@@ -36,17 +36,25 @@ public class InputView {
         }
     }
 
-    public static LottoNumber getBonusNumberFromUser() {
+    public static LottoNumber getBonusNumberFromUser(Lotto lastWeekLotto) {
         try {
             System.out.println("보너스 볼을 입력해 주세요.");
             String input = SCANNER.nextLine();
             InputUtil.checkBonusBallInput(input);
+            int bonusNum = Integer.parseInt(input);
+            checkDuplicateBonusNum(lastWeekLotto, bonusNum);
 
-            return null;
+            return new LottoNumber(bonusNum);
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return getBonusNumberFromUser();
+            return getBonusNumberFromUser(lastWeekLotto);
+        }
+    }
+
+    private static void checkDuplicateBonusNum(Lotto lastWeekLotto, int bonusNum) {
+        if (lastWeekLotto.contains(new LottoNumber(bonusNum))) {
+            throw new IllegalArgumentException("보너스 번호와 로또번호가 중복입니다");
         }
     }
 }

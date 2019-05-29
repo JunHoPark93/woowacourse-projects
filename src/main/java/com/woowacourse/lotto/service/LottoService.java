@@ -20,7 +20,6 @@ public class LottoService {
     }
 
     public static LottoResult getLottoResult(LottoBuyList lottoBuyList, WinningLotto winningLotto) {
-        winningLotto.getResult(lottoBuyList);
-        return null;
+        return winningLotto.getResult(lottoBuyList);
     }
 }
