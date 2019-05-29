@@ -8,48 +8,48 @@ public enum Rank {
     FIFTH(3, 5000),
     NONE(0, 0);
 
-    private int rank;
+    private int matchCount;
     private int money;
 
-    Rank(int rank, int money) {
-        this.rank = rank;
+    Rank(int matchCount, int money) {
+        this.matchCount = matchCount;
         this.money = money;
     }
 
     public static Rank getRank(int matchCount, boolean bonusMatch) {
-        if (matchCount == 6) {
+        if (FIRST.match(matchCount)) {
             return FIRST;
         }
 
-        if (matchCount == 5 && bonusMatch) {
+        if (SECOND.match(matchCount) && bonusMatch) {
             return SECOND;
         }
 
-        if (matchCount == 5) {
+        if (THIRD.match(matchCount)) {
             return THIRD;
         }
 
-        if (matchCount == 4) {
+        if (FOURTH.match(matchCount)) {
             return FOURTH;
         }
 
-        if (matchCount == 3) {
+        if (FIFTH.match(matchCount)) {
             return FIFTH;
         }
 
         return NONE;
     }
 
-    public void printRank() {
-        if (money == 30000000) {
-            System.out.print(rank + "개 일치, 보너스 볼 일" + "(" + money + "원)" + "-");
-            return;
-        }
-        System.out.print(rank + "개 일치" + "(" + money + "원)" + "-");
+    private boolean match(int matchCount) {
+        return this.matchCount == matchCount;
     }
 
-    public int getRank() {
-        return rank;
+    public void printRank() {
+        if (money == 30000000) {
+            System.out.print(matchCount + "개 일치, 보너스 볼 일" + "(" + money + "원)" + "-");
+            return;
+        }
+        System.out.print(matchCount + "개 일치" + "(" + money + "원)" + "-");
     }
 
     public int getMoney() {
