@@ -1,10 +1,10 @@
 package com.woowacourse.lotto.service;
 
 import com.woowacourse.lotto.domain.*;
+import com.woowacourse.lotto.util.InputUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class LottoService {
     private static final int LOTTO_PRICE = 1000;
@@ -33,6 +33,25 @@ public class LottoService {
         }
 
         return lottoBuyList;
+    }
+
+    public static List<Lotto> createManualLotto(ManualNumber manualNumber, final Scanner scanner) {
+        List<Lotto> manualLottoList = new ArrayList<>();
+        for (int i = 0; i < manualNumber.getNum(); i++) {
+            String input = scanner.nextLine();
+            InputUtil.checkLottoInput(input);
+            addLotto(manualLottoList, input);
+        }
+        return manualLottoList;
+    }
+
+    private static void addLotto(List<Lotto> manualLottoList, String input) {
+        List<Integer> numbers = Arrays.stream(input.split(","))
+                .map(String::trim)
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        LottoGenerator lottoGenerator = new IntendedLottoGenerator(numbers);
+        manualLottoList.add(new Lotto(lottoGenerator));
     }
 
     public static LottoResult getLottoResult(LottoBuyList lottoBuyList, WinningLotto winningLotto) {

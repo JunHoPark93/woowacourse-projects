@@ -1,6 +1,7 @@
 package com.woowacourse.lotto.view;
 
 import com.woowacourse.lotto.domain.*;
+import com.woowacourse.lotto.service.LottoService;
 import com.woowacourse.lotto.util.InputUtil;
 
 import java.util.ArrayList;
@@ -85,17 +86,7 @@ public class InputView {
     public static LottoBuyList getManualLottoFromUser(ManualNumber manualNumber) {
         try {
             System.out.println("수동으로 구매할 번호를 입력해 주세요.");
-            List<Lotto> manualLottoList = new ArrayList<>();
-            for (int i = 0; i < manualNumber.getNum(); i++) {
-                String input = SCANNER.nextLine();
-                InputUtil.checkLottoInput(input);
-                List<Integer> numbers = Arrays.stream(input.split(","))
-                        .map(String::trim)
-                        .map(Integer::parseInt)
-                        .collect(Collectors.toList());
-                LottoGenerator lottoGenerator = new IntendedLottoGenerator(numbers);
-                manualLottoList.add(new Lotto(lottoGenerator));
-            }
+            List<Lotto> manualLottoList = LottoService.createManualLotto(manualNumber, SCANNER);
             return new LottoBuyList(manualLottoList);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
