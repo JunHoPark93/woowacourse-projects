@@ -19,4 +19,8 @@ public class LottoService {
         return new LottoBuyList(lottoBuyList);
     }
 
+    public static LottoResult getLottoResult(LottoBuyList lottoBuyList, WinningLotto winningLotto) {
+        winningLotto.getResult(lottoBuyList);
+        return null;
+    }
 }

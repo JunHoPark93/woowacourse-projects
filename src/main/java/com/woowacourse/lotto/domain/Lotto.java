@@ -39,6 +39,17 @@ public class Lotto {
         return lottoNumbers;
     }
 
+    public int matchCount(Lotto lotto) {
+        return (int) lottoNumbers.stream()
+                .filter(lotto::contains)
+                .count();
+    }
+
+    public boolean isBonusMatch(LottoNumber bonusNumber) {
+        return lottoNumbers.stream()
+                .anyMatch(lottoNumber -> lottoNumber.isMatch(bonusNumber));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

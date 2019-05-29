@@ -18,4 +18,8 @@ public class LottoBuyList {
             System.out.println(lotto);
         }
     }
+
+    public List<Lotto> getLottoBuyList() {
+        return lottoBuyList;
+    }
 }
