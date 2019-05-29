@@ -2,6 +2,9 @@ package com.woowacourse.lotto.service;
 
 import com.woowacourse.lotto.domain.*;
 import com.woowacourse.lotto.util.InputUtil;
+import com.woowacourse.lotto.util.IntendedLottoGenerator;
+import com.woowacourse.lotto.util.LottoGenerator;
+import com.woowacourse.lotto.util.RandomLottoGenerator;
 
 import java.util.*;
 import java.util.stream.Collectors;

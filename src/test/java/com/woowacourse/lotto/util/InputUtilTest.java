@@ -1,8 +1,6 @@
 package com.woowacourse.lotto.util;
 
-import com.woowacourse.lotto.domain.IntendedLottoGenerator;
 import com.woowacourse.lotto.domain.Lotto;
-import com.woowacourse.lotto.domain.LottoGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

@@ -1,5 +1,7 @@
 package com.woowacourse.lotto.domain;
 
+import com.woowacourse.lotto.util.IntendedLottoGenerator;
+import com.woowacourse.lotto.util.LottoGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

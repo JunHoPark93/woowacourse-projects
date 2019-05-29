@@ -1,6 +1,5 @@
 package com.woowacourse.lotto.util;
 
-import com.woowacourse.lotto.domain.IntendedLottoGenerator;
 import com.woowacourse.lotto.domain.Lotto;
 
 import java.util.Arrays;
