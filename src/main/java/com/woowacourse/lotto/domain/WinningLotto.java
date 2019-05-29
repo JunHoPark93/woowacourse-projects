@@ -1,5 +1,6 @@
 package com.woowacourse.lotto.domain;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -44,12 +45,8 @@ public class WinningLotto {
 
     private Map<Rank, Integer> initResultMap() {
         Map<Rank, Integer> map = new LinkedHashMap<>();
-        map.put(Rank.NONE, 0);
-        map.put(Rank.FIFTH, 0);
-        map.put(Rank.FOURTH, 0);
-        map.put(Rank.THIRD, 0);
-        map.put(Rank.SECOND, 0);
-        map.put(Rank.FIRST, 0);
+        Arrays.stream(Rank.values())
+                .forEach(rank -> map.put(rank, 0));
         return map;
     }
 }
