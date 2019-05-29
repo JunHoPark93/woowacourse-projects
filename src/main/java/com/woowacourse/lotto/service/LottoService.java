@@ -8,24 +8,31 @@ import java.util.List;
 
 public class LottoService {
     private static final int LOTTO_PRICE = 1000;
+
     public static LottoBuyList getAutoLottoBuyList(PurchaseMoney purchaseMoney, ManualNumber manualNumber) {
         if (isNotEnoughMoney(purchaseMoney, manualNumber)) {
             return new LottoBuyList(Collections.emptyList());
         }
-        LottoGenerator lottoGenerator = new RandomLottoGenerator();
-        int loop = purchaseMoney.getAvailableLottoSize() - manualNumber.getNum();
 
-        List<Lotto> lottoBuyList = new ArrayList<>();
-
-        for (int i = 0; i < loop; i++) {
-            lottoBuyList.add(new Lotto(lottoGenerator));
-        }
+        List<Lotto> lottoBuyList = createAutoLottoList(purchaseMoney, manualNumber);
 
         return new LottoBuyList(lottoBuyList);
     }
 
     private static boolean isNotEnoughMoney(PurchaseMoney purchaseMoney, ManualNumber manualNumber) {
         return purchaseMoney.getMoney() - manualNumber.getTotalPrice() < LOTTO_PRICE;
+    }
+
+    private static List<Lotto> createAutoLottoList(PurchaseMoney purchaseMoney, ManualNumber manualNumber) {
+        List<Lotto> lottoBuyList = new ArrayList<>();
+
+        LottoGenerator lottoGenerator = new RandomLottoGenerator();
+        int loop = purchaseMoney.getAvailableLottoSize() - manualNumber.getNum();
+        for (int i = 0; i < loop; i++) {
+            lottoBuyList.add(new Lotto(lottoGenerator));
+        }
+
+        return lottoBuyList;
     }
 
     public static LottoResult getLottoResult(LottoBuyList lottoBuyList, WinningLotto winningLotto) {
