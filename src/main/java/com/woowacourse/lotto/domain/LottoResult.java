@@ -12,4 +12,11 @@ public class LottoResult {
     public Map<Rank, Integer> getMap() {
         return map;
     }
+
+    public void printResult() {
+        for (Rank rank : map.keySet()) {
+            rank.printRank();
+            System.out.println(map.get(rank) + "개");
+        }
+    }
 }

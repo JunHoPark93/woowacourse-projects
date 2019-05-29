@@ -40,6 +40,14 @@ public enum Rank {
         return NONE;
     }
 
+    public void printRank() {
+        if (money == 30000000) {
+            System.out.print(rank + "개 일치, 보너스 볼 일" + "(" + money + "원)" + "-");
+            return;
+        }
+        System.out.print(rank + "개 일치" + "(" + money + "원)" + "-");
+    }
+
     public int getRank() {
         return rank;
     }
