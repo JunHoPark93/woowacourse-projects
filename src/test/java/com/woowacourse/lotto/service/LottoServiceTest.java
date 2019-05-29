@@ -11,7 +11,7 @@ class LottoServiceTest {
     void 로또_생성_개수_테스트() {
         int expectedLottoSize = 14;
 
-        LottoBuyList lottoBuyList = LottoService.getLottoBuyList(new PurchaseMoney(14000));
+        LottoBuyList lottoBuyList = LottoService.getAutoLottoBuyList(new PurchaseMoney(14000));
 
         assertThat(lottoBuyList.getLottoSize()).isEqualTo(expectedLottoSize);
     }

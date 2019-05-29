@@ -27,7 +27,7 @@ public class InputUtilTest {
 
     @Test
     void 당첨번호_입력_검증() {
-        assertThatCode(() -> InputUtil.checkWinningLottoInput("1, 2, 3, 4, 5, 6"))
+        assertThatCode(() -> InputUtil.checkLottoInput("1, 2, 3, 4, 5, 6"))
                 .doesNotThrowAnyException();
     }
 
@@ -35,7 +35,7 @@ public class InputUtilTest {
     @ValueSource(strings = {"d, f, 2, 3", "1, 2, 3, 4, 5", "1, 2, 4, 5, 6, f"})
     void 당첨번호_비정상_입력(String input) {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
-            InputUtil.checkWinningLottoInput(input);
+            InputUtil.checkLottoInput(input);
         }).withMessage("당첨 번호 입력이 잘못 되었습니다");
     }
 

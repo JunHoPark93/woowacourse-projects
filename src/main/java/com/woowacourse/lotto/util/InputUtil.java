@@ -12,7 +12,8 @@ import java.util.stream.Collectors;
 public class InputUtil {
     private static final Pattern PURCHASE_MONEY_PATTERN = Pattern.compile("\\d+");
     private static final Pattern SINGLE_LOTTO_NUMBER_PATTERN = Pattern.compile("\\d+");
-    private static final Pattern WINNING_LOTTO_PATTERN =
+    private static final Pattern MANUAL_LOTTO_NUMBER_PATTERN = Pattern.compile("\\d+");
+    private static final Pattern LOTTO_PATTERN =
             Pattern.compile("(" + SINGLE_LOTTO_NUMBER_PATTERN + ",\\s){5}" + SINGLE_LOTTO_NUMBER_PATTERN);
 
     public static void checkPurchaseMoneyInput(String input) {
@@ -22,8 +23,8 @@ public class InputUtil {
         }
     }
 
-    public static void checkWinningLottoInput(String input) {
-        Matcher matcher = WINNING_LOTTO_PATTERN.matcher(input);
+    public static void checkLottoInput(String input) {
+        Matcher matcher = LOTTO_PATTERN.matcher(input);
         if (!matcher.find()) {
             throw new IllegalArgumentException("당첨 번호 입력이 잘못 되었습니다");
         }
@@ -46,6 +47,13 @@ public class InputUtil {
         Matcher matcher = SINGLE_LOTTO_NUMBER_PATTERN.matcher(input);
         if (!matcher.find()) {
             throw new IllegalArgumentException("보너스 볼 입력이 잘못 되었습니다");
+        }
+    }
+
+    public static void checkManualNumber(String input) {
+        Matcher matcher = MANUAL_LOTTO_NUMBER_PATTERN.matcher(input);
+        if (!matcher.find()) {
+            throw new IllegalArgumentException("구매 개수 입력이 잘못 되었습니다");
         }
     }
 }

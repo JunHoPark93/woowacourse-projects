@@ -23,4 +23,12 @@ public class PurchaseMoney {
     public int getProfitRatio(int lottoProfit) {
         return lottoProfit / money * 100;
     }
+
+    public boolean isAcceptableMoney(int money) {
+        return this.money >= money;
+    }
+
+    public int getMoney() {
+        return money;
+    }
 }

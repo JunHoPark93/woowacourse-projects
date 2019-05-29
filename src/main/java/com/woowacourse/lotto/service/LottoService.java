@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LottoService {
-    public static LottoBuyList getLottoBuyList(PurchaseMoney purchaseMoney) {
+    public static LottoBuyList getAutoLottoBuyList(PurchaseMoney purchaseMoney) {
         LottoGenerator lottoGenerator = new RandomLottoGenerator();
         int loop = purchaseMoney.getAvailableLottoSize();
 
@@ -21,5 +21,9 @@ public class LottoService {
 
     public static LottoResult getLottoResult(LottoBuyList lottoBuyList, WinningLotto winningLotto) {
         return winningLotto.getResult(lottoBuyList);
+    }
+
+    public static LottoBuyList joinBuyList(LottoBuyList manualBuyList, LottoBuyList autoBuyList) {
+        return manualBuyList.joinBuyList(autoBuyList);
     }
 }
