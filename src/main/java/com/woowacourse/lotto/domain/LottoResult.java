@@ -20,8 +20,8 @@ public class LottoResult {
         }
     }
 
-    public int getProfitRatio(PurchaseMoney purchaseMoney) {
-        int sum = 0;
+    public double getProfitRatio(PurchaseMoney purchaseMoney) {
+        double sum = 0.0;
         for (Rank rank : map.keySet()) {
             sum += rank.getMoney() * map.get(rank);
         }
