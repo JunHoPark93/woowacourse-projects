@@ -19,4 +19,13 @@ public class LottoResult {
             System.out.println(map.get(rank) + "개");
         }
     }
+
+    public int getProfitRatio(PurchaseMoney purchaseMoney) {
+        int sum = 0;
+        for (Rank rank : map.keySet()) {
+            sum += rank.getMoney() * map.get(rank);
+        }
+
+        return purchaseMoney.getProfitRatio(sum);
+    }
 }

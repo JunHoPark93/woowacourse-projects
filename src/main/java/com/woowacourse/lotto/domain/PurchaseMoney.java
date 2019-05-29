@@ -19,4 +19,8 @@ public class PurchaseMoney {
     public int getAvailableLottoSize() {
         return money / MIN_PURCHASE_MONEY;
     }
+
+    public int getProfitRatio(int lottoProfit) {
+        return lottoProfit / money * 100;
+    }
 }

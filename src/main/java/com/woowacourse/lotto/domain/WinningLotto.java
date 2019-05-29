@@ -1,7 +1,6 @@
 package com.woowacourse.lotto.domain;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -24,11 +23,6 @@ public class WinningLotto {
     public Lotto getLotto() {
         return lotto;
     }
-
-    public LottoNumber getBonusNumber() {
-        return bonusNumber;
-    }
-
 
     public LottoResult getResult(LottoBuyList lottoBuyList) {
         Map<Rank, Integer> map = initResultMap();
