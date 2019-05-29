@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class InputUtil {
-    private static final Pattern PURCHASE_MONEY_PATTERN = Pattern.compile("\\d");
-    private static final Pattern SINGLE_LOTTO_NUMBER_PATTERN = Pattern.compile("\\d");
+    private static final Pattern PURCHASE_MONEY_PATTERN = Pattern.compile("\\d+");
+    private static final Pattern SINGLE_LOTTO_NUMBER_PATTERN = Pattern.compile("\\d+");
     private static final Pattern WINNING_LOTTO_PATTERN =
             Pattern.compile("(" + SINGLE_LOTTO_NUMBER_PATTERN + ",\\s){5}" + SINGLE_LOTTO_NUMBER_PATTERN);
 
