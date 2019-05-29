@@ -44,12 +44,15 @@ public enum Rank {
         return this.matchCount == matchCount;
     }
 
-    public void printRank() {
-        if (money == 30000000) {
-            System.out.print(matchCount + "개 일치, 보너스 볼 일" + "(" + money + "원)" + "-");
+    public void printRank(int hittingCount) {
+        if (money == 0) {
             return;
         }
-        System.out.print(matchCount + "개 일치" + "(" + money + "원)" + "-");
+        if (money == 30000000) {
+            System.out.println(matchCount + "개 일치, 보너스 볼 일" + "(" + money + "원)" + "-" + hittingCount + "개");
+            return;
+        }
+        System.out.println(matchCount + "개 일치" + "(" + money + "원)" + "-" + hittingCount + "개");
     }
 
     public int getMoney() {

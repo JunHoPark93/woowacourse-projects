@@ -1,5 +1,7 @@
 package com.woowacourse.lotto.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class LottoResult {
@@ -14,9 +16,9 @@ public class LottoResult {
     }
 
     public void printResult() {
-        for (Rank rank : map.keySet()) {
-            rank.printRank();
-            System.out.println(map.get(rank) + "개");
+        List<Rank> keys = new ArrayList<>(map.keySet());
+        for (int i = keys.size() - 1; i >= 0; i--) {
+            keys.get(i).printRank(map.get(keys.get(i)));
         }
     }
 
