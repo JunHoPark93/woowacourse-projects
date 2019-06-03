@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class InputViewConsole implements InputView {
-    private static final int LOTTO_PRICE = 1000;
     private static final Scanner SCANNER = new Scanner(System.in);
 
     @Override
@@ -32,7 +31,7 @@ public class InputViewConsole implements InputView {
             String input = SCANNER.nextLine();
             InputUtil.checkManualNumber(input);
             int lottoCount = Integer.parseInt(input);
-            checkAvailableLottoNum(lottoCount * LOTTO_PRICE, purchaseMoney);
+            checkAvailableLottoNum(lottoCount * Lotto.PRICE, purchaseMoney);
 
             return new ManualNumber(lottoCount);
         } catch (IllegalArgumentException e) {

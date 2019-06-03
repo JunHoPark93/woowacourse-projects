@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Lotto {
-    private static final int LOTTO_COMPOSITION_NUMBER = 6;
+    private static final int COMPOSITION_NUMBER = 6;
+    public static final int PRICE = 1000;
 
     private final List<LottoNumber> lottoNumbers;
 
@@ -18,18 +19,10 @@ public class Lotto {
     }
 
     private void initLotto(LottoGenerator generator) {
-        while (lottoNumbers.size() < LOTTO_COMPOSITION_NUMBER) {
-            initSingleLottoNumber(generator);
+        for (int i = 0; i < COMPOSITION_NUMBER; i++) {
+            lottoNumbers.add(generator.generateNumber());
         }
         Collections.sort(lottoNumbers);
-    }
-
-    private void initSingleLottoNumber(LottoGenerator generator) {
-        LottoNumber lottoNumber = new LottoNumber(generator.generateNumber());
-        if (contains(lottoNumber)) {
-            return;
-        }
-        lottoNumbers.add(lottoNumber);
     }
 
     public boolean contains(LottoNumber lottoNumber) {

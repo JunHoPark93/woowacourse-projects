@@ -10,8 +10,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class LottoService {
-    private static final int LOTTO_PRICE = 1000;
-
     public static LottoBuyList getAutoLottoBuyList(PurchaseMoney purchaseMoney, ManualNumber manualNumber) {
         if (isNotEnoughMoney(purchaseMoney, manualNumber)) {
             return new LottoBuyList(Collections.emptyList());
@@ -23,7 +21,7 @@ public class LottoService {
     }
 
     private static boolean isNotEnoughMoney(PurchaseMoney purchaseMoney, ManualNumber manualNumber) {
-        return purchaseMoney.getMoney() - manualNumber.getTotalPrice() < LOTTO_PRICE;
+        return purchaseMoney.getMoney() - manualNumber.getTotalPrice() < Lotto.PRICE;
     }
 
     private static List<Lotto> createAutoLottoList(PurchaseMoney purchaseMoney, ManualNumber manualNumber) {
