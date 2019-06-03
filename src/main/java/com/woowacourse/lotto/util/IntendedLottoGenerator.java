@@ -1,5 +1,7 @@
 package com.woowacourse.lotto.util;
 
+import com.woowacourse.lotto.domain.LottoNumber;
+
 import java.util.List;
 
 public class IntendedLottoGenerator implements LottoGenerator {
@@ -12,9 +14,9 @@ public class IntendedLottoGenerator implements LottoGenerator {
     }
 
     @Override
-    public int generateNumber() {
+    public LottoNumber generateNumber() {
         try {
-            return numbers.get(index++);
+            return new LottoNumber(numbers.get(index++));
         } catch (IndexOutOfBoundsException e) {
             throw new IllegalArgumentException("로또 생성 에러");
         }

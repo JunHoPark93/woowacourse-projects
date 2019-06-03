@@ -1,5 +1,7 @@
 package com.woowacourse.lotto.util;
 
+import com.woowacourse.lotto.domain.LottoNumber;
+
 public interface LottoGenerator {
-    int generateNumber();
+    LottoNumber generateNumber();
 }
