@@ -34,7 +34,7 @@ public class WinningLotto {
     private void makeResult(LottoBuyList lottoBuyList, Map<Rank, Integer> map) {
         for (Lotto lotto: lottoBuyList.getLottoBuyList()) {
             int matchCount = this.lotto.matchCount(lotto);
-            boolean isBonusMatch = lotto.isBonusMatch(bonusNumber);
+            boolean isBonusMatch = lotto.contains(bonusNumber);
             Rank rank = Rank.getRank(matchCount, isBonusMatch);
             map.put(rank, map.get(rank) + 1);
         }

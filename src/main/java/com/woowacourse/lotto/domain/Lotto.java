@@ -27,18 +27,13 @@ public class Lotto {
 
     public boolean contains(LottoNumber lottoNumber) {
         return lottoNumbers.stream()
-                .anyMatch(lottoNumbers -> lottoNumbers.getLottoNum() == lottoNumber.getLottoNum());
+                .anyMatch(lottoNumbers -> lottoNumbers.isMatch(lottoNumber));
     }
 
     public int matchCount(Lotto lotto) {
         return (int) lottoNumbers.stream()
                 .filter(lotto::contains)
                 .count();
-    }
-
-    public boolean isBonusMatch(LottoNumber bonusNumber) {
-        return lottoNumbers.stream()
-                .anyMatch(lottoNumber -> lottoNumber.isMatch(bonusNumber));
     }
 
     @Override
