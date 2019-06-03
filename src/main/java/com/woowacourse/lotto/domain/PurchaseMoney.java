@@ -31,4 +31,8 @@ public class PurchaseMoney {
     public double getMoney() {
         return money;
     }
+
+    public boolean isEnoughMoney(ManualNumber manualNumber) {
+        return money - manualNumber.getTotalPrice() > Lotto.PRICE;
+    }
 }

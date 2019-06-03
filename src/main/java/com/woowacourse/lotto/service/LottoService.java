@@ -11,17 +11,13 @@ import java.util.stream.Collectors;
 
 public class LottoService {
     public static LottoBuyList getAutoLottoBuyList(PurchaseMoney purchaseMoney, ManualNumber manualNumber) {
-        if (isNotEnoughMoney(purchaseMoney, manualNumber)) {
+        if (!purchaseMoney.isEnoughMoney(manualNumber)) {
             return new LottoBuyList(Collections.emptyList());
         }
 
         List<Lotto> lottoBuyList = createAutoLottoList(purchaseMoney, manualNumber);
 
         return new LottoBuyList(lottoBuyList);
-    }
-
-    private static boolean isNotEnoughMoney(PurchaseMoney purchaseMoney, ManualNumber manualNumber) {
-        return purchaseMoney.getMoney() - manualNumber.getTotalPrice() < Lotto.PRICE;
     }
 
     private static List<Lotto> createAutoLottoList(PurchaseMoney purchaseMoney, ManualNumber manualNumber) {
