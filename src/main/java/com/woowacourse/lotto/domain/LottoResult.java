@@ -10,7 +10,7 @@ public class LottoResult {
         this.result = result;
     }
 
-    public Iterator<Map.Entry<Rank, Integer>> iterator() {
+    public Iterator<Map.Entry<Rank, Integer>> getIterator() {
         return result.entrySet().iterator();
     }
 

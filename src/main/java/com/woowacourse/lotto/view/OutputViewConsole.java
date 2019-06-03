@@ -2,7 +2,6 @@ package com.woowacourse.lotto.view;
 
 import com.woowacourse.lotto.domain.*;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ public class OutputViewConsole implements OutputView{
     public void printLottoResult(LottoResult lottoResult, PurchaseMoney purchaseMoney) {
         System.out.println("당첨 통계");
         System.out.println("---------");
-        Iterator<Map.Entry<Rank, Integer>> iterator = lottoResult.iterator();
+        Iterator<Map.Entry<Rank, Integer>> iterator = lottoResult.getIterator();
 
         while (iterator.hasNext()) {
             Map.Entry<Rank, Integer> key = iterator.next();

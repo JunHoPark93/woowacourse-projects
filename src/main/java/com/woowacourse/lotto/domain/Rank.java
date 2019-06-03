@@ -1,11 +1,13 @@
 package com.woowacourse.lotto.domain;
 
+import java.util.Arrays;
+
 public enum Rank {
-    FIRST(6, 2000000000),
-    SECOND(5, 30000000),
-    THIRD(5, 1500000),
-    FOURTH(4, 50000),
-    FIFTH(3, 5000),
+    FIRST(6, 2_000_000_000),
+    SECOND(5, 30_000_000),
+    THIRD(5, 1_500_000),
+    FOURTH(4, 50_000),
+    FIFTH(3, 5_000),
     NONE(0, 0);
 
     private int matchCount;
@@ -17,31 +19,14 @@ public enum Rank {
     }
 
     public static Rank getRank(int matchCount, boolean bonusMatch) {
-        if (FIRST.match(matchCount)) {
-            return FIRST;
-        }
-
-        if (SECOND.match(matchCount) && bonusMatch) {
+        if (matchCount == SECOND.matchCount && bonusMatch) {
             return SECOND;
         }
 
-        if (THIRD.match(matchCount)) {
-            return THIRD;
-        }
-
-        if (FOURTH.match(matchCount)) {
-            return FOURTH;
-        }
-
-        if (FIFTH.match(matchCount)) {
-            return FIFTH;
-        }
-
-        return NONE;
-    }
-
-    private boolean match(int matchCount) {
-        return this.matchCount == matchCount;
+        return Arrays.stream(values())
+                .filter(rank -> rank.matchCount == matchCount)
+                .findAny()
+                .orElse(NONE);
     }
 
     public void printRank(int hittingCount) {
