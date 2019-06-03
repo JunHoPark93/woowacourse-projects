@@ -37,6 +37,6 @@ class LottoBuyListTest {
         LottoResult lottoResult = winningLotto.getResult(lottoBuyList);
 
         // then
-        assertThat(lottoResult.getMap()).containsAllEntriesOf(expectedResult);
+        assertThat(lottoResult.getResult()).containsAllEntriesOf(expectedResult);
     }
 }

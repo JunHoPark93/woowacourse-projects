@@ -2,23 +2,20 @@ package com.woowacourse.lotto.util;
 
 import com.woowacourse.lotto.domain.LottoNumber;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class IntendedLottoGenerator implements LottoGenerator {
-    private List<Integer> numbers;
-    private int index;
+    private List<LottoNumber> numbers = new ArrayList<>();
 
     public IntendedLottoGenerator(List<Integer> numbers) {
-        this.numbers = numbers;
-        this.index = 0;
+        for (int number : numbers) {
+            this.numbers.add(new LottoNumber(number));
+        }
     }
 
     @Override
-    public LottoNumber generateNumber() {
-        try {
-            return new LottoNumber(numbers.get(index++));
-        } catch (IndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("로또 생성 에러");
-        }
+    public List<LottoNumber> generateNumber() {
+        return numbers;
     }
 }

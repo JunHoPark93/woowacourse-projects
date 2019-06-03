@@ -4,6 +4,8 @@ import com.woowacourse.lotto.util.LottoGenerator;
 import com.woowacourse.lotto.util.RandomLottoGenerator;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class RandomLottoGeneratorTest {
@@ -19,7 +21,9 @@ class RandomLottoGeneratorTest {
         }
     }
 
-    private boolean validLottoRange(int generateNumber) {
-        return MIN_LOTTO_NUM <= generateNumber && generateNumber <= MAX_LOTTO_NUM;
+    private boolean validLottoRange(List<LottoNumber> generateNumber) {
+        return generateNumber.stream()
+                .allMatch(lottoNumber -> lottoNumber.getLottoNum() >= MIN_LOTTO_NUM
+                        && lottoNumber.getLottoNum() <= MAX_LOTTO_NUM);
     }
 }
