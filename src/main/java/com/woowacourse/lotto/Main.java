@@ -23,7 +23,7 @@ public class Main {
 
         Lotto lastWeekLotto = inputViewConsole.getLastWeekLottoFromUser();
         LottoNumber bonusNumber = inputViewConsole.getBonusNumberFromUser(lastWeekLotto);
-        LottoResult lottoResult = LottoService.getLottoResult(totalBuys, new WinningLotto(lastWeekLotto, bonusNumber));
+        LottoResult lottoResult = new LottoResult(totalBuys, new WinningLotto(lastWeekLotto, bonusNumber));
 
         outputViewConsole.printLottoResult(lottoResult, purchaseMoney);
     }

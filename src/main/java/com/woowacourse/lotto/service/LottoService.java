@@ -55,10 +55,6 @@ public class LottoService {
         manualLottoList.add(new Lotto(lottoGenerator));
     }
 
-    public static LottoResult getLottoResult(LottoBuyList lottoBuyList, WinningLotto winningLotto) {
-        return winningLotto.getResult(lottoBuyList);
-    }
-
     public static LottoBuyList joinBuyList(LottoBuyList manualBuyList, LottoBuyList autoBuyList) {
         return manualBuyList.joinBuyList(autoBuyList);
     }

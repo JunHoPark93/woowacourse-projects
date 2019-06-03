@@ -1,9 +1,5 @@
 package com.woowacourse.lotto.domain;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 public class WinningLotto {
     private final Lotto lotto;
     private final LottoNumber bonusNumber;
@@ -24,26 +20,11 @@ public class WinningLotto {
         return lotto;
     }
 
-    public LottoResult getResult(LottoBuyList lottoBuyList) {
-        Map<Rank, Integer> map = initResultMap();
-        makeResult(lottoBuyList, map);
-
-        return new LottoResult(map);
+    public int matchCount(Lotto lotto) {
+        return this.lotto.matchCount(lotto);
     }
 
-    private void makeResult(LottoBuyList lottoBuyList, Map<Rank, Integer> map) {
-        for (Lotto lotto: lottoBuyList.getLottoBuyList()) {
-            int matchCount = this.lotto.matchCount(lotto);
-            boolean isBonusMatch = lotto.contains(bonusNumber);
-            Rank rank = Rank.getRank(matchCount, isBonusMatch);
-            map.put(rank, map.get(rank) + 1);
-        }
-    }
-
-    private Map<Rank, Integer> initResultMap() {
-        Map<Rank, Integer> map = new LinkedHashMap<>();
-        Arrays.stream(Rank.values())
-                .forEach(rank -> map.put(rank, 0));
-        return map;
+    public boolean isBonusMatch(Lotto lotto) {
+        return lotto.contains(bonusNumber);
     }
 }

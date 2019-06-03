@@ -4,10 +4,7 @@ import com.woowacourse.lotto.util.IntendedLottoGenerator;
 import com.woowacourse.lotto.util.LottoGenerator;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,19 +22,18 @@ class LottoBuyListTest {
         LottoBuyList lottoBuyList = new LottoBuyList(lottoList);
         WinningLotto winningLotto = new WinningLotto(lastWeekLotto, new LottoNumber(7));
 
-        Map<Rank, Integer> result = new HashMap<>();
-        result.put(Rank.FIRST, 0);
-        result.put(Rank.SECOND, 1);
-        result.put(Rank.THIRD, 0);
-        result.put(Rank.FOURTH, 0);
-        result.put(Rank.FIFTH, 1);
-        result.put(Rank.NONE, 0);
-        LottoResult expectedResult = new LottoResult(result);
+        LottoResult lottoResult = new LottoResult(lottoBuyList, winningLotto);
+        Iterator<Map.Entry<Rank, Integer>> iterator = lottoResult.getIterator();
 
         // when
-        LottoResult lottoResult = winningLotto.getResult(lottoBuyList);
+        double sum = 0.0;
+        while (iterator.hasNext()) {
+            Map.Entry<Rank, Integer> key = iterator.next();
+            Rank rank = key.getKey();
+            sum += key.getValue() * rank.getMoney();
+        }
 
         // then
-        assertThat(lottoResult).isEqualTo(expectedResult);
+        assertThat(sum).isEqualTo(30005000);
     }
 }

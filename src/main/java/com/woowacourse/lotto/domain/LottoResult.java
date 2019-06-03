@@ -1,13 +1,31 @@
 package com.woowacourse.lotto.domain;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class LottoResult {
     private final Map<Rank, Integer> result;
 
-    public LottoResult(Map<Rank, Integer> result) {
-        this.result = result;
+    public LottoResult(LottoBuyList totalBuys, WinningLotto winningLotto) {
+        result = new LinkedHashMap<>();
+        initResultMap();
+        makeResult(totalBuys, winningLotto);
+    }
+
+    private void initResultMap() {
+        Arrays.stream(Rank.values())
+                .forEach(rank -> result.put(rank, 0));
+    }
+
+    private void makeResult(LottoBuyList lottoBuyList, WinningLotto winningLotto) {
+        for (Lotto lotto: lottoBuyList.getLottoBuyList()) {
+            int matchCount = winningLotto.matchCount(lotto);
+            boolean isBonusMatch = winningLotto.isBonusMatch(lotto);
+            Rank rank = Rank.getRank(matchCount, isBonusMatch);
+            result.put(rank, result.get(rank) + 1);
+        }
     }
 
     public Iterator<Map.Entry<Rank, Integer>> getIterator() {
