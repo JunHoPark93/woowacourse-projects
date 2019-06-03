@@ -14,12 +14,6 @@ public class LottoBuyList {
         return lottoBuyList.size();
     }
 
-    public void printLottoList() {
-        for(Lotto lotto : lottoBuyList) {
-            System.out.println(lotto);
-        }
-    }
-
     public List<Lotto> getLottoBuyList() {
         return lottoBuyList;
     }

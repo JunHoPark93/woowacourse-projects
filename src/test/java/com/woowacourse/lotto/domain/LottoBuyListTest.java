@@ -25,18 +25,19 @@ class LottoBuyListTest {
         LottoBuyList lottoBuyList = new LottoBuyList(lottoList);
         WinningLotto winningLotto = new WinningLotto(lastWeekLotto, new LottoNumber(7));
 
-        Map<Rank, Integer> expectedResult = new HashMap<>();
-        expectedResult.put(Rank.FIRST, 0);
-        expectedResult.put(Rank.SECOND, 1);
-        expectedResult.put(Rank.THIRD, 0);
-        expectedResult.put(Rank.FOURTH, 0);
-        expectedResult.put(Rank.FIFTH, 1);
-        expectedResult.put(Rank.NONE, 0);
+        Map<Rank, Integer> result = new HashMap<>();
+        result.put(Rank.FIRST, 0);
+        result.put(Rank.SECOND, 1);
+        result.put(Rank.THIRD, 0);
+        result.put(Rank.FOURTH, 0);
+        result.put(Rank.FIFTH, 1);
+        result.put(Rank.NONE, 0);
+        LottoResult expectedResult = new LottoResult(result);
 
         // when
         LottoResult lottoResult = winningLotto.getResult(lottoBuyList);
 
         // then
-        assertThat(lottoResult.getResult()).containsAllEntriesOf(expectedResult);
+        assertThat(lottoResult).isEqualTo(expectedResult);
     }
 }

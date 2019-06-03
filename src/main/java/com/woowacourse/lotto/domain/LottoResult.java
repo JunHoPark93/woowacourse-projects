@@ -1,5 +1,6 @@
 package com.woowacourse.lotto.domain;
 
+import java.util.Iterator;
 import java.util.Map;
 
 public class LottoResult {
@@ -9,16 +10,30 @@ public class LottoResult {
         this.result = result;
     }
 
-    public Map<Rank, Integer> getResult() {
-        return result;
+    public Iterator<Map.Entry<Rank, Integer>> iterator() {
+        return result.entrySet().iterator();
     }
 
     public double getProfitRatio(PurchaseMoney purchaseMoney) {
-        double sum = 0.0;
-        for (Rank rank : result.keySet()) {
-            sum += rank.getMoney() * result.get(rank);
-        }
+        double sum = result.keySet().stream()
+                .mapToDouble(rank -> rank.getMoney() * result.get(rank))
+                .sum();
 
         return purchaseMoney.getProfitRatio(sum);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LottoResult that = (LottoResult) o;
+
+        return result != null ? result.equals(that.result) : that.result == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return result != null ? result.hashCode() : 0;
     }
 }

@@ -42,14 +42,6 @@ public class LottoNumber implements Comparable<LottoNumber> {
 
     @Override
     public int compareTo(LottoNumber o) {
-        if (this.lottoNum > o.lottoNum) {
-            return 1;
-        }
-
-        if (this.lottoNum < o.lottoNum) {
-            return -1;
-        }
-
-        return 0;
+       return Integer.compare(this.lottoNum, o.lottoNum);
     }
 }
