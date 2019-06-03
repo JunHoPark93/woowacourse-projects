@@ -4,6 +4,7 @@ import com.woowacourse.lotto.domain.*;
 import com.woowacourse.lotto.service.LottoService;
 import com.woowacourse.lotto.util.InputUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -70,7 +71,6 @@ public class InputViewConsole implements InputView {
             checkDuplicateBonusNum(lastWeekLotto, bonusNum);
 
             return new LottoNumber(bonusNum);
-
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return getBonusNumberFromUser(lastWeekLotto);
@@ -85,13 +85,23 @@ public class InputViewConsole implements InputView {
 
     @Override
     public LottoBuyList getManualLottoFromUser(ManualNumber manualNumber) {
+        List<Lotto> manualLottoList = new ArrayList<>();
         try {
             System.out.println("수동으로 구매할 번호를 입력해 주세요.");
-            List<Lotto> manualLottoList = LottoService.createManualLotto(manualNumber, SCANNER);
+            getLottoNumber(manualNumber, manualLottoList);
+
             return new LottoBuyList(manualLottoList);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return getManualLottoFromUser(manualNumber);
+        }
+    }
+
+    private void getLottoNumber(ManualNumber manualNumber, List<Lotto> manualLottoList) {
+        for (int i = 0; i < manualNumber.getNum(); i++) {
+            String input = SCANNER.nextLine();
+            InputUtil.checkLottoInput(input);
+            LottoService.addManualLotto(manualLottoList, input);
         }
     }
 }

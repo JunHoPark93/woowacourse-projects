@@ -1,12 +1,17 @@
 package com.woowacourse.lotto.service;
 
-import com.woowacourse.lotto.domain.*;
-import com.woowacourse.lotto.util.InputUtil;
+import com.woowacourse.lotto.domain.Lotto;
+import com.woowacourse.lotto.domain.LottoBuyList;
+import com.woowacourse.lotto.domain.ManualNumber;
+import com.woowacourse.lotto.domain.PurchaseMoney;
 import com.woowacourse.lotto.util.IntendedLottoGenerator;
 import com.woowacourse.lotto.util.LottoGenerator;
 import com.woowacourse.lotto.util.RandomLottoGenerator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class LottoService {
@@ -32,17 +37,7 @@ public class LottoService {
         return lottoBuyList;
     }
 
-    public static List<Lotto> createManualLotto(ManualNumber manualNumber, final Scanner scanner) {
-        List<Lotto> manualLottoList = new ArrayList<>();
-        for (int i = 0; i < manualNumber.getNum(); i++) {
-            String input = scanner.nextLine();
-            InputUtil.checkLottoInput(input);
-            addLotto(manualLottoList, input);
-        }
-        return manualLottoList;
-    }
-
-    private static void addLotto(List<Lotto> manualLottoList, String input) {
+    public static void addManualLotto(List<Lotto> manualLottoList, String input) {
         List<Integer> numbers = Arrays.stream(input.split(","))
                 .map(String::trim)
                 .map(Integer::parseInt)
