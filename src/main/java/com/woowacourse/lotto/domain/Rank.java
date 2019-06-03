@@ -29,18 +29,11 @@ public enum Rank {
                 .orElse(NONE);
     }
 
-    public void printRank(int hittingCount) {
-        if (money == 0) {
-            return;
-        }
-        if (money == 30000000) {
-            System.out.println(matchCount + "개 일치, 보너스 볼 일" + "(" + money + "원)" + "-" + hittingCount + "개");
-            return;
-        }
-        System.out.println(matchCount + "개 일치" + "(" + money + "원)" + "-" + hittingCount + "개");
-    }
-
     public int getMoney() {
         return money;
+    }
+
+    public int getMatchCount() {
+        return matchCount;
     }
 }
