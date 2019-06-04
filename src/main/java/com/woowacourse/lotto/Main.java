@@ -17,7 +17,7 @@ public class Main {
 
         LottoBuyList manualBuys = inputViewConsole.getManualLottoFromUser(manualNumber);
         LottoBuyList autoBuys = LottoService.getAutoLottoBuyList(purchaseMoney, manualNumber);
-        LottoBuyList totalBuys = LottoService.joinBuyList(manualBuys, autoBuys);
+        LottoBuyList totalBuys = autoBuys.joinBuyList(manualBuys);
 
         outputViewConsole.printLottoBuyList(totalBuys);
 

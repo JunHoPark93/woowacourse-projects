@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class OutputViewConsole implements OutputView{
+public class OutputViewConsole implements OutputView {
     private static final int LOTTO_NONE_PLACE = 0;
     private static final int LOTTO_SECOND_PLACE = 30_000_000;
 
@@ -25,7 +25,7 @@ public class OutputViewConsole implements OutputView{
         System.out.println("---------");
         printHittingStatus(lottoResult);
 
-        System.out.println("총 수익률은 " + lottoResult.getProfitRatio(purchaseMoney)+"%입니다");
+        System.out.println("총 수익률은 " + lottoResult.getProfitRatio(purchaseMoney) + "%입니다");
     }
 
     private void printHittingStatus(LottoResult lottoResult) {

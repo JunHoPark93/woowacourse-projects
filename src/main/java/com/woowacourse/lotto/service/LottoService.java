@@ -45,8 +45,4 @@ public class LottoService {
         LottoGenerator lottoGenerator = new IntendedLottoGenerator(numbers);
         manualLottoList.add(new Lotto(lottoGenerator));
     }
-
-    public static LottoBuyList joinBuyList(LottoBuyList manualBuyList, LottoBuyList autoBuyList) {
-        return manualBuyList.joinBuyList(autoBuyList);
-    }
 }
