@@ -25,7 +25,9 @@ public class OutputViewConsole implements OutputView {
         System.out.println("---------");
         printHittingStatus(lottoResult);
 
-        System.out.println("총 수익률은 " + lottoResult.getProfitRatio(purchaseMoney) + "%입니다");
+        System.out.print("총 수익률은 ");
+        System.out.format("%.1f", lottoResult.getProfitRatio(purchaseMoney));
+        System.out.println("%입니다");
     }
 
     private void printHittingStatus(LottoResult lottoResult) {
