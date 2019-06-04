@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 public class Lotto {
     public static final int PRICE = 1000;
+    public static final int MIN_NUM = 1;
+    public static final int MAX_NUM = 45;
 
     private final List<LottoNumber> lottoNumbers;
 

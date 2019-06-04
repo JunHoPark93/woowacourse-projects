@@ -5,6 +5,7 @@ import com.woowacourse.lotto.service.LottoService;
 import com.woowacourse.lotto.util.InputUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -82,6 +83,9 @@ public class InputViewConsole implements InputView {
     @Override
     public LottoBuyList getManualLottoFromUser(ManualNumber manualNumber) {
         List<Lotto> manualLottoList = new ArrayList<>();
+        if (manualNumber.getNum() == 0) {
+            return new LottoBuyList(Collections.emptyList());
+        }
         try {
             System.out.println("수동으로 구매할 번호를 입력해 주세요.");
             getLottoNumber(manualNumber, manualLottoList);
