@@ -31,7 +31,7 @@ public class LottoResult {
         return result.entrySet().iterator();
     }
 
-    public double getProfitRatio(PurchaseMoney purchaseMoney) {
+    public double calculateProfitRatio(PurchaseMoney purchaseMoney) {
         double sum = result.keySet().stream()
                 .mapToDouble(rank -> rank.getMoney() * result.get(rank))
                 .sum();
