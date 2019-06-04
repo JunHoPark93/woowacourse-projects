@@ -6,10 +6,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class LottoResult {
-    private final Map<Rank, Integer> result;
+    private final Map<Rank, Integer> result = new LinkedHashMap<>();
 
     public LottoResult(LottoBuyList totalBuys, WinningLotto winningLotto) {
-        result = new LinkedHashMap<>();
         initResultMap();
         makeResult(totalBuys, winningLotto);
     }
@@ -47,11 +46,11 @@ public class LottoResult {
 
         LottoResult that = (LottoResult) o;
 
-        return result != null ? result.equals(that.result) : that.result == null;
+        return result.equals(that.result);
     }
 
     @Override
     public int hashCode() {
-        return result != null ? result.hashCode() : 0;
+        return result.hashCode();
     }
 }

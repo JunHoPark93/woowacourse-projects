@@ -7,6 +7,8 @@ import java.util.*;
 public class RandomLottoGenerator implements LottoGenerator {
     private static final int MIN_LOTTO_NUM = 1;
     private static final int MAX_LOTTO_NUM = 45;
+    private static final int LOTTO_START_IDX = 0;
+    private static final int LOTTO_END_IDX = 6;
 
     private static List<LottoNumber> lottoNumbers = new ArrayList<>();
 
@@ -19,6 +21,6 @@ public class RandomLottoGenerator implements LottoGenerator {
     @Override
     public List<LottoNumber> generateNumber() {
         Collections.shuffle(lottoNumbers);
-        return new ArrayList<>(lottoNumbers.subList(0, 6));
+        return new ArrayList<>(lottoNumbers.subList(LOTTO_START_IDX, LOTTO_END_IDX));
     }
 }
