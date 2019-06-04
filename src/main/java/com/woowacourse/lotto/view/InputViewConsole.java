@@ -13,7 +13,7 @@ public class InputViewConsole implements InputView {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     @Override
-    public PurchaseMoney getMoneyFromUser() {
+    public PurchaseMoney inputMoney() {
         try {
             System.out.println("구입금액을 입력해 주세요.");
             String input = SCANNER.nextLine();
@@ -21,12 +21,12 @@ public class InputViewConsole implements InputView {
             return new PurchaseMoney(Integer.parseInt(input));
         } catch (IllegalArgumentException e) {
             System.out.println("입력이 잘못 되었습니다");
-            return getMoneyFromUser();
+            return inputMoney();
         }
     }
 
     @Override
-    public ManualNumber getManualNumberFromUser(PurchaseMoney purchaseMoney) {
+    public ManualNumber inputManualNumber(PurchaseMoney purchaseMoney) {
         try {
             System.out.println("수동으로 구매할 로또 수를 입력해 주세요.");
             String input = SCANNER.nextLine();
@@ -36,7 +36,7 @@ public class InputViewConsole implements InputView {
             return new ManualNumber(lottoCount);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return getManualNumberFromUser(purchaseMoney);
+            return inputManualNumber(purchaseMoney);
         }
     }
 
@@ -47,7 +47,7 @@ public class InputViewConsole implements InputView {
     }
 
     @Override
-    public Lotto getLastWeekLottoFromUser() {
+    public Lotto inputLastWeekLotto() {
         try {
             System.out.println("지난 주 당첨 번호를 입력해 주세요.");
             String input = SCANNER.nextLine();
@@ -55,12 +55,12 @@ public class InputViewConsole implements InputView {
             return InputUtil.parseStringToLotto(input);
         } catch (IllegalArgumentException e) {
             System.out.println("입력이 잘못 되었습니다");
-            return getLastWeekLottoFromUser();
+            return inputLastWeekLotto();
         }
     }
 
     @Override
-    public LottoNumber getBonusNumberFromUser(Lotto lastWeekLotto) {
+    public LottoNumber inputBonusNumber(Lotto lastWeekLotto) {
         try {
             System.out.println("보너스 볼을 입력해 주세요.");
             String input = SCANNER.nextLine();
@@ -70,7 +70,7 @@ public class InputViewConsole implements InputView {
             return new LottoNumber(bonusNum);
         } catch (IllegalArgumentException e) {
             System.out.println("입력이 잘못 되었습니다");
-            return getBonusNumberFromUser(lastWeekLotto);
+            return inputBonusNumber(lastWeekLotto);
         }
     }
 
@@ -81,7 +81,7 @@ public class InputViewConsole implements InputView {
     }
 
     @Override
-    public LottoBuyList getManualLottoFromUser(ManualNumber manualNumber) {
+    public LottoBuyList inputManualLotto(ManualNumber manualNumber) {
         List<Lotto> manualLottoList = new ArrayList<>();
         if (manualNumber.getNum() == 0) {
             return new LottoBuyList(Collections.emptyList());
@@ -93,7 +93,7 @@ public class InputViewConsole implements InputView {
             return new LottoBuyList(manualLottoList);
         } catch (IllegalArgumentException e) {
             System.out.println("입력이 잘못 되었습니다");
-            return getManualLottoFromUser(manualNumber);
+            return inputManualLotto(manualNumber);
         }
     }
 

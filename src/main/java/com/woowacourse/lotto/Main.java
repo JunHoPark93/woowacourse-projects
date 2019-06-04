@@ -12,17 +12,17 @@ public class Main {
         InputView inputViewConsole = new InputViewConsole();
         OutputView outputViewConsole = new OutputViewConsole();
 
-        PurchaseMoney purchaseMoney = inputViewConsole.getMoneyFromUser();
-        ManualNumber manualNumber = inputViewConsole.getManualNumberFromUser(purchaseMoney);
+        PurchaseMoney purchaseMoney = inputViewConsole.inputMoney();
+        ManualNumber manualNumber = inputViewConsole.inputManualNumber(purchaseMoney);
 
-        LottoBuyList manualBuys = inputViewConsole.getManualLottoFromUser(manualNumber);
+        LottoBuyList manualBuys = inputViewConsole.inputManualLotto(manualNumber);
         LottoBuyList autoBuys = LottoService.getAutoLottoBuyList(purchaseMoney, manualNumber);
         LottoBuyList totalBuys = autoBuys.joinBuyList(manualBuys);
 
         outputViewConsole.printLottoBuyList(totalBuys);
 
-        Lotto lastWeekLotto = inputViewConsole.getLastWeekLottoFromUser();
-        LottoNumber bonusNumber = inputViewConsole.getBonusNumberFromUser(lastWeekLotto);
+        Lotto lastWeekLotto = inputViewConsole.inputLastWeekLotto();
+        LottoNumber bonusNumber = inputViewConsole.inputBonusNumber(lastWeekLotto);
         LottoResult lottoResult = new LottoResult(totalBuys, new WinningLotto(lastWeekLotto, bonusNumber));
 
         outputViewConsole.printLottoResult(lottoResult, purchaseMoney);
