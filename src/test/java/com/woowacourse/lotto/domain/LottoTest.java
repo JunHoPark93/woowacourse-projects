@@ -23,8 +23,7 @@ public class LottoTest {
 
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> new Lotto(lottoGenerator))
-                .withMessage("로또 생성 에러");
-
+                .withMessage("중복된 로또입니다");
     }
 
     @Test
@@ -33,6 +32,6 @@ public class LottoTest {
 
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> new Lotto(lottoGenerator))
-                .withMessage("로또 생성 에러");
+                .withMessage("로또 숫자는 6개여야 합니다");
     }
 }
