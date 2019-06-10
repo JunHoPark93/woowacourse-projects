@@ -10,6 +10,7 @@ public class Lotto {
     public static final int PRICE = 1000;
     public static final int MIN_NUM = 1;
     public static final int MAX_NUM = 45;
+    public static final int COMPOSITE_NUM = 6;
 
     private final List<LottoNumber> lottoNumbers;
 
