@@ -53,9 +53,7 @@ public class Lotto {
                 .collect(Collectors.joining(", "));
 
         StringBuilder sb = new StringBuilder();
-        sb.append("[");
         sb.append(lotto);
-        sb.append("]");
 
         return sb.toString();
     }

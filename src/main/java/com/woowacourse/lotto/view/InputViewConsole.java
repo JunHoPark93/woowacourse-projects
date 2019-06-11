@@ -37,11 +37,10 @@ public class InputViewConsole  {
                 LottoService.addManualLotto(manualLottoList, Input.inputString());
                 return new LottoBuyList(manualLottoList);
             }
-
         } catch (IllegalArgumentException e) {
             return inputManualBuys(manualNumber);
         }
-        return null;
+        throw new RuntimeException("수동 구매 에러");
     }
 
     public static ManualNumber inputManualNumber(PurchaseMoney purchaseMoney) {

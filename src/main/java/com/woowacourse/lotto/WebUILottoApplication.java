@@ -3,6 +3,7 @@ package com.woowacourse.lotto;
 import com.woowacourse.lotto.domain.*;
 import com.woowacourse.lotto.domain.dto.LottoBuyResultDto;
 import com.woowacourse.lotto.domain.dto.LottoResultDto;
+import com.woowacourse.lotto.domain.repository.LottoRepository;
 import com.woowacourse.lotto.service.LottoService;
 import com.woowacourse.lotto.view.OutputMessageConverter;
 import spark.ModelAndView;
@@ -19,7 +20,14 @@ import static spark.Spark.post;
 public class WebUILottoApplication {
     public static void main(String[] args) {
         get("/", (req, res) -> {
+            // 회차의 증가
+            int round = LottoRepository.selectRound();
+            LottoRepository.addRound(round);
+
+            req.session().attribute("round", round + 1);
+
             Map<String, Object> model = new HashMap<>();
+            model.put("round", round + 1);
             return render(model, "index.html");
         });
 
@@ -41,6 +49,8 @@ public class WebUILottoApplication {
             }
 
             LottoBuyList totalBuys = LottoService.createTotalBuyList(new LottoBuyList(manualLottoList), purchaseMoney, manualNumber);
+            // TODO DB 접근의 분리
+            LottoRepository.addBuys(totalBuys);
 
             req.session().attribute("buyList", totalBuys);
             req.session().attribute("money", purchaseMoney);
@@ -67,6 +77,7 @@ public class WebUILottoApplication {
             LottoBuyList totalBuys = req.session().attribute("buyList");
             LottoResult lottoResult = LottoService.createResult(totalBuys, new WinningLotto(winningLotto, bonusNumber));
 
+            LottoRepository.addWinningLotto(winningLotto, bonusNumber);
             // Dto 생성
             LottoResultDto lottoResultDto = new LottoResultDto();
             lottoResultDto.setHittingStatusMsg(OutputMessageConverter.makeHittingStatusMsg(lottoResult));
