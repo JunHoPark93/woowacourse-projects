@@ -1,6 +1,7 @@
 package com.woowacourse.lotto.view;
 
 import com.woowacourse.lotto.domain.*;
+import com.woowacourse.lotto.service.ConsoleLottoService;
 import com.woowacourse.lotto.service.LottoService;
 
 import java.util.ArrayList;
@@ -8,10 +9,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class InputViewConsole  {
+    private static LottoService lottoService = new ConsoleLottoService();
+
     public static LottoNumber inputBonusNumber(Lotto lastWeekLotto) {
         try {
             System.out.println("보너스 볼을 입력해 주세요.");
-            return LottoService.createBonusNumber(Input.inputString(), lastWeekLotto);
+            return lottoService.createBonusNumber(Input.inputString(), lastWeekLotto);
         } catch (IllegalArgumentException e) {
             return inputBonusNumber(lastWeekLotto);
         }
@@ -20,7 +23,7 @@ public class InputViewConsole  {
     public static Lotto inputLastWeekLotto() {
         try {
             System.out.println("지난 주 당첨 번호를 입력해 주세요.");
-            return LottoService.createLotto(Input.inputString());
+            return lottoService.createLotto(Input.inputString());
         } catch (IllegalArgumentException e) {
             return inputLastWeekLotto();
         }
@@ -34,7 +37,7 @@ public class InputViewConsole  {
         try {
             System.out.println("수동으로 구매할 번호를 입력해 주세요.");
             for (int i = 0; i < manualNumber.getNum(); i++) {
-                LottoService.addManualLotto(manualLottoList, Input.inputString());
+                lottoService.addManualLotto(manualLottoList, Input.inputString());
                 return new LottoBuyList(manualLottoList);
             }
         } catch (IllegalArgumentException e) {
@@ -46,7 +49,7 @@ public class InputViewConsole  {
     public static ManualNumber inputManualNumber(PurchaseMoney purchaseMoney) {
         try {
             System.out.println(OutputViewConsole.inputManualNumberMsg());
-            return LottoService.createManualNumber(Input.inputString(), purchaseMoney);
+            return lottoService.createManualNumber(Input.inputString(), purchaseMoney);
         } catch (IllegalArgumentException e) {
             System.out.println("잘못된 입력");
             return inputManualNumber(purchaseMoney);
@@ -56,7 +59,7 @@ public class InputViewConsole  {
     public static PurchaseMoney inputPurchaseMoney() {
         try {
             System.out.println(OutputViewConsole.inputPurchaseMoneyMsg());
-            return LottoService.createPurchaseMoney(Input.inputString());
+            return lottoService.createPurchaseMoney(Input.inputString());
         } catch (IllegalArgumentException e) {
             System.out.println("잘못된 입력");
             return inputPurchaseMoney();

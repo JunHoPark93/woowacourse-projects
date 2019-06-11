@@ -20,6 +20,10 @@ public class WinningLotto {
         return lotto;
     }
 
+    public LottoNumber getBonusNumber() {
+        return bonusNumber;
+    }
+
     public int matchCount(Lotto lotto) {
         return this.lotto.matchCount(lotto);
     }

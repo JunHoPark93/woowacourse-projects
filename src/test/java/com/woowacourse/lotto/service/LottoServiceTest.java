@@ -3,6 +3,7 @@ package com.woowacourse.lotto.service;
 import com.woowacourse.lotto.domain.*;
 import com.woowacourse.lotto.util.IntendedLottoGenerator;
 import com.woowacourse.lotto.util.LottoGenerator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,11 +13,18 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LottoServiceTest {
+    private LottoService lottoService;
+
+    @BeforeEach
+    void setUp() {
+        lottoService = new ConsoleLottoService();
+    }
+
     @Test
     void 구매금액_검증() {
         PurchaseMoney purchaseMoney = new PurchaseMoney(1000);
 
-        PurchaseMoney actualPurchaseMoney = LottoService.createPurchaseMoney("1000");
+        PurchaseMoney actualPurchaseMoney = lottoService.createPurchaseMoney("1000");
 
         assertThat(purchaseMoney).isEqualTo(actualPurchaseMoney);
     }
@@ -26,7 +34,7 @@ class LottoServiceTest {
         PurchaseMoney purchaseMoney = new PurchaseMoney(3000);
         ManualNumber manualNumber = new ManualNumber(3);
 
-        ManualNumber actualNumber = LottoService.createManualNumber("3", purchaseMoney);
+        ManualNumber actualNumber = lottoService.createManualNumber("3", purchaseMoney);
 
         assertThat(manualNumber).isEqualTo(actualNumber);
     }
@@ -37,7 +45,7 @@ class LottoServiceTest {
         List<Lotto> manualLottoList = new ArrayList<>();
         manualLottoList.add(new Lotto(lottoGenerator));
 
-        LottoService.addManualLotto(manualLottoList, "5, 6, 7, 8, 9, 10");
+        lottoService.addManualLotto(manualLottoList, "5, 6, 7, 8, 9, 10");
 
         assertThat(manualLottoList).hasSize(2);
     }
@@ -47,7 +55,7 @@ class LottoServiceTest {
         LottoGenerator lottoGenerator = new IntendedLottoGenerator(Arrays.asList(1, 2, 3, 4, 5, 6));
         Lotto expectedLotto = new Lotto(lottoGenerator);
 
-        Lotto actualLotto = LottoService.createLotto("1, 2, 3, 4, 5, 6");
+        Lotto actualLotto = lottoService.createLotto("1, 2, 3, 4, 5, 6");
 
         assertThat(expectedLotto).isEqualTo(actualLotto);
 
@@ -58,7 +66,7 @@ class LottoServiceTest {
         LottoGenerator lottoGenerator = new IntendedLottoGenerator(Arrays.asList(1, 2, 3, 4, 5, 6));
         Lotto lastWeekLotto = new Lotto(lottoGenerator);
 
-        LottoNumber bonusNum = LottoService.createBonusNumber("10", lastWeekLotto);
+        LottoNumber bonusNum = lottoService.createBonusNumber("10", lastWeekLotto);
 
         assertThat(bonusNum.getLottoNum()).isEqualTo(10);
     }
@@ -73,7 +81,7 @@ class LottoServiceTest {
         lottos.add(lotto);
         LottoBuyList lottoBuyList = new LottoBuyList(lottos);
 
-        LottoBuyList totalBuyList = LottoService.createTotalBuyList(lottoBuyList, purchaseMoney, manualNumber);
+        LottoBuyList totalBuyList = lottoService.createTotalBuyList(lottoBuyList, purchaseMoney, manualNumber);
 
         assertThat(totalBuyList.getLottoSize()).isEqualTo(3);
     }

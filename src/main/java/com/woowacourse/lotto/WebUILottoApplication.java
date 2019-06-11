@@ -4,7 +4,7 @@ import com.woowacourse.lotto.domain.*;
 import com.woowacourse.lotto.domain.dto.LottoBuyResultDto;
 import com.woowacourse.lotto.domain.dto.LottoResultDto;
 import com.woowacourse.lotto.domain.repository.LottoRepository;
-import com.woowacourse.lotto.service.LottoService;
+import com.woowacourse.lotto.service.WebLottoService;
 import com.woowacourse.lotto.view.OutputMessageConverter;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -18,6 +18,8 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class WebUILottoApplication {
+    private static WebLottoService webLottoService = new WebLottoService();
+
     public static void main(String[] args) {
         get("/", (req, res) -> {
             // 회차의 증가
@@ -39,21 +41,16 @@ public class WebUILottoApplication {
 
             // 서비스 호출
             List<Lotto> manualLottoList = new ArrayList<>();
-            PurchaseMoney purchaseMoney = LottoService.createPurchaseMoney(moneyInput);
-            ManualNumber manualNumber = LottoService.createManualNumber(manualNumberInput, purchaseMoney);
+            PurchaseMoney purchaseMoney = webLottoService.createPurchaseMoney(moneyInput);
+            ManualNumber manualNumber = webLottoService.createManualNumber(manualNumberInput, purchaseMoney);
 
             if (manualLottos != null) {
-                for (String manualLotto : manualLottos) {
-                    LottoService.addManualLotto(manualLottoList, manualLotto);
-                }
+                addManualLotto(manualLottos, manualLottoList);
             }
 
-            LottoBuyList totalBuys = LottoService.createTotalBuyList(new LottoBuyList(manualLottoList), purchaseMoney, manualNumber);
-            // TODO DB 접근의 분리
-            LottoRepository.addBuys(totalBuys);
+            LottoBuyList totalBuys = webLottoService.createTotalBuyList(new LottoBuyList(manualLottoList), purchaseMoney, manualNumber);
 
             req.session().attribute("buyList", totalBuys);
-            req.session().attribute("money", purchaseMoney);
 
             // Dto 생성
             LottoBuyResultDto lottoBuyResultDto = new LottoBuyResultDto();
@@ -72,12 +69,12 @@ public class WebUILottoApplication {
             String bonusNumberInput = req.queryParams("bonusNumber");
 
             // 서비스 호출
-            Lotto winningLotto = LottoService.createLotto(lottoInput);
-            LottoNumber bonusNumber = LottoService.createBonusNumber(bonusNumberInput, winningLotto);
+            Lotto winningLotto = webLottoService.createLotto(lottoInput);
+            LottoNumber bonusNumber = webLottoService.createBonusNumber(bonusNumberInput, winningLotto);
             LottoBuyList totalBuys = req.session().attribute("buyList");
-            LottoResult lottoResult = LottoService.createResult(totalBuys, new WinningLotto(winningLotto, bonusNumber));
+            LottoResult lottoResult = webLottoService.createResult(totalBuys,
+                    new WinningLotto(winningLotto, bonusNumber));
 
-            LottoRepository.addWinningLotto(winningLotto, bonusNumber);
             // Dto 생성
             LottoResultDto lottoResultDto = new LottoResultDto();
             lottoResultDto.setHittingStatusMsg(OutputMessageConverter.makeHittingStatusMsg(lottoResult));
@@ -89,6 +86,12 @@ public class WebUILottoApplication {
 
             return render(model, "result.html");
         });
+    }
+
+    private static void addManualLotto(String[] manualLottos, List<Lotto> manualLottoList) {
+        for (String manualLotto : manualLottos) {
+            webLottoService.addManualLotto(manualLottoList, manualLotto);
+        }
     }
 
     private static String render(Map<String, Object> model, String templatePath) {

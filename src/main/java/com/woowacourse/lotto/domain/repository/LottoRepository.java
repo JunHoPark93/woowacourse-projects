@@ -75,7 +75,7 @@ public class LottoRepository {
         PreparedStatement pstmt = getConnection().prepareStatement(query);
         pstmt.setString(1, String.valueOf(round));
         pstmt.setString(2, String.valueOf(winningLotto));
-        pstmt.setString(3, String.valueOf(bonusNumber));
+        pstmt.setString(3, String.valueOf(bonusNumber.getLottoNum()));
 
         pstmt.executeUpdate();
     }
