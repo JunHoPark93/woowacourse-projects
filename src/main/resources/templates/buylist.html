@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>구매리스트</title>
+</head>
+<body>
+<h2>구매목록</h2>
+{{#totalBuys}}
+    <b>{{lottoBuyList}}</b>
+{{/totalBuys}}
+<form action="/winning" method="post">
+    <input type="text" name="winningLotto" value="">
+    <input type="text" name="bonusNumber" value="">
+    <input type="submit" value="Submit"/>
+</form>
+
+</body>
+</html>

@@ -3,8 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>로또</title>
+
+    <script type='text/javascript'>
+        function addFields() {
+            var number = document.getElementById("manual-number").value;
+            var container = document.getElementById("container");
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            for (var i = 0; i < number; i++) {
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "manualLotto";
+                container.appendChild(input);
+                container.appendChild(document.createElement("br"));
+            }
+        }
+    </script>
+
 </head>
 <body>
-Hello World!!
+<form action="/lotto" method="post">
+    <h2> {{round}} 회차 구매</h2>
+    <input type="text" name="money" value="">
+    <input type="text" id="manual-number" name="manualNumber" value="">Number of manuals<br/>
+
+    <a href="#" onclick="addFields()">수동구매</a>
+    <div id="container"></div>
+
+    <input type="submit" value="Submit"/>
+</form>
 </body>
 </html>

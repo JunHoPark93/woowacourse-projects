@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import java.util.stream.Collectors;
 
 public class Lotto {
@@ -30,14 +31,14 @@ public class Lotto {
 
     private void checkNumber(List<LottoNumber> lottoNumbers) {
         if (lottoNumbers.size() != Lotto.COMPOSITE_NUM) {
-            throw new IllegalArgumentException("로또 숫자는 6개여야 합니다");
+            throw new IllegalArgumentException("로또 생성 에러");
         }
     }
 
     private void checkDuplicate(List<LottoNumber> lottoNumbers) {
         Set<LottoNumber> lottoNumberSet = new HashSet<>(lottoNumbers);
         if (lottoNumberSet.size() != lottoNumbers.size()) {
-            throw new IllegalArgumentException("중복된 로또입니다");
+            throw new IllegalArgumentException("로또 생성 에러");
         }
     }
 
@@ -69,16 +70,10 @@ public class Lotto {
 
     @Override
     public String toString() {
-        String lotto = lottoNumbers.stream()
+        return lottoNumbers.stream()
                 .map(LottoNumber::getLottoNum)
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "));
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        sb.append(lotto);
-        sb.append("]");
-
-        return sb.toString();
     }
 }

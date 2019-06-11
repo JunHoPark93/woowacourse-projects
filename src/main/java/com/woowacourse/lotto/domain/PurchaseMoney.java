@@ -31,4 +31,20 @@ public class PurchaseMoney {
     public boolean isEnoughMoney(ManualNumber manualNumber) {
         return money - manualNumber.getTotalPrice() >= Lotto.PRICE;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PurchaseMoney that = (PurchaseMoney) o;
+
+        return Double.compare(that.money, money) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(money);
+        return (int) (temp ^ (temp >>> 32));
+    }
 }
