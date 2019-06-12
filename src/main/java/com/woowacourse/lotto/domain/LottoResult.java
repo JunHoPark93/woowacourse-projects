@@ -14,8 +14,8 @@ public class LottoResult {
     }
 
     private void makeResult(LottoBuyList totalBuys, WinningLotto winningLotto) {
-        for (Lotto lotto: totalBuys.getLottoBuyList()) {
-            Rank rank = winningLotto.match(lotto);
+        for (int i = 0; i < totalBuys.size(); i++) {
+            Rank rank = winningLotto.match(totalBuys.getLotto(i));
             result.put(rank, result.get(rank) + 1);
         }
     }

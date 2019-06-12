@@ -16,7 +16,7 @@ public class WinningLotto {
         }
     }
 
-    public Rank match(Lotto lotto) {
+    public Rank match(LottoTicket lotto) {
         int matchCount = this.lotto.matchCount(lotto);
         boolean matchBonus = lotto.contains(bonusNumber);
 

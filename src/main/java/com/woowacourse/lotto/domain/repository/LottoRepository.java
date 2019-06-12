@@ -5,7 +5,6 @@ import com.woowacourse.lotto.domain.LottoBuyList;
 import com.woowacourse.lotto.domain.LottoNumber;
 
 import java.sql.*;
-import java.util.List;
 
 public class LottoRepository {
     public static Connection getConnection() {
@@ -56,14 +55,14 @@ public class LottoRepository {
     }
 
     public static void addBuys(LottoBuyList totalBuys) throws SQLException {
-        List<Lotto> lottos = totalBuys.getLottoBuyList();
         int round = selectRound();
-        for (Lotto lotto : lottos) {
+
+        for (int i = 0; i < totalBuys.size(); i++) {
             String query = "INSERT INTO BUY_HISTORY(user_id, round_id, lotto) VALUES (?, ?, ?)";
             PreparedStatement pstmt = getConnection().prepareStatement(query);
             pstmt.setString(1, "1");
             pstmt.setString(2, String.valueOf(round));
-            pstmt.setString(3, lotto.toString());
+            pstmt.setString(3, totalBuys.getLotto(i).toString());
             pstmt.executeUpdate();
         }
     }

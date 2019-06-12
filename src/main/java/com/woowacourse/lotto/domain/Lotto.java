@@ -9,7 +9,7 @@ import java.util.Set;
 
 import java.util.stream.Collectors;
 
-public class Lotto {
+public class Lotto implements LottoTicket {
     public static final int PRICE = 1000;
     public static final int MIN_NUM = 1;
     public static final int MAX_NUM = 45;
@@ -42,12 +42,13 @@ public class Lotto {
         }
     }
 
+    @Override
     public boolean contains(LottoNumber lottoNumber) {
         return lottoNumbers.stream()
                 .anyMatch(lottoNumbers -> lottoNumbers.isMatch(lottoNumber));
     }
 
-    public int matchCount(Lotto lotto) {
+    public int matchCount(LottoTicket lotto) {
         return (int) lottoNumbers.stream()
                 .filter(lotto::contains)
                 .count();
@@ -70,10 +71,14 @@ public class Lotto {
 
     @Override
     public String toString() {
-        return lottoNumbers.stream()
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        sb.append(lottoNumbers.stream()
                 .map(LottoNumber::getLottoNum)
                 .map(String::valueOf)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(", ")));
+        sb.append("]");
 
+        return sb.toString();
     }
 }

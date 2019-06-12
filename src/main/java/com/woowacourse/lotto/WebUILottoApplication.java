@@ -1,9 +1,11 @@
 package com.woowacourse.lotto;
 
 import com.woowacourse.lotto.domain.*;
-import com.woowacourse.lotto.domain.dto.LottoBuyResultDto;
+import com.woowacourse.lotto.domain.dto.LottoBuyDto;
+import com.woowacourse.lotto.domain.dto.LottoResultDto;
 import com.woowacourse.lotto.domain.repository.LottoRepository;
 import com.woowacourse.lotto.service.WebLottoService;
+import com.woowacourse.lotto.view.OutputMessageConverter;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
@@ -52,13 +54,11 @@ public class WebUILottoApplication {
             req.session().attribute("money", purchaseMoney);
 
             // Dto 생성
-            LottoBuyResultDto lottoBuyResultDto = new LottoBuyResultDto();
-            lottoBuyResultDto.setLottoBuyList(totalBuys.getLottoBuyList());
+            LottoBuyDto lottoBuyDto = new LottoBuyDto(totalBuys.getLottoTickets());
 
             // View 에 내리기
             Map<String, Object> model = new HashMap<>();
-            model.put("totalBuys", lottoBuyResultDto);
-
+            model.put("lottoBuyDto", lottoBuyDto);
             return render(model, "buylist.html");
         });
 
@@ -73,16 +73,13 @@ public class WebUILottoApplication {
             LottoBuyList totalBuys = req.session().attribute("buyList");
             LottoResult lottoResult = webLottoService.createResult(totalBuys, lastWeekLotto, bonusNumber);
 
-            // TODO Dto 생성
-//            LottoResultDto lottoResultDto = new LottoResultDto(lottoResult.getIterator());
-//            lottoResultDto.setHittingStatusMsg(OutputMessageConverter.makeHittingStatusMsg(lottoResult));
-//            lottoResultDto.setProfitRatioMsg(OutputMessageConverter.makeProfitMsg(lottoResult.calculateProfitRatio(req.session().attribute("money"))));
+            LottoResultDto lottoResultDto =
+                    new LottoResultDto(OutputMessageConverter.makeHittingStatusMsg(lottoResult),
+                            lottoResult.calculateProfitRatio(req.session().attribute("money")));
 
             // View 에 내리기
             Map<String, Object> model = new HashMap<>();
-
-            // TODO model.put("result", lottoResultDto);
-            model.put("result", lottoResult);
+            model.put("result", lottoResultDto);
 
             return render(model, "result.html");
         });

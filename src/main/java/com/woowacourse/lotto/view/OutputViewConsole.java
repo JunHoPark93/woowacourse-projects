@@ -1,11 +1,8 @@
 package com.woowacourse.lotto.view;
 
-import com.woowacourse.lotto.domain.Lotto;
 import com.woowacourse.lotto.domain.LottoBuyList;
 import com.woowacourse.lotto.domain.LottoResult;
 import com.woowacourse.lotto.domain.PurchaseMoney;
-
-import java.util.List;
 
 public class OutputViewConsole {
     public static String inputPurchaseMoneyMsg() {
@@ -17,10 +14,9 @@ public class OutputViewConsole {
     }
 
     public static void printLottoBuyList(LottoBuyList lottoBuyList) {
-        System.out.println(lottoBuyList.getLottoSize() + "개를 구매했습니다");
-        List<Lotto> lottos = lottoBuyList.getLottoBuyList();
-        for (Lotto lotto : lottos) {
-            System.out.println(lotto);
+        System.out.println(lottoBuyList.size() + "개를 구매했습니다");
+        for (int i = 0; i < lottoBuyList.size(); i++) {
+            System.out.println(lottoBuyList.getLotto(i));
         }
     }
     public static void printLottoResult(LottoResult lottoResult, PurchaseMoney purchaseMoney) {

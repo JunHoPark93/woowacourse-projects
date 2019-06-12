@@ -5,12 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-{{#result}}
-    {{hittingStatusMsg}}
-{{/result}}
-<h3>수익률은</h3>
-{{#result}}
-    <b>{{profitRatioMsg}}</b>
-{{/result}}
+당첨통계<br>
+{{result.resultMsg}}
+<br>
+<h3> 수익률은 {{result.profitRatio}} 입니다 </h3>
 </body>
 </html>

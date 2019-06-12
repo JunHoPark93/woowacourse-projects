@@ -83,6 +83,6 @@ class LottoServiceTest {
 
         LottoBuyList totalBuyList = lottoService.createTotalBuyList(lottoBuyList, purchaseMoney, manualNumber);
 
-        assertThat(totalBuyList.getLottoSize()).isEqualTo(3);
+        assertThat(totalBuyList.size()).isEqualTo(3);
     }
 }
