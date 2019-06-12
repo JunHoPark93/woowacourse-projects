@@ -13,18 +13,16 @@ public class LottoResult {
         makeResult(totalBuys, winningLotto);
     }
 
+    private void makeResult(LottoBuyList totalBuys, WinningLotto winningLotto) {
+        for (Lotto lotto: totalBuys.getLottoBuyList()) {
+            Rank rank = winningLotto.match(lotto);
+            result.put(rank, result.get(rank) + 1);
+        }
+    }
+
     private void initResultMap() {
         Arrays.stream(Rank.values())
                 .forEach(rank -> result.put(rank, 0));
-    }
-
-    private void makeResult(LottoBuyList lottoBuyList, WinningLotto winningLotto) {
-        for (Lotto lotto: lottoBuyList.getLottoBuyList()) {
-            int matchCount = winningLotto.matchCount(lotto);
-            boolean isBonusMatch = winningLotto.isBonusMatch(lotto);
-            Rank rank = Rank.getRank(matchCount, isBonusMatch);
-            result.put(rank, result.get(rank) + 1);
-        }
     }
 
     public Iterator<Map.Entry<Rank, Integer>> getIterator() {
@@ -52,5 +50,12 @@ public class LottoResult {
     @Override
     public int hashCode() {
         return result.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "LottoResult{" +
+                "result=" + result +
+                '}';
     }
 }

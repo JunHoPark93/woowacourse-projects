@@ -18,7 +18,7 @@ public class Main {
 
         Lotto lastWeekLotto = InputViewConsole.inputLastWeekLotto();
         LottoNumber bonusNumber = InputViewConsole.inputBonusNumber(lastWeekLotto);
-        LottoResult lottoResult = consoleLottoService.createResult(totalBuys, new WinningLotto(lastWeekLotto, bonusNumber));
+        LottoResult lottoResult = consoleLottoService.createResult(totalBuys, lastWeekLotto, bonusNumber);
 
         OutputViewConsole.printLottoResult(lottoResult, purchaseMoney);
     }

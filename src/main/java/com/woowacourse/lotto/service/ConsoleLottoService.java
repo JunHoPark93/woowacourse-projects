@@ -10,7 +10,8 @@ public class ConsoleLottoService extends LottoService {
     }
 
     @Override
-    public LottoResult createResult(LottoBuyList totalBuys, WinningLotto winningLotto) {
+    public LottoResult createResult(LottoBuyList totalBuys, Lotto lastWeekLotto, LottoNumber bonusNumber) {
+        WinningLotto winningLotto = new WinningLotto(lastWeekLotto, bonusNumber);
         return new LottoResult(totalBuys, winningLotto);
     }
 }

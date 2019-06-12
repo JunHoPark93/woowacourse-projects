@@ -25,18 +25,28 @@ public class WebLottoService extends LottoService {
     }
 
     @Override
-    public LottoResult createResult(LottoBuyList totalBuys, WinningLotto winningLotto) {
-        addWinningLotto(winningLotto);
+    public LottoResult createResult(LottoBuyList totalBuys, Lotto lastWeekLotto, LottoNumber bonusNumber) {
+        WinningLotto winningLotto = new WinningLotto(lastWeekLotto, bonusNumber);
+        addWinningLotto(lastWeekLotto, bonusNumber);
 
         return new LottoResult(totalBuys, winningLotto);
     }
 
-    private void addWinningLotto(WinningLotto winningLotto) {
+    private void addWinningLotto(Lotto lastWeekLotto, LottoNumber bonusNumber) {
         try {
-            LottoRepository.addWinningLotto(winningLotto.getLotto(), winningLotto.getBonusNumber());
+            LottoRepository.addWinningLotto(lastWeekLotto, bonusNumber);
         } catch (SQLException e) {
             System.out.println("결과 삽입 에러");
             System.exit(-1);
         }
     }
+
+//    private void addWinningLotto(WinningLotto winningLotto) {
+//        try {
+//            LottoRepository.addWinningLotto(winningLotto.getLotto(), winningLotto.getBonusNumber());
+//        } catch (SQLException e) {
+//            System.out.println("결과 삽입 에러");
+//            System.exit(-1);
+//        }
+//    }
 }

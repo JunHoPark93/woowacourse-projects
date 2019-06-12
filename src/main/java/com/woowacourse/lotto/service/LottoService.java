@@ -93,7 +93,7 @@ public abstract class LottoService {
         return new LottoBuyList(lottoBuyList);
     }
 
-    public abstract LottoResult createResult(LottoBuyList totalBuys, WinningLotto winningLotto);
+    public abstract LottoResult createResult(LottoBuyList totalBuys, Lotto lastWeekLotto, LottoNumber bonusNumber);
 
     public abstract LottoBuyList createTotalBuyList(LottoBuyList manualBuys, PurchaseMoney purchaseMoney, ManualNumber manualNumber);
 }

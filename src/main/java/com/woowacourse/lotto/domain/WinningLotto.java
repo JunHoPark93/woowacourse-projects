@@ -16,19 +16,10 @@ public class WinningLotto {
         }
     }
 
-    public Lotto getLotto() {
-        return lotto;
-    }
+    public Rank match(Lotto lotto) {
+        int matchCount = this.lotto.matchCount(lotto);
+        boolean matchBonus = lotto.contains(bonusNumber);
 
-    public LottoNumber getBonusNumber() {
-        return bonusNumber;
-    }
-
-    public int matchCount(Lotto lotto) {
-        return this.lotto.matchCount(lotto);
-    }
-
-    public boolean isBonusMatch(Lotto lotto) {
-        return lotto.contains(bonusNumber);
+        return Rank.getRank(matchCount, matchBonus);
     }
 }
