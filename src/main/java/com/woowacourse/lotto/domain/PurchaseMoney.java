@@ -5,7 +5,8 @@ public class PurchaseMoney {
 
     private final double money;
 
-    public PurchaseMoney(double money) {
+    public PurchaseMoney(String inputString) {
+        double money = Double.parseDouble(inputString);
         checkMoney(money);
         this.money = money;
     }

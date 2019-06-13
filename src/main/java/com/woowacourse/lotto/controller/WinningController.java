@@ -1,13 +1,11 @@
 package com.woowacourse.lotto.controller;
 
 import com.woowacourse.lotto.WebUILottoApplication;
-import com.woowacourse.lotto.domain.Lotto;
 import com.woowacourse.lotto.domain.LottoBuyList;
-import com.woowacourse.lotto.domain.LottoNumber;
 import com.woowacourse.lotto.domain.LottoResult;
 import com.woowacourse.lotto.domain.dto.LottoResultDto;
-import com.woowacourse.lotto.service.LottoService;
-import com.woowacourse.lotto.service.WebLottoService;
+import com.woowacourse.lotto.service.DrawService;
+import com.woowacourse.lotto.service.DrawWebService;
 import com.woowacourse.lotto.view.OutputMessageConverter;
 import spark.Request;
 import spark.Response;
@@ -16,16 +14,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WinningController {
-    private static WebLottoService webLottoService = new WebLottoService();
+    private static DrawService drawService;
 
     public static Object init(Request request, Response response) {
         String lottoInput = request.queryParams("winningLotto");
         String bonusNumberInput = request.queryParams("bonusNumber");
-
-        Lotto lastWeekLotto = LottoService.createLotto(lottoInput);
-        LottoNumber bonusNumber = LottoService.createBonusNumber(bonusNumberInput, lastWeekLotto);
         LottoBuyList totalBuys = request.session().attribute("buyList");
-        LottoResult lottoResult = webLottoService.createResult(totalBuys, lastWeekLotto, bonusNumber);
+
+        drawService = new DrawWebService(lottoInput, bonusNumberInput, totalBuys);
+        LottoResult lottoResult = drawService.createResult();
 
         LottoResultDto lottoResultDto =
                 new LottoResultDto(OutputMessageConverter.makeHittingStatusMsg(lottoResult),

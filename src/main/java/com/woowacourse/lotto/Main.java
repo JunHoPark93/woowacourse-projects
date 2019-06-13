@@ -1,24 +1,31 @@
 package com.woowacourse.lotto;
 
 import com.woowacourse.lotto.domain.*;
-import com.woowacourse.lotto.service.ConsoleLottoService;
+import com.woowacourse.lotto.service.DrawService;
+import com.woowacourse.lotto.service.LottoBuyService;
 import com.woowacourse.lotto.view.InputViewConsole;
 import com.woowacourse.lotto.view.OutputViewConsole;
 
 public class Main {
-    private static ConsoleLottoService consoleLottoService = new ConsoleLottoService();
+    private static InputViewConsole inputViewConsole = new InputViewConsole();
+    private static LottoBuyService lottoBuyService;
+    private static DrawService drawService;
 
     public static void main(String[] args) {
-        PurchaseMoney purchaseMoney = InputViewConsole.inputPurchaseMoney();
-        ManualNumber manualNumber = InputViewConsole.inputManualNumber(purchaseMoney);
-        LottoBuyList manualBuys = InputViewConsole.inputManualBuys(manualNumber);
-        LottoBuyList totalBuys = consoleLottoService.createTotalBuyList(manualBuys, purchaseMoney, manualNumber);
+        PurchaseMoney purchaseMoney = inputViewConsole.inputPurchaseMoney();
+        ManualNumber manualNumber = inputViewConsole.inputManualNumber(purchaseMoney);
+        LottoBuyList manualBuys = inputViewConsole.inputManualBuys(manualNumber);
+
+        lottoBuyService = new LottoBuyService(manualNumber, purchaseMoney, manualBuys);
+        LottoBuyList totalBuys = lottoBuyService.createTotalBuyList();
 
         OutputViewConsole.printLottoBuyList(totalBuys);
 
-        Lotto lastWeekLotto = InputViewConsole.inputLastWeekLotto();
-        LottoNumber bonusNumber = InputViewConsole.inputBonusNumber(lastWeekLotto);
-        LottoResult lottoResult = consoleLottoService.createResult(totalBuys, lastWeekLotto, bonusNumber);
+        Lotto lastWeekLotto = inputViewConsole.inputLastWeekLotto();
+        BonusNumber bonusNumber = inputViewConsole.inputBonusNumber(lastWeekLotto);
+
+        drawService = new DrawService(totalBuys, lastWeekLotto, bonusNumber);
+        LottoResult lottoResult = drawService.createResult();
 
         OutputViewConsole.printLottoResult(lottoResult, purchaseMoney);
     }

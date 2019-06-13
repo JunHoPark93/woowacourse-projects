@@ -7,6 +7,18 @@ public class ManualNumber {
         this.num = num;
     }
 
+    public ManualNumber(String input, PurchaseMoney purchaseMoney) {
+        int lottoCount = Integer.parseInt(input);
+        checkAvailableLottoNum(lottoCount * Lotto.PRICE, purchaseMoney);
+        this.num = lottoCount;
+    }
+
+    private void checkAvailableLottoNum(int money, PurchaseMoney purchaseMoney) {
+        if (!purchaseMoney.isAcceptableMoney(money)) {
+            throw new IllegalArgumentException("구매할 돈이 부족합니다");
+        }
+    }
+
     public int getNum() {
         return num;
     }
@@ -14,6 +26,7 @@ public class ManualNumber {
     public int getTotalPrice() {
         return num * Lotto.PRICE;
     }
+
     public boolean isEmpty() {
         return num == 0;
     }

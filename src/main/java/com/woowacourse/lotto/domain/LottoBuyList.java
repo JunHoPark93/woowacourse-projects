@@ -32,6 +32,10 @@ public class LottoBuyList {
         return new LottoBuyList(joinedBuyList);
     }
 
+    public void addManualLotto(Lotto lotto) {
+        lottoBuyList.add(lotto);
+    }
+
     private List<Lotto> getLottoBuyList() {
         return lottoBuyList;
     }

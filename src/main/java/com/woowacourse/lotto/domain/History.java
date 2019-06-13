@@ -7,11 +7,11 @@ import java.util.List;
 public class History {
     private LottoBuyList lottoBuyList;
     private LottoTicket winningTicket;
-    private LottoNumber bonusNumber;
+    private BonusNumber bonusNumber;
     private LottoResult lottoResult;
     private PurchaseMoney purchaseMoney;
 
-    public History(LottoBuyList lottoBuyList, LottoResult lottoResult, PurchaseMoney purchaseMoney, LottoTicket winningTicket, LottoNumber bonusNumber) {
+    public History(LottoBuyList lottoBuyList, LottoResult lottoResult, PurchaseMoney purchaseMoney, LottoTicket winningTicket, BonusNumber bonusNumber) {
         this.lottoBuyList = lottoBuyList;
         this.winningTicket = winningTicket;
         this.bonusNumber = bonusNumber;
@@ -43,7 +43,7 @@ public class History {
         return winningTicket;
     }
 
-    public LottoNumber getBonusNumber() {
+    public BonusNumber getBonusNumber() {
         return bonusNumber;
     }
 }

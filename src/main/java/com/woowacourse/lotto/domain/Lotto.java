@@ -43,7 +43,7 @@ public class Lotto implements LottoTicket {
     }
 
     @Override
-    public boolean contains(LottoNumber lottoNumber) {
+    public boolean contains(Number lottoNumber) {
         return lottoNumbers.stream()
                 .anyMatch(lottoNumbers -> lottoNumbers.isMatch(lottoNumber));
     }

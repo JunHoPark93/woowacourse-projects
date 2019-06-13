@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class PlayController {
     public static Object init(Request request, Response response) throws SQLException {
-        // 회차의 증가
         int round = LottoDao.selectRound();
         LottoDao.addRound(round);
 

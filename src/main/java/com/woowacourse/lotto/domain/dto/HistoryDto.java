@@ -1,6 +1,6 @@
 package com.woowacourse.lotto.domain.dto;
 
-import com.woowacourse.lotto.domain.LottoNumber;
+import com.woowacourse.lotto.domain.BonusNumber;
 import com.woowacourse.lotto.domain.LottoTicket;
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 public class HistoryDto {
     private List<LottoTicket> tickets;
     private LottoTicket winningTicket;
-    private LottoNumber bonusNumber;
+    private BonusNumber bonusNumber;
     private String resultMsg;
     private String profitRatio;
     private String winningMoney;
@@ -29,11 +29,11 @@ public class HistoryDto {
         this.winningTicket = winningTicket;
     }
 
-    public LottoNumber getBonusNumber() {
+    public BonusNumber getBonusNumber() {
         return bonusNumber;
     }
 
-    public void setBonusNumber(LottoNumber bonusNumber) {
+    public void setBonusNumber(BonusNumber bonusNumber) {
         this.bonusNumber = bonusNumber;
     }
 
