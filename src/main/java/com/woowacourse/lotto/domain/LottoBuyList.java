@@ -35,4 +35,8 @@ public class LottoBuyList {
     private List<Lotto> getLottoBuyList() {
         return lottoBuyList;
     }
+
+    public double price() {
+        return size() * Lotto.PRICE;
+    }
 }

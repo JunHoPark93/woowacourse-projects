@@ -2,9 +2,9 @@ package com.woowacourse.lotto.domain.dto;
 
 public class LottoResultDto {
     private String resultMsg;
-    private double profitRatio;
+    private String profitRatio;
 
-    public LottoResultDto(String resultMsg, double profitRatio) {
+    public LottoResultDto(String resultMsg, String profitRatio) {
         this.resultMsg = resultMsg;
         this.profitRatio = profitRatio;
     }
@@ -17,11 +17,11 @@ public class LottoResultDto {
         this.resultMsg = resultMsg;
     }
 
-    public double getProfitRatio() {
+    public String getProfitRatio() {
         return profitRatio;
     }
 
-    public void setProfitRatio(double profitRatio) {
+    public void setProfitRatio(String profitRatio) {
         this.profitRatio = profitRatio;
     }
 }

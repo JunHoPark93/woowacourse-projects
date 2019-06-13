@@ -22,4 +22,12 @@ public class WinningLotto {
 
         return Rank.getRank(matchCount, matchBonus);
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "lotto=" + lotto +
+                ", bonusNumber=" + bonusNumber +
+                '}';
+    }
 }

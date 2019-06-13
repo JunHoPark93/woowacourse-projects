@@ -30,11 +30,15 @@ public class LottoResult {
     }
 
     public double calculateProfitRatio(PurchaseMoney purchaseMoney) {
-        double sum = result.keySet().stream()
-                .mapToDouble(rank -> rank.getMoney() * result.get(rank))
-                .sum();
+        double sum = calculateWinningMoney();
 
         return purchaseMoney.getProfitRatio(sum);
+    }
+
+    public double calculateWinningMoney() {
+        return result.keySet().stream()
+                .mapToDouble(rank -> rank.getMoney() * result.get(rank))
+                .sum();
     }
 
     @Override

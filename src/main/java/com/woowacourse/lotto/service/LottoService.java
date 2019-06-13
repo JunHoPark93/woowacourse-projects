@@ -50,7 +50,7 @@ public abstract class LottoService {
         manualLottoList.add(new Lotto(lottoGenerator));
     }
 
-    public Lotto createLotto(String input) {
+    public static Lotto createLotto(String input) {
         String[] tokens = input.split(",");
         checkValidLotto(tokens);
 
@@ -64,20 +64,20 @@ public abstract class LottoService {
         return new Lotto(intendedLottoGenerator);
     }
 
-    private void checkValidLotto(String[] tokens) {
+    private static void checkValidLotto(String[] tokens) {
         if (tokens.length != Lotto.COMPOSITE_NUM) {
             throw new IllegalArgumentException("로또 생성 에러");
         }
     }
 
-    public LottoNumber createBonusNumber(String input, Lotto lastWeekLotto) {
+    public static LottoNumber createBonusNumber(String input, Lotto lastWeekLotto) {
         int bonusNum = Integer.parseInt(input);
         checkDuplicateBonusNum(lastWeekLotto, bonusNum);
 
         return new LottoNumber(bonusNum);
     }
 
-    private void checkDuplicateBonusNum(Lotto lastWeekLotto, int bonusNum) {
+    private static void checkDuplicateBonusNum(Lotto lastWeekLotto, int bonusNum) {
         if (lastWeekLotto.contains(new LottoNumber(bonusNum))) {
             throw new IllegalArgumentException("보너스 번호와 로또번호가 중복입니다");
         }
