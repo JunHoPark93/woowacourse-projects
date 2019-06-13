@@ -3,10 +3,6 @@ package com.woowacourse.lotto.domain;
 public class ManualNumber {
     private final int num;
 
-    public ManualNumber(int num) {
-        this.num = num;
-    }
-
     public ManualNumber(String input, PurchaseMoney purchaseMoney) {
         int lottoCount = Integer.parseInt(input);
         checkAvailableLottoNum(lottoCount * Lotto.PRICE, purchaseMoney);

@@ -2,7 +2,6 @@ package com.woowacourse.lotto.db.dao;
 
 import com.woowacourse.lotto.db.ConnectionFactory;
 import com.woowacourse.lotto.domain.*;
-import com.woowacourse.lotto.util.LottoGenerator;
 import com.woowacourse.lotto.util.LottoParser;
 
 import java.sql.PreparedStatement;

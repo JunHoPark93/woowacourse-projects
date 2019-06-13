@@ -1,12 +1,11 @@
 package com.woowacourse.lotto.view;
 
 import com.woowacourse.lotto.domain.*;
-import com.woowacourse.lotto.util.LottoGenerator;
 import com.woowacourse.lotto.util.LottoParser;
 
 import java.util.Collections;
 
-public class InputViewConsole  {
+public class InputViewConsole {
     public BonusNumber inputBonusNumber(Lotto lastWeekLotto) {
         try {
             System.out.println("보너스 볼을 입력해 주세요.");

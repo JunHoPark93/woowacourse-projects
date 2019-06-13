@@ -1,6 +1,6 @@
 package com.woowacourse.lotto.domain;
 
-public class LottoNumber implements Comparable<LottoNumber>, Number{
+public class LottoNumber implements Comparable<LottoNumber>, Number {
     private static final int MIN_LOTTO_NUM = 1;
     private static final int MAX_LOTTO_NUM = 45;
 
@@ -47,7 +47,7 @@ public class LottoNumber implements Comparable<LottoNumber>, Number{
 
     @Override
     public int compareTo(LottoNumber o) {
-       return Integer.compare(this.lottoNum, o.lottoNum);
+        return Integer.compare(this.lottoNum, o.lottoNum);
     }
 
     @Override
