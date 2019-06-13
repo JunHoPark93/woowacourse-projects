@@ -21,17 +21,7 @@ public class LottoParser {
         return new Lotto(intendedLottoGenerator);
     }
 
-    public static LottoGenerator parseLottoGenerator(String lottoInput) {
-        String[] tokens = lottoInput.split(",");
-        List<Integer> list = Arrays.stream(tokens)
-                .map(String::trim)
-                .map(Integer::valueOf)
-                .collect(Collectors.toList());
-        return new IntendedLottoGenerator(list);
-    }
-
     public static String removeBraces(LottoTicket lotto) {
         return lotto.toString().replace("[", "").replace("]", "");
     }
-
 }
