@@ -37,8 +37,6 @@ public class BonusNumber implements Number {
 
     @Override
     public String toString() {
-        return "BonusNumber{" +
-                "bonusNum=" + bonusNum +
-                '}';
+        return String.valueOf(bonusNum);
     }
 }
