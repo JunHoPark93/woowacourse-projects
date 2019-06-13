@@ -18,13 +18,14 @@ public class HistoryController {
         String round = request.queryParams("history");
         History history = historyWebService.createHistory(round);
 
-        HistoryDto historyDto = new HistoryDto();
-        historyDto.setProfitRatio(String.format("%.1f", history.profitRatio()));
-        historyDto.setResultMsg(history.resultMsg());
-        historyDto.setTickets(history.tickets());
-        historyDto.setWinningTicket(history.getWinningTicket());
-        historyDto.setBonusNumber(history.getBonusNumber());
-        historyDto.setWinningMoney(String.format("%.1f", history.winningMoney()));
+        HistoryDto historyDto = new HistoryDto.Builder()
+                .tickets(history.tickets())
+                .bonusNumber(history.getBonusNumber())
+                .winningTicket(history.getWinningTicket())
+                .resultMsg(history.resultMsg())
+                .profitRatio(String.format("%.1f", history.profitRatio()))
+                .winningMoney(String.format("%.1f", history.winningMoney()))
+                .build();
 
         Map<String, Object> model = new HashMap<>();
         model.put("history", historyDto);

@@ -19,6 +19,7 @@ public class OutputViewConsole {
             System.out.println(lottoBuyList.getLotto(i));
         }
     }
+
     public static void printLottoResult(LottoResult lottoResult, PurchaseMoney purchaseMoney) {
         System.out.println("당첨 통계");
         System.out.println("---------");
