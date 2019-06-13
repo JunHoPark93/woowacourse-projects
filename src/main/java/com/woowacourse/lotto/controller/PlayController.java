@@ -1,7 +1,7 @@
 package com.woowacourse.lotto.controller;
 
 import com.woowacourse.lotto.WebUILottoApplication;
-import com.woowacourse.lotto.db.dao.LottoDao;
+import com.woowacourse.lotto.db.dao.RoundDao;
 import spark.Request;
 import spark.Response;
 
@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class PlayController {
     public static Object init(Request request, Response response) throws SQLException {
-        int round = LottoDao.selectRound();
-        LottoDao.addRound(round);
+        int round = RoundDao.selectRound();
+        RoundDao.addRound(round);
 
         request.session().attribute("round", round + 1);
 

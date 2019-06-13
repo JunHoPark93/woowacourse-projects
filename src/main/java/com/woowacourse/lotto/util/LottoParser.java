@@ -1,5 +1,7 @@
 package com.woowacourse.lotto.util;
 
+import com.woowacourse.lotto.domain.LottoTicket;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,4 +15,9 @@ public class LottoParser {
                 .collect(Collectors.toList());
         return new IntendedLottoGenerator(list);
     }
+
+    public static String removeBraces(LottoTicket lotto) {
+        return lotto.toString().replace("[", "").replace("]", "");
+    }
+
 }

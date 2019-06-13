@@ -18,8 +18,9 @@ public class LottoController {
         String moneyInput = request.queryParams("money");
         String manualNumberInput = request.queryParams("manualNumber");
         String[] manualLottos = request.queryParamsValues("manualLotto");
+        int round = request.session().attribute("round");
 
-        lottoBuyService = new LottoBuyWebService(moneyInput, manualNumberInput, manualLottos);
+        lottoBuyService = new LottoBuyWebService(moneyInput, manualNumberInput, manualLottos, round);
         LottoBuyList totalBuys = lottoBuyService.createTotalBuyList();
 
         request.session().attribute("money", lottoBuyService.getPurchaseMoney());

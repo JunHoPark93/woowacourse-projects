@@ -1,13 +1,16 @@
 package com.woowacourse.lotto.service;
 
-import com.woowacourse.lotto.db.dao.LottoDao;
+import com.woowacourse.lotto.db.dao.LottoBuyDao;
 import com.woowacourse.lotto.domain.LottoBuyList;
 
 import java.sql.SQLException;
 
 public class LottoBuyWebService extends LottoBuyService {
-    public LottoBuyWebService(String moneyInput, String manualNumberInput, String[] manualLottos) {
+    private int round;
+
+    public LottoBuyWebService(String moneyInput, String manualNumberInput, String[] manualLottos, int round) {
         super(moneyInput, manualNumberInput, manualLottos);
+        this.round = round;
     }
 
     @Override
@@ -19,7 +22,7 @@ public class LottoBuyWebService extends LottoBuyService {
 
     private void addBuys(LottoBuyList totalBuys) {
         try {
-            LottoDao.addBuys(totalBuys);
+            LottoBuyDao.addBuys(totalBuys, round);
         } catch (SQLException e) {
             System.out.println("구매목록 삽입 에러");
             System.exit(-1);

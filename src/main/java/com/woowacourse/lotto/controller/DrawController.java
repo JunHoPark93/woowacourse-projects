@@ -13,15 +13,16 @@ import spark.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WinningController {
+public class DrawController {
     private static DrawService drawService;
 
     public static Object init(Request request, Response response) {
         String lottoInput = request.queryParams("winningLotto");
         String bonusNumberInput = request.queryParams("bonusNumber");
         LottoBuyList totalBuys = request.session().attribute("buyList");
+        int round = request.session().attribute("round");
 
-        drawService = new DrawWebService(lottoInput, bonusNumberInput, totalBuys);
+        drawService = new DrawWebService(lottoInput, bonusNumberInput, totalBuys, round);
         LottoResult lottoResult = drawService.createResult();
 
         LottoResultDto lottoResultDto =

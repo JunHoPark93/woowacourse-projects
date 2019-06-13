@@ -18,7 +18,7 @@ public class WebUILottoApplication {
 
         post("/lotto", LottoController::init);
 
-        post("/winning", WinningController::init);
+        post("/winning", DrawController::init);
 
         get("/throwexception", (request, response) -> {
             throw new Exception();
