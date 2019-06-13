@@ -36,8 +36,7 @@ public class HistoryDao {
 
         String lottoStr = rs.getString("winning_num");
         String bonusNumStr = rs.getString("bonus_num");
-        LottoGenerator lottoGenerator = LottoParser.parseLottoGenerator(lottoStr);
-        Lotto lotto = new Lotto(lottoGenerator);
+        Lotto lotto = LottoParser.parseStringToLotto(lottoStr);
         BonusNumber bonusNumber = new BonusNumber(bonusNumStr, lotto);
 
         return new Winning(lotto, bonusNumber);
@@ -51,8 +50,7 @@ public class HistoryDao {
         List<Lotto> lottos = new ArrayList<>();
         while (rs.next()) {
             String lottoStr = rs.getString("lotto");
-            LottoGenerator lottoGenerator = LottoParser.parseLottoGenerator(lottoStr);
-            lottos.add(new Lotto(lottoGenerator));
+            lottos.add(LottoParser.parseStringToLotto(lottoStr));
         }
 
         return new LottoBuyList(lottos);

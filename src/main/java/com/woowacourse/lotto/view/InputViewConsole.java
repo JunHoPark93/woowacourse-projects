@@ -19,8 +19,7 @@ public class InputViewConsole  {
     public Lotto inputLastWeekLotto() {
         try {
             System.out.println("지난 주 당첨 번호를 입력해 주세요.");
-            LottoGenerator lottoGenerator = LottoParser.parseLottoGenerator(Input.inputString());
-            return new Lotto(lottoGenerator);
+            return LottoParser.parseStringToLotto(Input.inputString());
         } catch (IllegalArgumentException e) {
             return inputLastWeekLotto();
         }
@@ -34,8 +33,7 @@ public class InputViewConsole  {
         try {
             System.out.println("수동으로 구매할 번호를 입력해 주세요.");
             for (int i = 0; i < manualNumber.getNum(); i++) {
-                LottoGenerator lottoGenerator = LottoParser.parseLottoGenerator(Input.inputString());
-                lottoBuyList.addManualLotto(new Lotto(lottoGenerator));
+                lottoBuyList.addManualLotto(LottoParser.parseStringToLotto(Input.inputString()));
                 return lottoBuyList;
             }
         } catch (IllegalArgumentException e) {

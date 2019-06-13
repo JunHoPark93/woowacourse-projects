@@ -9,14 +9,5 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class InputUtilTest {
-    @Test
-    void 입력을_로또로_파싱() {
-        String input = "1, 2, 3, 4, 5, 6";
-        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6);
-        LottoGenerator lottoGenerator = new IntendedLottoGenerator(list);
 
-        Lotto lotto = new Lotto(lottoGenerator);
-
-        assertThat(InputUtil.parseStringToLotto(input)).isEqualTo(lotto);
-    }
 }

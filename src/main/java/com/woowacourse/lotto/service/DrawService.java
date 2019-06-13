@@ -16,8 +16,7 @@ public class DrawService {
     }
 
     public DrawService(String lottoInput, String bonusNumberInput, LottoBuyList totalBuys) {
-        LottoGenerator lottoGenerator = LottoParser.parseLottoGenerator(lottoInput);
-        Lotto lastWeekLotto = new Lotto(lottoGenerator);
+        Lotto lastWeekLotto = LottoParser.parseStringToLotto(lottoInput);
         BonusNumber bonusNumber = new BonusNumber(bonusNumberInput, lastWeekLotto);
 
         this.totalBuys = totalBuys;
