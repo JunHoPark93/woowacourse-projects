@@ -2,14 +2,13 @@ package com.woowacourse.lotto.db.dao;
 
 import com.woowacourse.lotto.db.ConnectionFactory;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class RoundDao {
     public static int selectRound() throws SQLException {
         String query = "SELECT MAX(id) FROM ROUND;";
-        PreparedStatement pstmt = ConnectionFactory.getConnection().prepareStatement(query);
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement pstmt = con.prepareStatement(query);
         ResultSet resultSet = pstmt.executeQuery();
 
         if (!resultSet.next()) {
@@ -22,8 +21,14 @@ public class RoundDao {
 
     public static void addRound(int round) throws SQLException {
         String query = "INSERT INTO ROUND(id) VALUES (?)";
-        PreparedStatement pstmt = ConnectionFactory.getConnection().prepareStatement(query);
-        pstmt.setString(1, String.valueOf(round + 1));
-        pstmt.executeUpdate();
+        Connection con = ConnectionFactory.getConnection();
+        try {
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setString(1, String.valueOf(round + 1));
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            System.err.println("RoundDao rollback!" + e.getMessage());
+            con.rollback();
+        }
     }
 }

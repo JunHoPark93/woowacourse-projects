@@ -1,9 +1,12 @@
 package com.woowacourse.lotto;
 
 import com.woowacourse.lotto.controller.*;
+import com.woowacourse.lotto.db.ConnectionFactory;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -26,7 +29,18 @@ public class WebUILottoApplication {
 
         exception(Exception.class, (e, request, response) -> {
             response.status(404);
-            response.body("리소스를 찾을 수 없습니다.");
+            response.body("잘못된 입력입니다.");
+            try {
+                // 예외가 발생할 경우 롤백 후 커넥션을 종료 시킨다.
+                Connection con = ConnectionFactory.getConnection();
+                if (!con.isClosed()) {
+                    con.rollback();
+                    con.close();
+                }
+            } catch (SQLException e1) {
+                System.out.println("roll back!!");
+                e1.printStackTrace();
+            }
         });
     }
 
