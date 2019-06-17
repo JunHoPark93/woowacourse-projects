@@ -10,6 +10,22 @@ public class Square {
         this.y = y;
     }
 
+    public Square moveLeft(int moveCnt) {
+        return new Square(x.moveLeft(moveCnt), y);
+    }
+
+    public Square moveRight(int moveCnt) {
+        return new Square(x.moveRight(moveCnt), y);
+    }
+
+    public Square moveUp(int moveCnt) {
+        return new Square(x, y.moveUp(moveCnt));
+    }
+
+    public Square moveDown(int moveCnt) {
+        return new Square(x, y.moveDown(moveCnt));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
