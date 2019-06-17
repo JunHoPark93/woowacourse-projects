@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SquareFactory {
-    public static final List<Square> boards;
+    private static final List<Square> boards;
 
     static {
         boards = new ArrayList<>();
-        for (XPosition xPosition : XPositionFactory.xPositions) {
-            for (YPosition yPosition : YPositionFactory.yPositions) {
+        for (XPosition xPosition : XPositionFactory.getXPositions()) {
+            for (YPosition yPosition : YPositionFactory.getYPositions()) {
                 boards.add(new Square(xPosition, yPosition));
             }
         }
+    }
+
+    public static List<Square> getBoards() {
+        return boards;
     }
 }

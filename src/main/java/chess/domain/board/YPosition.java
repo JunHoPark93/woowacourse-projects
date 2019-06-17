@@ -14,6 +14,14 @@ public class YPosition {
         }
     }
 
+    public YPosition moveUp(int moveCnt) {
+        return YPositionFactory.moveUp(yPosition, moveCnt);
+    }
+
+    public YPosition moveDown(int moveCnt) {
+        return YPositionFactory.moveDown(yPosition, moveCnt);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

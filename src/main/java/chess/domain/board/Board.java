@@ -3,7 +3,7 @@ package chess.domain.board;
 import java.util.List;
 
 public class Board {
-    private final List<Square> board = SquareFactory.boards;
+    private final List<Square> board = SquareFactory.getBoards();
 
     public int getSize() {
         return board.size();
