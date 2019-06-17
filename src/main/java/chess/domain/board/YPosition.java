@@ -1,4 +1,4 @@
-package chess.domain;
+package chess.domain.board;
 
 public class YPosition {
     private final String yPosition;

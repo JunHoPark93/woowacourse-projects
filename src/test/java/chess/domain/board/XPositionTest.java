@@ -1,22 +1,22 @@
-package chess.domain;
+package chess.domain.board;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class YPositionTest {
+public class XPositionTest {
     @Test
-    void y축_포지션_초기화() {
+    void x축_포지션_초기화() {
         assertThatCode(() -> {
-            YPosition yPosition = new YPosition("8");
+            XPosition xPosition = new XPosition("h");
         }).doesNotThrowAnyException();
     }
 
     @Test
-    void y축_포지션_비정상_초기화() {
+    void x축_포지션_비정상_초기화() {
         assertThrows(IllegalArgumentException.class, () -> {
-            YPosition yPosition = new YPosition("9");
+            XPosition xPosition = new XPosition("i");
         });
     }
 }
