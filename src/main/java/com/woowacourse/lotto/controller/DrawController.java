@@ -27,7 +27,7 @@ public class DrawController {
 
         LottoResultDto lottoResultDto =
                 new LottoResultDto(OutputMessageConverter.makeHittingStatusMsg(lottoResult),
-                        String.format("%.1f", lottoResult.calculateProfitRatio(request.session().attribute("money"))));
+                        lottoResult.calculateProfitRatio(request.session().attribute("money")));
 
         Map<String, Object> model = new HashMap<>();
         model.put("result", lottoResultDto);

@@ -4,9 +4,9 @@ public class LottoResultDto {
     private String resultMsg;
     private String profitRatio;
 
-    public LottoResultDto(String resultMsg, String profitRatio) {
+    public LottoResultDto(String resultMsg, double profitRatio) {
         this.resultMsg = resultMsg;
-        this.profitRatio = profitRatio;
+        this.profitRatio = String.format("%.1f", profitRatio);
     }
 
     public String getResultMsg() {

@@ -19,7 +19,7 @@ public class PlayController {
         request.session().attribute("round", round + 1);
 
         Map<String, Object> model = new HashMap<>();
-        model.put("round", round + 1);
+        model.put("round", round);
         return WebUILottoApplication.render(model, "play.html");
     }
 }
