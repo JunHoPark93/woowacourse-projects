@@ -42,6 +42,28 @@ public class XPositionFactory {
         return xPositions.get(targetIdx);
     }
 
+    public static List<XPosition> moveRightToEnd(String xPosition) {
+        List<XPosition> xPositionList = new ArrayList<>();
+        int index = index(xPosition) + 1;
+
+        while (index <= END_INDEX) {
+            xPositionList.add(xPositions.get(index));
+            index++;
+        }
+        return xPositionList;
+    }
+
+    public static List<XPosition> moveLeftToEnd(String xPosition) {
+        List<XPosition> xPositionList = new ArrayList<>();
+        int index = index(xPosition) - 1;
+
+        while (index >= START_INDEX) {
+            xPositionList.add(xPositions.get(index));
+            index--;
+        }
+        return xPositionList;
+    }
+
     private static int index(String xPosition) {
         return map.get(xPosition);
     }

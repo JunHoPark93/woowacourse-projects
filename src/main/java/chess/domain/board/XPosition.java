@@ -1,5 +1,7 @@
 package chess.domain.board;
 
+import java.util.List;
+
 public class XPosition {
     private final String xPosition;
     private final Character START_TYPE = 'a';
@@ -22,6 +24,14 @@ public class XPosition {
 
     public XPosition moveRight(int moveCnt) {
         return XPositionFactory.moveRight(xPosition, moveCnt);
+    }
+
+    public List<XPosition> moveRightToEnd() {
+        return XPositionFactory.moveRightToEnd(xPosition);
+    }
+
+    public List<XPosition> moveLeftToEnd() {
+        return XPositionFactory.moveLeftToEnd(xPosition);
     }
 
     @Override

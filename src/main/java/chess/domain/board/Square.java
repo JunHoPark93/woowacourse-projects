@@ -1,6 +1,9 @@
 package chess.domain.board;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Square {
     private final XPosition x;
     private final YPosition y;
@@ -24,6 +27,76 @@ public class Square {
 
     public Square moveDown(int moveCnt) {
         return new Square(x, y.moveDown(moveCnt));
+    }
+
+    public List<Square> moveUpToEnd() {
+        List<Square> movableList = new ArrayList<>();
+        List<YPosition> yPositions = y.moveUpToEnd();
+
+        for (YPosition yPosition : yPositions) {
+            movableList.add(new Square(x, yPosition));
+        }
+
+        return movableList;
+    }
+
+    public List<Square> moveDownToEnd() {
+        List<Square> movableList = new ArrayList<>();
+        List<YPosition> yPositions = y.moveDownToEnd();
+
+        for (YPosition yPosition : yPositions) {
+            movableList.add(new Square(x, yPosition));
+        }
+
+        return movableList;
+    }
+
+    public List<Square> moveRightToEnd() {
+        List<Square> movableList = new ArrayList<>();
+        List<XPosition> xPositions = x.moveRightToEnd();
+
+        for (XPosition xPosition : xPositions) {
+            movableList.add(new Square(xPosition, y));
+        }
+        return movableList;
+    }
+
+    public List<Square> moveLeftToEnd() {
+        List<Square> movableList = new ArrayList<>();
+        List<XPosition> xPositions = x.moveLeftToEnd();
+
+        for (XPosition xPosition : xPositions) {
+            movableList.add(new Square(xPosition, y));
+        }
+        return movableList;
+    }
+
+    public Square moveUpLeft() {
+        Square moved = new Square(x.moveLeft(1), y.moveUp(1));
+        if (isLocatedSameLine(moved)) {
+            return this;
+        }
+        return moved;
+    }
+
+    public Square moveUpRight() {
+        Square moved = new Square(x.moveRight(1), y.moveUp(1));
+        if (isLocatedSameLine(moved)) {
+            return this;
+        }
+        return moved;
+    }
+
+    private boolean isLocatedSameLine(Square moved) {
+        return moved.isSameX(this.x) || moved.isSameY(this.y);
+    }
+
+    private boolean isSameX(XPosition x) {
+        return this.x.equals(x);
+    }
+
+    private boolean isSameY(YPosition y) {
+        return this.y.equals(y);
     }
 
     @Override

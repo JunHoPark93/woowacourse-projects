@@ -42,6 +42,30 @@ public class YPositionFactory {
         return yPositions.get(targetIdx);
     }
 
+    public static List<YPosition> moveUpToEnd(String yPosition) {
+        List<YPosition> yPositionList = new ArrayList<>();
+        int index = index(yPosition) + 1;
+
+        while (index <= END_INDEX) {
+            yPositionList.add(yPositions.get(index));
+            index++;
+        }
+
+        return yPositionList;
+    }
+
+    public static List<YPosition> moveDownToEnd(String yPosition) {
+        List<YPosition> yPositionList = new ArrayList<>();
+        int index = index(yPosition) - 1;
+
+        while (index >= START_INDEX) {
+            yPositionList.add(yPositions.get(index));
+            index--;
+        }
+
+        return yPositionList;
+    }
+
     private static int index(String yPosition) {
         return map.get(yPosition);
     }

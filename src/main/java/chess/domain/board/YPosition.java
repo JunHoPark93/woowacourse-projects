@@ -1,5 +1,8 @@
 package chess.domain.board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class YPosition {
     private final String yPosition;
 
@@ -20,6 +23,14 @@ public class YPosition {
 
     public YPosition moveDown(int moveCnt) {
         return YPositionFactory.moveDown(yPosition, moveCnt);
+    }
+
+    public List<YPosition> moveUpToEnd() {
+        return YPositionFactory.moveUpToEnd(yPosition);
+    }
+
+    public List<YPosition> moveDownToEnd() {
+        return YPositionFactory.moveDownToEnd(yPosition);
     }
 
     @Override
