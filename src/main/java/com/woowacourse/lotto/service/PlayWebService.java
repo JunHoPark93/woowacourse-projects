@@ -9,7 +9,7 @@ public class PlayWebService {
         RoundDao.addRound(round);
     }
 
-    public int round() throws SQLException {
-        return RoundDao.selectRound();
+    public int nextRound() throws SQLException {
+        return RoundDao.selectNextRound();
     }
 }

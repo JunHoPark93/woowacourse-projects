@@ -13,10 +13,10 @@ public class PlayController {
     private static PlayWebService playWebService = new PlayWebService();
 
     public static Object init(Request request, Response response) throws SQLException {
-        int round = playWebService.round();
+        int round = playWebService.nextRound();
         playWebService.addRound(round);
 
-        request.session().attribute("round", round + 1);
+        request.session().attribute("round", round);
 
         Map<String, Object> model = new HashMap<>();
         model.put("round", round);
