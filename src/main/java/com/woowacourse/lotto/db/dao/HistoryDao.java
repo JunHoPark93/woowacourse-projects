@@ -24,7 +24,7 @@ public class HistoryDao {
     }
 
     private static Winning selectWinningLotto(String round) throws SQLException {
-        String query = "SELECT * FROM W_LOTTO WHERE round_id = ?";
+        String query = "SELECT winning_num, bonus_num FROM W_LOTTO WHERE round_id = ?";
         PreparedStatement pstmt = ConnectionFactory.getConnection().prepareStatement(query);
         pstmt.setString(1, round);
         ResultSet rs = pstmt.executeQuery();
