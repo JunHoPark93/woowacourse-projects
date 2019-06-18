@@ -1,12 +1,19 @@
 package chess.domain.board;
 
-import chess.domain.piece.Piece;
-
-import java.util.HashMap;
-import java.util.Map;
-
-// TODO
 public class Board {
-    private final Map<Square, Piece> pieces = new HashMap<>();
+    private final Player whitePlayer;
+    private final Player blackPlayer;
 
+    public Board(Player whitePlayer, Player blackPlayer) {
+        this.whitePlayer = whitePlayer;
+        this.blackPlayer = blackPlayer;
+    }
+
+    public int whitePiecesCount() {
+        return whitePlayer.getPiecesCount();
+    }
+
+    public int blackPiecesCount() {
+        return blackPlayer.getPiecesCount();
+    }
 }
