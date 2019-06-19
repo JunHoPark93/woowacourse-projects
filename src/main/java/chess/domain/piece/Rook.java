@@ -2,9 +2,7 @@ package chess.domain.piece;
 
 import chess.domain.board.Square;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Rook extends Piece {
