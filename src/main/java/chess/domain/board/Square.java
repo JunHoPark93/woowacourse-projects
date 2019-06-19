@@ -87,7 +87,23 @@ public class Square {
         return moved;
     }
 
-    private boolean isLocatedSameLine(Square moved) {
+    public Square moveDownLeft() {
+        Square moved = new Square(x.moveLeft(1), y.moveDown(1));
+        if (isLocatedSameLine(moved)) {
+            return this;
+        }
+        return moved;
+    }
+
+    public Square moveDownRight() {
+        Square moved = new Square(x.moveRight(1), y.moveDown(1));
+        if (isLocatedSameLine(moved)) {
+            return this;
+        }
+        return moved;
+    }
+
+    public boolean isLocatedSameLine(Square moved) {
         return moved.isSameX(this.x) || moved.isSameY(this.y);
     }
 

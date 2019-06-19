@@ -40,4 +40,15 @@ public class KnightTest {
 
         assertThat(movableSquares).isEqualTo(expectedSquares);
     }
+
+    @Test
+    void 나이트_이동_막힌곳() {
+        Set<Square> movableSquares = knight.movableList(new Square(new XPosition("b"), new YPosition("1")));
+        Set<Square> expectedSquares = new HashSet<>();
+        expectedSquares.add(new Square(new XPosition("a"), new YPosition("4")));
+        expectedSquares.add(new Square(new XPosition("c"), new YPosition("4")));
+        expectedSquares.add(new Square(new XPosition("e"), new YPosition("2")));
+
+        assertThat(movableSquares).isEqualTo(expectedSquares);
+    }
 }

@@ -11,7 +11,7 @@ public class XPositionFactory {
     private static final int END_INDEX = 7;
 
     static {
-        for (int i = 0; i < type.size() ; i++) {
+        for (int i = 0; i < type.size(); i++) {
             map.put(type.get(i), i);
         }
 
@@ -28,7 +28,7 @@ public class XPositionFactory {
     public static XPosition moveLeft(String xPosition, int moveCnt) {
         int targetIdx = index(xPosition) - moveCnt;
         if (targetIdx < START_INDEX) {
-            return xPositions.get(START_INDEX);
+            return xPositions.get(index(xPosition));
         }
 
         return xPositions.get(targetIdx);
@@ -37,7 +37,7 @@ public class XPositionFactory {
     public static XPosition moveRight(String xPosition, int moveCnt) {
         int targetIdx = index(xPosition) + moveCnt;
         if (targetIdx > END_INDEX) {
-            return xPositions.get(END_INDEX);
+            return xPositions.get(index(xPosition));
         }
         return xPositions.get(targetIdx);
     }
