@@ -48,4 +48,9 @@ public class XPosition {
     public int hashCode() {
         return xPosition != null ? xPosition.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return xPosition;
+    }
 }

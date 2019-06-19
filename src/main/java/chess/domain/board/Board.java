@@ -6,6 +6,7 @@ import chess.domain.piece.PieceColor;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Board {
     private final Player whitePlayer;
@@ -38,23 +39,49 @@ public class Board {
             throw new IllegalArgumentException("맞는 턴이 아닙니다");
         }
 
-        if (piece.getColor() == PieceColor.BLACK) {
-            Set<Vector> moveList = piece.movableList(source);
-            Set<Vector> existingList = new HashSet<>();
-            for (Vector vector : moveList) {
-                if (blackPlayer.contains(vector)) {
-                    existingList.add(vector);
-                }
+        Set<Vector> moveList = piece.movableList(source);
+        Set<Vector> existingList = new HashSet<>();
+        for (Vector vector : moveList) {
+            if (blackPlayer.contains(vector)) {
+                existingList.add(vector);
             }
 
-            for (Vector vector : existingList) {
-                Set<Vector> vectors = vector.getList();
-                moveList.removeAll(vectors);
+            if (whitePlayer.contains(vector)) {
+                existingList.add(vector);
             }
-
-            return moveList;
         }
 
-        return null;
+        for (Vector vector : existingList) {
+            Set<Vector> vectors = vector.getList();
+            moveList.removeAll(vectors);
+        }
+
+        return moveList.stream()
+                .filter(vector -> !(currentPlayer().contains(vector)))
+                .collect(Collectors.toSet());
+
+//        Set<Vector> current = new HashSet<>();
+//        for (Vector vector : moveList) {
+//            if (currentPlayer().contains(vector)) {
+//                current.add(vector);
+//            }
+//        }
+//        for (Vector vector : current) {
+//            moveList.removeAll(vector.getList());
+//        }
+
+//        if (piece.getColor() == PieceColor.BLACK) {
+//
+//            return moveList;
+//        }
+
+    }
+
+    private Player currentPlayer() {
+        if (turn.equals(PieceColor.BLACK)) {
+            return blackPlayer;
+        }
+
+        return whitePlayer;
     }
 }

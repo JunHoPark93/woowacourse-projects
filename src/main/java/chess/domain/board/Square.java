@@ -188,4 +188,9 @@ public class Square {
         result = 31 * result + (y != null ? y.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "[" + x + y + "]";
+    }
 }

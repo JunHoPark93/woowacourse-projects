@@ -39,17 +39,20 @@ public class BoardTest {
         assertThat(board.getPiece(new Square(new XPosition("a"), new YPosition("8")))).isEqualTo(rook);
     }
 
+    // TODO
     @Test
     void 보드_룩_움직임2() {
         Piece rook = new Rook(PieceColor.BLACK);
+        Piece rook2 = new Rook(PieceColor.BLACK);
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("7")), rook);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, black);
+        black.put(new Square(new XPosition("f"), new YPosition("7")), rook2);
+        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
 
         Piece pawn = new Pawn(PieceColor.WHITE);
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("b"), new YPosition("2")), pawn);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, white);
+        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
         Board board = new Board(whitePlayer, blackPlayer);
 
@@ -59,9 +62,6 @@ public class BoardTest {
                 new Vector(new Square(new XPosition("c"), new YPosition("7")), Direction.RIGHT),
                 new Vector(new Square(new XPosition("d"), new YPosition("7")), Direction.RIGHT),
                 new Vector(new Square(new XPosition("e"), new YPosition("7")), Direction.RIGHT),
-                new Vector(new Square(new XPosition("f"), new YPosition("7")), Direction.RIGHT),
-                new Vector(new Square(new XPosition("g"), new YPosition("7")), Direction.RIGHT),
-                new Vector(new Square(new XPosition("h"), new YPosition("7")), Direction.RIGHT),
                 new Vector(new Square(new XPosition("b"), new YPosition("8")), Direction.UP),
                 new Vector(new Square(new XPosition("b"), new YPosition("6")), Direction.DOWN),
                 new Vector(new Square(new XPosition("b"), new YPosition("5")), Direction.DOWN),
@@ -71,6 +71,11 @@ public class BoardTest {
 
         Set<Vector> expectedVector = new HashSet<>(expectedVectorList);
         assertThat(moveList).isEqualTo(expectedVector);
+
+        System.out.println(moveList);
+        System.out.println("----");
+
+        System.out.println(expectedVector);
     }
 
     // TODO

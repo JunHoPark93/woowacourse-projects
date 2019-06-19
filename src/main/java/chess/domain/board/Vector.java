@@ -44,4 +44,9 @@ public class Vector {
         result = 31 * result + (direction != null ? direction.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return square + " " + direction;
+    }
 }

@@ -47,4 +47,9 @@ public class YPosition {
     public int hashCode() {
         return yPosition != null ? yPosition.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return yPosition;
+    }
 }
