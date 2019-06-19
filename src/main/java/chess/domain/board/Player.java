@@ -1,20 +1,11 @@
 package chess.domain.board;
 
 import chess.domain.piece.Piece;
-import chess.domain.piece.PieceColor;
 
-import java.util.Map;
+import java.util.Optional;
 
-public class Player {
-    private final PieceColor color;
-    private Map<Square, Piece> pieces;
+public interface Player {
+    int getPiecesCount();
 
-    public Player(PieceColor color) {
-        this.color = color;
-        this.pieces = PlayerFactory.init(color);
-    }
-
-    public int getPiecesCount() {
-        return pieces.size();
-    }
+    Optional<Piece> getPiece(Square source);
 }
