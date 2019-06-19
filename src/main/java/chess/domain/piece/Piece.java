@@ -1,6 +1,7 @@
 package chess.domain.piece;
 
 import chess.domain.board.Square;
+import chess.domain.board.Vector;
 
 import java.util.Set;
 
@@ -13,7 +14,7 @@ public abstract class Piece {
         this.color = color;
     }
 
-    public abstract Set<Square> movableList(Square source);
+    public abstract Set<Vector> movableList(Square source);
 
     public void dead() {
         isAlive = false;

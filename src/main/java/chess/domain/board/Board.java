@@ -3,6 +3,7 @@ package chess.domain.board;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,57 +32,28 @@ public class Board {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public Set<Square> moveList(Square source) {
+    public Set<Vector> moveList(Square source) {
         Piece piece = getPiece(source);
         if (turn != piece.getColor()) {
             throw new IllegalArgumentException("맞는 턴이 아닙니다");
         }
-// TODO
-//        if (piece.getColor() == PieceColor.BLACK) {
-//            Set<Square> moveList = piece.movableList(source);
-//            Set<Square> existingList = new HashSet<>();
-//            for (Square square : moveList) {
-//                if (blackPlayer.contains(square)) {
-//                    existingList.add(square);
-//                }
-//            }
-//
-//            for (Square square : existingList) {
-//                if (source.positionedRight(square)) { // 우측 위치
-//
-//                }
-//
-//                if (source.positionedUp(square)) {
-//
-//                }
-//
-//                if (source.positionedDown(square)) {
-//
-//                }
-//
-//                if (source.positionedLeft(square)) {
-//
-//                }
-//
-//                if (source.positionedUpRight(square)) { // 우측 대각선
-//
-//                }
-//
-//                if (source.positionedDownRight(square)) {
-//
-//                }
-//
-//                if (source.positionedDownLeft(square)) {
-//
-//                }
-//
-//                if (source.positionedUpLeft(square)) {
-//
-//                }
-//            }
-//        }
 
+        if (piece.getColor() == PieceColor.BLACK) {
+            Set<Vector> moveList = piece.movableList(source);
+            Set<Vector> existingList = new HashSet<>();
+            for (Vector vector : moveList) {
+                if (blackPlayer.contains(vector)) {
+                    existingList.add(vector);
+                }
+            }
 
+            for (Vector vector : existingList) {
+                Set<Vector> vectors = vector.getList();
+                moveList.removeAll(vectors);
+            }
+
+            return moveList;
+        }
 
         return null;
     }

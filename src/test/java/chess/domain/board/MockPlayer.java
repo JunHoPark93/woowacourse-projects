@@ -24,4 +24,9 @@ public class MockPlayer implements Player {
     public Optional<Piece> getPiece(Square source) {
         return Optional.ofNullable(pieces.get(source));
     }
+
+    @Override
+    public boolean contains(Vector vector) {
+        return pieces.containsKey(vector.getSquare());
+    }
 }

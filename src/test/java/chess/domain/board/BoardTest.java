@@ -40,7 +40,7 @@ public class BoardTest {
     }
 
     @Test
-    void 보드_룩_움직임() {
+    void 보드_룩_움직임2() {
         Piece rook = new Rook(PieceColor.BLACK);
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("7")), rook);
@@ -53,24 +53,24 @@ public class BoardTest {
 
         Board board = new Board(whitePlayer, blackPlayer);
 
-        Set<Square> moveList = board.moveList(new Square(new XPosition("b"), new YPosition("7")));
-        List<Square> list = Arrays.asList(
-                new Square(new XPosition("a"), new YPosition("7")),
-                new Square(new XPosition("c"), new YPosition("7")),
-                new Square(new XPosition("d"), new YPosition("7")),
-                new Square(new XPosition("e"), new YPosition("7")),
-                new Square(new XPosition("f"), new YPosition("7")),
-                new Square(new XPosition("g"), new YPosition("7")),
-                new Square(new XPosition("h"), new YPosition("7")),
-                new Square(new XPosition("b"), new YPosition("8")),
-                new Square(new XPosition("b"), new YPosition("6")),
-                new Square(new XPosition("b"), new YPosition("5")),
-                new Square(new XPosition("b"), new YPosition("4")),
-                new Square(new XPosition("b"), new YPosition("3")),
-                new Square(new XPosition("b"), new YPosition("2"))
-        );
-        Set<Square> expectedMoveList = new HashSet<>(list);
-        assertThat(moveList).isEqualTo(expectedMoveList);
+        Set<Vector> moveList = board.moveList(new Square(new XPosition("b"), new YPosition("7")));
+        List<Vector> expectedVectorList = Arrays.asList(
+                new Vector(new Square(new XPosition("a"), new YPosition("7")), Direction.LEFT),
+                new Vector(new Square(new XPosition("c"), new YPosition("7")), Direction.RIGHT),
+                new Vector(new Square(new XPosition("d"), new YPosition("7")), Direction.RIGHT),
+                new Vector(new Square(new XPosition("e"), new YPosition("7")), Direction.RIGHT),
+                new Vector(new Square(new XPosition("f"), new YPosition("7")), Direction.RIGHT),
+                new Vector(new Square(new XPosition("g"), new YPosition("7")), Direction.RIGHT),
+                new Vector(new Square(new XPosition("h"), new YPosition("7")), Direction.RIGHT),
+                new Vector(new Square(new XPosition("b"), new YPosition("8")), Direction.UP),
+                new Vector(new Square(new XPosition("b"), new YPosition("6")), Direction.DOWN),
+                new Vector(new Square(new XPosition("b"), new YPosition("5")), Direction.DOWN),
+                new Vector(new Square(new XPosition("b"), new YPosition("4")), Direction.DOWN),
+                new Vector(new Square(new XPosition("b"), new YPosition("3")), Direction.DOWN),
+                new Vector(new Square(new XPosition("b"), new YPosition("2")), Direction.DOWN));
+
+        Set<Vector> expectedVector = new HashSet<>(expectedVectorList);
+        assertThat(moveList).isEqualTo(expectedVector);
     }
 
     // TODO

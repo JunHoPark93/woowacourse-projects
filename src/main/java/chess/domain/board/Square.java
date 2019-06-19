@@ -71,6 +71,62 @@ public class Square {
         return movableList;
     }
 
+    public List<Square> moveUpRightToEnd() {
+        List<Square> movableList = new ArrayList<>();
+        Square moved = moveUpRight();
+        Square preSquare = this;
+
+        while (moved != preSquare) {
+            movableList.add(moved);
+            preSquare = moved;
+            moved.moveUpRight();
+        }
+
+        return movableList;
+    }
+
+    public List<Square> moveUpLeftToEnd() {
+        List<Square> movableList = new ArrayList<>();
+        Square moved = moveUpLeft();
+        Square preSquare = this;
+
+        while (moved != preSquare) {
+            movableList.add(moved);
+            preSquare = moved;
+            moved.moveUpLeft();
+        }
+
+        return movableList;
+    }
+
+    public List<Square> moveDownRightToEnd() {
+        List<Square> movableList = new ArrayList<>();
+        Square moved = moveDownRight();
+        Square preSquare = this;
+
+        while (moved != preSquare) {
+            movableList.add(moved);
+            preSquare = moved;
+            moved.moveDownRight();
+        }
+
+        return movableList;
+    }
+
+    public List<Square> moveDownLeftToEnd() {
+        List<Square> movableList = new ArrayList<>();
+        Square moved = moveDownLeft();
+        Square preSquare = this;
+
+        while (moved != preSquare) {
+            movableList.add(moved);
+            preSquare = moved;
+            moved.moveDownLeft();
+        }
+
+        return movableList;
+    }
+
     public Square moveUpLeft() {
         Square moved = new Square(x.moveLeft(1), y.moveUp(1));
         if (isLocatedSameLine(moved)) {

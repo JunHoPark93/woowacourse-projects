@@ -23,4 +23,9 @@ public class DefaultPlayer implements Player {
     public Optional<Piece> getPiece(Square source) {
         return Optional.empty();
     }
+
+    @Override
+    public boolean contains(Vector vector) {
+        return pieces.containsKey(vector.getSquare());
+    }
 }

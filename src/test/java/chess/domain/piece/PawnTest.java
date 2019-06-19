@@ -1,8 +1,6 @@
 package chess.domain.piece;
 
-import chess.domain.board.Square;
-import chess.domain.board.XPosition;
-import chess.domain.board.YPosition;
+import chess.domain.board.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,12 +31,12 @@ public class PawnTest {
 
     @Test
     void 움직일_수_있는_리스트_반환() {
-        Set<Square> movableSquares = pawn.movableList(new Square(new XPosition("a"), new YPosition("2")));
-        Set<Square> expectedSquares = new HashSet<>();
-        expectedSquares.add(new Square(new XPosition("a"), new YPosition("3")));
-        expectedSquares.add(new Square(new XPosition("a"), new YPosition("4")));
-        expectedSquares.add(new Square(new XPosition("b"), new YPosition("3")));
+        Set<Vector> movableVector = pawn.movableList(new Square(new XPosition("a"), new YPosition("2")));
+        Set<Vector> expectedVector = new HashSet<>();
+        expectedVector.add(new Vector(new Square(new XPosition("a"), new YPosition("3")), Direction.UP));
+        expectedVector.add(new Vector(new Square(new XPosition("a"), new YPosition("4")), Direction.UP));
+        expectedVector.add(new Vector(new Square(new XPosition("b"), new YPosition("3")), Direction.UP_RIGHT));
 
-        assertThat(expectedSquares).isEqualTo(movableSquares);
+        assertThat(expectedVector).isEqualTo(movableVector);
     }
 }

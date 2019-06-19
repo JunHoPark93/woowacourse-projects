@@ -8,4 +8,6 @@ public interface Player {
     int getPiecesCount();
 
     Optional<Piece> getPiece(Square source);
+
+    boolean contains(Vector vector);
 }
