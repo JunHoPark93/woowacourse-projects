@@ -28,9 +28,19 @@ public class Board {
     }
 
     public Piece getPiece(Square source) {
-        return Optional.ofNullable(whitePlayer.getPiece(source))
-                .orElse(blackPlayer.getPiece(source))
-                .orElseThrow(IllegalArgumentException::new);
+        // TODO
+        Optional<Piece> piece = blackPlayer.getPiece(source);
+        if (!piece.isPresent()) {
+            piece = whitePlayer.getPiece(source);
+        }
+
+        Optional<Piece> returnPiece = Optional.ofNullable(piece).orElseThrow(IllegalArgumentException::new);
+
+        if (returnPiece.isPresent()) {
+            return returnPiece.get();
+        }
+
+        throw new IllegalArgumentException();
     }
 
     public Set<Vector> moveList(Square source) {

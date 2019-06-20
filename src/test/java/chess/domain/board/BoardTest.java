@@ -27,21 +27,20 @@ public class BoardTest {
         Piece rook = new Rook(PieceColor.BLACK);
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, black);
+        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
 
         Piece pawn = new Pawn(PieceColor.WHITE);
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, white);
+        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
         Board board = new Board(whitePlayer, blackPlayer);
 
         assertThat(board.getPiece(new Square(new XPosition("a"), new YPosition("8")))).isEqualTo(rook);
     }
 
-    // TODO
     @Test
-    void 보드_룩_움직임2() {
+    void 보드_룩_움직임() {
         Piece rook = new Rook(PieceColor.BLACK);
         Piece rook2 = new Rook(PieceColor.BLACK);
         Map<Square, Piece> black = new HashMap<>();
@@ -71,11 +70,6 @@ public class BoardTest {
 
         Set<Vector> expectedVector = new HashSet<>(expectedVectorList);
         assertThat(moveList).isEqualTo(expectedVector);
-
-        System.out.println(moveList);
-        System.out.println("----");
-
-        System.out.println(expectedVector);
     }
 
     // TODO
