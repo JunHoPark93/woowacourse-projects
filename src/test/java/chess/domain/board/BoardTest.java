@@ -128,6 +128,59 @@ public class BoardTest {
         assertThat(moveList).isEqualTo(expected);
     }
 
+    @Test
+    void 보드_퀸_움직임() {
+        Piece queen = new Queen(PieceColor.BLACK);
+        Piece rook2 = new Rook(PieceColor.BLACK);
+        Piece rook3 = new Rook(PieceColor.BLACK);
+        Map<Square, Piece> black = new HashMap<>();
+        black.put(new Square(new XPosition("f"), new YPosition("6")), queen);
+        black.put(new Square(new XPosition("g"), new YPosition("7")), rook2);
+        black.put(new Square(new XPosition("f"), new YPosition("2")), rook3);
+        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+
+        Piece pawn = new Pawn(PieceColor.WHITE);
+        Piece pawn2 = new Pawn(PieceColor.WHITE);
+        Map<Square, Piece> white = new HashMap<>();
+        white.put(new Square(new XPosition("d"), new YPosition("4")), pawn);
+        white.put(new Square(new XPosition("b"), new YPosition("6")), pawn2);
+        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+
+        Board board = new Board(whitePlayer, blackPlayer);
+
+        Set<Vector> moveList = board.moveList(new Square(new XPosition("f"), new YPosition("6")));
+        Set<Vector> expected = new HashSet<>();
+
+        expected.add(new Vector(new Square(new XPosition("g"), new YPosition("5")), Direction.DOWN_RIGHT));
+        expected.add(new Vector(new Square(new XPosition("h"), new YPosition("4")), Direction.DOWN_RIGHT));
+
+        expected.add(new Vector(new Square(new XPosition("e"), new YPosition("5")), Direction.DOWN_LEFT));
+        expected.add(new Vector(new Square(new XPosition("d"), new YPosition("4")), Direction.DOWN_LEFT));
+
+        expected.add(new Vector(new Square(new XPosition("e"), new YPosition("7")), Direction.UP_LEFT));
+        expected.add(new Vector(new Square(new XPosition("d"), new YPosition("8")), Direction.UP_LEFT));
+
+        expected.add(new Vector(new Square(new XPosition("e"), new YPosition("7")), Direction.UP_LEFT));
+        expected.add(new Vector(new Square(new XPosition("d"), new YPosition("8")), Direction.UP_LEFT));
+
+        expected.add(new Vector(new Square(new XPosition("f"), new YPosition("7")), Direction.UP));
+        expected.add(new Vector(new Square(new XPosition("f"), new YPosition("8")), Direction.UP));
+
+        expected.add(new Vector(new Square(new XPosition("g"), new YPosition("6")), Direction.RIGHT));
+        expected.add(new Vector(new Square(new XPosition("h"), new YPosition("6")), Direction.RIGHT));
+
+        expected.add(new Vector(new Square(new XPosition("f"), new YPosition("5")), Direction.DOWN));
+        expected.add(new Vector(new Square(new XPosition("f"), new YPosition("4")), Direction.DOWN));
+        expected.add(new Vector(new Square(new XPosition("f"), new YPosition("3")), Direction.DOWN));
+
+        expected.add(new Vector(new Square(new XPosition("b"), new YPosition("6")), Direction.LEFT));
+        expected.add(new Vector(new Square(new XPosition("c"), new YPosition("6")), Direction.LEFT));
+        expected.add(new Vector(new Square(new XPosition("d"), new YPosition("6")), Direction.LEFT));
+        expected.add(new Vector(new Square(new XPosition("e"), new YPosition("6")), Direction.LEFT));
+
+        assertThat(moveList).isEqualTo(expected);
+    }
+
     // TODO
     @Test
     void 보드_룩이_폰을잡는다() {
