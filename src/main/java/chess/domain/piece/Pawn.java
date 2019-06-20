@@ -31,7 +31,7 @@ public class Pawn extends Piece {
         }
 
         return movableList.stream()
-                .filter(vector -> vector.getSquare() != source)
+                .filter(vector -> !(vector.getSquare().equals(source)))
                 .collect(Collectors.toSet());
     }
 

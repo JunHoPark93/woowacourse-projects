@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import chess.domain.piece.King;
 import chess.domain.piece.Knight;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
@@ -54,9 +55,18 @@ public class Board {
             removeObstacles(moveList);
         }
 
+        if (piece instanceof King) {
+            moveList = removeKingPath(moveList);
+        }
         return moveList.stream()
                 .filter(vector -> !(currentPlayer().contains(vector)))
                 .collect(Collectors.toSet());
+    }
+
+    private Set<Vector> removeKingPath(Set<Vector> moveList) {
+        Set<Square> kingPath = opponentPlayer().getKingPath();
+        return moveList.stream().filter(vector -> !kingPath.contains(vector.getSquare())).collect(Collectors.toSet());
+
     }
 
     private void removeObstacles(Set<Vector> moveList) {
@@ -89,5 +99,13 @@ public class Board {
         }
 
         return whitePlayer;
+    }
+
+    private Player opponentPlayer() {
+        if (turn.equals(PieceColor.BLACK)) {
+            return whitePlayer;
+        }
+
+        return blackPlayer;
     }
 }

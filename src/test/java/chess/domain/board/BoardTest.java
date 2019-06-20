@@ -181,6 +181,39 @@ public class BoardTest {
         assertThat(moveList).isEqualTo(expected);
     }
 
+    @Test
+    void 보드_킹_움직임() {
+        Piece king = new King(PieceColor.BLACK);
+        Piece rook2 = new Rook(PieceColor.BLACK);
+        Piece rook3 = new Rook(PieceColor.BLACK);
+        Map<Square, Piece> black = new HashMap<>();
+        black.put(new Square(new XPosition("b"), new YPosition("2")), king);
+        black.put(new Square(new XPosition("b"), new YPosition("1")), rook2);
+        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+
+        Piece king2 = new King(PieceColor.WHITE);
+        Piece pawn2 = new Pawn(PieceColor.WHITE);
+        Map<Square, Piece> white = new HashMap<>();
+        white.put(new Square(new XPosition("d"), new YPosition("2")), king2);
+        white.put(new Square(new XPosition("b"), new YPosition("3")), pawn2);
+        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+
+        Board board = new Board(whitePlayer, blackPlayer);
+
+        Set<Vector> moveList = board.moveList(new Square(new XPosition("b"), new YPosition("2")));
+        Set<Vector> expected = new HashSet<>();
+
+        expected.add(new Vector(new Square(new XPosition("a"), new YPosition("1")), Direction.DOWN_LEFT));
+
+        expected.add(new Vector(new Square(new XPosition("a"), new YPosition("3")), Direction.UP_LEFT));
+
+        expected.add(new Vector(new Square(new XPosition("b"), new YPosition("3")), Direction.UP));
+
+        expected.add(new Vector(new Square(new XPosition("a"), new YPosition("2")), Direction.LEFT));
+
+        assertThat(moveList).isEqualTo(expected);
+    }
+
     // TODO
     @Test
     void 보드_룩이_폰을잡는다() {
