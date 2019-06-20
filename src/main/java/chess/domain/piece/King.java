@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class King extends Piece {
+    private static final double SCORE = 0;
+
     public King(PieceColor color) {
         super(color);
     }
@@ -29,5 +31,10 @@ public class King extends Piece {
         return movableList.stream()
                 .filter(vector -> !(vector.getSquare().equals(source)))
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

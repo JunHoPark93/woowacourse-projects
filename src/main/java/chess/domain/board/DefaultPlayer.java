@@ -53,6 +53,14 @@ public class DefaultPlayer implements Player {
 
     @Override
     public Piece remove(Square target) {
-        return null;
+        return pieces.remove(target);
+    }
+
+    @Override
+    public double score() {
+        return pieces.entrySet().stream()
+                .map(Map.Entry::getValue)
+                .mapToDouble(Piece::getScore)
+                .sum();
     }
 }

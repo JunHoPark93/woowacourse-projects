@@ -10,14 +10,14 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Board {
+public class Game {
     private final Player whitePlayer;
     private final Player blackPlayer;
     // TODO
     private final ChessObserver observer;
     private PieceColor turn;
 
-    public Board(Player whitePlayer, Player blackPlayer) {
+    public Game(Player whitePlayer, Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.turn = PieceColor.BLACK;
@@ -61,6 +61,7 @@ public class Board {
         if (piece instanceof King) {
             moveList = removeKingPath(moveList);
         }
+
         return moveList.stream()
                 .filter(vector -> !(currentPlayer().contains(vector)))
                 .collect(Collectors.toSet());
@@ -132,5 +133,14 @@ public class Board {
             Piece deadPiece = opponentPlayer().remove(target);
             observer.take(deadPiece);
         }
+
+        turn = turn.toggle();
+    }
+
+    public Score score() {
+        double blackScore = blackPlayer.score();
+        double whiteScore = whitePlayer.score();
+
+        return new Score(blackScore, whiteScore);
     }
 }

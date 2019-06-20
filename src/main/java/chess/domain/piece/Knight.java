@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Knight extends Piece {
+    private static final double SCORE = 2.5;
+
     public Knight(PieceColor color) {
         super(color);
     }
@@ -35,5 +37,10 @@ public class Knight extends Piece {
         return movableList.stream()
                 .filter(vector -> !(source.isLocatedSameLine(vector.getSquare())))
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

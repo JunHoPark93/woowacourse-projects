@@ -8,16 +8,16 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class BoardTest {
+public class GameTest {
     @Test
     void 실제_보드_초기화() {
         Player whitePlayer = new DefaultPlayer(PieceColor.WHITE);
         Player blackPlayer = new DefaultPlayer(PieceColor.BLACK);
 
-        Board board = new Board(whitePlayer, blackPlayer);
+        Game game = new Game(whitePlayer, blackPlayer);
 
-        assertThat(board.whitePiecesCount()).isEqualTo(16);
-        assertThat(board.blackPiecesCount()).isEqualTo(16);
+        assertThat(game.whitePiecesCount()).isEqualTo(16);
+        assertThat(game.blackPiecesCount()).isEqualTo(16);
     }
 
     @Test
@@ -32,9 +32,9 @@ public class BoardTest {
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
         Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
-        Board board = new Board(whitePlayer, blackPlayer);
+        Game game = new Game(whitePlayer, blackPlayer);
 
-        assertThat(board.getPiece(new Square(new XPosition("a"), new YPosition("8")))).isEqualTo(rook);
+        assertThat(game.getPiece(new Square(new XPosition("a"), new YPosition("8")))).isEqualTo(rook);
     }
 
     @Test
@@ -51,9 +51,9 @@ public class BoardTest {
         white.put(new Square(new XPosition("b"), new YPosition("2")), pawn);
         Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
-        Board board = new Board(whitePlayer, blackPlayer);
+        Game game = new Game(whitePlayer, blackPlayer);
 
-        Set<Vector> moveList = board.moveList(new Square(new XPosition("b"), new YPosition("7")));
+        Set<Vector> moveList = game.moveList(new Square(new XPosition("b"), new YPosition("7")));
         List<Vector> expectedVectorList = Arrays.asList(
                 new Vector(new Square(new XPosition("a"), new YPosition("7")), Direction.LEFT),
                 new Vector(new Square(new XPosition("c"), new YPosition("7")), Direction.RIGHT),
@@ -87,9 +87,9 @@ public class BoardTest {
         white.put(new Square(new XPosition("c"), new YPosition("6")), pawn);
         Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
-        Board board = new Board(whitePlayer, blackPlayer);
+        Game game = new Game(whitePlayer, blackPlayer);
 
-        Set<Vector> moveList = board.moveList(new Square(new XPosition("b"), new YPosition("8")));
+        Set<Vector> moveList = game.moveList(new Square(new XPosition("b"), new YPosition("8")));
         List<Vector> expectedVectorList = Arrays.asList(
                 new Vector(new Square(new XPosition("c"), new YPosition("6")), Direction.NONE),
                 new Vector(new Square(new XPosition("d"), new YPosition("7")), Direction.NONE));
@@ -112,9 +112,9 @@ public class BoardTest {
         white.put(new Square(new XPosition("d"), new YPosition("4")), pawn);
         Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
-        Board board = new Board(whitePlayer, blackPlayer);
+        Game game = new Game(whitePlayer, blackPlayer);
 
-        Set<Vector> moveList = board.moveList(new Square(new XPosition("f"), new YPosition("6")));
+        Set<Vector> moveList = game.moveList(new Square(new XPosition("f"), new YPosition("6")));
         Set<Vector> expected = new HashSet<>();
 
         expected.add(new Vector(new Square(new XPosition("g"), new YPosition("5")), Direction.DOWN_RIGHT));
@@ -147,9 +147,9 @@ public class BoardTest {
         white.put(new Square(new XPosition("b"), new YPosition("6")), pawn2);
         Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
-        Board board = new Board(whitePlayer, blackPlayer);
+        Game game = new Game(whitePlayer, blackPlayer);
 
-        Set<Vector> moveList = board.moveList(new Square(new XPosition("f"), new YPosition("6")));
+        Set<Vector> moveList = game.moveList(new Square(new XPosition("f"), new YPosition("6")));
         Set<Vector> expected = new HashSet<>();
 
         expected.add(new Vector(new Square(new XPosition("g"), new YPosition("5")), Direction.DOWN_RIGHT));
@@ -199,9 +199,9 @@ public class BoardTest {
         white.put(new Square(new XPosition("b"), new YPosition("3")), pawn2);
         Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
-        Board board = new Board(whitePlayer, blackPlayer);
+        Game game = new Game(whitePlayer, blackPlayer);
 
-        Set<Vector> moveList = board.moveList(new Square(new XPosition("b"), new YPosition("2")));
+        Set<Vector> moveList = game.moveList(new Square(new XPosition("b"), new YPosition("2")));
         Set<Vector> expected = new HashSet<>();
 
         expected.add(new Vector(new Square(new XPosition("a"), new YPosition("1")), Direction.DOWN_LEFT));
@@ -227,12 +227,12 @@ public class BoardTest {
         white.put(new Square(new XPosition("b"), new YPosition("2")), pawn);
         Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
-        Board board = new Board(whitePlayer, blackPlayer);
+        Game game = new Game(whitePlayer, blackPlayer);
 
-        board.move(new Square(new XPosition("b"), new YPosition("7")),
+        game.move(new Square(new XPosition("b"), new YPosition("7")),
                 new Square(new XPosition("b"), new YPosition("3")));
 
-        Piece expected = board.getPiece(new Square(new XPosition("b"), new YPosition("3")));
+        Piece expected = game.getPiece(new Square(new XPosition("b"), new YPosition("3")));
         assertThat(rook).isEqualTo(expected);
     }
 
@@ -248,11 +248,11 @@ public class BoardTest {
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
         Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
-        Board board = new Board(whitePlayer, blackPlayer);
-        board.move(new Square(new XPosition("a"), new YPosition("8")),
+        Game game = new Game(whitePlayer, blackPlayer);
+        game.move(new Square(new XPosition("a"), new YPosition("8")),
                 new Square(new XPosition("a"), new YPosition("2")));
 
-        assertThat(board.whitePiecesCount()).isEqualTo(0);
+        assertThat(game.whitePiecesCount()).isEqualTo(0);
     }
 
     @Test
@@ -260,19 +260,50 @@ public class BoardTest {
         Piece rook = new Rook(PieceColor.BLACK);
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, black);
+        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
 
         Piece pawn = new Pawn(PieceColor.WHITE);
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, white);
+        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
 
-        Board board = new Board(whitePlayer, blackPlayer);
+        Game game = new Game(whitePlayer, blackPlayer);
 
-        assertThrows(RuntimeException.class, () -> {
-            board.move(new Square(new XPosition("a"), new YPosition("8")),
-                    new Square(new XPosition("b"), new YPosition("2")));
-        });
+        assertThrows(RuntimeException.class, () -> game.move(new Square(new XPosition("a"), new YPosition("8")),
+                new Square(new XPosition("b"), new YPosition("2"))));
     }
 
+    @Test
+    void 점수계산() {
+        Piece king = new King(PieceColor.BLACK);
+        Piece rook = new Rook(PieceColor.BLACK);
+        Piece pawn = new Pawn(PieceColor.BLACK);
+        Piece knight = new Knight(PieceColor.BLACK);
+
+        Map<Square, Piece> black = new HashMap<>();
+        black.put(new Square(new XPosition("a"), new YPosition("8")), king);
+        black.put(new Square(new XPosition("a"), new YPosition("7")), rook);
+        black.put(new Square(new XPosition("a"), new YPosition("6")), pawn);
+        black.put(new Square(new XPosition("a"), new YPosition("5")), knight);
+
+        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+
+        Piece pawn2 = new Pawn(PieceColor.WHITE);
+        Piece king2 = new King(PieceColor.WHITE);
+        Piece queen = new Queen(PieceColor.WHITE);
+        Piece bishop = new Bishop(PieceColor.WHITE);
+
+        Map<Square, Piece> white = new HashMap<>();
+        white.put(new Square(new XPosition("a"), new YPosition("2")), king2);
+        white.put(new Square(new XPosition("b"), new YPosition("3")), pawn2);
+        white.put(new Square(new XPosition("c"), new YPosition("4")), queen);
+        white.put(new Square(new XPosition("d"), new YPosition("5")), bishop);
+
+        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+
+        Game game = new Game(whitePlayer, blackPlayer);
+
+        assertThat(game.score().getBlackScore()).isEqualTo(8.5);
+        assertThat(game.score().getWhiteScore()).isEqualTo(13);
+    }
 }

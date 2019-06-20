@@ -4,7 +4,6 @@ package chess.domain.board;
 import chess.domain.piece.King;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
-import org.assertj.core.data.MapEntry;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -56,5 +55,13 @@ public class MockPlayer implements Player {
     @Override
     public Piece remove(Square target) {
         return pieces.remove(target);
+    }
+
+    @Override
+    public double score() {
+        return pieces.entrySet().stream()
+                .map(Map.Entry::getValue)
+                .mapToDouble(Piece::getScore)
+                .sum();
     }
 }

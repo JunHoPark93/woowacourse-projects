@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Queen extends Piece {
+    private static final double SCORE = 9;
+
     public Queen(PieceColor color) {
         super(color);
     }
@@ -41,5 +43,10 @@ public class Queen extends Piece {
             movableList.add(new Vector(square, Direction.DOWN_LEFT));
         }
         return movableList;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

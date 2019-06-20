@@ -17,4 +17,6 @@ public interface Player {
     void move(Square source, Square target);
 
     Piece remove(Square target);
+
+    double score();
 }

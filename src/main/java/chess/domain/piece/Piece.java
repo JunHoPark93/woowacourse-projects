@@ -15,6 +15,8 @@ public abstract class Piece {
 
     public abstract Set<Vector> movableList(Square source);
 
+    public abstract double getScore();
+
     public boolean isMoved() {
         return isMoved;
     }

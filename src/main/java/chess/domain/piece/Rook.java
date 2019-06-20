@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Rook extends Piece {
+    private static final double SCORE = 5;
+
     public Rook(PieceColor color) {
         super(color);
     }
@@ -28,5 +30,10 @@ public class Rook extends Piece {
             movableList.add(new Vector(square, Direction.RIGHT));
         }
         return movableList;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

@@ -4,13 +4,13 @@ import chess.domain.board.Direction;
 import chess.domain.board.Square;
 import chess.domain.board.Vector;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Pawn extends Piece {
+    private static final double SCORE = 1;
+
     private boolean isMoved;
 
     public Pawn(PieceColor color) {
@@ -33,6 +33,11 @@ public class Pawn extends Piece {
         return movableList.stream()
                 .filter(vector -> !(vector.getSquare().equals(source)))
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 
     public boolean isMoved() {
