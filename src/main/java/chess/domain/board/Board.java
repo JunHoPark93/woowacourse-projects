@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import chess.domain.piece.Knight;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 
@@ -45,11 +46,20 @@ public class Board {
 
     public Set<Vector> moveList(Square source) {
         Piece piece = getPiece(source);
-        if (turn != piece.getColor()) {
-            throw new IllegalArgumentException("맞는 턴이 아닙니다");
-        }
+        checkTurn(piece);
 
         Set<Vector> moveList = piece.movableList(source);
+
+        if (!(piece instanceof Knight)) {
+            removeObstacles(moveList);
+        }
+
+        return moveList.stream()
+                .filter(vector -> !(currentPlayer().contains(vector)))
+                .collect(Collectors.toSet());
+    }
+
+    private void removeObstacles(Set<Vector> moveList) {
         Set<Vector> existingList = new HashSet<>();
         for (Vector vector : moveList) {
             if (blackPlayer.contains(vector)) {
@@ -65,26 +75,12 @@ public class Board {
             Set<Vector> vectors = vector.getList();
             moveList.removeAll(vectors);
         }
+    }
 
-        return moveList.stream()
-                .filter(vector -> !(currentPlayer().contains(vector)))
-                .collect(Collectors.toSet());
-
-//        Set<Vector> current = new HashSet<>();
-//        for (Vector vector : moveList) {
-//            if (currentPlayer().contains(vector)) {
-//                current.add(vector);
-//            }
-//        }
-//        for (Vector vector : current) {
-//            moveList.removeAll(vector.getList());
-//        }
-
-//        if (piece.getColor() == PieceColor.BLACK) {
-//
-//            return moveList;
-//        }
-
+    private void checkTurn(Piece piece) {
+        if (turn != piece.getColor()) {
+            throw new IllegalArgumentException("맞는 턴이 아닙니다");
+        }
     }
 
     private Player currentPlayer() {

@@ -79,7 +79,7 @@ public class Square {
         while (moved != preSquare) {
             movableList.add(moved);
             preSquare = moved;
-            moved.moveUpRight();
+            moved = moved.moveUpRight();
         }
 
         return movableList;
@@ -93,7 +93,7 @@ public class Square {
         while (moved != preSquare) {
             movableList.add(moved);
             preSquare = moved;
-            moved.moveUpLeft();
+            moved = moved.moveUpLeft();
         }
 
         return movableList;
@@ -107,7 +107,7 @@ public class Square {
         while (moved != preSquare) {
             movableList.add(moved);
             preSquare = moved;
-            moved.moveDownRight();
+            moved = moved.moveDownRight();
         }
 
         return movableList;
@@ -121,7 +121,7 @@ public class Square {
         while (moved != preSquare) {
             movableList.add(moved);
             preSquare = moved;
-            moved.moveDownLeft();
+            moved = moved.moveDownLeft();
         }
 
         return movableList;
