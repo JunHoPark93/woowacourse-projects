@@ -45,7 +45,16 @@ public class MockPlayer implements Player {
         }
 
         return set.stream().map(Vector::getSquare).collect(Collectors.toSet());
+    }
 
-        //throw new RuntimeException("King이 죽었습니다");
+    @Override
+    public void move(Square source, Square target) {
+        pieces.put(target, pieces.get(source));
+        pieces.remove(source);
+    }
+
+    @Override
+    public Piece remove(Square target) {
+        return pieces.remove(target);
     }
 }

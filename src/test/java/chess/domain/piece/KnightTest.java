@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class KnightTest {
     private Piece knight;
@@ -16,11 +15,6 @@ public class KnightTest {
     @BeforeEach
     void setUp() {
         knight = new Knight(PieceColor.WHITE);
-    }
-
-    @Test
-    void 초기화() {
-        assertTrue(knight.isAlive());
     }
 
     @Test

@@ -8,22 +8,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * @author junho.park
- */
 public class KingTest {
     Piece king;
 
     @BeforeEach
     void setUp() {
         king = new King(PieceColor.WHITE);
-    }
-
-    @Test
-    void isAlive() {
-        assertTrue(king.isAlive());
     }
 
     @Test

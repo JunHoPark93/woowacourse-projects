@@ -44,4 +44,15 @@ public class DefaultPlayer implements Player {
 
         return set.stream().map(Vector::getSquare).collect(Collectors.toSet());
     }
+
+    @Override
+    public void move(Square source, Square target) {
+        pieces.put(target, pieces.get(source));
+        pieces.remove(source);
+    }
+
+    @Override
+    public Piece remove(Square target) {
+        return null;
+    }
 }

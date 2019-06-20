@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BoardTest {
     @Test
@@ -20,7 +21,7 @@ public class BoardTest {
     }
 
     @Test
-    void 보드_해당_위치_말_확인() {
+    void 해당_위치_말_확인() {
         Piece rook = new Rook(PieceColor.BLACK);
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
@@ -37,7 +38,7 @@ public class BoardTest {
     }
 
     @Test
-    void 보드_룩_움직임() {
+    void 룩_움직임_경우의수() {
         Piece rook = new Rook(PieceColor.BLACK);
         Piece rook2 = new Rook(PieceColor.BLACK);
         Map<Square, Piece> black = new HashMap<>();
@@ -70,7 +71,7 @@ public class BoardTest {
     }
 
     @Test
-    void 나이트_움직임() {
+    void 나이트_움직임_경우의수() {
         Piece knight = new Knight(PieceColor.BLACK);
         Piece rook = new Rook(PieceColor.BLACK);
         Piece rook2 = new Rook(PieceColor.BLACK);
@@ -98,7 +99,7 @@ public class BoardTest {
     }
 
     @Test
-    void 보드_비숍_움직임() {
+    void 비숍_움직임_경우의수() {
         Piece bishop = new Bishop(PieceColor.BLACK);
         Piece rook2 = new Rook(PieceColor.BLACK);
         Map<Square, Piece> black = new HashMap<>();
@@ -129,7 +130,7 @@ public class BoardTest {
     }
 
     @Test
-    void 보드_퀸_움직임() {
+    void 퀸_움직임_경우의수() {
         Piece queen = new Queen(PieceColor.BLACK);
         Piece rook2 = new Rook(PieceColor.BLACK);
         Piece rook3 = new Rook(PieceColor.BLACK);
@@ -182,7 +183,7 @@ public class BoardTest {
     }
 
     @Test
-    void 보드_킹_움직임() {
+    void 킹_움직임_경우의수() {
         Piece king = new King(PieceColor.BLACK);
         Piece rook2 = new Rook(PieceColor.BLACK);
         Piece rook3 = new Rook(PieceColor.BLACK);
@@ -214,9 +215,48 @@ public class BoardTest {
         assertThat(moveList).isEqualTo(expected);
     }
 
-    // TODO
+    @Test
+    void 룩_움직임() {
+        Piece rook = new Rook(PieceColor.BLACK);
+        Map<Square, Piece> black = new HashMap<>();
+        black.put(new Square(new XPosition("b"), new YPosition("7")), rook);
+        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+
+        Piece pawn = new Pawn(PieceColor.WHITE);
+        Map<Square, Piece> white = new HashMap<>();
+        white.put(new Square(new XPosition("b"), new YPosition("2")), pawn);
+        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+
+        Board board = new Board(whitePlayer, blackPlayer);
+
+        board.move(new Square(new XPosition("b"), new YPosition("7")),
+                new Square(new XPosition("b"), new YPosition("3")));
+
+        Piece expected = board.getPiece(new Square(new XPosition("b"), new YPosition("3")));
+        assertThat(rook).isEqualTo(expected);
+    }
+
     @Test
     void 보드_룩이_폰을잡는다() {
+        Piece rook = new Rook(PieceColor.BLACK);
+        Map<Square, Piece> black = new HashMap<>();
+        black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
+        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+
+        Piece pawn = new Pawn(PieceColor.WHITE);
+        Map<Square, Piece> white = new HashMap<>();
+        white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
+        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+
+        Board board = new Board(whitePlayer, blackPlayer);
+        board.move(new Square(new XPosition("a"), new YPosition("8")),
+                new Square(new XPosition("a"), new YPosition("2")));
+
+        assertThat(board.whitePiecesCount()).isEqualTo(0);
+    }
+
+    @Test
+    void 보드_룩이_폰을잡는다_유효하지않은_타겟() {
         Piece rook = new Rook(PieceColor.BLACK);
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
@@ -228,5 +268,11 @@ public class BoardTest {
         Player blackPlayer = new MockPlayer(PieceColor.BLACK, white);
 
         Board board = new Board(whitePlayer, blackPlayer);
+
+        assertThrows(RuntimeException.class, () -> {
+            board.move(new Square(new XPosition("a"), new YPosition("8")),
+                    new Square(new XPosition("b"), new YPosition("2")));
+        });
     }
+
 }

@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BishopTest {
     private Piece bishop;
@@ -16,11 +15,6 @@ public class BishopTest {
     @BeforeEach
     void setUp() {
         bishop = new Bishop(PieceColor.WHITE);
-    }
-
-    @Test
-    void isAlive() {
-        assertTrue(bishop.isAlive());
     }
 
     @Test

@@ -13,12 +13,15 @@ import java.util.stream.Collectors;
 public class Board {
     private final Player whitePlayer;
     private final Player blackPlayer;
+    // TODO
+    private final ChessObserver observer;
     private PieceColor turn;
 
     public Board(Player whitePlayer, Player blackPlayer) {
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.turn = PieceColor.BLACK;
+        this.observer = new ChessObserver();
     }
 
     public int whitePiecesCount() {
@@ -107,5 +110,27 @@ public class Board {
         }
 
         return blackPlayer;
+    }
+
+    public void move(Square source, Square target) {
+        Piece sourcePiece = getPiece(source);
+
+        if (sourcePiece.getColor() != turn) {
+            throw new IllegalArgumentException();
+        }
+
+        Set<Vector> movableList = moveList(source);
+        movableList.stream()
+                .filter(vector -> vector.getSquare().equals(target))
+                .findAny()
+                .orElseThrow(RuntimeException::new);
+
+        currentPlayer().move(source, target);
+
+        if (opponentPlayer().getPiece(target).isPresent()) {
+            // 죽음
+            Piece deadPiece = opponentPlayer().remove(target);
+            observer.take(deadPiece);
+        }
     }
 }

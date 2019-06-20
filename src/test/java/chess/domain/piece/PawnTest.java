@@ -9,7 +9,6 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PawnTest {
     private Piece pawn;
@@ -17,11 +16,6 @@ public class PawnTest {
     @BeforeEach
     void setUp() {
         pawn = new Pawn(PieceColor.WHITE);
-    }
-
-    @Test
-    void 생성() {
-        assertTrue(pawn.isAlive());
     }
 
     @Test

@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RookTest {
     private Piece rook;
@@ -16,11 +15,6 @@ public class RookTest {
     @BeforeEach
     void setUp() {
         rook = new Rook(PieceColor.WHITE);
-    }
-
-    @Test
-    void 초기화() {
-        assertTrue(rook.isAlive());
     }
 
     @Test

@@ -13,4 +13,8 @@ public interface Player {
     boolean contains(Vector vector);
 
     Set<Square> getKingPath();
+
+    void move(Square source, Square target);
+
+    Piece remove(Square target);
 }
