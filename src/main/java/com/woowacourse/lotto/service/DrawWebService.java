@@ -1,24 +1,31 @@
 package com.woowacourse.lotto.service;
 
 import com.woowacourse.lotto.db.dao.DrawDao;
-import com.woowacourse.lotto.domain.BonusNumber;
-import com.woowacourse.lotto.domain.Lotto;
-import com.woowacourse.lotto.domain.LottoBuyList;
-import com.woowacourse.lotto.domain.LottoResult;
+import com.woowacourse.lotto.domain.*;
+import com.woowacourse.lotto.util.LottoParser;
 
 import java.sql.SQLException;
 
-public class DrawWebService extends DrawService {
+public class DrawWebService implements DrawService {
+    private LottoBuyList totalBuys;
+    private Lotto lastWeekLotto;
+    private BonusNumber bonusNumber;
     private int round;
 
-    public DrawWebService(String lottoInput, String bonusNumberInput, LottoBuyList totalBuys, int round) {
-        super(lottoInput, bonusNumberInput, totalBuys);
+    public DrawWebService(LottoBuyList totalBuys, String lottoInput, String bonusNumberInput, int round) {
+        Lotto lastWeekLotto = LottoParser.parseStringToLotto(lottoInput);
+        BonusNumber bonusNumber = new BonusNumber(bonusNumberInput, lastWeekLotto);
+
+        this.totalBuys = totalBuys;
+        this.lastWeekLotto = lastWeekLotto;
+        this.bonusNumber = bonusNumber;
         this.round = round;
     }
 
     @Override
     public LottoResult createResult() {
-        LottoResult lottoResult = super.createResult();
+        WinningLotto winningLotto = new WinningLotto(lastWeekLotto, bonusNumber);
+        LottoResult lottoResult = new LottoResult(totalBuys, winningLotto);
         addWinningLotto(lastWeekLotto, bonusNumber);
         return lottoResult;
     }

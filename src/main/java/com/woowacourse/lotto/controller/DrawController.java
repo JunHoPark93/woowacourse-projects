@@ -4,7 +4,6 @@ import com.woowacourse.lotto.WebUILottoApplication;
 import com.woowacourse.lotto.domain.LottoBuyList;
 import com.woowacourse.lotto.domain.LottoResult;
 import com.woowacourse.lotto.domain.dto.LottoResultDto;
-import com.woowacourse.lotto.service.DrawService;
 import com.woowacourse.lotto.service.DrawWebService;
 import com.woowacourse.lotto.view.OutputMessageConverter;
 import spark.Request;
@@ -14,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DrawController {
-    private static DrawService drawService;
+    private static DrawWebService drawService;
 
     public static Object init(Request request, Response response) {
         String lottoInput = request.queryParams("winningLotto");
@@ -22,7 +21,7 @@ public class DrawController {
         LottoBuyList totalBuys = request.session().attribute("buyList");
         int round = request.session().attribute("round");
 
-        drawService = new DrawWebService(lottoInput, bonusNumberInput, totalBuys, round);
+        drawService = new DrawWebService(totalBuys, lottoInput, bonusNumberInput, round);
         LottoResult lottoResult = drawService.createResult();
 
         LottoResultDto lottoResultDto =
