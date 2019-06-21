@@ -1,9 +1,6 @@
 package chess.domain.board;
 
-import chess.domain.piece.King;
-import chess.domain.piece.Knight;
-import chess.domain.piece.Piece;
-import chess.domain.piece.PieceColor;
+import chess.domain.piece.*;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -13,7 +10,7 @@ import java.util.stream.Collectors;
 public class Game {
     private final Player whitePlayer;
     private final Player blackPlayer;
-    // TODO
+    // TODO ChessObserver 이름 고민
     private final ChessObserver observer;
     private PieceColor turn;
 
@@ -33,7 +30,7 @@ public class Game {
     }
 
     public Piece getPiece(Square source) {
-        // TODO
+        // TODO if문 2개 해결
         Optional<Piece> piece = blackPlayer.getPiece(source);
         if (!piece.isPresent()) {
             piece = whitePlayer.getPiece(source);
@@ -62,9 +59,34 @@ public class Game {
             moveList = removeKingPath(moveList);
         }
 
+        if (piece instanceof Pawn) {
+            moveList = removePawnPath(moveList);
+        }
+
         return moveList.stream()
                 .filter(vector -> !(currentPlayer().contains(vector)))
                 .collect(Collectors.toSet());
+    }
+
+    private Set<Vector> removePawnPath(Set<Vector> moveList) {
+        Set<Vector> crossTarget = moveList.stream()
+                .filter(vector -> vector.getDirection().equals(Direction.DOWN_LEFT) ||
+                        vector.getDirection().equals(Direction.DOWN_RIGHT) ||
+                        vector.getDirection().equals(Direction.UP_LEFT) ||
+                        vector.getDirection().equals(Direction.UP_RIGHT))
+                .filter(vector -> !(opponentPlayer().contains(vector)))
+                .collect(Collectors.toSet());
+
+        Set<Vector> linearTarget = moveList.stream()
+                .filter(vector -> vector.getDirection().equals(Direction.UP) ||
+                        vector.getDirection().equals(Direction.DOWN))
+                .filter(vector -> (opponentPlayer().contains(vector)))
+                .collect(Collectors.toSet());
+
+        moveList.removeAll(crossTarget);
+        moveList.removeAll(linearTarget);
+
+        return moveList;
     }
 
     private Set<Vector> removeKingPath(Set<Vector> moveList) {
@@ -113,28 +135,34 @@ public class Game {
         return blackPlayer;
     }
 
-    public void move(Square source, Square target) {
+    public boolean move(Square source, Square target) {
         Piece sourcePiece = getPiece(source);
+        checkTurn(sourcePiece);
+        checkTarget(source, target);
 
-        if (sourcePiece.getColor() != turn) {
-            throw new IllegalArgumentException();
+        currentPlayer().move(source, target);
+
+        if (opponentPlayer().getPiece(target).isPresent()) {
+            return takePiece(target);
         }
 
+        turn = turn.toggle();
+        return true;
+    }
+
+    private boolean takePiece(Square target) {
+        Piece deadPiece = opponentPlayer().remove(target);
+        observer.take(deadPiece);
+
+        return !(deadPiece instanceof King);
+    }
+
+    private void checkTarget(Square source, Square target) {
         Set<Vector> movableList = moveList(source);
         movableList.stream()
                 .filter(vector -> vector.getSquare().equals(target))
                 .findAny()
                 .orElseThrow(RuntimeException::new);
-
-        currentPlayer().move(source, target);
-
-        if (opponentPlayer().getPiece(target).isPresent()) {
-            // 죽음
-            Piece deadPiece = opponentPlayer().remove(target);
-            observer.take(deadPiece);
-        }
-
-        turn = turn.toggle();
     }
 
     public Score score() {
