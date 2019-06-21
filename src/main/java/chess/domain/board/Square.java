@@ -167,7 +167,7 @@ public class Square {
         return this.x.equals(x);
     }
 
-    private boolean isSameY(YPosition y) {
+    public boolean isSameY(YPosition y) {
         return this.y.equals(y);
     }
 

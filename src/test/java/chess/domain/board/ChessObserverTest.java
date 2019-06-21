@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import chess.domain.path.PathFactory;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.Rook;
@@ -14,7 +15,7 @@ class ChessObserverTest {
     @Test
     void 죽은_유닛_추가() {
         ChessObserver chessObserver = new ChessObserver();
-        Piece rook = new Rook(PieceColor.WHITE);
+        Piece rook = new Rook(PieceColor.WHITE, PathFactory.ROOK.create());
         chessObserver.take(rook);
         List<Piece> deadList = new ArrayList<>();
         deadList.add(rook);

@@ -1,10 +1,10 @@
 package chess.domain.piece;
 
-import chess.domain.board.Direction;
 import chess.domain.board.Square;
 import chess.domain.board.Vector;
+import chess.domain.board.YPosition;
+import chess.domain.path.Path;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,26 +13,34 @@ public class Pawn extends Piece {
 
     private boolean isMoved;
 
-    public Pawn(PieceColor color) {
-        super(color);
+    public Pawn(PieceColor color, Path path) {
+        super(color, path);
         this.isMoved = false;
     }
 
     @Override
     public Set<Vector> movableList(Square source) {
-        Set<Vector> movableList = new HashSet<>();
-        movableList.add(new Vector(source.moveUp(1), Direction.UP));
-        movableList.add(new Vector(source.moveUpRight(), Direction.UP_RIGHT));
-        movableList.add(new Vector(source.moveUpLeft(), Direction.UP_LEFT));
+        Set<Vector> movableList = super.movableList(source);
 
-        if (!isMoved) {
-            movableList.add(new Vector(source.moveUp(2), Direction.UP));
-            isMoved = true;
+        if (!source.isSameY(new YPosition("2"))) {
+            Set<Vector> target = movableList.stream()
+                    .filter(vector -> vector.getSquare().equals(source.moveUp(2)))
+                    .collect(Collectors.toSet());
+
+            movableList.removeAll(target);
+            return movableList;
         }
 
-        return movableList.stream()
-                .filter(vector -> !(vector.getSquare().equals(source)))
-                .collect(Collectors.toSet());
+        if (!source.isSameY(new YPosition("7"))) {
+            Set<Vector> target = movableList.stream()
+                    .filter(vector -> vector.getSquare().equals(source.moveDown(2)))
+                    .collect(Collectors.toSet());
+
+            movableList.removeAll(target);
+            return movableList;
+        }
+
+        return movableList;
     }
 
     @Override

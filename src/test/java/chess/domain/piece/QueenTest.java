@@ -1,6 +1,7 @@
 package chess.domain.piece;
 
 import chess.domain.board.*;
+import chess.domain.path.PathFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ public class QueenTest {
 
     @BeforeEach
     void setUp() {
-        queen = new Queen(PieceColor.WHITE);
+        queen = new Queen(PieceColor.WHITE, PathFactory.QUEEN.create());
     }
 
     @Test

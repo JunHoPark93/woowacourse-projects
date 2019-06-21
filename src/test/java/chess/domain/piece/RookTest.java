@@ -1,6 +1,7 @@
 package chess.domain.piece;
 
 import chess.domain.board.*;
+import chess.domain.path.PathFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ public class RookTest {
 
     @BeforeEach
     void setUp() {
-        rook = new Rook(PieceColor.WHITE);
+        rook = new Rook(PieceColor.WHITE, PathFactory.ROOK.create());
     }
 
     @Test
