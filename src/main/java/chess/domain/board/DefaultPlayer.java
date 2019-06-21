@@ -2,7 +2,6 @@ package chess.domain.board;
 
 import chess.domain.piece.King;
 import chess.domain.piece.Piece;
-import chess.domain.piece.PieceColor;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -13,17 +12,18 @@ import java.util.stream.Collectors;
 public class DefaultPlayer implements Player {
     private Map<Square, Piece> pieces;
 
-    public DefaultPlayer(PieceColor color) {
-        this.pieces = PlayerFactory.init(color);
+    public DefaultPlayer(Map<Square, Piece> pieces) {
+        this.pieces = pieces;
     }
-
+    
+    @Override
     public int getPiecesCount() {
         return pieces.size();
     }
 
     @Override
     public Optional<Piece> getPiece(Square source) {
-        return Optional.empty();
+        return Optional.ofNullable(pieces.get(source));
     }
 
     @Override
