@@ -28,12 +28,12 @@ public class GameTest {
         Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -47,12 +47,12 @@ public class GameTest {
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("7")), rook);
         black.put(new Square(new XPosition("f"), new YPosition("7")), rook2);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("b"), new YPosition("2")), pawn);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -83,12 +83,12 @@ public class GameTest {
         black.put(new Square(new XPosition("a"), new YPosition("6")), rook);
         // path
         black.put(new Square(new XPosition("b"), new YPosition("7")), rook2);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("c"), new YPosition("6")), pawn);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -108,12 +108,12 @@ public class GameTest {
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("f"), new YPosition("6")), bishop);
         black.put(new Square(new XPosition("g"), new YPosition("7")), rook2);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("d"), new YPosition("4")), pawn);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -141,14 +141,14 @@ public class GameTest {
         black.put(new Square(new XPosition("f"), new YPosition("6")), queen);
         black.put(new Square(new XPosition("g"), new YPosition("7")), rook2);
         black.put(new Square(new XPosition("f"), new YPosition("2")), rook3);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Piece pawn2 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("d"), new YPosition("4")), pawn);
         white.put(new Square(new XPosition("b"), new YPosition("6")), pawn2);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -193,14 +193,14 @@ public class GameTest {
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("2")), king);
         black.put(new Square(new XPosition("b"), new YPosition("1")), rook2);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece king2 = new King(PieceColor.WHITE, PathFactory.KING.create());
         Piece pawn2 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("d"), new YPosition("2")), king2);
         white.put(new Square(new XPosition("b"), new YPosition("3")), pawn2);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -223,12 +223,12 @@ public class GameTest {
         Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("7")), rook);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("b"), new YPosition("2")), pawn);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -244,12 +244,12 @@ public class GameTest {
         Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
         game.move(new Square(new XPosition("a"), new YPosition("8")),
@@ -263,12 +263,12 @@ public class GameTest {
         Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -289,7 +289,7 @@ public class GameTest {
         black.put(new Square(new XPosition("a"), new YPosition("6")), pawn);
         black.put(new Square(new XPosition("a"), new YPosition("5")), knight);
 
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn2 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Piece king2 = new King(PieceColor.WHITE, PathFactory.KING.create());
@@ -302,7 +302,7 @@ public class GameTest {
         white.put(new Square(new XPosition("c"), new YPosition("4")), queen);
         white.put(new Square(new XPosition("d"), new YPosition("5")), bishop);
 
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -315,12 +315,12 @@ public class GameTest {
         Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("4")), rook);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -338,12 +338,12 @@ public class GameTest {
         Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("5")), rook);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -359,12 +359,12 @@ public class GameTest {
         Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("5")), rook);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
 
@@ -380,12 +380,12 @@ public class GameTest {
         Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("4")), rook);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece king = new King(PieceColor.WHITE, PathFactory.KING.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("b"), new YPosition("2")), king);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
         boolean isContinue = game.move(new Square(new XPosition("b"), new YPosition("4")),
@@ -399,12 +399,12 @@ public class GameTest {
         Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("4")), rook);
-        Player blackPlayer = new MockPlayer(PieceColor.BLACK, black);
+        Player blackPlayer = new MockPlayer(black);
 
         Piece king = new King(PieceColor.WHITE, PathFactory.KING.create());
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("b"), new YPosition("2")), king);
-        Player whitePlayer = new MockPlayer(PieceColor.WHITE, white);
+        Player whitePlayer = new MockPlayer(white);
 
         Game game = new Game(whitePlayer, blackPlayer);
         boolean isContinue = game.move(new Square(new XPosition("b"), new YPosition("4")),

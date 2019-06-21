@@ -12,11 +12,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MockPlayer implements Player {
-    private final PieceColor color;
     private Map<Square, Piece> pieces;
 
-    public MockPlayer(PieceColor color, Map<Square, Piece> pieces) {
-        this.color = color;
+    public MockPlayer(Map<Square, Piece> pieces) {
         this.pieces = pieces;
     }
     @Override

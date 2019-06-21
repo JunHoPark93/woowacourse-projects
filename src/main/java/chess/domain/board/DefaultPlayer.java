@@ -11,11 +11,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DefaultPlayer implements Player {
-    private final PieceColor color;
     private Map<Square, Piece> pieces;
 
     public DefaultPlayer(PieceColor color) {
-        this.color = color;
         this.pieces = PlayerFactory.init(color);
     }
 
