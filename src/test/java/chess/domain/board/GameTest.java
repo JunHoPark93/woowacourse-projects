@@ -413,6 +413,40 @@ public class GameTest {
         assertTrue(isContinue);
     }
 
+    @Test
+    void 폰_세로점수확인() {
+        Piece pawn1 = new Pawn(PieceColor.BLACK, PathFactory.BLACK_PAWN.create());
+        Piece pawn2 = new Pawn(PieceColor.BLACK, PathFactory.BLACK_PAWN.create());
+        Piece pawn3 = new Pawn(PieceColor.BLACK, PathFactory.BLACK_PAWN.create());
+        Piece pawn4 = new Pawn(PieceColor.BLACK, PathFactory.BLACK_PAWN.create());
+
+        Map<Square, Piece> black = new HashMap<>();
+        black.put(new Square(new XPosition("a"), new YPosition("8")), pawn1);
+        black.put(new Square(new XPosition("a"), new YPosition("7")), pawn2);
+        black.put(new Square(new XPosition("a"), new YPosition("6")), pawn3);
+        black.put(new Square(new XPosition("b"), new YPosition("5")), pawn4);
+
+        Player blackPlayer = new DefaultPlayer(black);
+
+        Piece wPawn1 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece wPawn2 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece wPawn3 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece wPawn4 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+
+        Map<Square, Piece> white = new HashMap<>();
+        white.put(new Square(new XPosition("a"), new YPosition("2")), wPawn1);
+        white.put(new Square(new XPosition("b"), new YPosition("3")), wPawn2);
+        white.put(new Square(new XPosition("c"), new YPosition("4")), wPawn3);
+        white.put(new Square(new XPosition("d"), new YPosition("5")), wPawn4);
+
+        Player whitePlayer = new DefaultPlayer(white);
+
+        Game game = new Game(whitePlayer, blackPlayer);
+
+        assertThat(game.score().getBlackScore()).isEqualTo(2.5);
+        assertThat(game.score().getWhiteScore()).isEqualTo(4);
+    }
+
     // TODO :: 체크 확인
     @Test
     void 체크_확인() {

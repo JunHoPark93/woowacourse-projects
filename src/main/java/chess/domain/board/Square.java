@@ -163,12 +163,16 @@ public class Square {
         return moved.isSameX(this.x) || moved.isSameY(this.y);
     }
 
-    private boolean isSameX(XPosition x) {
+    public boolean isSameX(XPosition x) {
         return this.x.equals(x);
     }
 
     public boolean isSameY(YPosition y) {
         return this.y.equals(y);
+    }
+
+    public boolean isVertical(Square square) {
+        return this.x.equals(square.x);
     }
 
     @Override

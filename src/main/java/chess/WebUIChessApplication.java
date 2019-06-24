@@ -84,6 +84,17 @@ public class WebUIChessApplication {
             String loser = req.queryParams("loser");
             Map<String, Object> model = new HashMap<>();
             model.put("loser", loser);
+            model.put("blackScore" , 0);
+            model.put("whiteScore" , 0);
+            return render(model, "result.html");
+        });
+
+        get("/status", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            Score score = game.score();
+            model.put("blackScore" , score.getBlackScore());
+            model.put("whiteScore" , score.getWhiteScore());
+            model.put("loser", score.getLoser());
             return render(model, "result.html");
         });
 
