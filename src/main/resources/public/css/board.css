@@ -1,0 +1,37 @@
+.chessInfo {
+    text-align: center;
+}
+
+.chessBoard table {
+    margin:.5em auto 0;
+    border:solid indianred;
+    border-width:0 1em
+}
+
+.chessBoard td {
+    text-align: center;
+    width:1.04em;
+    height:1.04em;
+    overflow:hidden
+    ;font:4em/1 "MS Gothic","Segoe UI Symbol","DejaVu Sans";
+    cursor:pointer;
+    background:#f0d9b5;
+}
+
+.chessBoard td[lang="0"] {
+    outline:thin solid #a00;
+    color:#800
+}
+
+.chessBoard tr:nth-child(odd) td:nth-child(even), .chessBoard tr:nth-child(even) td:nth-child(odd) {
+    background:tan
+}
+
+.movable {
+    box-shadow: inset 0 0 0px 3px #a00;
+    color: #a00;
+}
+
+.selected {
+    box-shadow: inset 0 0 0px 3px #a00;
+}

@@ -1,19 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>체스</title>
-    <script>
-        // list 반복
-        // square를 체스판에 찍어준다.
-    </script>
+    <!-- <link rel="stylesheet" href="../public/css/board.css" type="text/css"> -->
+    <link rel="stylesheet" href="css/board.css">
+    <title>chess game</title>
 </head>
 <body>
-    {{list}}
-    <form action="/movableList" method="post">
-        <input type="text" name="src"/>
-        <input type="text" name="trg"/>
-        <input type="submit" value="submit"/>
-    </form>
+<div class="chessInfo">
+    <h1>CHESS GAME</h1>
+    <div>
+        <div>지금 턴 : <span id="nowTurn"></span></div>
+    </div>
+    <div>
+        <div>점수 확인하기</div>
+    </div>
+    <div>
+        <p>white : <span id="white_dead"></span></p>
+        <p>black : <span id="black_dead"></span></p>
+    </div>
+</div>
+<div id="board" class="chessBoard">
+    <table>
+        <tbody>
+            <tr>
+                <td id="a8">♜</td>
+                <td id="b8">♞</td>
+                <td id="c8">♝</td>
+                <td id="d8">♛</td>
+                <td id="e8">♚</td>
+                <td id="f8">♝</td>
+                <td id="g8">♞</td>
+                <td id="h8">♜</td>
+            </tr>
+            <tr>
+                <td id="a7">♟</td>
+                <td id="b7">♟</td>
+                <td id="c7">♟</td>
+                <td id="d7">♟</td>
+                <td id="e7">♟</td>
+                <td id="f7">♟</td>
+                <td id="g7">♟</td>
+                <td id="h7">♟</td>
+            </tr>
+            <tr>
+                <td id="a6"></td>
+                <td id="b6"></td>
+                <td id="c6"></td>
+                <td id="d6"></td>
+                <td id="e6"></td>
+                <td id="f6"></td>
+                <td id="g6"></td>
+                <td id="h6"></td>
+            </tr>
+            <tr>
+                <td id="a5"></td>
+                <td id="b5"></td>
+                <td id="c5"></td>
+                <td id="d5"></td>
+                <td id="e5"></td>
+                <td id="f5"></td>
+                <td id="g5"></td>
+                <td id="h5"></td>
+            </tr>
+            <tr>
+                <td id="a4"></td>
+                <td id="b4"></td>
+                <td id="c4"></td>
+                <td id="d4"></td>
+                <td id="e4"></td>
+                <td id="f4"></td>
+                <td id="g4"></td>
+                <td id="h4"></td>
+            </tr>
+            <tr>
+                <td id="a3"></td>
+                <td id="b3"></td>
+                <td id="c3"></td>
+                <td id="d3"></td>
+                <td id="e3"></td>
+                <td id="f3"></td>
+                <td id="g3"></td>
+                <td id="h3"></td>
+            </tr>
+            <tr>
+                <td id="a2">♙</td>
+                <td id="b2">♙</td>
+                <td id="c2">♙</td>
+                <td id="d2">♙</td>
+                <td id="e2">♙</td>
+                <td id="f2">♙</td>
+                <td id="g2">♙</td>
+                <td id="h2">♙</td>
+            </tr>
+            <tr>
+                <td id="a1">♖</td>
+                <td id="b1">♘</td>
+                <td id="c1">♗</td>
+                <td id="d1">♕</td>
+                <td id="e1">♔</td>
+                <td id="f1">♗</td>
+                <td id="g1">♘</td>
+                <td id="h1">♖</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="javascript/pieces.js"></script>
+<script src="javascript/func.js"></script>
 </body>
 </html>

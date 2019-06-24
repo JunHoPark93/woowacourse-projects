@@ -11,11 +11,14 @@ import java.util.Set;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.staticFiles;
 
 public class WebUIChessApplication {
     private static Game game;
 
     public static void main(String[] args) {
+        staticFiles.location("/public");
+
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             // TODO 현재 라운드 가져오기
