@@ -143,9 +143,10 @@ public class Game {
         currentPlayer().move(source, target);
 
         if (opponentPlayer().getPiece(target).isPresent()) {
-            return takePiece(target);
+            boolean playing = takePiece(target);
+            turn = turn.toggle();
+            return playing;
         }
-
         turn = turn.toggle();
         return true;
     }

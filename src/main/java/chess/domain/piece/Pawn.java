@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import chess.domain.board.Direction;
 import chess.domain.board.Square;
 import chess.domain.board.Vector;
 import chess.domain.board.YPosition;
@@ -22,7 +23,7 @@ public class Pawn extends Piece {
     public Set<Vector> movableList(Square source) {
         Set<Vector> movableList = super.movableList(source);
 
-        if (!source.isSameY(new YPosition("2"))) {
+        if (!source.isSameY(new YPosition("2")) && getColor().equals(PieceColor.WHITE)) {
             Set<Vector> target = movableList.stream()
                     .filter(vector -> vector.getSquare().equals(source.moveUp(2)))
                     .collect(Collectors.toSet());
@@ -31,7 +32,7 @@ public class Pawn extends Piece {
             return movableList;
         }
 
-        if (!source.isSameY(new YPosition("7"))) {
+        if (!source.isSameY(new YPosition("7")) && getColor().equals(PieceColor.BLACK)) {
             Set<Vector> target = movableList.stream()
                     .filter(vector -> vector.getSquare().equals(source.moveDown(2)))
                     .collect(Collectors.toSet());

@@ -10,7 +10,7 @@ demoInitBoard()
 $("td").on("click",clickBoardHandler)
 
 function demoInitBoard() {
-    NOW_TURN = WHITE;
+    NOW_TURN = BLACK;
     $("#nowTurn").text(NOW_TURN)
 
     demoSetTeamAttr();
@@ -33,7 +33,7 @@ function clickBoardHandler() {
     let element = $(this)
     if (MODE === SELECT) {
         if (element.attr("team") === NOW_TURN) {
-            demoGetMovable(element);
+            getMovable(element);
         }
         return
     }
@@ -50,31 +50,66 @@ function clickBoardHandler() {
 
 }
 
-function demoGetMovable(element) {
+function getMovable(element) {
     console.log(MODE + ", " + element.attr("id"))
     SOURCE = element.attr("id")
     // ajax 통신
-    let movableArea = ["a3","a4"]
-    // let movableArea = []
-    demoDrawMovable(movableArea)
+    let body = {src:SOURCE}
+    let query = JSON.stringify(body)
+
+    $.ajax({
+        type: "POST",
+        url: "/movableList",
+        contentType: "application/json",
+        data: query,
+        success: function(data) {
+            console.log(data);
+            demoDrawMovable(data)
+        },
+        error: function(e) {
+            console.log(e.message);
+        }
+    });
 }
 
-function demoDrawMovable(movableArea) {
-    if (movableArea.length == 0) {
+function demoDrawMovable(data) {
+    if (data.length == 0) {
         return
     }
+
+    let movableArea = JSON.parse(data)
 
     MODE = MOVE
     $(`#${SOURCE}`).addClass("selected")
     movableArea.forEach(function(area){
-        $(`#${area}`).addClass("movable")
+        let x = area.square.x.xPosition;
+        let y = area.square.y.yPosition;
+        console.log("x : " + area.square.x.xPosition);
+        console.log("y : " + area.square.y.yPosition);
+
+        $(`#${x}${y}`).addClass("movable")
     })
 }
 
 function demoMove(element) {
     //ajax 통신
     console.log("Move")
-    demoDrawMove(element)
+    let body = {src:SOURCE, trg:element.attr("id")}
+    let query = JSON.stringify(body)
+
+    $.ajax({
+        type: "POST",
+        url: "/move",
+        contentType: "application/json",
+        data: query,
+        success: function(data) {
+            console.log(data);
+            demoDrawMove(data)
+        },
+        error: function(e) {
+            console.log(e.message);
+        }
+    });
 }
 
 function changeModeToSelect() {
@@ -84,15 +119,26 @@ function changeModeToSelect() {
     $("#board td").removeClass("selected")
 }
 
-function demoDrawMove(element) {
-    let target = element.attr("id")
+function demoDrawMove(data) {
+    console.log("dat:" + data);
+    let target = JSON.parse(data)
+    console.log(target)
+    if (target.turn != null) {
+        window.location.href = "/end?loser=" + target.turn
+        console.log("end")
+        return
+    }
+    let x = target.x.xPosition;
+    let y = target.y.yPosition;
+    let targetId = x+y
     let piece = $(`#${SOURCE}`).text()
-    let diePiece = $(`#${target}`).text()
-    $(`#${element.attr("team")}_dead`).text($(`#${element.attr("team")}_dead`).text() + diePiece)
+    let diePiece = $(`#${targetId}`).text()
+    let deadArea = $("#"+targetId).attr("team") + "_dead"
+    $(`#${deadArea}`).text($(`#${deadArea}`).text() + diePiece)
     $(`#${SOURCE}`).text("")
     $(`#${SOURCE}`).removeAttr("team")
-    $(`#${target}`).text(piece)
-    $(`#${target}`).attr("team",NOW_TURN)
+    $(`#${targetId}`).text(piece)
+    $(`#${targetId}`).attr("team",NOW_TURN)
 
     changeNowTurn()
     changeModeToSelect()
