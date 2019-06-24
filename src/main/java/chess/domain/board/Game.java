@@ -171,4 +171,8 @@ public class Game {
 
         return new Score(blackScore, whiteScore);
     }
+
+    public PieceColor getTurn() {
+        return turn;
+    }
 }
