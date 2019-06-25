@@ -1,7 +1,9 @@
 package chess;
 
+import chess.dao.ChessDao;
 import chess.domain.board.*;
 import chess.domain.dto.BoardDto;
+import chess.domain.dto.HistoryDto;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import com.google.gson.Gson;
@@ -11,6 +13,7 @@ import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,15 +35,28 @@ public class WebUIChessApplication {
         get("/init", (req, res) -> {
             Player whitePlayer = new DefaultPlayer(PlayerFactory.init(PieceColor.WHITE));
             Player blackPlayer = new DefaultPlayer(PlayerFactory.init(PieceColor.BLACK));
-
-            // TODO 현재 라운드 가져오기
-
-            // 끝났으면 새로 판 만들어서 insert 후 return
             game = new Game(whitePlayer, blackPlayer);
 
-            // 끝나지 않은 라운드 확인
+            // TODO 끝나지 않은 라운드 확인
+            if (ChessDao.notEnd()) {
+                int round = ChessDao.getRound();
+                req.session().attribute("round", round);
+                List<HistoryDto> list = ChessDao.getHistory(round);
 
-            // 끝나지 않았으면 판 초기화 해서 return
+                for (HistoryDto dto : list) {
+                    game.move(dto.getSource(), dto.getTarget());
+                }
+
+                BoardDto boardDto = new BoardDto(whitePlayer, blackPlayer, game.getTurn());
+                return new Gson().toJson(boardDto);
+            }
+            // 끝났으면 새로 판 만들어서 insert 후 return
+            int round = ChessDao.getRound() + 1;
+            req.session().attribute("round", round);
+
+            ChessDao.addRound(round);
+
+
             // TODO dto 정의
             BoardDto boardDto = new BoardDto(whitePlayer, blackPlayer, game.getTurn());
             return new Gson().toJson(boardDto);
@@ -75,8 +91,12 @@ public class WebUIChessApplication {
 
             boolean playing = game.move(source, target);
 
+            int round = req.session().attribute("round");
+            ChessDao.insertRound(round, source, target);
+
             if (!playing) { // 왕이 죽은 경우
                 model.put("turn", game.getTurn());
+                ChessDao.endRound(round);
                 return new Gson().toJson(model);
             }
 
@@ -95,6 +115,10 @@ public class WebUIChessApplication {
         get("/status", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             Score score = game.score();
+
+            int round = req.session().attribute("round");
+            ChessDao.endRound(round);
+
             model.put("blackScore" , score.getBlackScore());
             model.put("whiteScore" , score.getWhiteScore());
             model.put("loser", score.getLoser());

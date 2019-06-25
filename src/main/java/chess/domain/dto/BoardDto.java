@@ -2,6 +2,7 @@ package chess.domain.dto;
 
 import chess.domain.board.Player;
 import chess.domain.piece.PieceColor;
+import com.google.gson.Gson;
 
 public class BoardDto {
     private Player whitePlayer;

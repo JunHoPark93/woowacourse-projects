@@ -1,47 +1,46 @@
-const WHITE = "white"
-const BLACK = "black"
+const WHITE = "WHITE"
+const BLACK = "BLACK"
 let NOW_TURN
 const SELECT = 0
 const MOVE = 1
 let MODE = SELECT
 let SOURCE
-let INIT
 
-demoInitBoard()
+initBoard()
 $("td").on("click",clickBoardHandler)
 
-function demoInitBoard() {
+function initBoard() {
     $.ajax({
         type: "GET",
         url: "/init",
         contentType: "application/json",
         success: function(data) {
-            console.log(data);
-            INIT = data
-            //demoDrawMovable(data)
+            drawPieces(data)
         },
         error: function(e) {
             console.log(e.message);
         }
     });
-
-    // NOW_TURN = BLACK;
-    // $("#nowTurn").text(NOW_TURN)
-    //
-    // demoSetTeamAttr();
 }
 
-function demoSetTeamAttr() {
-    let blackArea = ["a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8", "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"]
-    let whiteArea = ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2", "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"]
+function drawPieces(data) {
+    let pieces = JSON.parse(data)
+    let blackPlayer = pieces.blackPlayer.pieces
+    let whitePlayer = pieces.whitePlayer.pieces
+    let turn = pieces.turn
 
-    blackArea.forEach(function(area){
-        $(`#${area}`).attr("team",BLACK)
+    jQuery.each(blackPlayer, function (key, value) {
+        $(`#${key}`).text(BLACK_PIECE[value.type])
+        $(`#${key}`).attr("team",BLACK)
     })
 
-    whiteArea.forEach(function(area){
-        $(`#${area}`).attr("team",WHITE)
+    jQuery.each(whitePlayer, function (key, value) {
+        $(`#${key}`).text(WHITE_PIECE[value.type])
+        $(`#${key}`).attr("team",WHITE)
     })
+
+    NOW_TURN = turn
+    $("#nowTurn").text(NOW_TURN)
 }
 
 function clickBoardHandler() {
@@ -55,7 +54,7 @@ function clickBoardHandler() {
 
     if (MODE === MOVE) {
         if (element.hasClass("movable")) {
-            demoMove(element)
+            move(element)
         }
         if (element.hasClass("selected")) {
             changeModeToSelect()
@@ -79,7 +78,7 @@ function getMovable(element) {
         data: query,
         success: function(data) {
             console.log(data);
-            demoDrawMovable(data)
+            drawMovable(data)
         },
         error: function(e) {
             console.log(e.message);
@@ -87,7 +86,7 @@ function getMovable(element) {
     });
 }
 
-function demoDrawMovable(data) {
+function drawMovable(data) {
     if (data.length == 0) {
         return
     }
@@ -106,9 +105,7 @@ function demoDrawMovable(data) {
     })
 }
 
-function demoMove(element) {
-    //ajax 통신
-    console.log("Move")
+function move(element) {
     let body = {src:SOURCE, trg:element.attr("id")}
     let query = JSON.stringify(body)
 
@@ -119,7 +116,7 @@ function demoMove(element) {
         data: query,
         success: function(data) {
             console.log(data);
-            demoDrawMove(data)
+            drawMove(data)
         },
         error: function(e) {
             console.log(e.message);
@@ -128,19 +125,15 @@ function demoMove(element) {
 }
 
 function changeModeToSelect() {
-    console.log("Change")
     MODE = SELECT
     $("#board td").removeClass("movable")
     $("#board td").removeClass("selected")
 }
 
-function demoDrawMove(data) {
-    console.log("dat:" + data);
+function drawMove(data) {
     let target = JSON.parse(data)
-    console.log(target)
     if (target.turn != null) {
         window.location.href = "/end?loser=" + target.turn
-        console.log("end")
         return
     }
     let x = target.x.xPosition;

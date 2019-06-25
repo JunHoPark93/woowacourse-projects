@@ -11,11 +11,8 @@ import java.util.stream.Collectors;
 public class Pawn extends Piece {
     private static final double SCORE = 1;
 
-    private boolean isMoved;
-
     public Pawn(PieceColor color, Path path) {
         super(color, path, PieceType.PAWN);
-        this.isMoved = false;
     }
 
     @Override
@@ -46,9 +43,5 @@ public class Pawn extends Piece {
     @Override
     public double getScore() {
         return SCORE;
-    }
-
-    public boolean isMoved() {
-        return isMoved;
     }
 }
