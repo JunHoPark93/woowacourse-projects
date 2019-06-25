@@ -77,9 +77,7 @@ function clickBoardHandler() {
 }
 
 function getMovable(element) {
-    console.log(MODE + ", " + element.attr("id"))
     SOURCE = element.attr("id")
-    // ajax 통신
     let body = {src:SOURCE}
     let query = JSON.stringify(body)
 
@@ -89,7 +87,6 @@ function getMovable(element) {
         contentType: "application/json",
         data: query,
         success: function(data) {
-            console.log(data);
             drawMovable(data)
         },
         error: function(e) {
@@ -110,8 +107,6 @@ function drawMovable(data) {
     movableArea.forEach(function(area){
         let x = area.square.x.xPosition;
         let y = area.square.y.yPosition;
-        console.log("x : " + area.square.x.xPosition);
-        console.log("y : " + area.square.y.yPosition);
 
         $(`#${x}${y}`).addClass("movable")
     })
@@ -127,7 +122,6 @@ function move(element) {
         contentType: "application/json",
         data: query,
         success: function(data) {
-            console.log(data);
             drawMove(data)
         },
         error: function(e) {
