@@ -6,7 +6,7 @@ public class Knight extends Piece {
     private static final double SCORE = 2.5;
 
     public Knight(PieceColor color, Path path) {
-        super(color, path);
+        super(color, path, PieceType.KNIGHT);
     }
 
     @Override

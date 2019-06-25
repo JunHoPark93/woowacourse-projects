@@ -9,11 +9,12 @@ import java.util.Set;
 public abstract class Piece {
     private final Path path;
     private PieceColor color;
-    private boolean isMoved = false;
+    private PieceType type;
 
-    public Piece(PieceColor color, Path path) {
+    public Piece(PieceColor color, Path path, PieceType type) {
         this.color = color;
         this.path = path;
+        this.type = type;
     }
 
     public Set<Vector> movableList(Square source) {
@@ -21,10 +22,6 @@ public abstract class Piece {
     }
 
     public abstract double getScore();
-
-    public boolean isMoved() {
-        return isMoved;
-    }
 
     public PieceColor getColor() {
         return color;

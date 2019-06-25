@@ -1,6 +1,8 @@
 package chess;
 
 import chess.domain.board.*;
+import chess.domain.dto.BoardDto;
+import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -24,23 +26,24 @@ public class WebUIChessApplication {
 
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
+            return render(model, "index.html");
+        });
+
+        get("/init", (req, res) -> {
+            Player whitePlayer = new DefaultPlayer(PlayerFactory.init(PieceColor.WHITE));
+            Player blackPlayer = new DefaultPlayer(PlayerFactory.init(PieceColor.BLACK));
+
             // TODO 현재 라운드 가져오기
+
+            // 끝났으면 새로 판 만들어서 insert 후 return
+            game = new Game(whitePlayer, blackPlayer);
 
             // 끝나지 않은 라운드 확인
 
             // 끝나지 않았으면 판 초기화 해서 return
-
-            // 끝났으면 새로 판 만들어서 insert 후 return
-            Player whitePlayer = new DefaultPlayer(PlayerFactory.init(PieceColor.WHITE));
-            Player blackPlayer = new DefaultPlayer(PlayerFactory.init(PieceColor.BLACK));
-
-            game = new Game(whitePlayer, blackPlayer);
-
             // TODO dto 정의
-//            List<PieceDto> list = new ArrayList();
-//            model.put("list", list);
-
-            return render(model, "index.html");
+            BoardDto boardDto = new BoardDto(whitePlayer, blackPlayer, game.getTurn());
+            return new Gson().toJson(boardDto);
         });
 
         post("/movableList", (req, res) -> {

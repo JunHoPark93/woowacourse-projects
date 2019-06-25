@@ -22,11 +22,6 @@ public class PawnTest {
     }
 
     @Test
-    void 움직임_여부() {
-        assertFalse(wPawn.isMoved());
-    }
-
-    @Test
     void 화이트_폰_이동가능영역() {
         Set<Vector> movableVector = wPawn.movableList(new Square(new XPosition("a"), new YPosition("2")));
         Set<Vector> expectedVector = new HashSet<>();

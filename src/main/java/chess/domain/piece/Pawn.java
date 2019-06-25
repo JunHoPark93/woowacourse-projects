@@ -1,6 +1,5 @@
 package chess.domain.piece;
 
-import chess.domain.board.Direction;
 import chess.domain.board.Square;
 import chess.domain.board.Vector;
 import chess.domain.board.YPosition;
@@ -15,7 +14,7 @@ public class Pawn extends Piece {
     private boolean isMoved;
 
     public Pawn(PieceColor color, Path path) {
-        super(color, path);
+        super(color, path, PieceType.PAWN);
         this.isMoved = false;
     }
 

@@ -90,4 +90,11 @@ public class DefaultPlayer implements Player {
         }
         return count;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "pieces=" + pieces +
+                '}';
+    }
 }

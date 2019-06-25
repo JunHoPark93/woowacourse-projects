@@ -6,7 +6,7 @@ public class Queen extends Piece {
     private static final double SCORE = 9;
 
     public Queen(PieceColor color, Path path) {
-        super(color, path);
+        super(color, path, PieceType.QUEEN);
     }
 
 

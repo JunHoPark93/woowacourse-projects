@@ -176,4 +176,12 @@ public class Game {
     public PieceColor getTurn() {
         return turn;
     }
+
+    public Player getWhitePlayer() {
+        return whitePlayer;
+    }
+
+    public Player getBlackPlayer() {
+        return blackPlayer;
+    }
 }

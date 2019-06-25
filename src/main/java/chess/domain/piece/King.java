@@ -6,7 +6,7 @@ public class King extends Piece {
     private static final double SCORE = 0;
 
     public King(PieceColor color, Path path) {
-        super(color, path);
+        super(color, path, PieceType.KING);
     }
 
     @Override

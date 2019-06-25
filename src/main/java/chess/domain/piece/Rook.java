@@ -6,9 +6,8 @@ public class Rook extends Piece {
     private static final double SCORE = 5;
 
     public Rook(PieceColor color, Path path) {
-        super(color, path);
+        super(color, path, PieceType.ROOK);
     }
-
 
     @Override
     public double getScore() {

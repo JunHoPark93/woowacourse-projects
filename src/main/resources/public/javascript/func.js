@@ -5,15 +5,30 @@ const SELECT = 0
 const MOVE = 1
 let MODE = SELECT
 let SOURCE
+let INIT
 
 demoInitBoard()
 $("td").on("click",clickBoardHandler)
 
 function demoInitBoard() {
-    NOW_TURN = BLACK;
-    $("#nowTurn").text(NOW_TURN)
+    $.ajax({
+        type: "GET",
+        url: "/init",
+        contentType: "application/json",
+        success: function(data) {
+            console.log(data);
+            INIT = data
+            //demoDrawMovable(data)
+        },
+        error: function(e) {
+            console.log(e.message);
+        }
+    });
 
-    demoSetTeamAttr();
+    // NOW_TURN = BLACK;
+    // $("#nowTurn").text(NOW_TURN)
+    //
+    // demoSetTeamAttr();
 }
 
 function demoSetTeamAttr() {
