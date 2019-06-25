@@ -23,6 +23,12 @@
 
 
 
+## 실행 영상
+
+![demo_chess](./images/demo_chess.gif)
+
+
+
 # TODO LIST
 
 **보드의 역할**
