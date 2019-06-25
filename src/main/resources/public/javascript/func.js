@@ -27,6 +27,8 @@ function drawPieces(data) {
     let pieces = JSON.parse(data)
     let blackPlayer = pieces.blackPlayer.pieces
     let whitePlayer = pieces.whitePlayer.pieces
+    let blackDead = pieces.blackDead
+    let whiteDead = pieces.whiteDead
     let turn = pieces.turn
 
     jQuery.each(blackPlayer, function (key, value) {
@@ -37,6 +39,16 @@ function drawPieces(data) {
     jQuery.each(whitePlayer, function (key, value) {
         $(`#${key}`).text(WHITE_PIECE[value.type])
         $(`#${key}`).attr("team",WHITE)
+    })
+
+    blackDead.forEach(function(piece){
+        let list = $("#BLACK_dead").text()
+        $("#BLACK_dead").text(list + BLACK_PIECE[piece.type])
+    })
+
+    whiteDead.forEach(function(piece){
+        let list = $("#WHITE_dead").text()
+        $("#WHITE_dead").text(list + WHITE_PIECE[piece.type])
     })
 
     NOW_TURN = turn

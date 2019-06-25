@@ -30,7 +30,8 @@ public class InitController {
                 game.move(dto.getSource(), dto.getTarget());
             }
 
-            BoardDto boardDto = new BoardDto(whitePlayer, blackPlayer, game.getTurn());
+            BoardDto boardDto = new BoardDto(whitePlayer, blackPlayer, game.getTurn(),
+                    game.getDeadList(PieceColor.WHITE), game.getDeadList(PieceColor.BLACK));
 
             request.session().attribute("game", game);
             return new Gson().toJson(boardDto);
@@ -41,10 +42,10 @@ public class InitController {
 
         ChessDao.addRound(round);
 
-        BoardDto boardDto = new BoardDto(whitePlayer, blackPlayer, game.getTurn());
+        BoardDto boardDto = new BoardDto(whitePlayer, blackPlayer, game.getTurn(),
+                game.getDeadList(PieceColor.WHITE), game.getDeadList(PieceColor.BLACK));
 
         request.session().attribute("game", game);
         return new Gson().toJson(boardDto);
     }
-
 }
