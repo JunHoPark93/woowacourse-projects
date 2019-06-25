@@ -27,7 +27,7 @@ public class InitController {
             List<HistoryDto> list = ChessDao.getHistory(round);
 
             for (HistoryDto dto : list) {
-                game.move(dto.getSource(), dto.getTarget());
+                game.move(dto.getSrc(), dto.getTrg());
             }
 
             BoardDto boardDto = new BoardDto(whitePlayer, blackPlayer, game.getTurn(),

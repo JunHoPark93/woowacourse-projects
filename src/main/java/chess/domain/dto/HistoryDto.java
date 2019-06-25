@@ -5,19 +5,27 @@ import chess.domain.board.XPosition;
 import chess.domain.board.YPosition;
 
 public class HistoryDto {
-    private String source;
-    private String target;
+    private String src;
+    private String trg;
 
     public HistoryDto(String source, String target) {
-        this.source = source;
-        this.target = target;
+        this.src = source;
+        this.trg = target;
     }
 
-    public Square getSource() {
-        return new Square(new XPosition(source.substring(0 , 1)), new YPosition(source.substring(1, 2)));
+    public void setSrc(String src) {
+        this.src = src;
     }
 
-    public Square getTarget() {
-        return new Square(new XPosition(target.substring(0, 1)), new YPosition(target.substring(1, 2)));
+    public void setTrg(String trg) {
+        this.trg = trg;
+    }
+
+    public Square getSrc() {
+        return new Square(new XPosition(src.substring(0 , 1)), new YPosition(src.substring(1, 2)));
+    }
+
+    public Square getTrg() {
+        return new Square(new XPosition(trg.substring(0, 1)), new YPosition(trg.substring(1, 2)));
     }
 }
