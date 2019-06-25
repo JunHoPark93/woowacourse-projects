@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public class Game {
     private final Player whitePlayer;
     private final Player blackPlayer;
-    // TODO ChessObserver 이름 고민
     private final ChessObserver observer;
     private PieceColor turn;
 
@@ -31,7 +30,6 @@ public class Game {
     }
 
     public Piece getPiece(Square source) {
-        // TODO if문 2개 해결
         Optional<Piece> piece = blackPlayer.getPiece(source);
         if (!piece.isPresent()) {
             piece = whitePlayer.getPiece(source);
@@ -176,14 +174,6 @@ public class Game {
 
     public PieceColor getTurn() {
         return turn;
-    }
-
-    public Player getWhitePlayer() {
-        return whitePlayer;
-    }
-
-    public Player getBlackPlayer() {
-        return blackPlayer;
     }
 
     public List<Piece> getDeadList(PieceColor color) {

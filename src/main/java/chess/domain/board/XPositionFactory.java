@@ -3,10 +3,9 @@ package chess.domain.board;
 import java.util.*;
 
 public class XPositionFactory {
-    // TODO : type, map 리팩토링 필요
     private static final List<String> type = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h");
     private static final Map<String, Integer> map = new HashMap<>();
-    private static final List<XPosition> xPositions;
+    private static final List<XPosition> xPositions = new ArrayList<>();
     private static final int START_INDEX = 0;
     private static final int END_INDEX = 7;
 
@@ -15,14 +14,9 @@ public class XPositionFactory {
             map.put(type.get(i), i);
         }
 
-        xPositions = new ArrayList<>();
         for (String s : type) {
             xPositions.add(new XPosition(s));
         }
-    }
-
-    public static List<XPosition> getXPositions() {
-        return xPositions;
     }
 
     public static XPosition moveLeft(String xPosition, int moveCnt) {
