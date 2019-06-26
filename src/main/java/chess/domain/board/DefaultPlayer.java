@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DefaultPlayer implements Player {
-    private Map<Square, Piece> pieces;
+    private final Map<Square, Piece> pieces;
 
     public DefaultPlayer(Map<Square, Piece> pieces) {
         this.pieces = pieces;

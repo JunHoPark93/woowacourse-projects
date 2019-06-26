@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChessObserver {
-    private List<Piece> deadList;
+    private final List<Piece> deadList;
 
     public ChessObserver() {
         this.deadList = new ArrayList<>();
