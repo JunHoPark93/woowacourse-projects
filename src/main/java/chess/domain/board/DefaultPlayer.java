@@ -30,15 +30,14 @@ public class DefaultPlayer implements Player {
     }
 
     @Override
-    public Set<Square> kingPath() {
-        Set<Vector> set = new HashSet<>();
+    public Set<Vector> kingPath() {
+        Set<Vector> vectors = new HashSet<>();
         for (Map.Entry<Square, Piece> entry : pieces.entrySet()) {
             if (entry.getValue() instanceof King) {
-                set = entry.getValue().movableList(entry.getKey());
+                vectors = entry.getValue().movableList(entry.getKey());
             }
         }
-
-        return set.stream().map(Vector::getSquare).collect(Collectors.toSet());
+        return vectors;
     }
 
     @Override

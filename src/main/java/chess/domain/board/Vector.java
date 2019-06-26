@@ -15,10 +15,6 @@ public class Vector {
         this.direction = direction;
     }
 
-    public Square getSquare() {
-        return square;
-    }
-
     public Set<Vector> vectorList() {
         Set<Square> squares = direction.getList(this.square);
         return squares.stream()
@@ -54,8 +50,8 @@ public class Vector {
         return this.square.equals(source);
     }
 
-    public boolean containsSameSquare(Set<Vector> kingPath) {
-        return kingPath.stream().anyMatch(vector -> vector.equals(this));
+    public boolean containsSameSquare(Set<Vector> vectors) {
+        return vectors.stream().anyMatch(vector -> vector.square.equals(this.square));
     }
 
     public boolean isLocatedSameLine(Square source) {

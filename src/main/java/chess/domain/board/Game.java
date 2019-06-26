@@ -79,8 +79,11 @@ public class Game {
     }
 
     private Set<Vector> removeKingPath(Set<Vector> moveList) {
-        Set<Square> kingPath = opponentPlayer().kingPath();
-        return moveList.stream().filter(vector -> !kingPath.contains(vector.getSquare())).collect(Collectors.toSet());
+        Set<Vector> kingPath = opponentPlayer().kingPath();
+
+        return moveList.stream()
+                .filter(vector -> !vector.containsSameSquare(kingPath))
+                .collect(Collectors.toSet());
     }
 
     private void removeObstacles(Set<Vector> moveList) {

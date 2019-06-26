@@ -12,7 +12,7 @@ public interface Player {
 
     boolean contains(Vector vector);
 
-    Set<Square> kingPath();
+    Set<Vector> kingPath();
 
     void move(Square source, Square target);
 
