@@ -20,7 +20,7 @@ public class ChessObserver {
 
     public List<Piece> deadList(PieceColor color) {
         return deadList.stream()
-                .filter(piece -> piece.getColor().equals(color))
+                .filter(piece -> piece.isSameColor(color))
                 .collect(Collectors.toList());
     }
 
