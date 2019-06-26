@@ -59,16 +59,16 @@ public class Game {
 
     private Set<Vector> removePawnPath(Set<Vector> moveList) {
         Set<Vector> crossTarget = moveList.stream()
-                .filter(vector -> vector.getDirection().equals(Direction.DOWN_LEFT) ||
-                        vector.getDirection().equals(Direction.DOWN_RIGHT) ||
-                        vector.getDirection().equals(Direction.UP_LEFT) ||
-                        vector.getDirection().equals(Direction.UP_RIGHT))
+                .filter(vector -> vector.isDownLeft() ||
+                        vector.isDownRight() ||
+                        vector.isUpLeft() ||
+                        vector.isUpRight())
                 .filter(vector -> !(opponentPlayer().contains(vector)))
                 .collect(Collectors.toSet());
 
         Set<Vector> linearTarget = moveList.stream()
-                .filter(vector -> vector.getDirection().equals(Direction.UP) ||
-                        vector.getDirection().equals(Direction.DOWN))
+                .filter(vector -> vector.isUp() ||
+                        vector.isDown())
                 .filter(vector -> (opponentPlayer().contains(vector)))
                 .collect(Collectors.toSet());
 
@@ -166,6 +166,6 @@ public class Game {
     }
 
     public List<Piece> getDeadList(PieceColor color) {
-        return observer.getDeadList(color);
+        return observer.deadList(color);
     }
 }

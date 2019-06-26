@@ -18,7 +18,7 @@ public class ChessObserver {
         deadList.add(deadPiece);
     }
 
-    public List<Piece> getDeadList(PieceColor color) {
+    public List<Piece> deadList(PieceColor color) {
         return deadList.stream()
                 .filter(piece -> piece.getColor().equals(color))
                 .collect(Collectors.toList());

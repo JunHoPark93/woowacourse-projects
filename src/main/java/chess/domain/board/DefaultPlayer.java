@@ -26,7 +26,7 @@ public class DefaultPlayer implements Player {
 
     @Override
     public boolean contains(Vector vector) {
-        return pieces.containsKey(vector.getSquare());
+        return vector.containsSquare(pieces);
     }
 
     @Override

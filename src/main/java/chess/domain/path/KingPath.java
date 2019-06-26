@@ -23,7 +23,7 @@ public class KingPath implements Path {
         movableList.add(new Vector(source.moveUpLeft(), Direction.UP_LEFT));
 
         return movableList.stream()
-                .filter(vector -> !(vector.getSquare().equals(source)))
+                .filter(vector -> !vector.isSameSquare(source))
                 .collect(Collectors.toSet());
     }
 }

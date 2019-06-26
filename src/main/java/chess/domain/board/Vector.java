@@ -1,19 +1,18 @@
 package chess.domain.board;
 
+import chess.domain.piece.Piece;
+
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Vector {
-    private Square square;
-    private Direction direction;
+    private final Square square;
+    private final Direction direction;
 
     public Vector(Square square, Direction direction) {
         this.square = square;
         this.direction = direction;
-    }
-
-    public Direction getDirection() {
-        return direction;
     }
 
     public Square getSquare() {
@@ -25,6 +24,42 @@ public class Vector {
         return squares.stream()
                 .map(square -> new Vector(square, direction))
                 .collect(Collectors.toSet());
+    }
+
+    public boolean isDownLeft() {
+        return this.direction.equals(Direction.DOWN_LEFT);
+    }
+
+    public boolean isDownRight() {
+        return this.direction.equals(Direction.DOWN_RIGHT);
+    }
+
+    public boolean isUpLeft() {
+        return this.direction.equals(Direction.UP_LEFT);
+    }
+
+    public boolean isUpRight() {
+        return this.direction.equals(Direction.UP_RIGHT);
+    }
+
+    public boolean isUp() {
+        return this.direction.equals(Direction.UP);
+    }
+
+    public boolean isDown() {
+        return this.direction.equals(Direction.DOWN);
+    }
+
+    public boolean isSameSquare(Square source) {
+        return this.square.equals(source);
+    }
+
+    public boolean containsSameSquare(Set<Vector> kingPath) {
+        return kingPath.stream().anyMatch(vector -> vector.equals(this));
+    }
+
+    public boolean containsSquare(Map<Square, Piece> pieces) {
+        return pieces.containsKey(square);
     }
 
     @Override

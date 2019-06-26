@@ -18,7 +18,7 @@ public class BlackPawnPath implements Path {
         movableList.add(new Vector(source.moveDown(2), Direction.DOWN));
 
         return movableList.stream()
-                .filter(vector -> !(vector.getSquare().equals(source)))
+                .filter(vector -> !(vector.isSameSquare(source)))
                 .collect(Collectors.toSet());
     }
 }

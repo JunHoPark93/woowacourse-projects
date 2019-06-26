@@ -19,6 +19,6 @@ class ChessObserverTest {
         List<Piece> deadList = new ArrayList<>();
         deadList.add(rook);
 
-        assertThat(chessObserver.getDeadList(PieceColor.WHITE)).isEqualTo(deadList);
+        assertThat(chessObserver.deadList(PieceColor.WHITE)).isEqualTo(deadList);
     }
 }
