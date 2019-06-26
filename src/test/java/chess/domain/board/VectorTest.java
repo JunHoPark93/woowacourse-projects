@@ -1,11 +1,16 @@
 package chess.domain.board;
 
+import chess.domain.piece.Pawn;
+import chess.domain.piece.Piece;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VectorTest {
     @Test
@@ -119,5 +124,41 @@ public class VectorTest {
         expected.add(new Vector(new Square(new XPosition("a"), new YPosition("3")), Direction.DOWN_LEFT));
 
         assertThat(vector.vectorList()).isEqualTo(expected);
+    }
+
+    @Test
+    void 같은_Square() {
+        Square square = new Square(new XPosition("c"), new YPosition("5"));
+
+        assertThat(square).isEqualTo(new Square(new XPosition("c"), new YPosition("5")));
+    }
+
+    @Test
+    void 같은_Square_포함() {
+        Set<Vector> vectors = new HashSet<>();
+        vectors.add(new Vector(new Square(new XPosition("c"), new YPosition("5")), Direction.UP));
+        vectors.add(new Vector(new Square(new XPosition("c"), new YPosition("6")), Direction.UP));
+
+        Vector vector = new Vector(new Square(new XPosition("c"), new YPosition("5")), Direction.UP);
+
+        assertTrue(vector.containsSameSquare(vectors));
+    }
+
+    @Test
+    void 같은_라인에_위치() {
+        Vector vector = new Vector(new Square(new XPosition("c"), new YPosition("5")), Direction.UP);
+
+        assertTrue(vector.isLocatedSameLine(new Square(new XPosition("d"), new YPosition("5"))));
+    }
+
+    @Test
+    void Square_포함하는지() {
+        Map<Square, Piece> pieces = new HashMap<>();
+        pieces.put(new Square(new XPosition("c"), new YPosition("5")), Pawn.createBlack());
+        pieces.put(new Square(new XPosition("c"), new YPosition("6")), Pawn.createBlack());
+
+        Vector vector = new Vector(new Square(new XPosition("c"), new YPosition("5")), Direction.UP);
+
+        assertTrue(vector.containsSquare(pieces));
     }
 }

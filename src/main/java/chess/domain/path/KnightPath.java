@@ -31,8 +31,5 @@ public class KnightPath implements Path {
         return movableList.stream()
                 .filter(vector -> !vector.isLocatedSameLine(source))
                 .collect(Collectors.toSet());
-//        return movableList.stream()
-//                .filter(vector -> !(source.isLocatedSameLine(vector.getSquare())))
-//                .collect(Collectors.toSet());
     }
 }
