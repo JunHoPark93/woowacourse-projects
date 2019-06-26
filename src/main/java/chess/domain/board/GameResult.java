@@ -2,12 +2,12 @@ package chess.domain.board;
 
 import chess.domain.piece.PieceColor;
 
-public class Score {
+public class GameResult {
     private final double blackScore;
     private final double whiteScore;
     private final PieceColor loser;
 
-    public Score(double blackScore, double whiteScore) {
+    public GameResult(double blackScore, double whiteScore) {
         this.blackScore = blackScore;
         this.whiteScore = whiteScore;
         this.loser = blackScore > whiteScore ? PieceColor.WHITE : PieceColor.BLACK;

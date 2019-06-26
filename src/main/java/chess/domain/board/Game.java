@@ -157,11 +157,11 @@ public class Game {
                 .orElseThrow(RuntimeException::new);
     }
 
-    public Score score() {
+    public GameResult score() {
         double blackScore = blackPlayer.score();
         double whiteScore = whitePlayer.score();
 
-        return new Score(blackScore, whiteScore);
+        return new GameResult(blackScore, whiteScore);
     }
 
     public PieceColor getTurn() {
