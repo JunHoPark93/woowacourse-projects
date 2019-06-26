@@ -1,6 +1,5 @@
 package chess.domain.board;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

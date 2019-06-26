@@ -20,7 +20,7 @@ public class Vector {
         return square;
     }
 
-    public Set<Vector> getList() {
+    public Set<Vector> vectorList() {
         Set<Square> squares = direction.getList(this.square);
         return squares.stream()
                 .map(square -> new Vector(square, direction))
