@@ -9,7 +9,6 @@ import spark.Response;
 import java.util.Set;
 
 public class MovableController {
-
     public static Object init(Request request, Response response) {
         Game game = request.session().attribute("game");
 

@@ -21,22 +21,31 @@ public class InitController {
         Player blackPlayer = new DefaultPlayer(PlayerFactory.init(PieceColor.BLACK));
         Game game = new Game(whitePlayer, blackPlayer);
 
-        if (ChessDao.notEnd()) {
-            int round = ChessDao.getRound();
-            request.session().attribute("round", round);
-            List<HistoryDto> list = ChessDao.getHistory(round);
-
-            for (HistoryDto dto : list) {
-                game.move(dto.getSrc(), dto.getTrg());
-            }
-
-            BoardDto boardDto = new BoardDto(whitePlayer, blackPlayer, game.getTurn(),
-                    game.getDeadList(PieceColor.WHITE), game.getDeadList(PieceColor.BLACK));
-
-            request.session().attribute("game", game);
-            return new Gson().toJson(boardDto);
+        boolean keepPlaying = ChessDao.notEnd();
+        if (keepPlaying) {
+            return resume(request, whitePlayer, blackPlayer, game);
         }
 
+        return newGame(request, whitePlayer, blackPlayer, game);
+    }
+
+    private static Object resume(Request request, Player whitePlayer, Player blackPlayer, Game game) throws SQLException {
+        int round = ChessDao.getRound();
+        request.session().attribute("round", round);
+        List<HistoryDto> list = ChessDao.getHistory(round);
+
+        for (HistoryDto dto : list) {
+            game.move(dto.getSrc(), dto.getTrg());
+        }
+
+        BoardDto boardDto = new BoardDto(whitePlayer, blackPlayer, game.getTurn(),
+                game.getDeadList(PieceColor.WHITE), game.getDeadList(PieceColor.BLACK));
+
+        request.session().attribute("game", game);
+        return new Gson().toJson(boardDto);
+    }
+
+    private static Object newGame(Request request, Player whitePlayer, Player blackPlayer, Game game) throws SQLException {
         int round = ChessDao.getRound() + 1;
         request.session().attribute("round", round);
 

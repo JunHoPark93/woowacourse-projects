@@ -16,25 +16,26 @@ public class MoveController {
     public static Object init(Request request, Response response) throws SQLException {
         Game game = request.session().attribute("game");
         HistoryDto historyDto = new Gson().fromJson(request.body(), HistoryDto.class);
-
         Square source = historyDto.getSrc();
         Square target = historyDto.getTrg();
-
         Map<String, Object> model = new HashMap<>();
-
-        boolean playing = game.move(source, target);
 
         int round = request.session().attribute("round");
         ChessDao.insertRound(round, source, target);
 
+        boolean kingAlive = game.move(source, target);
         request.session().attribute("game", game);
 
-        if (!playing) { // 왕이 죽은 경우
-            model.put("turn", game.getTurn());
-            ChessDao.endRound(round);
-            return new Gson().toJson(model);
+        if (!kingAlive) {
+            return kingDead(game, model, round);
         }
 
         return new Gson().toJson(target);
+    }
+
+    private static Object kingDead(Game game, Map<String, Object> model, int round) throws SQLException {
+        model.put("turn", game.getTurn());
+        ChessDao.endRound(round);
+        return new Gson().toJson(model);
     }
 }
