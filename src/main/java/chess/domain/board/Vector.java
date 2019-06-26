@@ -58,6 +58,10 @@ public class Vector {
         return kingPath.stream().anyMatch(vector -> vector.equals(this));
     }
 
+    public boolean isLocatedSameLine(Square source) {
+        return source.isLocatedSameLine(this.square);
+    }
+
     public boolean containsSquare(Map<Square, Piece> pieces) {
         return pieces.containsKey(square);
     }

@@ -30,7 +30,7 @@ public class Pawn extends Piece {
 
         if (!source.isSameY(new YPosition("2")) && getColor().equals(PieceColor.WHITE)) {
             Set<Vector> target = movableList.stream()
-                    .filter(vector -> vector.getSquare().equals(source.moveUp(2)))
+                    .filter(vector -> vector.isSameSquare(source.moveUp(2)))
                     .collect(Collectors.toSet());
 
             movableList.removeAll(target);
@@ -39,7 +39,7 @@ public class Pawn extends Piece {
 
         if (!source.isSameY(new YPosition("7")) && getColor().equals(PieceColor.BLACK)) {
             Set<Vector> target = movableList.stream()
-                    .filter(vector -> vector.getSquare().equals(source.moveDown(2)))
+                    .filter(vector -> vector.isSameSquare(source.moveDown(2)))
                     .collect(Collectors.toSet());
 
             movableList.removeAll(target);

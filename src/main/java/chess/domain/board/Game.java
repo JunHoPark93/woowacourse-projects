@@ -149,7 +149,7 @@ public class Game {
     private void checkTarget(Square source, Square target) {
         Set<Vector> movableList = moveList(source);
         movableList.stream()
-                .filter(vector -> vector.getSquare().equals(target))
+                .filter(vector -> vector.isSameSquare(target))
                 .findAny()
                 .orElseThrow(RuntimeException::new);
     }

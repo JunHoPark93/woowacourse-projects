@@ -18,7 +18,7 @@ public class WhitePawnPath implements Path {
         movableList.add(new Vector(source.moveUp(2), Direction.UP));
 
         return movableList.stream()
-                .filter(vector -> !(vector.getSquare().equals(source)))
+                .filter(vector -> !(vector.isSameSquare(source)))
                 .collect(Collectors.toSet());
     }
 }
