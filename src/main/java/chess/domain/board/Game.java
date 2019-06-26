@@ -21,16 +21,16 @@ public class Game {
     }
 
     public int whitePiecesCount() {
-        return whitePlayer.getPiecesCount();
+        return whitePlayer.pieceCount();
     }
 
     public int blackPiecesCount() {
-        return blackPlayer.getPiecesCount();
+        return blackPlayer.pieceCount();
     }
 
     public Piece getPiece(Square source) {
-        return blackPlayer.getPiece(source)
-                .orElseGet(() -> whitePlayer.getPiece(source)
+        return blackPlayer.piece(source)
+                .orElseGet(() -> whitePlayer.piece(source)
                         .orElseThrow(IllegalArgumentException::new));
     }
 
@@ -79,9 +79,8 @@ public class Game {
     }
 
     private Set<Vector> removeKingPath(Set<Vector> moveList) {
-        Set<Square> kingPath = opponentPlayer().getKingPath();
+        Set<Square> kingPath = opponentPlayer().kingPath();
         return moveList.stream().filter(vector -> !kingPath.contains(vector.getSquare())).collect(Collectors.toSet());
-
     }
 
     private void removeObstacles(Set<Vector> moveList) {
@@ -131,7 +130,7 @@ public class Game {
 
         currentPlayer().move(source, target);
 
-        if (opponentPlayer().getPiece(target).isPresent()) {
+        if (opponentPlayer().piece(target).isPresent()) {
             boolean playing = takePiece(target);
             turn = turn.toggle();
             return playing;

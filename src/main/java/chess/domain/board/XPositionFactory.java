@@ -19,7 +19,7 @@ public class XPositionFactory {
         }
     }
 
-    public static XPosition moveLeft(String xPosition, int moveCnt) {
+    public static XPosition left(String xPosition, int moveCnt) {
         int targetIdx = index(xPosition) - moveCnt;
         if (targetIdx < START_INDEX) {
             return xPositions.get(index(xPosition));
@@ -28,7 +28,7 @@ public class XPositionFactory {
         return xPositions.get(targetIdx);
     }
 
-    public static XPosition moveRight(String xPosition, int moveCnt) {
+    public static XPosition right(String xPosition, int moveCnt) {
         int targetIdx = index(xPosition) + moveCnt;
         if (targetIdx > END_INDEX) {
             return xPositions.get(index(xPosition));
@@ -36,7 +36,7 @@ public class XPositionFactory {
         return xPositions.get(targetIdx);
     }
 
-    public static List<XPosition> moveRightToEnd(String xPosition) {
+    public static List<XPosition> rightToEnd(String xPosition) {
         List<XPosition> xPositionList = new ArrayList<>();
         int index = index(xPosition) + 1;
 
@@ -47,7 +47,7 @@ public class XPositionFactory {
         return xPositionList;
     }
 
-    public static List<XPosition> moveLeftToEnd(String xPosition) {
+    public static List<XPosition> leftToEnd(String xPosition) {
         List<XPosition> xPositionList = new ArrayList<>();
         int index = index(xPosition) - 1;
 

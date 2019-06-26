@@ -6,13 +6,13 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface Player {
-    int getPiecesCount();
+    int pieceCount();
 
-    Optional<Piece> getPiece(Square source);
+    Optional<Piece> piece(Square source);
 
     boolean contains(Vector vector);
 
-    Set<Square> getKingPath();
+    Set<Square> kingPath();
 
     void move(Square source, Square target);
 

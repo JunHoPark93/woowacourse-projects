@@ -19,19 +19,19 @@ public class XPosition {
     }
 
     public XPosition moveLeft(int moveCnt) {
-        return XPositionFactory.moveLeft(xPosition, moveCnt);
+        return XPositionFactory.left(xPosition, moveCnt);
     }
 
     public XPosition moveRight(int moveCnt) {
-        return XPositionFactory.moveRight(xPosition, moveCnt);
+        return XPositionFactory.right(xPosition, moveCnt);
     }
 
     public List<XPosition> moveRightToEnd() {
-        return XPositionFactory.moveRightToEnd(xPosition);
+        return XPositionFactory.rightToEnd(xPosition);
     }
 
     public List<XPosition> moveLeftToEnd() {
-        return XPositionFactory.moveLeftToEnd(xPosition);
+        return XPositionFactory.leftToEnd(xPosition);
     }
 
     @Override

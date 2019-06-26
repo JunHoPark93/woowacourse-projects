@@ -17,19 +17,19 @@ public class YPosition {
     }
 
     public YPosition moveUp(int moveCnt) {
-        return YPositionFactory.moveUp(yPosition, moveCnt);
+        return YPositionFactory.up(yPosition, moveCnt);
     }
 
     public YPosition moveDown(int moveCnt) {
-        return YPositionFactory.moveDown(yPosition, moveCnt);
+        return YPositionFactory.down(yPosition, moveCnt);
     }
 
     public List<YPosition> moveUpToEnd() {
-        return YPositionFactory.moveUpToEnd(yPosition);
+        return YPositionFactory.upToEnd(yPosition);
     }
 
     public List<YPosition> moveDownToEnd() {
-        return YPositionFactory.moveDownToEnd(yPosition);
+        return YPositionFactory.downToEnd(yPosition);
     }
 
     @Override

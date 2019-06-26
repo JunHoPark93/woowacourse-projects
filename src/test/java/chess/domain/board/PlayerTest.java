@@ -20,10 +20,10 @@ public class PlayerTest {
         black.put(new Square(new XPosition("f"), new YPosition("7")), rook2);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Optional<Piece> returnedRook = blackPlayer.getPiece(new Square(new XPosition("b"), new YPosition("7")));
+        Optional<Piece> returnedRook = blackPlayer.piece(new Square(new XPosition("b"), new YPosition("7")));
         returnedRook.ifPresent(piece -> assertThat(piece).isEqualTo(rook));
 
-        Optional<Piece> returnedRook2 = blackPlayer.getPiece(new Square(new XPosition("f"), new YPosition("7")));
+        Optional<Piece> returnedRook2 = blackPlayer.piece(new Square(new XPosition("f"), new YPosition("7")));
         returnedRook2.ifPresent(piece -> assertThat(piece).isEqualTo(rook2));
     }
 }

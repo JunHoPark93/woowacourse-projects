@@ -15,12 +15,12 @@ public class DefaultPlayer implements Player {
     }
     
     @Override
-    public int getPiecesCount() {
+    public int pieceCount() {
         return pieces.size();
     }
 
     @Override
-    public Optional<Piece> getPiece(Square source) {
+    public Optional<Piece> piece(Square source) {
         return Optional.ofNullable(pieces.get(source));
     }
 
@@ -30,7 +30,7 @@ public class DefaultPlayer implements Player {
     }
 
     @Override
-    public Set<Square> getKingPath() {
+    public Set<Square> kingPath() {
         Set<Vector> set = new HashSet<>();
         for (Map.Entry<Square, Piece> entry : pieces.entrySet()) {
             if (entry.getValue() instanceof King) {
