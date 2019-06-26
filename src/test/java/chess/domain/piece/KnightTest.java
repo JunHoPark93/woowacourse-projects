@@ -15,7 +15,7 @@ public class KnightTest {
 
     @BeforeEach
     void setUp() {
-        knight = new Knight(PieceColor.WHITE, PathFactory.KNIGHT.create());
+        knight = Knight.createWhite();
     }
 
     @Test

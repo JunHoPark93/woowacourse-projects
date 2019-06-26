@@ -17,8 +17,8 @@ public class PawnTest {
 
     @BeforeEach
     void setUp() {
-        wPawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
-        bPawn = new Pawn(PieceColor.BLACK, PathFactory.BLACK_PAWN.create());
+        wPawn = Pawn.createWhite();
+        bPawn = Pawn.createBlack();
     }
 
     @Test

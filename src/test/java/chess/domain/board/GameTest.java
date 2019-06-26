@@ -25,12 +25,12 @@ public class GameTest {
 
     @Test
     void 해당_위치_말_확인() {
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece rook = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
         Player whitePlayer = new DefaultPlayer(white);
@@ -42,14 +42,14 @@ public class GameTest {
 
     @Test
     void 룩_움직임_경우의수() {
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
-        Piece rook2 = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece rook = Rook.createBlack();
+        Piece rook2 = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("7")), rook);
         black.put(new Square(new XPosition("f"), new YPosition("7")), rook2);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("b"), new YPosition("2")), pawn);
         Player whitePlayer = new DefaultPlayer(white);
@@ -75,9 +75,9 @@ public class GameTest {
 
     @Test
     void 나이트_움직임_경우의수() {
-        Piece knight = new Knight(PieceColor.BLACK, PathFactory.KNIGHT.create());
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
-        Piece rook2 = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece knight = Knight.createBlack();
+        Piece rook = Rook.createBlack();
+        Piece rook2 = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("8")), knight);
         black.put(new Square(new XPosition("a"), new YPosition("6")), rook);
@@ -85,7 +85,7 @@ public class GameTest {
         black.put(new Square(new XPosition("b"), new YPosition("7")), rook2);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("c"), new YPosition("6")), pawn);
         Player whitePlayer = new DefaultPlayer(white);
@@ -103,14 +103,14 @@ public class GameTest {
 
     @Test
     void 비숍_움직임_경우의수() {
-        Piece bishop = new Bishop(PieceColor.BLACK, PathFactory.BISHOP.create());
-        Piece rook2 = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece bishop = Bishop.createBlack();
+        Piece rook2 = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("f"), new YPosition("6")), bishop);
         black.put(new Square(new XPosition("g"), new YPosition("7")), rook2);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("d"), new YPosition("4")), pawn);
         Player whitePlayer = new DefaultPlayer(white);
@@ -134,17 +134,17 @@ public class GameTest {
 
     @Test
     void 퀸_움직임_경우의수() {
-        Piece queen = new Queen(PieceColor.BLACK, PathFactory.QUEEN.create());
-        Piece rook2 = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
-        Piece rook3 = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece queen = Queen.createBlack();
+        Piece rook2 = Rook.createBlack();
+        Piece rook3 = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("f"), new YPosition("6")), queen);
         black.put(new Square(new XPosition("g"), new YPosition("7")), rook2);
         black.put(new Square(new XPosition("f"), new YPosition("2")), rook3);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
-        Piece pawn2 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
+        Piece pawn2 = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("d"), new YPosition("4")), pawn);
         white.put(new Square(new XPosition("b"), new YPosition("6")), pawn2);
@@ -187,16 +187,15 @@ public class GameTest {
 
     @Test
     void 킹_움직임_경우의수() {
-        Piece king = new King(PieceColor.BLACK, PathFactory.KING.create());
-        Piece rook2 = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
-        Piece rook3 = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece king = King.createBlack();
+        Piece rook2 = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("2")), king);
         black.put(new Square(new XPosition("b"), new YPosition("1")), rook2);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece king2 = new King(PieceColor.WHITE, PathFactory.KING.create());
-        Piece pawn2 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece king2 = King.createWhite();
+        Piece pawn2 = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("d"), new YPosition("2")), king2);
         white.put(new Square(new XPosition("b"), new YPosition("3")), pawn2);
@@ -220,12 +219,12 @@ public class GameTest {
 
     @Test
     void 룩_움직임() {
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece rook = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("7")), rook);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("b"), new YPosition("2")), pawn);
         Player whitePlayer = new DefaultPlayer(white);
@@ -241,12 +240,12 @@ public class GameTest {
 
     @Test
     void 보드_룩이_폰을잡는다() {
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece rook = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
         Player whitePlayer = new DefaultPlayer(white);
@@ -260,12 +259,12 @@ public class GameTest {
 
     @Test
     void 보드_룩이_폰을잡는다_유효하지않은_타겟() {
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece rook = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), rook);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
         Player whitePlayer = new DefaultPlayer(white);
@@ -278,10 +277,10 @@ public class GameTest {
 
     @Test
     void 점수계산() {
-        Piece king = new King(PieceColor.BLACK, PathFactory.KING.create());
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
-        Piece pawn = new Pawn(PieceColor.BLACK, PathFactory.BLACK_PAWN.create());
-        Piece knight = new Knight(PieceColor.BLACK, PathFactory.KNIGHT.create());
+        Piece king = King.createBlack();
+        Piece rook = Rook.createBlack();
+        Piece pawn = Pawn.createBlack();
+        Piece knight = Knight.createBlack();
 
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), king);
@@ -291,10 +290,10 @@ public class GameTest {
 
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn2 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
-        Piece king2 = new King(PieceColor.WHITE, PathFactory.KING.create());
-        Piece queen = new Queen(PieceColor.WHITE, PathFactory.QUEEN.create());
-        Piece bishop = new Bishop(PieceColor.WHITE, PathFactory.BISHOP.create());
+        Piece pawn2 = Pawn.createWhite();
+        Piece king2 = King.createWhite();
+        Piece queen = Queen.createWhite();
+        Piece bishop = Bishop.createWhite();
 
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), king2);
@@ -312,12 +311,12 @@ public class GameTest {
 
     @Test
     void 폰_공격() {
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece rook = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("4")), rook);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
         Player whitePlayer = new DefaultPlayer(white);
@@ -335,12 +334,12 @@ public class GameTest {
 
     @Test
     void 폰_공격_불가() {
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece rook = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("5")), rook);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
         Player whitePlayer = new DefaultPlayer(white);
@@ -356,12 +355,12 @@ public class GameTest {
 
     @Test
     void 폰_이동_불가() {
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece rook = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("5")), rook);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece pawn = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece pawn = Pawn.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), pawn);
         Player whitePlayer = new DefaultPlayer(white);
@@ -377,12 +376,12 @@ public class GameTest {
 
     @Test
     void 킹_사망() {
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece rook = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("4")), rook);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece king = new King(PieceColor.WHITE, PathFactory.KING.create());
+        Piece king = King.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("b"), new YPosition("2")), king);
         Player whitePlayer = new DefaultPlayer(white);
@@ -396,12 +395,12 @@ public class GameTest {
 
     @Test
     void 킹_사망하지_않음() {
-        Piece rook = new Rook(PieceColor.BLACK, PathFactory.ROOK.create());
+        Piece rook = Rook.createBlack();
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("b"), new YPosition("4")), rook);
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece king = new King(PieceColor.WHITE, PathFactory.KING.create());
+        Piece king = King.createWhite();
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("b"), new YPosition("2")), king);
         Player whitePlayer = new DefaultPlayer(white);
@@ -415,10 +414,10 @@ public class GameTest {
 
     @Test
     void 폰_세로점수확인() {
-        Piece pawn1 = new Pawn(PieceColor.BLACK, PathFactory.BLACK_PAWN.create());
-        Piece pawn2 = new Pawn(PieceColor.BLACK, PathFactory.BLACK_PAWN.create());
-        Piece pawn3 = new Pawn(PieceColor.BLACK, PathFactory.BLACK_PAWN.create());
-        Piece pawn4 = new Pawn(PieceColor.BLACK, PathFactory.BLACK_PAWN.create());
+        Piece pawn1 = Pawn.createBlack();
+        Piece pawn2 = Pawn.createBlack();
+        Piece pawn3 = Pawn.createBlack();
+        Piece pawn4 = Pawn.createBlack();
 
         Map<Square, Piece> black = new HashMap<>();
         black.put(new Square(new XPosition("a"), new YPosition("8")), pawn1);
@@ -428,10 +427,10 @@ public class GameTest {
 
         Player blackPlayer = new DefaultPlayer(black);
 
-        Piece wPawn1 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
-        Piece wPawn2 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
-        Piece wPawn3 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
-        Piece wPawn4 = new Pawn(PieceColor.WHITE, PathFactory.WHITE_PAWN.create());
+        Piece wPawn1 = Pawn.createWhite();
+        Piece wPawn2 = Pawn.createWhite();
+        Piece wPawn3 = Pawn.createWhite();
+        Piece wPawn4 = Pawn.createWhite();
 
         Map<Square, Piece> white = new HashMap<>();
         white.put(new Square(new XPosition("a"), new YPosition("2")), wPawn1);
@@ -445,17 +444,5 @@ public class GameTest {
 
         assertThat(game.score().getBlackScore()).isEqualTo(2.5);
         assertThat(game.score().getWhiteScore()).isEqualTo(4);
-    }
-
-    // TODO :: 체크 확인
-    @Test
-    void 체크_확인() {
-
-    }
-
-    // TODO :: 체크메이트 확인
-    @Test
-    void 체크메이트_확인() {
-
     }
 }

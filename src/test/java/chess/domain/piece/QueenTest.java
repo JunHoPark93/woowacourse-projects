@@ -15,7 +15,7 @@ public class QueenTest {
 
     @BeforeEach
     void setUp() {
-        queen = new Queen(PieceColor.WHITE, PathFactory.QUEEN.create());
+        queen = Queen.createWhite();
     }
 
     @Test

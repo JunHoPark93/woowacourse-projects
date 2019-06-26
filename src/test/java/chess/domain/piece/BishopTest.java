@@ -15,7 +15,7 @@ public class BishopTest {
 
     @BeforeEach
     void setUp() {
-        bishop = new Bishop(PieceColor.WHITE, PathFactory.BISHOP.create());
+        bishop = Bishop.createWhite();
     }
 
     @Test

@@ -15,7 +15,7 @@ public class RookTest {
 
     @BeforeEach
     void setUp() {
-        rook = new Rook(PieceColor.WHITE, PathFactory.ROOK.create());
+        rook = Rook.createWhite();
     }
 
     @Test

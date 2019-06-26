@@ -15,7 +15,7 @@ public class KingTest {
 
     @BeforeEach
     void setUp() {
-        king = new King(PieceColor.WHITE, PathFactory.KING.create());
+        king = King.createWhite();
     }
 
     @Test
