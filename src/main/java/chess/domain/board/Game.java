@@ -4,7 +4,6 @@ import chess.domain.piece.*;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,18 +29,9 @@ public class Game {
     }
 
     public Piece getPiece(Square source) {
-        Optional<Piece> piece = blackPlayer.getPiece(source);
-        if (!piece.isPresent()) {
-            piece = whitePlayer.getPiece(source);
-        }
-
-        Optional<Piece> returnPiece = Optional.ofNullable(piece).orElseThrow(IllegalArgumentException::new);
-
-        if (returnPiece.isPresent()) {
-            return returnPiece.get();
-        }
-
-        throw new IllegalArgumentException();
+        return blackPlayer.getPiece(source)
+                .orElseGet(() -> whitePlayer.getPiece(source)
+                        .orElseThrow(IllegalArgumentException::new));
     }
 
     public Set<Vector> moveList(Square source) {
@@ -107,7 +97,7 @@ public class Game {
         }
 
         for (Vector vector : existingList) {
-            Set<Vector> vectors = vector.getList();
+            Set<Vector> vectors = vector.vectorList();
             moveList.removeAll(vectors);
         }
     }
