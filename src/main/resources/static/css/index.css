@@ -1,0 +1,28 @@
+.feedback-count {
+    position: relative;
+    bottom: 2px;
+    right: 2px;
+}
+
+.about-cover .cover-img {
+    min-height: 300px;
+}
+
+.welcome-text-container {
+    position: absolute !important;
+    width: 100%;
+    z-index: 10;
+}
+.welcome-txt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    margin-bottom: 0px;
+    color: white;
+}
+
+.welcome-txt h1 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+}

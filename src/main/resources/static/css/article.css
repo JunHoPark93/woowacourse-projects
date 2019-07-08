@@ -1,0 +1,42 @@
+.cover-title {
+    height: 380px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tui-editor-contents p{
+    font-size: 14px;
+}
+
+
+.profile-container {
+    top: 200px;
+    z-index: 10;
+}
+
+.about-cover .cover-img {
+    min-height: 250px;
+}
+
+.sns-btn {
+    padding: 8px 10px;
+}
+
+.width-80px {
+    width: 80px;
+}
+
+.text-dimgray {
+    color: dimgray;
+}
+
+.vertical-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.divider {
+    width: 100%;
+}

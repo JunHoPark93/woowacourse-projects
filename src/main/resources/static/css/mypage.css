@@ -1,0 +1,9 @@
+.container-fluid {
+    position: relative;
+    bottom: 300px;
+    z-index: 10;
+}
+
+.no-border-line {
+    border: none
+}

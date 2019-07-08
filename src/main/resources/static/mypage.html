@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>우아한테크코스 기술블로그</title>
+    <meta name="robots" content="index, follow">
+
+    <meta name="keyword" content="우아한테크코스, 프로그래밍, 개발자, 백엔드, 프론트엔드, Backend, Frontend, IOS, Android">
+    <meta name="description" id="metaDesc" content="우아한테크코스에서 개발자들을 위해 디자인된 교육을 수강해보세요.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="우아한테크코스">
+    <meta property="og:description" id="metaOgDesc" content="우아한테크코스 크루 ooo의 개발 블로그">
+    <meta property="og:image" content="images/logo/logo_thumnail_bg.jpg">
+    <meta property="og:url" content="https://woowacourse.github.io/">
+
+    <meta name="twitter:card" content="website">
+    <meta name="twitter:title" content="우아한테크코스">
+    <meta name="twitter:description" id="metaTwitterDesc" content="우아한테크코스 크루 ooo의 개발 블로그">
+    <meta name="twitter:image" content="images/logo/logo_thumnail_bg.jpg">
+    <meta name="twitter:domain" content="https://woowacourse.github.io/">
+
+    <link rel="shortcut icon" href="images/logo/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/customize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/mypage.css">
+</head>
+<body>
+<div>
+    <header id="header" class="header navbar bg-transparent no-border">
+        <div class="header-container">
+            <ul class="nav-left mrg-left-0">
+                <li>
+                    <a href="index.html">
+                        <div class="logo logo-dark d-none" style="background-image: url('images/logo/logo_full_dark.png')"></div>
+                        <div class="logo logo-white" style="background-image: url('images/logo/logo_full_white.png')"></div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav-right">
+                <li id="header-user-dropdown-btn" class="user-profile dropdown no-border pointer">
+                    <a class="user-info-link user-dropdown-menu dropdown-toggle" data-toggle="dropdown">
+                        <img class="profile-img img-fluid" src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="Brown">
+                        <div class="user-info text-white">
+                            <span class="name pdd-right-5">Brown</span>
+                            <i class="ti-angle-down font-size-10"></i>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="text-dark">
+                            <a href="mypage.html">
+                                <i class="ti-user pdd-right-10"></i>
+                                <span class="text-dark">마이 페이지</span>
+                            </a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li class="text-dark">
+                            <a href="index.html">
+                                <i class="ti-power-off pdd-right-10"></i>
+                                <span class="text-dark">로그아웃</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="about-cover card no-border">
+        <div class="cover-img overlay-dark bg" style="background-image: url('images/pages/index/bg.jpg')">
+            <div class="display-block height-100">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid max-width-lg mx-auto mrg-btm-30 padding-30">
+        <div class="row">
+            <div class="col-md-7 mx-auto">
+                <div class="card">
+                    <div class="card-heading pdd-btm-5 border bottom">
+                        <h4 class="card-title d-inline-block">profile</h4>
+                        <a href="mypage-edit.html" class="float-right pointer btn btn-default btn-icon btn-rounded no-border-line no-mrg relative bottom-5">
+                            <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
+                        </a>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p class="mrg-top-10 text-dark"> <b>Name</b></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mrg-top-10">Brown</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p class="mrg-top-10 text-dark"> <b>Email</b></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mrg-top-10">gracefulBrown@woowahan.com</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p class="mrg-top-10 text-dark"> <b>Avatar</b></p>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <img src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" width="117" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p class="mrg-top-10 text-dark"> <b>SNS</b></p>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <span class="btn-dark border-radius-4 inline-block">
+                                            <span class="pdd-horizon-10 lh-2-5 display-block">
+                                                <i class="fa fa-github"></i>
+                                            </span>
+                                        </span>
+                                        <span class="font-size-14 mrg-left-10 text-dark text-bold">Github</span>
+                                    </div>
+                                    <div class="col-md-8 text-right">
+                                        <p class="mrg-top-10 text-dark">https://www.github.com/profile</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                    <span class="btn-facebook border-radius-4 inline-block">
+                                        <span class="pdd-horizon-10 lh-2-5 display-block">
+                                            <i class="ti-facebook"></i>
+                                        </span>
+                                    </span>
+                                        <span class="mrg-left-10 font-size-14 text-dark text-bold">Facebook</span>
+                                    </div>
+                                    <div class="col-md-8 text-right">
+                                        <p class="mrg-top-10 text-dark">https://www.facebook.com/profile</p>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>
