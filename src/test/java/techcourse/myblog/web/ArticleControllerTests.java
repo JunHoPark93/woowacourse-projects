@@ -45,4 +45,11 @@ public class ArticleControllerTests {
                 .exchange()
                 .expectStatus().isOk();
     }
+
+    @Test
+    void articleSelect() {
+        webTestClient.get().uri("/articles/0")
+                .exchange()
+                .expectStatus().isOk();
+    }
 }

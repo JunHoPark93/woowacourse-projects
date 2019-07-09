@@ -84,7 +84,8 @@
                     </ul>
                     <div class="width-100 fixed left-0 border bottom"></div>
                     <div class="tab-contents" th:each="article, index : ${articles}">
-                        <div role="tabpanel" class="tab-pane fade in active" id="tab-centered-100"> <!-- 게시글 하나-->
+<!--
+                        <div role="tabpanel" class="tab-pane fade in active" id="tab-centered-100"> &lt;!&ndash; 게시글 하나&ndash;&gt;
                             <div class="pdd-horizon-15 pdd-vertical-20">
                                 <a href="article.html" class="card article-container">
                                     <div class="card-horizon">
@@ -115,9 +116,10 @@
                                 </a>
                             </div>
                         </div>
+-->
                         <div role="tabpanel" class="tab-pane fade" th:id="${index.index}">
                             <div class="pdd-horizon-15 pdd-vertical-20">
-                                <a href="article.html" class="card article-container">
+                                <a th:href="@{'/articles/' + ${index.index}}" class="card article-container">
                                     <div class="card-horizon">
                                         <div class="image-container col-md-4">
                                             <div class="background-holder has-contents" style="background-image: url('../static/images/pages/index/study.jpg')"></div>
@@ -144,10 +146,6 @@
                                         </div>
                                     </div>
                                 </a>
-                            </div>
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade" id="tab-centered-101">
-                            <div class="pdd-horizon-15 pdd-vertical-20">
                             </div>
                         </div>
                     </div>

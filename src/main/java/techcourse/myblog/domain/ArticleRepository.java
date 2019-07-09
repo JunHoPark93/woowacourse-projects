@@ -21,4 +21,8 @@ public class ArticleRepository {
     public void add(Article article) {
         this.articles.add(article);
     }
+
+    public Article findById(int articleId) {
+        return articles.get(articleId);
+    }
 }
