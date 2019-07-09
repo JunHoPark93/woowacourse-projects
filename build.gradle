@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'junit'
