@@ -1,4 +1,4 @@
-package com.techcourse.myblog;
+package techcourse.myblog;
 
 import org.springframework.stereotype.Controller;
 

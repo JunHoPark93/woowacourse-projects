@@ -1,4 +1,4 @@
-package com.techcourse.myblog.domain;
+package techcourse.myblog.domain;
 
 import org.springframework.stereotype.Repository;
 

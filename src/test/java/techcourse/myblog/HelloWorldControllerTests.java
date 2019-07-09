@@ -1,15 +1,15 @@
-package com.techcourse.myblog;
+package techcourse.myblog;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HelloWorldControllerTests {
 
@@ -17,7 +17,7 @@ public class HelloWorldControllerTests {
     private WebTestClient webTestClient;
 
     @Test
-    public void passParamWithGet() throws Exception {
+    void passParamWithGet() {
         String blogName = "helloWrold";
         webTestClient.get().uri("/helloworld?blogName=" + blogName)
                 .exchange()
@@ -29,7 +29,7 @@ public class HelloWorldControllerTests {
     }
 
     @Test
-    public void passParamWithPost() throws Exception {
+    void passParamWithPost() {
         String blogName = "helloWrold";
 
         webTestClient.post()
