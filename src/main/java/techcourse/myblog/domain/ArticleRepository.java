@@ -10,6 +10,7 @@ public class ArticleRepository {
     private List<Article> articles = new ArrayList<>();
 
     public ArticleRepository() {
+        // Test 데이터 추가
         this.articles.add(new Article("testTitle", "testUrl", "testcomntents"));
         this.articles.add(new Article("ilovespring", "testUrl2", "#nice"));
     }
