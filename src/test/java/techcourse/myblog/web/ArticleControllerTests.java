@@ -52,4 +52,25 @@ public class ArticleControllerTests {
                 .exchange()
                 .expectStatus().isOk();
     }
+
+    @Test
+    void articleModify() {
+        webTestClient.get().uri("/articles/0/edit")
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+    @Test
+    void articlePut() {
+        ArticleDto articleDto = new ArticleDto();
+
+        articleDto.setTitle("title modified");
+        articleDto.setCoverUrl("coverUrl modified");
+        articleDto.setContents("contents modified");
+
+        webTestClient.put().uri("/articles/0")
+                .body(Mono.just(articleDto), ArticleDto.class)
+                .exchange()
+                .expectStatus().isOk();
+    }
 }

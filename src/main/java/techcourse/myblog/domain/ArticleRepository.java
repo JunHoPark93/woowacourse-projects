@@ -25,4 +25,8 @@ public class ArticleRepository {
     public Article findById(int articleId) {
         return articles.get(articleId);
     }
+
+    public void replace(int index, Article article) {
+        this.articles.set(index, article);
+    }
 }

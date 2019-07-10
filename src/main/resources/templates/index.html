@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 
-<head th:replace="main_head.html :: mainHead"></head>
+<head th:replace="main-head.html :: mainHead"></head>
 
 <body>
 <div>
@@ -91,7 +91,7 @@
             <div class="col-lg-3"></div>
         </div>
 
-        <a href="article-edit.html" class="btn btn-primary btn-rounded btn-icon fixed lh-2-4 right-50 bottom-50 width-50px height-50px">
+        <a href="/writing" class="btn btn-primary btn-rounded btn-icon fixed lh-2-4 right-50 bottom-50 width-50px height-50px">
             <i class="ti-plus"></i>
         </a>
 
@@ -100,7 +100,7 @@
 
 <footer th:replace="common_footer.html :: commonFooter"></footer>
 
-<th:block th:include="main_js :: mainJs"></th:block>
+<th:block th:include="main-js :: mainJs"></th:block>
 
 </body>
 </html>

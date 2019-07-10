@@ -3,12 +3,10 @@ package techcourse.myblog.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.ArticleRepository;
@@ -29,6 +27,7 @@ public class ArticleController {
 
     @GetMapping("/writing")
     public String articleForm(Model model) {
+        model.addAttribute("article", null);
         return "article-edit";
     }
 
@@ -45,7 +44,26 @@ public class ArticleController {
     public String articleSelect(@PathVariable("articleId") int articleId, Model model) {
         Article article = articleRepository.findById(articleId);
         model.addAttribute("article", article);
+        model.addAttribute("id", articleId);
 
+        return "article";
+    }
+
+    @GetMapping("/articles/{articleId}/edit")
+    public String articleModify(@PathVariable("articleId") int articleId, Model model) {
+        Article article = articleRepository.findById(articleId);
+        model.addAttribute("article", article);
+        model.addAttribute("id", articleId);
+
+        return "article-edit";
+    }
+
+    @PutMapping("/articles/{articleId}")
+    public String articlePut(@PathVariable("articleId") int articleId, @ModelAttribute ArticleDto articleDto, Model model) {
+        Article article = new Article(articleDto.getTitle(), articleDto.getCoverUrl(), articleDto.getContents());
+        articleRepository.replace(articleId, article);
+
+        model.addAttribute("article", article);
         return "article";
     }
 }
