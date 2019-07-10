@@ -1,21 +1,21 @@
 package techcourse.myblog.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
-
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.ArticleRepository;
 import techcourse.myblog.dto.ArticleDto;
 
+import java.util.List;
+
 @Controller
 public class ArticleController {
-    @Autowired
     private ArticleRepository articleRepository;
+
+    public ArticleController(ArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
+    }
 
     @GetMapping("/")
     public String index(Model model) {
@@ -26,13 +26,13 @@ public class ArticleController {
     }
 
     @GetMapping("/writing")
-    public String articleForm(Model model) {
+    public String formArticle(Model model) {
         model.addAttribute("article", null);
         return "article-edit";
     }
 
     @PostMapping("/articles")
-    public String articleSave(@ModelAttribute ArticleDto articleDto, Model model) {
+    public String saveArticle(@ModelAttribute ArticleDto articleDto, Model model) {
         Article article = new Article(articleDto.getTitle(), articleDto.getCoverUrl(), articleDto.getContents());
         articleRepository.add(article);
         model.addAttribute("article", article);
@@ -41,7 +41,7 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{articleId}")
-    public String articleSelect(@PathVariable("articleId") int articleId, Model model) {
+    public String selectArticle(@PathVariable("articleId") int articleId, Model model) {
         Article article = articleRepository.findById(articleId);
         model.addAttribute("article", article);
         model.addAttribute("id", articleId);
@@ -50,7 +50,7 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{articleId}/edit")
-    public String articleModify(@PathVariable("articleId") int articleId, Model model) {
+    public String edit(@PathVariable("articleId") int articleId, Model model) {
         Article article = articleRepository.findById(articleId);
         model.addAttribute("article", article);
         model.addAttribute("id", articleId);
@@ -59,7 +59,7 @@ public class ArticleController {
     }
 
     @PutMapping("/articles/{articleId}")
-    public String articlePut(@PathVariable("articleId") int articleId, @ModelAttribute ArticleDto articleDto, Model model) {
+    public String editArticle(@PathVariable("articleId") int articleId, @ModelAttribute ArticleDto articleDto, Model model) {
         Article article = new Article(articleDto.getTitle(), articleDto.getCoverUrl(), articleDto.getContents());
         articleRepository.replace(articleId, article);
         model.addAttribute("article", article);
@@ -68,7 +68,7 @@ public class ArticleController {
     }
 
     @DeleteMapping("/articles/{articleId}")
-    public String articleDelete(@PathVariable("articleId") int articleId) {
+    public String deleteArticle(@PathVariable("articleId") int articleId) {
         articleRepository.removeById(articleId);
 
         return "redirect:/";
