@@ -62,8 +62,15 @@ public class ArticleController {
     public String articlePut(@PathVariable("articleId") int articleId, @ModelAttribute ArticleDto articleDto, Model model) {
         Article article = new Article(articleDto.getTitle(), articleDto.getCoverUrl(), articleDto.getContents());
         articleRepository.replace(articleId, article);
-
         model.addAttribute("article", article);
+
         return "article";
+    }
+
+    @DeleteMapping("/articles/{articleId}")
+    public String articleDelete(@PathVariable("articleId") int articleId) {
+        articleRepository.removeById(articleId);
+
+        return "redirect:/";
     }
 }

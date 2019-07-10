@@ -29,4 +29,8 @@ public class ArticleRepository {
     public void replace(int index, Article article) {
         this.articles.set(index, article);
     }
+
+    public void removeById(int articleId) {
+        this.articles.remove(articleId);
+    }
 }

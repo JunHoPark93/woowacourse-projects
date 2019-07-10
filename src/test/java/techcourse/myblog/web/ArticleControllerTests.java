@@ -73,4 +73,11 @@ public class ArticleControllerTests {
                 .exchange()
                 .expectStatus().isOk();
     }
+
+    @Test
+    void articleDelete() {
+        webTestClient.delete().uri("/articles/0")
+                .exchange()
+                .expectStatus().is3xxRedirection();
+    }
 }
