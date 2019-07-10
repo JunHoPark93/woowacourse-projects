@@ -11,7 +11,7 @@ public class ArticleRepository {
 
     public ArticleRepository() {
         this.articles.add(new Article("testTitle", "testUrl", "testcomntents"));
-        this.articles.add(new Article("testTitle2", "testUrl2", "testcomntents2"));
+        this.articles.add(new Article("ilovespring", "testUrl2", "#nice"));
     }
 
     public List<Article> findAll() {
