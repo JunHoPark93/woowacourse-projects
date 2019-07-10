@@ -38,7 +38,13 @@
 <!--    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css">-->
 <!--    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css">-->
 <!--</head>-->
-<head th:replace="main_head.html :: mainHead"></head>
+<head th:replace="main_head.html :: mainHead">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css">
+</head>
+
 <body>
 <div>
     <div class="header navbar bg-transparent no-border">
@@ -114,12 +120,8 @@
     </form>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
-<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
-<script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
-<script src="/js/index.js"></script>
+<th:block th:include="main_js :: mainJs"></th:block>
+
 <script type="text/javascript">
     const editor = new tui.Editor({
         el: document.querySelector('#editSection'),

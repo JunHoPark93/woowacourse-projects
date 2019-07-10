@@ -1,42 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<!--<head>-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" contents="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">-->
-<!--    <title>우아한테크코스 기술블로그</title>-->
-<!--    <meta name="robots" contents="index, follow">-->
-
-<!--    <meta name="keyword" contents="우아한테크코스, 프로그래밍, 개발자, 백엔드, 프론트엔드, Backend, Frontend, IOS, Android">-->
-<!--    <meta name="description" id="metaDesc" contents="우아한테크코스에서 개발자들을 위해 디자인된 교육을 수강해보세요.">-->
-<!--    <meta property="og:type" contents="website">-->
-<!--    <meta property="og:title" contents="우아한테크코스">-->
-<!--    <meta property="og:description" id="metaOgDesc" contents="우아한테크코스 크루 ooo의 개발 블로그">-->
-<!--    <meta property="og:image" contents="images/logo/logo_thumnail_bg.jpg">-->
-<!--    <meta property="og:url" contents="https://woowacourse.github.io/">-->
-
-<!--    <meta name="twitter:card" contents="website">-->
-<!--    <meta name="twitter:title" contents="우아한테크코스">-->
-<!--    <meta name="twitter:description" id="metaTwitterDesc" contents="우아한테크코스 크루 ooo의 개발 블로그">-->
-<!--    <meta name="twitter:image" contents="images/logo/logo_thumnail_bg.jpg">-->
-<!--    <meta name="twitter:domain" contents="https://woowacourse.github.io/">-->
-
-<!--    <link rel="shortcut icon" href="/images/logo/favicon.ico">-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">-->
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">-->
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
-
-<!--    <link rel="stylesheet" href="/css/app.css">-->
-<!--    <link rel="stylesheet" href="/css/customize.css">-->
-<!--    <link rel="stylesheet" href="/css/main.css">-->
-<!--    <link rel="stylesheet" href="/css/article.css">-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css">-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">-->
-<!--    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css">-->
-<!--    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css">-->
-<!--</head>-->
-<head th:replace="main_head.html :: mainHead"></head>
+<head th:replace="main_head.html :: mainHead">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css">
+</head>
 <body>
 <div>
     <header id="header" class="header navbar bg-transparent no-border">
@@ -161,12 +130,8 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
-<script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
-<script src="/js/index.js"></script>
+<th:block th:include="main_js :: mainJs"></th:block>
+
 <script>
     const initValue = "# 목적의식 있는 연습을 통한 효과적인 학습 \n" +
         "나는 우아한형제들에서 우아한테크코스(이하 우테코) 교육 과정을 진행하고 있다. 우테코를 설계하면서 고민스러웠던 부분 중의 하나는 ‘선발 과정을 어떻게 하면 의미 있는 시간으로 만들 것인가?’였다. 보통의 선발 과정은 경쟁을 통해 누군가를 선발해야 하는 것이 가장 큰 목적이다. 선발도 중요하지만 선발 과정에서 배움을 만들고 성장할 수 있는 시간으로 만들어 보고 싶었다. 이 목표를 달성하기 위해 선발 과정에 프리코스라는 3주간의 과정을 추가했다.\n" +
