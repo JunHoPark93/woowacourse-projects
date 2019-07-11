@@ -25,4 +25,16 @@ public class ArticleDto {
     public String getContents() {
         return contents;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
 }

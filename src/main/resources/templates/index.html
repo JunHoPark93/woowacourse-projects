@@ -9,7 +9,7 @@
         <div class="header-container">
             <ul class="nav-left mrg-left-0">
                 <li>
-                    <a href="index.html">
+                    <a href="/">
                         <div class="logo logo-dark d-none" style="background-image: url('images/logo/logo_full_dark.png')"></div>
                         <div class="logo logo-white" style="background-image: url('images/logo/logo_full_white.png')"></div>
                     </a>
@@ -59,7 +59,8 @@
                                 <a th:each="article, index : ${articles}" th:href="@{'/articles/' + ${index.index}}" class="card article-container">
                                     <div class="card-horizon">
                                         <div class="image-container col-md-4">
-                                            <div class="background-holder has-content" style="background-image: url('images/pages/index/study.jpg')"></div>
+                                            <div th:if="${article.coverUrl} == ''" class="background-holder has-content" style="background-image: url('images/pages/index/study.jpg')"></div>
+                                            <div th:unless="${article.coverUrl} == ''" class="background-holder has-content" th:style="'background-image: url(' + ${article.coverUrl} + ')'"></div>
                                         </div>
                                         <div class="container-fluid">
                                             <div class="row">
