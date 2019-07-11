@@ -7,6 +7,7 @@ import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.ArticleRepository;
 import techcourse.myblog.dto.ArticleDto;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -32,7 +33,7 @@ public class ArticleController {
     }
 
     @PostMapping("/articles")
-    public String saveArticle(@ModelAttribute ArticleDto articleDto, Model model) {
+    public String saveArticle(@Valid ArticleDto articleDto, Model model) {
         Article article = new Article(articleDto.getTitle(), articleDto.getCoverUrl(), articleDto.getContents());
         articleRepository.add(article);
         model.addAttribute("article", article);

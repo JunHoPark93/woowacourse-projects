@@ -22,4 +22,8 @@ public class Article {
     public String getContents() {
         return contents;
     }
+
+    public boolean isTitleMath(String title) {
+        return this.title.equals(title);
+    }
 }

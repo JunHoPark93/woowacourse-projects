@@ -7,9 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
-import reactor.core.publisher.Mono;
-import techcourse.myblog.dto.ArticleDto;
+import org.springframework.web.reactive.function.BodyInserters;
 
 @AutoConfigureWebTestClient
 @ExtendWith(SpringExtension.class)
@@ -34,16 +32,13 @@ public class ArticleControllerTests {
 
     @Test
     void articleSave() {
-        ArticleDto articleDto = new ArticleDto();
-
-        articleDto.setTitle("title");
-        articleDto.setCoverUrl("coverUrl");
-        articleDto.setContents("contents");
-
         webTestClient.post().uri("/articles")
-                .body(Mono.just(articleDto), ArticleDto.class)
+                .body(BodyInserters.fromFormData("title", "z")
+                        .with("coverUrl", "z")
+                        .with("contents", "z"))
                 .exchange()
-                .expectStatus().isOk();
+                .expectStatus()
+                .isOk();
     }
 
     @Test
@@ -62,22 +57,28 @@ public class ArticleControllerTests {
 
     @Test
     void articlePut() {
-        ArticleDto articleDto = new ArticleDto();
-
-        articleDto.setTitle("title modified");
-        articleDto.setCoverUrl("coverUrl modified");
-        articleDto.setContents("contents modified");
-
-        webTestClient.put().uri("/articles/0")
-                .body(Mono.just(articleDto), ArticleDto.class)
+        webTestClient.put().uri("/articles/2")
+                .body(BodyInserters.fromFormData("title", "수정")
+                .with("coverUrl", "수정")
+                .with("contents", "수정"))
                 .exchange()
                 .expectStatus().isOk();
     }
 
     @Test
     void articleDelete() {
-        webTestClient.delete().uri("/articles/0")
+        webTestClient.delete().uri("/articles/3")
                 .exchange()
                 .expectStatus().is3xxRedirection();
+    }
+
+    @Test
+    void article_Duplicate_Fail() {
+        webTestClient.post().uri("/articles")
+                .body(BodyInserters.fromFormData("title", "1번 게시물")
+                        .with("coverUrl", "커버")
+                        .with("contents", "중복"))
+                .exchange()
+                .expectStatus().is4xxClientError();
     }
 }
