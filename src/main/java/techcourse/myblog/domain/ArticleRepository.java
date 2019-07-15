@@ -41,4 +41,9 @@ public class ArticleRepository {
         return articles.stream()
                 .anyMatch(article -> article.isTitleMath(title));
     }
+
+    public int count() {
+        return (int) articles.stream()
+                .count();
+    }
 }

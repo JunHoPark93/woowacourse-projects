@@ -38,7 +38,9 @@ public class ArticleController {
         articleRepository.add(article);
         model.addAttribute("article", article);
 
-        return "article";
+        // DB 연동 후 도메인에 아이디값이 들어가게되면 더 간단히 바뀔 것 같습니다
+        int id = articleRepository.count() - 1;
+        return "redirect:/articles/" + id;
     }
 
     @GetMapping("/articles/{articleId}")

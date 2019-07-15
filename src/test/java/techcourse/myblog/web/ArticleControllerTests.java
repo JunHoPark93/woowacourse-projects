@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -15,6 +16,9 @@ import org.springframework.web.reactive.function.BodyInserters;
 public class ArticleControllerTests {
     @Autowired
     private WebTestClient webTestClient;
+
+    @LocalServerPort
+    private int randomLocalPort;
 
     @Test
     void index() {
@@ -37,8 +41,10 @@ public class ArticleControllerTests {
                         .with("coverUrl", "z")
                         .with("contents", "z"))
                 .exchange()
+                .expectHeader()
+                .valueEquals("location", "http://localhost:" + randomLocalPort + "/" + "articles/3")
                 .expectStatus()
-                .isOk();
+                .is3xxRedirection();
     }
 
     @Test
@@ -69,7 +75,10 @@ public class ArticleControllerTests {
     void articleDelete() {
         webTestClient.delete().uri("/articles/3")
                 .exchange()
-                .expectStatus().is3xxRedirection();
+                .expectHeader()
+                .valueEquals("location", "http://localhost:" + randomLocalPort + "/")
+                .expectStatus()
+                .is3xxRedirection();
     }
 
     @Test
