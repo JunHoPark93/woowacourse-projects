@@ -20,6 +20,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'com.h2database:h2'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api'
+	testCompile("org.junit.jupiter:junit-jupiter-params:5.4.2")
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'junit'
 	}

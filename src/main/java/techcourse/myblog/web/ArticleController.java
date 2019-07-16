@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.Article;
-import techcourse.myblog.domain.ArticleRepository2;
+import techcourse.myblog.domain.ArticleRepository;
 import techcourse.myblog.dto.ArticleDto;
 
 import javax.validation.Valid;
@@ -13,9 +13,9 @@ import java.util.List;
 
 @Controller
 public class ArticleController {
-    private ArticleRepository2 articleRepository;
+    private ArticleRepository articleRepository;
 
-    public ArticleController(ArticleRepository2 articleRepository) {
+    public ArticleController(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
     }
 

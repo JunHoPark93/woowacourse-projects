@@ -18,7 +18,7 @@ public class TitleConstraintValidator implements ConstraintValidator<TitleConstr
             return false;
         }
 
-        boolean isTitleExist = articleRepository.existByTitle(value);
+        boolean isTitleExist = articleRepository.existsByTitle(value);
         if (isTitleExist) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("게시글 제목은 중복될 수 없습니다")
