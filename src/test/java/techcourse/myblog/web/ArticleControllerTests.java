@@ -114,7 +114,7 @@ public class ArticleControllerTests {
     @Test
     void article_Duplicate_Fail() {
         webTestClient.post().uri("/articles")
-                .body(BodyInserters.fromFormData("title", "1번 게시물")
+                .body(BodyInserters.fromFormData("title", "titleTest")
                         .with("coverUrl", "커버")
                         .with("contents", "중복"))
                 .exchange()

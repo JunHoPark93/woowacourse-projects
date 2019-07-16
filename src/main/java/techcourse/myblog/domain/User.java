@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 public class User {
     private static final int MAX_NAME_LENGTH = 10;
     private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z]*$");
-    //private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,}");
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,}");
 
     @Id
@@ -21,6 +20,9 @@ public class User {
     private String name;
     private String email;
     private String password;
+
+    public User() {
+    }
 
     public User(String name, String email, String password) {
         validateName(name);
@@ -32,7 +34,7 @@ public class User {
 
     private void validateName(String name) {
         if (name.length() > MAX_NAME_LENGTH) {
-            throw new IllegalArgumentException("이름은 " + MAX_NAME_LENGTH +"자 미만이어야 합니다");
+            throw new IllegalArgumentException("이름은 " + MAX_NAME_LENGTH + "자 미만이어야 합니다");
         }
 
         Matcher matcher = NAME_PATTERN.matcher(name);
@@ -46,5 +48,13 @@ public class User {
         if (!matcher.find()) {
             throw new IllegalArgumentException("비밀번호 형식이 맞지 않습니다");
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

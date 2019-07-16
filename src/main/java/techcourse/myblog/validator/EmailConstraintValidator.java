@@ -9,7 +9,6 @@ public class EmailConstraintValidator implements ConstraintValidator<EmailConstr
     private UserRepository userRepository;
 
     public EmailConstraintValidator(UserRepository userRepository) {
-        System.out.println("Create");
         this.userRepository = userRepository;
     }
 

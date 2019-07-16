@@ -4,7 +4,6 @@ import techcourse.myblog.validator.TitleConstraint;
 
 import javax.persistence.Entity;
 
-@Entity
 public class ArticleDto {
     @TitleConstraint
     private String title;

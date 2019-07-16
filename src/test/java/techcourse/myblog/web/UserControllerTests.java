@@ -33,21 +33,24 @@ public class UserControllerTests {
                 .expectHeader()
                 .valueMatches("location", "http://localhost:" + randomLocalPort + "/login")
                 .expectStatus()
-                .isFound();
+                .isFound()
+        ;
     }
 
     @Test
     void loginForm() {
         webTestClient.get().uri("/login")
                 .exchange()
-                .expectStatus().isOk();
+                .expectStatus().isOk()
+        ;
     }
 
     @Test
     void signUpForm() {
         webTestClient.get().uri("/signup")
                 .exchange()
-                .expectStatus().isOk();
+                .expectStatus().isOk()
+        ;
     }
 
     @Test
@@ -58,6 +61,15 @@ public class UserControllerTests {
                         .with("password", "PassWord1!"))
                 .exchange()
                 .expectStatus()
-                .is4xxClientError();
+                .is4xxClientError()
+        ;
+    }
+
+    @Test
+    void 유저_조회() {
+        webTestClient.get().uri("/users")
+                .exchange()
+                .expectStatus().isOk()
+        ;
     }
 }
