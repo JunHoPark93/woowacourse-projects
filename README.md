@@ -18,3 +18,4 @@
 * 게시글 페이지 이동
     * 메인페이지(index.html)에서 게시글을 클릭 시 게시글 페이지(article.html)으로 이동
     * GET /articles/{articleId} 으로 요청
+    
