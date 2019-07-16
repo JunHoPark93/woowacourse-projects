@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="article-edit-head :: articleEditHead">
+
+</head>
+<body>
+<div>
+    <header id="header" class="header navbar bg-transparent no-border">
+        <div class="header-container">
+            <ul class="nav-left mrg-left-0">
+                <li>
+                    <a href="/">
+                        <div id="logo-dark" class="logo logo-dark d-none" style="background-image: url('/images/logo/logo_full_dark.png')"></div>
+                        <div id="logo-white" class="logo logo-white" style="background-image: url('/images/logo/logo_full_white.png')"></div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav-right">
+                <li id="header-user-dropdown-btn" class="user-profile dropdown no-border pointer">
+                    <a class="user-info-link user-dropdown-menu dropdown-toggle" data-toggle="dropdown">
+                        <img class="profile-img img-fluid" src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="Brown">
+                        <div class="user-info text-white">
+                            <span class="name pdd-right-5">Brown</span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="text-dark">
+                            <a href="/mypage.html">
+                                <i class="ti-user pdd-right-10"></i>
+                                <span class="text-dark">마이 페이지</span>
+                            </a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li class="text-dark">
+                            <a href="index.html">
+                                <i class="ti-power-off pdd-right-10"></i>
+                                <span class="text-dark">로그아웃</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="about-cover card no-border ">
+        <div th:if="${article.coverUrl} == ''" class="cover-img overlay-dark bg" style="background-image: url('images/pages/index/study.jpg')">
+            <div class="padding-30">
+                <h1 class="text-center cover-title" th:text="${article.title}">목적의식 있는 연습을 통한 효과적인 학습</h1>
+            </div>
+        </div>
+        <div th:unless="${article.coverUrl} == ''" class="cover-img overlay-dark bg" th:style="'background-image: url(' + ${article.coverUrl} + ')'">
+            <div class="padding-30">
+                <h1 class="text-center cover-title" th:text="${article.title}">목적의식 있는 연습을 통한 효과적인 학습</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid max-width-lg mx-auto mrg-vertical-30 padding-30">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <a th:href="@{'/articles/' + ${id} + '/edit'}" class="float-right pointer btn btn-icon">
+                    <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
+                </a>
+                <div id="viewerSection"></div>
+                <input id="article-contents" th:value="${article.contents}" name="contents" type="hidden">
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 mx-auto">
+                <div class="profile-container row mrg-top-30 mrg-btm-30">
+                    <div class="col-md-2 col-sm-4">
+                        <img class="border-radius-round" width="80px" src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/1514627_858869820895635_1119508450771753991_n.jpg?_nc_cat=110&_nc_ht=scontent-icn1-1.xx&oh=a32aa56b750b212aee221da7e9711bb1&oe=5D8781A4">
+                    </div>
+                    <div class="col-md-10 col-sm-7">
+                        <span class="font-size-16 text-bold pdd-btm-5">Brown</span><span class="font-size-12 text-gray"> / gracefulBrown@woowahan.com</span>
+                        <p class="font-size-13 text-dimgray lh-1-3">
+                            백엔드 개발자: 설계.테스트.생산성.클린코드.멘토링에 관심이 많음 <br>
+                            Woowahantechcourse Organizer / Coach / Husband
+                        </p>
+                        <ul class="list-unstyle list-inline mrg-vertical-15">
+                            <li class="list-inline-item no-pdd-horizon">
+                                <a href="" class="btn-sm btn-facebook btn-icon btn-rounded sns-btn">
+                                    <i class="ti-facebook font-size-12"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item no-pdd-horizon">
+                                <a href="" class="btn-sm btn-dark btn-icon btn-rounded sns-btn">
+                                    <i class="ti-github font-size-12"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 mx-auto mrg-top-30">
+                <div class="width-100 border bottom mrg-btm-20 pdd-btm-10">
+                    <span class="font-size-16">댓글</span>
+                    <span class="font-size-16 text-info">2</span>
+                </div>
+                <div class="comment">
+                    <ul class="list-unstyled list-info">
+                        <li class="comment-item border bottom mrg-btm-30">
+                            <img class="thumb-img img-circle" src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">
+                            <div class="info">
+                                <span href="" class="text-bold inline-block">Jun</span>
+                                <span class="sub-title inline-block pull-right">
+                                    <i class="ti-timer pdd-right-5"></i>
+                                    <span>6 min ago</span>
+                            </span>
+                            <p class="width-80">3주라는 짧은 기간에 효과적으로 연습하도록 하기 위해 의식적인 연습을 기반으로 미션을 진행하도록 설계했다. 교육자로 살다 보니 효과적인 학습 방법에 대한 관심이 높아졌다. 효과적인 학습 방법을 찾던 중 “1만 시간의 재발견”이라는 책을 통해 의식적인 연습의 중요성을 느낄 수 있는 계기가 되었다.</p>
+                            </div>
+                        </li>
+
+                        <li class="comment-item border bottom mrg-btm-30">
+                            <img class="thumb-img img-circle" src="https://avatars2.githubusercontent.com/u/3433096?v=4" alt="">
+                            <div class="info">
+                                <span href="" class="text-bold inline-block">Jun</span>
+                                <span class="sub-title inline-block pull-right">
+                                    <i class="ti-timer pdd-right-5"></i>
+                                    <span>6 min ago</span>
+                                </span>
+                                <p class="width-80">브라운 멋져</p>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <div class="add-comment">
+                        <div id="editSection"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:include="article-js :: articleJs"/>
+
+<script>
+    const viewer = tui.Editor.factory({
+        el: document.querySelector('#viewerSection'),
+        viewer: true,
+        height: '100%',
+        initialValue: document.getElementById('article-contents').value
+    })
+
+    const editor = new tui.Editor({
+        el: document.querySelector('#editSection'),
+        initialEditType: 'markdown',
+        previewStyle: 'horizontal',
+        events: {
+            change: function () {
+            }
+        },
+        height: '200px'
+    });
+</script>
+</body>
+</html>

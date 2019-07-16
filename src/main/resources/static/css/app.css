@@ -21,7 +21,6 @@ h1,h2,h3,h4,h5,h6{color:#333;letter-spacing:.5px;font-weight:400}
 h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{
     font-family: '나눔고딕','Nanum Gothic','Malgun Gothic','맑은고딕','Apple SD Gothic Neo', Roboto, -apple-system,NanumGothic,
     Dotum,'돋움',sans-serif,system-ui,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,sans-serif;
-    Dotum,'돋움',sans-serif,system-ui,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,sans-serif;
 }
 h1 small,h2 small,h3 small,h4 small,h5 small,h6 small{font-weight:300;color:#5c5f73}
 h1{font-size:26px}h2{font-size:22px}h3{font-size:20px}h4{font-size:18px}h5{font-size:16px}h6{font-size:12px}

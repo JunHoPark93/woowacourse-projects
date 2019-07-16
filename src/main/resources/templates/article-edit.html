@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="article-edit-head :: articleEditHead">
+</head>
+
+<body>
+<div>
+    <div class="header navbar bg-transparent no-border">
+        <div class="header-container">
+            <ul class="nav-left mrg-left-0">
+                <li>
+                    <a href="/">
+                        <div class="logo logo-dark d-none" style="background-image: url('/images/logo/logo_full_dark.png')"></div>
+                        <div class="logo logo-white" style="background-image: url('/images/logo/logo_full_white.png')"></div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav-right">
+                <li id="header-user-dropdown-btn" class="user-profile dropdown no-border pointer">
+                    <a class="user-info-link user-dropdown-menu dropdown-toggle" data-toggle="dropdown">
+                        <img class="profile-img img-fluid" src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="Brown">
+                        <div class="user-info text-white">
+                            <span class="name pdd-right-5">Brown</span>
+                            <i class="ti-angle-down font-size-10"></i>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="text-dark">
+                            <a href="/mypage.html">
+                                <i class="ti-user pdd-right-10"></i>
+                                <span class="text-dark">마이 페이지</span>
+                            </a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li class="text-dark">
+                            <a href="/">
+                                <i class="ti-power-off pdd-right-10"></i>
+                                <span class="text-dark">로그아웃</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <form th:if="${article} == null" action="/articles" name="article" method="post" accept-charset="utf-8" >
+        <div class="about-cover card no-border">
+            <div class="cover-img overlay-dark bg" style="background-image: url('/images/pages/index/study.jpg')">
+                <div class="height-300px vertical-center pdd-horizon-50">
+                    <div class="width-80">
+                        <input type="text" name="title" class="text-center bg-transparent no-border font-size-30 width-60 mx-auto d-block text-white border bottom"  placeholder="제목을 입력해주세요" autocomplete="off">
+                        <input type="text" name="coverUrl" class="text-center bg-transparent no-border font-size-16 width-30 mx-auto d-block text-light text-white border bottom pdd-top-20"  placeholder="배경 url을 입력해주세요" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid max-width-lg mx-auto mrg-btm-30">
+            <div class="row">
+                <div class="col-lg-1 col-md-1"></div>
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <input id="article-contents" name="contents" type="hidden">
+                    <div id="editSection"></div>
+                </div>
+                <div class="col-lg-1 col-md-1">
+                    <div class="btn-group btn-group-vertical">
+                        <button id="save-btn" type="submit" class="btn btn-default">
+                            <i class="ti-save"></i>
+                        </button>
+                        <a href="/" class="btn btn-default">
+                            <i class="ti-close"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form th:unless="${article} == null" th:action="@{'/articles/' + ${id}}" name="article" method="post" accept-charset="utf-8" >
+        <input type="hidden" name="_method" value="put"/>
+        <div class="about-cover card no-border">
+            <div class="cover-img overlay-dark bg" style="background-image: url('/images/pages/index/study.jpg')">
+                <div class="height-300px vertical-center pdd-horizon-50">
+                    <div class="width-80">
+                        <input type="text" th:value="${article.title}" name="title" class="text-center bg-transparent no-border font-size-30 width-60 mx-auto d-block text-white border bottom"  placeholder="제목을 입력해주세요" autocomplete="off">
+                        <input type="text" th:value="${article.coverUrl}" name="coverUrl" class="text-center bg-transparent no-border font-size-16 width-30 mx-auto d-block text-light text-white border bottom pdd-top-20"  placeholder="배경 url을 입력해주세요" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid max-width-lg mx-auto mrg-btm-30">
+            <div class="row">
+                <div class="col-lg-1 col-md-1"></div>
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <input id="article-contents" th:value="${article.contents}" name="contents" type="hidden">
+                    <div id="editSection"></div>
+                </div>
+                <div class="col-lg-1 col-md-1">
+                    <div class="btn-group btn-group-vertical">
+                        <button id="save-btn" type="submit" class="btn btn-default">
+                            <i class="ti-save"></i>
+                        </button>
+                        <form>
+
+                        </form>
+                        <form th:action="@{'/articles/' + ${id}}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="btn btn-default">
+                                <i class="ti-close"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:include="article-js :: articleJs"/>
+
+<script type="text/javascript">
+    const editor = new tui.Editor({
+        el: document.querySelector('#editSection'),
+        initialEditType: 'markdown',
+        initialValue: document.getElementById('article-contents').value,
+        previewStyle: 'vertical',
+        events: {
+            change: function () {
+                document.getElementById('article-contents').setAttribute('value', editor.getMarkdown())
+            }
+        },
+        height: 'calc(100vh - 360px)'
+    });
+</script>
+</body>
+</html>
