@@ -2,8 +2,7 @@ package techcourse.myblog.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.domain.UserRepository;
 import techcourse.myblog.dto.UserDto;
@@ -12,7 +11,7 @@ import techcourse.myblog.dto.UserResponseDto;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.Option;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +61,14 @@ public class UserController {
     }
 
     @GetMapping("/mypage")
-    public String myPageForm() {
+    public String myPageForm(Model model, HttpServletRequest request) {
+        model.addAttribute("user", request.getSession().getAttribute("user"));
         return "mypage";
+    }
+
+    @GetMapping("/mypage-edit")
+    public String myPageEditForm() {
+        return "mypage-edit";
     }
 
     @PostMapping("/login")
@@ -83,6 +88,23 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("user");
+        return "redirect:/";
+    }
+
+    @PutMapping("/users/{userId}")
+    @Transactional
+    public String editUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
+        String changeName = request.getParameter("name");
+        User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
+        user.changeName(changeName);
+        request.getSession().setAttribute("user", user);
+        return "redirect:/";
+    }
+
+    @DeleteMapping("/users/{userId}")
+    public String deleteUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
+        userRepository.deleteById(userId);
         request.getSession().removeAttribute("user");
         return "redirect:/";
     }

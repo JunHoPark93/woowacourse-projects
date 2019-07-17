@@ -50,6 +50,15 @@ public class User {
         }
     }
 
+    public void changeName(String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

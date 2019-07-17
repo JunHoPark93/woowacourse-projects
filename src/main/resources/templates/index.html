@@ -35,7 +35,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li class="text-dark">
-                            <a href="mypage.html">
+                            <a href="/mypage">
                                 <i class="ti-user pdd-right-10"></i>
                                 <span class="text-dark">마이 페이지</span>
                             </a>
@@ -52,10 +52,15 @@
                             <a href="/users">
                                 <i class="ti-power-off pdd-right-10"></i>
                                 <span class="text-dark">Users</span>
-<!--                                <div class="user-info login-btn pointer mrg-right-10">-->
-<!--                                    <span class="name pdd-right-5 text-white">Users</span>-->
-<!--                                </div>-->
                             </a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li class="text-dark">
+                            <form th:action="@{'/users/' + ${session.user.id}}" method="post">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <i class="ti-power-off pdd-right-10"></i>
+                                <button type="submit" class="bullet-warning">회원탈퇴</button>
+                            </form>
                         </li>
                     </ul>
                 </li>
