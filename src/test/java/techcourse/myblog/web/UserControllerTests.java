@@ -72,4 +72,13 @@ public class UserControllerTests {
                 .expectStatus().isOk()
         ;
     }
+
+    @Test
+    void 로그인후_메인화면() {
+        webTestClient.post().uri("/login")
+                .body(BodyInserters.fromFormData("email", "testing@gmail.com")
+                        .with("password", "PassWord!1@"))
+                .exchange()
+                .expectStatus().is3xxRedirection();
+    }
 }
