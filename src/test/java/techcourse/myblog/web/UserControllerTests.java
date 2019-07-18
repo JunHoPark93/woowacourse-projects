@@ -61,7 +61,12 @@ public class UserControllerTests {
                         .with("password", "PassWord1!"))
                 .exchange()
                 .expectStatus()
-                .is4xxClientError()
+                .isOk()
+                .expectBody()
+                .consumeWith(response -> {
+                    String body = new String(response.getResponseBody());
+                    assertTrue(body.contains("email 중복"));
+                })
         ;
     }
 
