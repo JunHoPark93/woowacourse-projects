@@ -1,5 +1,6 @@
 package techcourse.myblog.dto;
 
+import techcourse.myblog.domain.Article;
 import techcourse.myblog.validator.TitleConstraint;
 
 public class ArticleDto {
@@ -36,5 +37,9 @@ public class ArticleDto {
 
     public void setContents(String contents) {
         this.contents = contents;
+    }
+
+    public Article toArticle() {
+        return new Article(title, coverUrl, contents);
     }
 }

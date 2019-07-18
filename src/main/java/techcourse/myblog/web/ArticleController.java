@@ -4,8 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.Article;
-import techcourse.myblog.domain.ArticleRepository;
 import techcourse.myblog.dto.ArticleDto;
+import techcourse.myblog.service.ArticleService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -13,16 +13,16 @@ import java.util.List;
 
 @Controller
 public class ArticleController {
-    private ArticleRepository articleRepository;
+    private ArticleService articleService;
 
-    public ArticleController(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
+    public ArticleController(ArticleService articleService) {
+        this.articleService = articleService;
     }
 
     @GetMapping("/")
     public String index(Model model) {
         List<Article> articles = new ArrayList<>();
-        articleRepository.findAll().forEach(articles::add);
+        articleService.findAll().forEach(articles::add);
         model.addAttribute("articles", articles);
 
         return "index";
@@ -31,22 +31,21 @@ public class ArticleController {
     @GetMapping("/writing")
     public String formArticle(Model model) {
         model.addAttribute("article", null);
+
         return "article-edit";
     }
 
     @PostMapping("/articles")
     public String saveArticle(@Valid ArticleDto articleDto, Model model) {
-        Article article = new Article(articleDto.getTitle(), articleDto.getCoverUrl(), articleDto.getContents());
-        articleRepository.save(article);
+        Article article = articleService.save(articleDto);
         model.addAttribute("article", article);
 
-        // DB 연동 후 도메인에 아이디값이 들어가게되면 더 간단히 바뀔 것 같습니다
         return "redirect:/articles/" + article.getId();
     }
 
     @GetMapping("/articles/{articleId}")
     public String selectArticle(@PathVariable("articleId") long articleId, Model model) {
-        Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
+        Article article = articleService.findById(articleId);
         model.addAttribute("article", article);
         model.addAttribute("id", articleId);
 
@@ -55,7 +54,7 @@ public class ArticleController {
 
     @GetMapping("/articles/{articleId}/edit")
     public String edit(@PathVariable("articleId") long articleId, Model model) {
-        Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
+        Article article = articleService.findById(articleId);
         model.addAttribute("article", article);
         model.addAttribute("id", articleId);
 
@@ -64,9 +63,7 @@ public class ArticleController {
 
     @PutMapping("/articles/{articleId}")
     public String editArticle(@PathVariable("articleId") long articleId, @ModelAttribute ArticleDto articleDto, Model model) {
-        Article article = new Article(articleDto.getTitle(), articleDto.getCoverUrl(), articleDto.getContents());
-        articleRepository.deleteById(articleId);
-        articleRepository.save(article);
+        Article article = articleService.editArticle(articleDto, articleId);
         model.addAttribute("article", article);
 
         return "article";
@@ -74,7 +71,7 @@ public class ArticleController {
 
     @DeleteMapping("/articles/{articleId}")
     public String deleteArticle(@PathVariable("articleId") long articleId) {
-        articleRepository.deleteById(articleId);
+        articleService.deleteById(articleId);
 
         return "redirect:/";
     }

@@ -1,8 +1,6 @@
 package techcourse.myblog.validator;
 
 import techcourse.myblog.domain.UserRepository;
-import techcourse.myblog.exception.LoginException;
-import techcourse.myblog.exception.SignUpException;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

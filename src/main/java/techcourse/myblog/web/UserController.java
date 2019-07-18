@@ -1,32 +1,25 @@
 package techcourse.myblog.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import techcourse.myblog.exception.LoginException;
 import techcourse.myblog.domain.User;
-import techcourse.myblog.domain.UserRepository;
 import techcourse.myblog.dto.UserDto;
 import techcourse.myblog.dto.UserLoginDto;
 import techcourse.myblog.dto.UserResponseDto;
+import techcourse.myblog.exception.LoginException;
 import techcourse.myblog.exception.SignUpException;
 import techcourse.myblog.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class UserController {
-
-    @Autowired
-    private UserRepository userRepository;
-
     private UserService userService;
 
     public UserController(UserService userService) {
@@ -51,9 +44,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             throw new SignUpException("email 중복");
         }
-
         User user = userService.saveUser(userDto);
-
         httpSession.setAttribute("user", user);
 
         return "redirect:/login";
@@ -65,14 +56,15 @@ public class UserController {
         for (User user : userService.findAll()) {
             users.add(new UserResponseDto(user.getName(), user.getEmail()));
         }
-
         model.addAttribute("users", users);
+
         return "user-list";
     }
 
     @GetMapping("/mypage")
     public String myPageForm(Model model, HttpServletRequest request) {
         model.addAttribute("user", request.getSession().getAttribute("user"));
+
         return "mypage";
     }
 
@@ -97,6 +89,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute("user");
+
         return "redirect:/";
     }
 
@@ -105,6 +98,7 @@ public class UserController {
         String name = request.getParameter("name");
         User user = userService.editUserName(userId, name);
         request.getSession().setAttribute("user", user);
+
         return "redirect:/";
     }
 
@@ -112,6 +106,7 @@ public class UserController {
     public String deleteUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
         userService.deleteById(userId);
         request.getSession().removeAttribute("user");
+
         return "redirect:/";
     }
 }
