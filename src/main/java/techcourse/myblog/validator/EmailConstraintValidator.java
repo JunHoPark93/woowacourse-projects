@@ -1,6 +1,8 @@
 package techcourse.myblog.validator;
 
 import techcourse.myblog.domain.UserRepository;
+import techcourse.myblog.exception.LoginException;
+import techcourse.myblog.exception.SignUpException;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -23,14 +25,6 @@ public class EmailConstraintValidator implements ConstraintValidator<EmailConstr
             return false;
         }
 
-        boolean isExist = userRepository.existsByEmail(value);
-        if (isExist) {
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("이메일 중복")
-                    .addConstraintViolation();
-            return false;
-        }
-
-        return true;
+        return !userRepository.existsByEmail(value);
     }
 }

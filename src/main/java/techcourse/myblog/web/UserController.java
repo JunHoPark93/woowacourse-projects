@@ -2,6 +2,7 @@ package techcourse.myblog.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.exception.LoginException;
 import techcourse.myblog.domain.User;
@@ -9,6 +10,7 @@ import techcourse.myblog.domain.UserRepository;
 import techcourse.myblog.dto.UserDto;
 import techcourse.myblog.dto.UserLoginDto;
 import techcourse.myblog.dto.UserResponseDto;
+import techcourse.myblog.exception.SignUpException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,7 +41,10 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public String saveUser(@Valid UserDto userDto, HttpSession httpSession) {
+    public String saveUser(@Valid UserDto userDto, BindingResult bindingResult, HttpSession httpSession) {
+        if (bindingResult.hasErrors()) {
+            throw new SignUpException("email 중복");
+        }
         User user = new User(userDto.getName(), userDto.getEmail(), userDto.getPassword());
         userRepository.save(user);
 
