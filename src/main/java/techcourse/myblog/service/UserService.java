@@ -7,9 +7,9 @@ import techcourse.myblog.dto.UserDto;
 import techcourse.myblog.dto.UserLoginDto;
 import techcourse.myblog.exception.EditException;
 import techcourse.myblog.exception.LoginException;
+import techcourse.myblog.exception.SignUpException;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -21,8 +21,16 @@ public class UserService {
     }
 
     public User saveUser(UserDto userDto) {
-        User user = new User(userDto.getName(), userDto.getEmail(), userDto.getPassword());
+        User user = createUser(userDto);
         return userRepository.save(user);
+    }
+
+    private User createUser(UserDto userDto) {
+        try {
+            return new User(userDto.getName(), userDto.getEmail(), userDto.getPassword());
+        } catch (IllegalArgumentException e) {
+            throw new SignUpException(e.getMessage());
+        }
     }
 
     public Iterable<? extends User> findAll() {
@@ -45,7 +53,7 @@ public class UserService {
         try {
             user.changeName(name);
         } catch (IllegalArgumentException e) {
-            throw new EditException("유효한 이름이 아닙니다.");
+            throw new EditException(e.getMessage());
         }
     }
 
