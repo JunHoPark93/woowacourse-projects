@@ -10,6 +10,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthInterceptor())
+                .addPathPatterns("/users")
                 .addPathPatterns("/mypage-edit")
                 .addPathPatterns("/mypage");
     }

@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (request.getRequestURI().equals("/users") && request.getMethod().equals("POST")) {
+            return true;
+        }
+
         User userSession = (User) request.getSession().getAttribute("user");
 
         if (userSession == null) {
