@@ -4,9 +4,7 @@
 <head th:replace="signup-head :: signUpHead"></head>
 
 <body>
-<div th:unless="${error} == null" class="alert alert-danger" th:text="${error.errorMessage}">
-    Invalid username or password.
-</div>
+<div th:unless="${error} == null" class="alert alert-danger" th:text="${error.errorMessage}"></div>
 <div class="app">
     <div class="header navbar bg-transparent no-border">
         <div class="header-container pdd-right-15">

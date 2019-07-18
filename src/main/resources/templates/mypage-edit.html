@@ -4,6 +4,7 @@
 <head th:replace="mypage-head :: mypageHead"></head>
 
 <body>
+<div th:unless="${error} == null" class="alert alert-danger" th:text="${error.errorMessage}"></div>
 <div>
     <header id="header" class="header navbar bg-transparent no-border">
         <div class="header-container">

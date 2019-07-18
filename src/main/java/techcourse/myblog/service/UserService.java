@@ -5,6 +5,7 @@ import techcourse.myblog.domain.User;
 import techcourse.myblog.domain.UserRepository;
 import techcourse.myblog.dto.UserDto;
 import techcourse.myblog.dto.UserLoginDto;
+import techcourse.myblog.exception.EditException;
 import techcourse.myblog.exception.LoginException;
 
 import javax.transaction.Transactional;
@@ -36,8 +37,16 @@ public class UserService {
     @Transactional
     public User editUserName(Long userId, String name) {
         User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
-        user.changeName(name);
+        changeName(name, user);
         return user;
+    }
+
+    private void changeName(String name, User user) {
+        try {
+            user.changeName(name);
+        } catch (IllegalArgumentException e) {
+            throw new EditException("유효한 이름이 아닙니다.");
+        }
     }
 
     public void deleteById(Long userId) {
