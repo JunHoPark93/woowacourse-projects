@@ -1,5 +1,6 @@
 package techcourse.myblog.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import techcourse.myblog.dto.UserDto;
 import techcourse.myblog.dto.UserLoginDto;
 import techcourse.myblog.dto.UserResponseDto;
 import techcourse.myblog.exception.SignUpException;
+import techcourse.myblog.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,10 +23,14 @@ import java.util.List;
 
 @Controller
 public class UserController {
+
+    @Autowired
     private UserRepository userRepository;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/login")
@@ -45,10 +51,9 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             throw new SignUpException("email 중복");
         }
-        User user = new User(userDto.getName(), userDto.getEmail(), userDto.getPassword());
-        userRepository.save(user);
 
-        // session에 유저정보 저장
+        User user = userService.saveUser(userDto);
+
         httpSession.setAttribute("user", user);
 
         return "redirect:/login";
@@ -57,7 +62,7 @@ public class UserController {
     @GetMapping("/users")
     public String showUsers(Model model) {
         List<UserResponseDto> users = new ArrayList<>();
-        for (User user : userRepository.findAll()) {
+        for (User user : userService.findAll()) {
             users.add(new UserResponseDto(user.getName(), user.getEmail()));
         }
 
@@ -78,7 +83,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(UserLoginDto userLoginDto, HttpServletRequest request) {
-        User user = userRepository.findUserByEmail(userLoginDto.getEmail()).orElseThrow(() -> new LoginException("email 없음"));
+        User user = userService.findUserByEmail(userLoginDto);
 
         if (!user.matchPassword(userLoginDto.getPassword())) {
             throw new LoginException("비밀번호 틀림");
@@ -96,18 +101,16 @@ public class UserController {
     }
 
     @PutMapping("/users/{userId}")
-    @Transactional
     public String editUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
-        String changeName = request.getParameter("name");
-        User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
-        user.changeName(changeName);
+        String name = request.getParameter("name");
+        User user = userService.editUserName(userId, name);
         request.getSession().setAttribute("user", user);
         return "redirect:/";
     }
 
     @DeleteMapping("/users/{userId}")
     public String deleteUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
-        userRepository.deleteById(userId);
+        userService.deleteById(userId);
         request.getSession().removeAttribute("user");
         return "redirect:/";
     }
