@@ -3,6 +3,7 @@ package techcourse.myblog.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import techcourse.myblog.exception.LoginException;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.domain.UserRepository;
 import techcourse.myblog.dto.UserDto;
@@ -15,7 +16,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -52,7 +52,7 @@ public class UserController {
     @GetMapping("/users")
     public String showUsers(Model model) {
         List<UserResponseDto> users = new ArrayList<>();
-        for(User user : userRepository.findAll()) {
+        for (User user : userRepository.findAll()) {
             users.add(new UserResponseDto(user.getName(), user.getEmail()));
         }
 
@@ -72,17 +72,15 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(UserLoginDto userLoginDto, HttpServletRequest request, Model model) {
-        //Optional<User> mayBeUser = userRepository.findUserByEmailAndPassword(userLoginDto.getEmail(), userLoginDto.getPassword());
-        Optional<User> mayBeUser = userRepository.findUserByEmailAndPassword(userLoginDto.getEmail(), userLoginDto.getPassword());
+    public String login(UserLoginDto userLoginDto, HttpServletRequest request) {
+        User user = userRepository.findUserByEmail(userLoginDto.getEmail()).orElseThrow(() -> new LoginException("email 없음"));
 
-        if (!mayBeUser.isPresent()) {
-            // error 메세지와 함께 다시 로그인 시도시키기
-            model.addAttribute("error", "입력이 틀렸습니다");
-            return "login";
+        if (!user.matchPassword(userLoginDto.getPassword())) {
+            throw new LoginException("비밀번호 틀림");
         }
 
-        request.getSession().setAttribute("user", mayBeUser.get());
+        request.getSession().setAttribute("user", user);
+
         return "redirect:/";
     }
 

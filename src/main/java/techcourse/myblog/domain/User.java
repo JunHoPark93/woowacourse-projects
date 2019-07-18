@@ -55,6 +55,10 @@ public class User {
         this.name = name;
     }
 
+    public boolean matchPassword(String password) {
+        return this.password.equals(password);
+    }
+
     public Long getId() {
         return id;
     }

@@ -95,8 +95,8 @@ public class ArticleControllerTests {
     void 게시글수정() {
         webTestClient.put().uri("/articles/1")
                 .body(BodyInserters.fromFormData("title", "수정")
-                .with("coverUrl", "수정")
-                .with("contents", "수정"))
+                        .with("coverUrl", "수정")
+                        .with("contents", "수정"))
                 .exchange()
                 .expectStatus().isOk();
     }

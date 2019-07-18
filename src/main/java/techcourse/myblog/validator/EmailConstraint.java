@@ -12,6 +12,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = EmailConstraintValidator.class)
 public @interface EmailConstraint {
     String message() default "유효하지 않은 이메일 입니다";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

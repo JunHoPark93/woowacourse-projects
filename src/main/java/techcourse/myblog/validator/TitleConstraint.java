@@ -12,6 +12,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = TitleConstraintValidator.class)
 public @interface TitleConstraint {
     String message() default "유효하지 않은 제목 입니다";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

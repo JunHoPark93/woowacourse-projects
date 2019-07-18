@@ -2,8 +2,6 @@ package techcourse.myblog.dto;
 
 import techcourse.myblog.validator.TitleConstraint;
 
-import javax.persistence.Entity;
-
 public class ArticleDto {
     @TitleConstraint
     private String title;
