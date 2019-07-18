@@ -12,6 +12,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @AutoConfigureWebTestClient
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -21,7 +23,7 @@ public class UserControllerTests {
     private WebTestClient webTestClient;
 
     @LocalServerPort
-    private int randomLocalPort;
+    private int localServerPort;
 
     @BeforeEach
     void setUp() {
@@ -30,8 +32,6 @@ public class UserControllerTests {
                         .with("email", "test@gmail.com")
                         .with("password", "PassWord1!"))
                 .exchange()
-                .expectHeader()
-                .valueMatches("location", "http://localhost:" + randomLocalPort + "/login")
                 .expectStatus()
                 .isFound()
         ;
@@ -65,20 +65,75 @@ public class UserControllerTests {
         ;
     }
 
-    @Test
-    void 유저_조회() {
-        webTestClient.get().uri("/users")
-                .exchange()
-                .expectStatus().isOk()
-        ;
-    }
 
     @Test
     void 로그인후_메인화면() {
         webTestClient.post().uri("/login")
-                .body(BodyInserters.fromFormData("email", "testing@gmail.com")
-                        .with("password", "PassWord!1@"))
+                .body(BodyInserters.fromFormData("email", "test@gmail.com")
+                        .with("password", "PassWord1!"))
                 .exchange()
                 .expectStatus().is3xxRedirection();
     }
+
+    @Test
+    void 로그인실패_이메일이_없는_경우() {
+        webTestClient.post().uri("/login")
+                .body(BodyInserters.fromFormData("email", "nothing@gmail.com")
+                        .with("password", "PassWord1!"))
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody()
+                .consumeWith(response -> {
+                    String body = new String(response.getResponseBody());
+                    assertTrue(body.contains("email 없음"));
+                });
+    }
+
+    @Test
+    void 로그인실패_비밀번호가_틀린_경우() {
+        webTestClient.post().uri("/login")
+                .body(BodyInserters.fromFormData("email", "test@gmail.com")
+                        .with("password", "PassWord1!!"))
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody()
+                .consumeWith(response -> {
+                    String body = new String(response.getResponseBody());
+                    assertTrue(body.contains("비밀번호 틀림"));
+                });
+    }
+
+    @Test
+    void 로그인안하고_userlist_페이지접근시_로그인화면으로_이동() {
+        webTestClient.get().uri("/users")
+                .exchange()
+                .expectHeader()
+                .valueMatches("location", "http://localhost:" + localServerPort + "/login")
+                .expectStatus()
+                .is3xxRedirection(); // 로그인 화면으로 갈 것임
+    }
+
+    @Test
+    void 로그인안하고_myPage_페이지접근_로그인화면으로_이동() {
+        webTestClient.get().uri("/mypage")
+                .exchange()
+                .expectHeader()
+                .valueMatches("location", "http://localhost:" + localServerPort + "/login")
+                .expectStatus()
+                .is3xxRedirection(); // 로그인 화면으로 갈 것임
+    }
+
+    @Test
+    void 로그인안하고_myPage_Edit_페이지접근_로그인화면으로_이동() {
+        webTestClient.get().uri("/mypage-edit")
+                .exchange()
+                .expectHeader()
+                .valueMatches("location", "http://localhost:" + localServerPort + "/login")
+                .expectStatus()
+                .is3xxRedirection(); // 로그인 화면으로 갈 것임
+    }
+
+
 }
