@@ -4,7 +4,7 @@
 <head th:replace="signup-head :: signUpHead"></head>
 
 <body>
-<div th:unless="${error} == null" class="alert alert-danger" th:text="${error.errorMessage}"></div>
+<div th:if="${error} != null" class="alert alert-danger" th:text="${error.errorMessage}"></div>
 <div class="app">
     <div class="header navbar bg-transparent no-border">
         <div class="header-container pdd-right-15">
@@ -56,7 +56,7 @@
                                                     </form>
                                                     <div class="text-dark">
                                                         <span>이미 회원이신가요?</span>
-                                                        <a href="login.html" class="text-info pointer mrg-left-5">로그인</a>
+                                                        <a href="/login" class="text-info pointer mrg-left-5">로그인</a>
                                                     </div>
                                                 </div>
                                             </div>

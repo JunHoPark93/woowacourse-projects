@@ -28,18 +28,19 @@
                 <h1 class="text-center cover-title" th:text="${article.title}">목적의식 있는 연습을 통한 효과적인 학습</h1>
             </div>
         </div>
-<!--        <div th:unless="${article.coverUrl} == ''" class="cover-img overlay-dark bg" th:style="'background-image: url(' + ${article.coverUrl} + ')'">-->
-<!--            <div class="padding-30">-->
-<!--                <h1 class="text-center cover-title" th:text="${article.title}">목적의식 있는 연습을 통한 효과적인 학습</h1>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
     <div class="container-fluid max-width-lg mx-auto mrg-vertical-30 padding-30">
         <div class="row">
             <div class="col-lg-10 mx-auto">
-                <a th:href="@{'/articles/' + ${id} + '/edit'}" class="float-right pointer btn btn-icon">
+                <a th:href="@{'/articles/' + ${article.id} + '/edit'}" class="float-right pointer btn btn-icon">
                     <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
                 </a>
+                <form method="post" th:action="'/articles/' + ${article.id}">
+                    <input name="_method" type="hidden" value="delete" />
+                    <button class="btn btn-icon float-right pointer" id="delete-button" type="submit">
+                        <i class ="ti-trash text-dark font-size-16 pdd-horizon-5"></i>
+                    </button>
+                </form>
                 <div id="viewerSection"></div>
                 <input id="article-contents" th:value="${article.contents}" name="contents" type="hidden">
             </div>

@@ -4,13 +4,13 @@
 <head th:replace="login-head :: loginHead"></head>
 
 <body>
-<div th:unless="${error} == null" class="alert alert-danger" th:text="${error.errorMessage}"></div>
+<div th:if="${error} != null" class="alert alert-danger" th:text="${error.errorMessage}"></div>
 <div class="app">
     <div class="header navbar bg-transparent no-border">
         <div class="header-container pdd-right-15">
             <ul class="nav-left mrg-left-0">
                 <li>
-                    <a href="index.html">
+                    <a href="/">
                         <div class="logo logo-dark d-none" style="background-image: url('/static/images/logo/logo_full_dark.png')"></div>
                         <div class="logo logo-white" style="background-image: url('/static/images/logo/logo_full_white.png')"></div>
                     </a>
@@ -48,7 +48,6 @@
                                                             <a href="">Forgot Password?</a>
                                                         </div>
                                                         <div class="mrg-top-20 text-right">
-                                                            <!--<a href="user-list.html" class="btn btn-tumblr">로그인</a>-->
                                                             <input type="submit" class="btn btn-tumblr">로그인</input>
                                                         </div>
                                                     </form>

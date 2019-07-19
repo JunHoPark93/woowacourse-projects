@@ -47,7 +47,6 @@ public class ArticleController {
     public String selectArticle(@PathVariable("articleId") long articleId, Model model) {
         Article article = articleService.findById(articleId);
         model.addAttribute("article", article);
-        model.addAttribute("id", articleId);
 
         return "article";
     }
@@ -56,7 +55,6 @@ public class ArticleController {
     public String edit(@PathVariable("articleId") long articleId, Model model) {
         Article article = articleService.findById(articleId);
         model.addAttribute("article", article);
-        model.addAttribute("id", articleId);
 
         return "article-edit";
     }

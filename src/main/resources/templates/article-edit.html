@@ -21,13 +21,46 @@
         </div>
     </div>
 
-    <form th:if="${article} == null" action="/articles" name="article" method="post" accept-charset="utf-8" >
+<!--    <form th:if="${article} == null" action="/articles" name="article" method="post" accept-charset="utf-8" >-->
+<!--        <div class="about-cover card no-border">-->
+<!--            <div class="cover-img overlay-dark bg" style="background-image: url('/static/images/pages/index/study.jpg')">-->
+<!--                <div class="height-300px vertical-center pdd-horizon-50">-->
+<!--                    <div class="width-80">-->
+<!--                        <input type="text" name="title" class="text-center bg-transparent no-border font-size-30 width-60 mx-auto d-block text-white border bottom"  placeholder="제목을 입력해주세요" autocomplete="off">-->
+<!--                        <input type="text" name="coverUrl" class="text-center bg-transparent no-border font-size-16 width-30 mx-auto d-block text-light text-white border bottom pdd-top-20"  placeholder="배경 url을 입력해주세요" autocomplete="off">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="container-fluid max-width-lg mx-auto mrg-btm-30">-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-1 col-md-1"></div>-->
+<!--                <div class="col-lg-10 col-md-10 col-sm-10">-->
+<!--                    <input id="article-contents" name="contents" type="hidden">-->
+<!--                    <div id="editSection"></div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-1 col-md-1">-->
+<!--                    <div class="btn-group btn-group-vertical">-->
+<!--                        <button id="save-btn" type="submit" class="btn btn-default">-->
+<!--                            <i class="ti-save"></i>-->
+<!--                        </button>-->
+<!--                        <a href="/" class="btn btn-default">-->
+<!--                            <i class="ti-close"></i>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </form>-->
+    <form th:action="${article != null ? '/articles/' + article.id : '/articles'}" name="article" method="post" accept-charset="utf-8" >
+        <input th:if="${article != null}" type="hidden" name="_method" value="put"/>
         <div class="about-cover card no-border">
             <div class="cover-img overlay-dark bg" style="background-image: url('/static/images/pages/index/study.jpg')">
                 <div class="height-300px vertical-center pdd-horizon-50">
                     <div class="width-80">
-                        <input type="text" name="title" class="text-center bg-transparent no-border font-size-30 width-60 mx-auto d-block text-white border bottom"  placeholder="제목을 입력해주세요" autocomplete="off">
-                        <input type="text" name="coverUrl" class="text-center bg-transparent no-border font-size-16 width-30 mx-auto d-block text-light text-white border bottom pdd-top-20"  placeholder="배경 url을 입력해주세요" autocomplete="off">
+                        <input type="text" th:value="${article != null ? article.title : ''}" name="title" class="text-center bg-transparent no-border font-size-30 width-60 mx-auto d-block text-white border bottom"  placeholder="제목을 입력해주세요" autocomplete="off">
+                        <input type="text" th:value="${article != null ? article.coverUrl : ''}" name="coverUrl" class="text-center bg-transparent no-border font-size-16 width-30 mx-auto d-block text-light text-white border bottom pdd-top-20"  placeholder="배경 url을 입력해주세요" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -37,7 +70,7 @@
             <div class="row">
                 <div class="col-lg-1 col-md-1"></div>
                 <div class="col-lg-10 col-md-10 col-sm-10">
-                    <input id="article-contents" name="contents" type="hidden">
+                    <input id="article-contents" th:value="${article != null ? article.contents : ''}" name="contents" type="hidden">
                     <div id="editSection"></div>
                 </div>
                 <div class="col-lg-1 col-md-1">
@@ -45,48 +78,9 @@
                         <button id="save-btn" type="submit" class="btn btn-default">
                             <i class="ti-save"></i>
                         </button>
-                        <a href="/" class="btn btn-default">
+                        <a th:href="${article == null ? '/' : '/articles/' + article.id}" class="btn btn-default">
                             <i class="ti-close"></i>
                         </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-    <form th:unless="${article} == null" th:action="@{'/articles/' + ${id}}" name="article" method="post" accept-charset="utf-8" >
-        <input type="hidden" name="_method" value="put"/>
-        <div class="about-cover card no-border">
-            <div class="cover-img overlay-dark bg" style="background-image: url('/static/images/pages/index/study.jpg')">
-                <div class="height-300px vertical-center pdd-horizon-50">
-                    <div class="width-80">
-                        <input type="text" th:value="${article.title}" name="title" class="text-center bg-transparent no-border font-size-30 width-60 mx-auto d-block text-white border bottom"  placeholder="제목을 입력해주세요" autocomplete="off">
-                        <input type="text" th:value="${article.coverUrl}" name="coverUrl" class="text-center bg-transparent no-border font-size-16 width-30 mx-auto d-block text-light text-white border bottom pdd-top-20"  placeholder="배경 url을 입력해주세요" autocomplete="off">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container-fluid max-width-lg mx-auto mrg-btm-30">
-            <div class="row">
-                <div class="col-lg-1 col-md-1"></div>
-                <div class="col-lg-10 col-md-10 col-sm-10">
-                    <input id="article-contents" th:value="${article.contents}" name="contents" type="hidden">
-                    <div id="editSection"></div>
-                </div>
-                <div class="col-lg-1 col-md-1">
-                    <div class="btn-group btn-group-vertical">
-                        <button id="save-btn" type="submit" class="btn btn-default">
-                            <i class="ti-save"></i>
-                        </button>
-                        <form>
-
-                        </form>
-                        <form th:action="@{'/articles/' + ${id}}" method="post">
-                            <input type="hidden" name="_method" value="delete"/>
-                            <button type="submit" class="btn btn-default">
-                                <i class="ti-close"></i>
-                            </button>
-                        </form>
                     </div>
                 </div>
             </div>
