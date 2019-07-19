@@ -1,6 +1,6 @@
-package techcourse.myblog.dto;
+package techcourse.myblog.service.dto;
 
-public class UserLoginDto {
+public class UserLoginRequest {
     private String email;
     private String password;
 

@@ -5,12 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.User;
-import techcourse.myblog.dto.UserDto;
-import techcourse.myblog.dto.UserLoginDto;
-import techcourse.myblog.dto.UserResponseDto;
-import techcourse.myblog.exception.LoginException;
-import techcourse.myblog.exception.SignUpException;
 import techcourse.myblog.service.UserService;
+import techcourse.myblog.service.dto.UserLoginRequest;
+import techcourse.myblog.service.dto.UserRequest;
+import techcourse.myblog.service.dto.UserResponse;
+import techcourse.myblog.service.exception.LoginException;
+import techcourse.myblog.service.exception.SignUpException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,6 +20,8 @@ import java.util.List;
 
 @Controller
 public class UserController {
+    private static final String USER_SESSION = "user";
+
     private UserService userService;
 
     public UserController(UserService userService) {
@@ -28,7 +30,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String createLoginForm(HttpServletRequest request) {
-        if (request.getSession().getAttribute("user") == null) {
+        if (request.getSession().getAttribute(USER_SESSION) == null) {
             return "login";
         }
         return "redirect:/";
@@ -40,31 +42,28 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public String saveUser(@Valid UserDto userDto, BindingResult bindingResult, HttpSession httpSession) {
+    public String saveUser(@Valid UserRequest userRequest, BindingResult bindingResult, HttpSession httpSession) {
         if (bindingResult.hasErrors()) {
             throw new SignUpException("email 중복");
         }
-        User user = userService.saveUser(userDto);
-        httpSession.setAttribute("user", user);
-
+        User user = userService.saveUser(userRequest);
+        httpSession.setAttribute(USER_SESSION, user);
         return "redirect:/login";
     }
 
     @GetMapping("/users")
     public String showUsers(Model model) {
-        List<UserResponseDto> users = new ArrayList<>();
+        List<UserResponse> users = new ArrayList<>();
         for (User user : userService.findAll()) {
-            users.add(new UserResponseDto(user.getName(), user.getEmail()));
+            users.add(new UserResponse(user.getName(), user.getEmail()));
         }
-        model.addAttribute("users", users);
-
+        model.addAttribute(USER_SESSION, users);
         return "user-list";
     }
 
     @GetMapping("/mypage")
     public String myPageForm(Model model, HttpServletRequest request) {
-        model.addAttribute("user", request.getSession().getAttribute("user"));
-
+        model.addAttribute(USER_SESSION, request.getSession().getAttribute(USER_SESSION));
         return "mypage";
     }
 
@@ -74,39 +73,36 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(UserLoginDto userLoginDto, HttpServletRequest request) {
-        User user = userService.findUserByEmail(userLoginDto);
+    public String login(UserLoginRequest userLoginRequest, HttpServletRequest request) {
+        User user = userService.findUserByEmail(userLoginRequest);
 
-        if (!user.matchPassword(userLoginDto.getPassword())) {
+        if (!user.matchPassword(userLoginRequest.getPassword())) {
             throw new LoginException("비밀번호 틀림");
         }
 
-        request.getSession().setAttribute("user", user);
-
+        request.getSession().setAttribute(USER_SESSION, user);
         return "redirect:/";
     }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
-        request.getSession().removeAttribute("user");
-
+        request.getSession().removeAttribute(USER_SESSION);
         return "redirect:/";
     }
 
     @PutMapping("/users/{userId}")
     public String editUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
+        // user 수정 부분인데 현재는 name 만 수정가능하다. 그래서 dto 로 빼지않고 parameter하나만 받았다. 추후 기능 추가 때 dto를 정의할 예정이다.
         String name = request.getParameter("name");
         User user = userService.editUserName(userId, name);
-        request.getSession().setAttribute("user", user);
-
+        request.getSession().setAttribute(USER_SESSION, user);
         return "redirect:/";
     }
 
     @DeleteMapping("/users/{userId}")
     public String deleteUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
         userService.deleteById(userId);
-        request.getSession().removeAttribute("user");
-
+        request.getSession().removeAttribute(USER_SESSION);
         return "redirect:/";
     }
 }

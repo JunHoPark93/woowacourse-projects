@@ -1,8 +1,8 @@
-package techcourse.myblog.dto;
+package techcourse.myblog.service.dto;
 
-import techcourse.myblog.validator.EmailConstraint;
+import techcourse.myblog.support.validator.EmailConstraint;
 
-public class UserDto {
+public class UserRequest {
     private String name;
 
     @EmailConstraint

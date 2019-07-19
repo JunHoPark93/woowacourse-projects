@@ -1,4 +1,4 @@
-package techcourse.myblog.validator;
+package techcourse.myblog.support.validator;
 
 import techcourse.myblog.domain.UserRepository;
 
