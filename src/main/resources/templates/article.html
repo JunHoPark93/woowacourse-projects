@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="article-head :: articleHead">
+<head th:replace="/fragments/article-head :: articleHead">
 
 </head>
 <body>
@@ -111,7 +111,7 @@
     </div>
 </div>
 
-<th:block th:include="article-js :: articleJs"/>
+<th:block th:include="/fragments/article-js :: articleJs"/>
 
 <script>
     const viewer = tui.Editor.factory({
