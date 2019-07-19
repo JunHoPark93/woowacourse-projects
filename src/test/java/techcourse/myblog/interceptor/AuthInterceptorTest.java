@@ -24,9 +24,11 @@ public class AuthInterceptorTest {
             if ("/users".equals(path) || "/mypage".equals(path) || "/mypage-edit".equals(path)) {
                 return exchange.getSession()
                         .doOnNext(webSession ->
-                                webSession.getAttributes().put("user", new User("CU", "test@gmail.com", "PassWord!1")))
+                                webSession.getAttributes().put("user",
+                                        new User("CU", "iloveCU@gmail.com", "PassWord!1")))
                         .then();
             }
+            // 이 곳에 분기 추가를 할 수 있음
             return null;
         }).build();
     }

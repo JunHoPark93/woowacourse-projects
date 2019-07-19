@@ -17,5 +17,6 @@ public class MyblogRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         userRepository.save(new User("CU", "root@gmail.com", "PassWord!1"));
+        userRepository.save(new User("BROWN", "root2@gmail.com", "PassWord!1"));
     }
 }
