@@ -15,55 +15,8 @@
                     </a>
                 </li>
             </ul>
-            <ul th:if="${session.user} == null" class="nav-right">
-                <li class="user-profile">
-                    <a href="/login">
-                        <div class="user-info login-btn pointer mrg-right-10">
-                            <span class="name pdd-right-5 text-white">Login</span>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-            <ul th:unless="${session.user} == null" class="nav-right">
-                <li id="header-user-dropdown-btn" class="user-profile dropdown no-border pointer">
-                    <a class="user-info-link user-dropdown-menu dropdown-toggle" data-toggle="dropdown">
-                        <img class="profile-img img-fluid" src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="Brown">
-                        <div class="user-info text-white">
-                            <span th:text="${session.user.name}" class="name pdd-right-5">Brown</span>
-                            <i class="ti-angle-down font-size-10"></i>
-                        </div>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="text-dark">
-                            <a href="/mypage">
-                                <i class="ti-user pdd-right-10"></i>
-                                <span class="text-dark">마이 페이지</span>
-                            </a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li class="text-dark">
-                            <a href="/logout">
-                                <i class="ti-power-off pdd-right-10"></i>
-                                <span class="text-dark">로그아웃</span>
-                            </a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li class="text-dark">
-                            <a href="/users">
-                                <i class="ti-power-off pdd-right-10"></i>
-                                <span class="text-dark">Users</span>
-                            </a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li class="text-dark">
-                            <form th:action="@{'/users/' + ${session.user.id}}" method="post">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <i class="ti-power-off pdd-right-10"></i>
-                                <button type="submit" class="bullet-warning">회원탈퇴</button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
+            <ul class="nav-right">
+                <th:block th:include="${session.user == null} ? '/includes/login-nav' : '/includes/logout-nav'"/>
             </ul>
         </div>
     </header>
@@ -100,8 +53,8 @@
                                 <a th:each="article, index : ${articles}" th:href="@{'/articles/' + ${index.index}}" class="card article-container">
                                     <div class="card-horizon">
                                         <div class="image-container col-md-4">
-                                            <div th:if="${article.coverUrl} == ''" class="background-holder has-content" style="background-image: url('images/pages/index/study.jpg')"></div>
-                                            <div th:unless="${article.coverUrl} == ''" class="background-holder has-content" th:style="'background-image: url(' + ${article.coverUrl} + ')'"></div>
+                                            <div class="background-holder has-content" th:style = "
+                                            'background-image: url(' + ${#strings.isEmpty(article.coverUrl) ? 'images/pages/index/study.jpg' : article.coverUrl} + ');'"></div>
                                         </div>
                                         <div class="container-fluid">
                                             <div class="row">
