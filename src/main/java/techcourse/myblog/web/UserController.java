@@ -9,7 +9,6 @@ import techcourse.myblog.service.UserService;
 import techcourse.myblog.service.dto.UserLoginRequest;
 import techcourse.myblog.service.dto.UserRequest;
 import techcourse.myblog.service.dto.UserResponse;
-import techcourse.myblog.service.exception.LoginException;
 import techcourse.myblog.service.exception.SignUpException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,11 +74,6 @@ public class UserController {
     @PostMapping("/login")
     public String login(UserLoginRequest userLoginRequest, HttpServletRequest request) {
         User user = userService.findUserByEmail(userLoginRequest);
-
-        if (!user.matchPassword(userLoginRequest.getPassword())) {
-            throw new LoginException("비밀번호 틀림");
-        }
-
         request.getSession().setAttribute(USER_SESSION, user);
         return "redirect:/";
     }

@@ -8,15 +8,18 @@ import techcourse.myblog.service.dto.UserRequest;
 import techcourse.myblog.service.exception.EditException;
 import techcourse.myblog.service.exception.LoginException;
 import techcourse.myblog.service.exception.SignUpException;
+import techcourse.myblog.support.util.EncryptHelper;
 
 import javax.transaction.Transactional;
 
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private EncryptHelper encryptHelper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, EncryptHelper encryptHelper) {
         this.userRepository = userRepository;
+        this.encryptHelper = encryptHelper;
     }
 
     public User saveUser(UserRequest userRequest) {
@@ -26,7 +29,7 @@ public class UserService {
 
     private User createUser(UserRequest userRequest) {
         try {
-            return new User(userRequest.getName(), userRequest.getEmail(), userRequest.getPassword());
+            return new User(userRequest.getName(), userRequest.getEmail(), encryptHelper.encrypt(userRequest.getPassword()));
         } catch (IllegalArgumentException e) {
             throw new SignUpException(e.getMessage());
         }
@@ -37,8 +40,17 @@ public class UserService {
     }
 
     public User findUserByEmail(UserLoginRequest userLoginRequest) {
-        return userRepository.findUserByEmail(userLoginRequest.getEmail())
+        User user = userRepository.findUserByEmail(userLoginRequest.getEmail())
                 .orElseThrow(() -> new LoginException("email 없음"));
+
+        checkPassword(userLoginRequest, user);
+        return user;
+    }
+
+    private void checkPassword(UserLoginRequest userLoginRequest, User user) {
+        if (!encryptHelper.isMatch(userLoginRequest.getPassword(), user.getPassword())) {
+            throw new LoginException("비밀번호 틀림");
+        }
     }
 
     @Transactional

@@ -20,6 +20,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'com.h2database:h2'
 	implementation 'mysql:mysql-connector-java:8.0.16'
+	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
 	runtimeOnly 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api'
 	testCompile("org.junit.jupiter:junit-jupiter-params:5.4.2")
