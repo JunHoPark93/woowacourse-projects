@@ -9,7 +9,7 @@ import techcourse.myblog.support.util.EncryptHelper;
 import techcourse.myblog.web.interceptor.AuthInterceptor;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig {
     @Bean
     public WebMvcConfigurer interceptorConfigure() {
         return new WebMvcConfigurer() {
