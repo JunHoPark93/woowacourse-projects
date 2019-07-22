@@ -78,11 +78,11 @@ public class ArticleControllerTests {
     }
 
     @Test
-    void 존재하지_않는_게시글_조회_에러() {
+    void 존재하지_않는_게시글_조회_에러처리() {
         webTestClient.get()
                 .uri("/articles/" + "2")
                 .exchange()
-                .expectStatus().is5xxServerError();
+                .expectStatus().isOk();
     }
 
 

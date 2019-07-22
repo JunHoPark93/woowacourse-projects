@@ -32,7 +32,8 @@ public class UserControllerTests {
         webTestClient.post().uri("/users")
                 .body(BodyInserters.fromFormData("name", "Bob")
                         .with("email", "test@gmail.com")
-                        .with("password", "PassWord1!"))
+                        .with("password", "PassWord1!")
+                        .with("reconfirmPassword", "PassWord1!"))
                 .exchange()
                 .expectStatus()
                 .isFound()
@@ -60,14 +61,15 @@ public class UserControllerTests {
         webTestClient.post().uri("/users")
                 .body(BodyInserters.fromFormData("name", "Alice")
                         .with("email", "test@gmail.com")
-                        .with("password", "PassWord1!"))
+                        .with("password", "PassWord1!")
+                        .with("reconfirmPassword", "PassWord1!"))
                 .exchange()
                 .expectStatus()
                 .isOk()
                 .expectBody()
                 .consumeWith(response -> {
                     String body = new String(response.getResponseBody());
-                    assertTrue(body.contains("email 중복"));
+                    assertTrue(body.contains("이메일 중복입니다"));
                 })
         ;
     }
@@ -77,7 +79,8 @@ public class UserControllerTests {
     void 로그인후_메인화면() {
         webTestClient.post().uri("/login")
                 .body(BodyInserters.fromFormData("email", "test@gmail.com")
-                        .with("password", "PassWord1!"))
+                        .with("password", "PassWord1!")
+                        .with("reconfirmPassword", "PassWord1!"))
                 .exchange()
                 .expectStatus().is3xxRedirection();
     }
@@ -86,7 +89,8 @@ public class UserControllerTests {
     void 로그인실패_이메일이_없는_경우() {
         webTestClient.post().uri("/login")
                 .body(BodyInserters.fromFormData("email", "nothing@gmail.com")
-                        .with("password", "PassWord1!"))
+                        .with("password", "PassWord1!")
+                        .with("reconfirmPassword", "PassWord1!"))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -101,7 +105,8 @@ public class UserControllerTests {
     void 로그인실패_비밀번호가_틀린_경우() {
         webTestClient.post().uri("/login")
                 .body(BodyInserters.fromFormData("email", "test@gmail.com")
-                        .with("password", "PassWord1!!"))
+                        .with("password", "PassWord1!!")
+                        .with("reconfirmPassword", "PassWord1!"))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -141,6 +146,4 @@ public class UserControllerTests {
                 .expectStatus()
                 .is3xxRedirection(); // 로그인 화면으로 갈 것임
     }
-
-
 }
