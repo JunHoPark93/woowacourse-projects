@@ -4,7 +4,6 @@
 <head th:replace="/fragments/login-head :: loginHead"></head>
 
 <body>
-<div th:if="${error} != null" class="alert alert-danger" th:text="${error.errorMessage}"></div>
 <div class="app">
     <div class="header navbar bg-transparent no-border">
         <div class="header-container pdd-right-15">
@@ -27,18 +26,21 @@
                             <div class="mx-auto full-height col-md-4">
                                 <div class="vertical-align full-height">
                                     <div class="table-cell padding-20">
+                                        <div th:if="${error} != null" class="alert alert-danger" th:text="${error.errorMessage}"></div>
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="pdd-horizon-30 pdd-vertical-30">
                                                     <div class="mrg-btm-30">
                                                         <h2 class="text-center no-mrg-vertical mrg-btm-15 text-dark">로그인</h2>
                                                     </div>
-                                                    <form action="/login" method="post">
+                                                    <form action="/login" method="post" th:object="${userLoginRequest}">
                                                         <div class="form-group">
-                                                            <input type="email" name="email" class="form-control" placeholder="Id">
+                                                            <input type="email" name="email" class="form-control" placeholder="Id" required th:field="*{email}">
+                                                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></span>
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="password" name="password" class="form-control" placeholder="Password">
+                                                            <input type="password" name="password" class="form-control" placeholder="Password" required th:field="*{password}">>
+                                                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></span>
                                                         </div>
                                                         <div class="checkbox font-size-13 text-dark inline-block no-mrg-vertical no-pdd-vertical">
                                                             <input id="agreement" name="agreement" type="checkbox">

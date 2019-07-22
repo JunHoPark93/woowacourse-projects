@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col-md-7 mx-auto">
                 <div class="card">
-                    <form th:action="@{'/users/' + ${session.user.id}}" method="post">
+                    <form th:action="@{'/users/' + ${session.user.id}}" method="post" th:object="${userEditRequest}">
                         <input type="hidden" name="_method" value="put"/>
                         <div class="card-heading pdd-btm-5 border bottom">
                             <h4 class="card-title d-inline-block">profile</h4>
@@ -49,7 +49,8 @@
                                     <p class="mrg-top-10 text-dark"><b>Name</b></p>
                                 </div>
                                 <div class="col-md-6">
-                                    <input th:value="${session.user.name}" type="text" name="name" class="form-control" value="Brown">
+                                    <input th:value="${session.user.name}" type="text" name="name" class="form-control">
+                                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></span>
                                 </div>
                             </div>
                             <hr>

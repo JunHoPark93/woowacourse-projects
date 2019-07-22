@@ -3,16 +3,15 @@ package techcourse.myblog.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.service.UserService;
+import techcourse.myblog.service.dto.UserEditRequest;
 import techcourse.myblog.service.dto.UserLoginRequest;
 import techcourse.myblog.service.dto.UserRequest;
 import techcourse.myblog.service.dto.UserResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String createLoginForm(HttpServletRequest request) {
+    public String createLoginForm(HttpServletRequest request, UserLoginRequest userLoginRequest) {
         if (request.getSession().getAttribute(USER_SESSION) == null) {
             return "login";
         }
@@ -66,7 +65,7 @@ public class UserController {
     }
 
     @GetMapping("/mypage-edit")
-    public String myPageEditForm() {
+    public String myPageEditForm(UserEditRequest userEditRequest) {
         return "mypage-edit";
     }
 
@@ -84,10 +83,11 @@ public class UserController {
     }
 
     @PutMapping("/users/{userId}")
-    public String editUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
-        // user 수정 부분인데 현재는 name 만 수정가능하다. 그래서 dto 로 빼지않고 parameter하나만 받았다. 추후 기능 추가 때 dto를 정의할 예정이다.
-        String name = request.getParameter("name");
-        User user = userService.editUserName(userId, name);
+    public String editUser(@PathVariable("userId") Long userId, HttpServletRequest request, @Valid UserEditRequest userEditRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "/mypage-edit";
+        }
+        User user = userService.editUserName(userId, userEditRequest.getName());
         request.getSession().setAttribute(USER_SESSION, user);
         return "redirect:/";
     }
