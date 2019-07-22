@@ -33,22 +33,27 @@
                                                     <div class="mrg-btm-30">
                                                         <h2 class="text-center text-dark no-mrg-vertical mrg-btm-15">회원가입</h2>
                                                     </div>
-                                                    <form method="post" action="/users">
+                                                    <form method="post" action="/users" th:object="${userRequest}">
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Username</label>
-                                                            <input type="text" name="name" class="form-control">
+                                                            <input id="name" type="text" name="name" class="form-control" required th:field="*{name}">
+                                                            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></span>
+                                                            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></span>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Email Address</label>
-                                                            <input type="email" name="email" class="form-control">
+                                                            <input id="email" type="email" name="email" class="form-control"  required th:field="*{email}">
+                                                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></span>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Password</label>
-                                                            <input type="password" name="password" class="form-control" placeholder="Password">
+                                                            <input id="password "type="password" name="password" class="form-control" placeholder="Password" required th:field="*{password}">
+                                                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></span>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Confirm Password</label>
-                                                            <input type="password" class="form-control" placeholder="Password">
+                                                            <input type="password" name="reconfirmPassword" class="form-control" placeholder="Password" required th:field="*{reconfirmPassword}">
+                                                            <span th:if="${#fields.hasErrors('reconfirmPassword')}" th:errors="*{reconfirmPassword}" style="color:red"></span>
                                                         </div>
                                                         <div class="form-group">
                                                             <button type="submit" class="btn btn-info btn-block border-radius-6 font-size-16 text-white">가입하기</button>

@@ -3,13 +3,13 @@ package techcourse.myblog.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.service.UserService;
 import techcourse.myblog.service.dto.UserLoginRequest;
 import techcourse.myblog.service.dto.UserRequest;
 import techcourse.myblog.service.dto.UserResponse;
-import techcourse.myblog.service.exception.SignUpException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,17 +36,16 @@ public class UserController {
     }
 
     @GetMapping("/signup")
-    public String createSignForm() {
+    public String createSignForm(UserRequest userRequest) {
         return "signup";
     }
 
     @PostMapping("/users")
-    public String saveUser(@Valid UserRequest userRequest, BindingResult bindingResult, HttpSession httpSession) {
+    public String saveUser(@Valid UserRequest userRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new SignUpException("email 중복");
+            return "signup";
         }
-        User user = userService.saveUser(userRequest);
-        httpSession.setAttribute(USER_SESSION, user);
+        userService.saveUser(userRequest);
         return "redirect:/login";
     }
 
