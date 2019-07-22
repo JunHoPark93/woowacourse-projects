@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.ArticleRepository;
 import techcourse.myblog.service.dto.ArticleRequest;
+import techcourse.myblog.service.exception.NoArticleException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ArticleService {
 
     public Article findById(long articleId) {
         return articleRepository.findById(articleId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new NoArticleException("게시글이 존재하지 않습니다"));
     }
 
     @Transactional
