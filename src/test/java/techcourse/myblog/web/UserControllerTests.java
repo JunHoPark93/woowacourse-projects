@@ -124,7 +124,7 @@ public class UserControllerTests {
         webTestClient.get().uri("/users")
                 .exchange()
                 .expectHeader()
-                .valueMatches("location", "http://localhost:" + localServerPort + "/login")
+                .valueMatches("location", ".*/login")
                 .expectStatus()
                 .is3xxRedirection()
         ; // 로그인 화면으로 갈 것임

@@ -15,7 +15,7 @@ public class Article {
     private String coverUrl;
     private String contents;
 
-    public Article() {
+    private Article() {
     }
 
     public Article(String title, String coverUrl, String contents) {
