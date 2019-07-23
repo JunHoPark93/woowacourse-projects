@@ -1,4 +1,4 @@
-package techcourse.myblog.support.util;
+package techcourse.myblog.support.encryptor;
 
 import org.mindrot.jbcrypt.BCrypt;
 

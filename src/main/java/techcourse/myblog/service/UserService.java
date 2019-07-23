@@ -8,7 +8,7 @@ import techcourse.myblog.service.dto.UserRequest;
 import techcourse.myblog.service.exception.EditException;
 import techcourse.myblog.service.exception.LoginException;
 import techcourse.myblog.service.exception.SignUpException;
-import techcourse.myblog.support.util.EncryptHelper;
+import techcourse.myblog.support.encryptor.EncryptHelper;
 
 import javax.transaction.Transactional;
 

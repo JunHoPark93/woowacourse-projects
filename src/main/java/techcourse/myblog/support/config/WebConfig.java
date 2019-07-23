@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import techcourse.myblog.support.util.BCryptImpl;
-import techcourse.myblog.support.util.EncryptHelper;
+import techcourse.myblog.support.encryptor.BCryptImpl;
+import techcourse.myblog.support.encryptor.EncryptHelper;
 import techcourse.myblog.web.interceptor.AuthInterceptor;
 
 @Configuration
