@@ -31,17 +31,4 @@ public class UserTest {
         assertThrows(IllegalArgumentException.class,
                 () -> new User("@#$", "test@gmail.com", "PAssword!2"));
     }
-
-    @Test
-    void 비밀번호_8자미만_오류() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new User("Park", "test@gmail.com", "!2dfd"));
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"!2dfffffff", "AAAA2A@#!", "aa2dfdfaa@#!", "Addfdsfdszff@", "dzsfDF02221"})
-    void 비밀번호_비정상(String password) {
-        assertThrows(IllegalArgumentException.class,
-                () -> new User("Park", "test@gmail.com", password));
-    }
 }

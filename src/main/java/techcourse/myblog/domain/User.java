@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 public class User {
     private static final int MAX_NAME_LENGTH = 10;
     private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z]*$");
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,}");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +25,6 @@ public class User {
 
     public User(String name, String email, String password) {
         validateName(name);
-        validatePassword(password);
         this.name = name;
         this.email = email;
         this.password = password;
@@ -40,13 +38,6 @@ public class User {
         Matcher matcher = NAME_PATTERN.matcher(name);
         if (!matcher.find()) {
             throw new IllegalArgumentException("이름은 알파벳만 가능합니다");
-        }
-    }
-
-    private void validatePassword(String password) {
-        Matcher matcher = PASSWORD_PATTERN.matcher(password);
-        if (!matcher.find()) {
-            throw new IllegalArgumentException("비밀번호 형식이 맞지 않습니다");
         }
     }
 

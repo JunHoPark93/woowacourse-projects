@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 public class UserController {
-    private static final String USER_SESSION = "user";
+    private static final String USER = "user";
 
     private UserService userService;
 
@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String createLoginForm(HttpServletRequest request, UserLoginRequest userLoginRequest) {
-        if (request.getSession().getAttribute(USER_SESSION) == null) {
+        if (request.getSession().getAttribute(USER) == null) {
             return "login";
         }
         return "redirect:/";
@@ -54,13 +54,13 @@ public class UserController {
         for (User user : userService.findAll()) {
             users.add(new UserResponse(user.getName(), user.getEmail()));
         }
-        model.addAttribute(USER_SESSION, users);
+        model.addAttribute("users", users);
         return "user-list";
     }
 
     @GetMapping("/mypage")
     public String myPageForm(Model model, HttpServletRequest request) {
-        model.addAttribute(USER_SESSION, request.getSession().getAttribute(USER_SESSION));
+        model.addAttribute(USER, request.getSession().getAttribute(USER));
         return "mypage";
     }
 
@@ -72,13 +72,13 @@ public class UserController {
     @PostMapping("/login")
     public String login(UserLoginRequest userLoginRequest, HttpServletRequest request) {
         User user = userService.findUserByEmail(userLoginRequest);
-        request.getSession().setAttribute(USER_SESSION, user);
+        request.getSession().setAttribute(USER, user);
         return "redirect:/";
     }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
-        request.getSession().removeAttribute(USER_SESSION);
+        request.getSession().removeAttribute(USER);
         return "redirect:/";
     }
 
@@ -88,14 +88,14 @@ public class UserController {
             return "/mypage-edit";
         }
         User user = userService.editUserName(userId, userEditRequest.getName());
-        request.getSession().setAttribute(USER_SESSION, user);
+        request.getSession().setAttribute(USER, user);
         return "redirect:/";
     }
 
     @DeleteMapping("/users/{userId}")
     public String deleteUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
         userService.deleteById(userId);
-        request.getSession().removeAttribute(USER_SESSION);
+        request.getSession().removeAttribute(USER);
         return "redirect:/";
     }
 }
