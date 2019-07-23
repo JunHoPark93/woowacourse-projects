@@ -25,8 +25,6 @@ public class ArticleControllerTests {
     @Autowired
     private WebTestClient webTestClient;
 
-    @LocalServerPort
-    private int randomLocalPort;
 
     @BeforeEach
     void setUp() {
@@ -108,7 +106,7 @@ public class ArticleControllerTests {
         webTestClient.delete().uri("/articles/1")
                 .exchange()
                 .expectHeader()
-                .valueEquals("location", "http://localhost:" + randomLocalPort + "/")
+                .valueMatches("location", ".*/")
                 .expectStatus()
                 .is3xxRedirection();
     }

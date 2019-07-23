@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,9 +22,6 @@ import static org.springframework.web.reactive.function.BodyInserters.fromFormDa
 public class UserControllerTests {
     @Autowired
     private WebTestClient webTestClient;
-
-    @LocalServerPort
-    private int localServerPort;
 
     @BeforeEach
     void setUp() {
@@ -135,7 +131,7 @@ public class UserControllerTests {
         webTestClient.get().uri("/mypage")
                 .exchange()
                 .expectHeader()
-                .valueMatches("location", "http://localhost:" + localServerPort + "/login")
+                .valueMatches("location", ".*/login")
                 .expectStatus()
                 .is3xxRedirection()
         ; // 로그인 화면으로 갈 것임
@@ -146,7 +142,7 @@ public class UserControllerTests {
         webTestClient.get().uri("/mypage-edit")
                 .exchange()
                 .expectHeader()
-                .valueMatches("location", "http://localhost:" + localServerPort + "/login")
+                .valueMatches("location", ".*/login")
                 .expectStatus()
                 .is3xxRedirection()
         ; // 로그인 화면으로 갈 것임
