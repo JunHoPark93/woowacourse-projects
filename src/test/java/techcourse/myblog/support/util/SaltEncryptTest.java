@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class BCryptImplTest {
+class SaltEncryptTest {
     @Autowired
     private EncryptHelper encryptHelper;
 
