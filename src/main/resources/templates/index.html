@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 
-<head th:replace="main-head.html :: mainHead"></head>
+<head th:replace="/fragments/main-head :: mainHead"></head>
 
 <body>
 <div>
@@ -10,25 +10,19 @@
             <ul class="nav-left mrg-left-0">
                 <li>
                     <a href="/">
-                        <div class="logo logo-dark d-none" style="background-image: url('images/logo/logo_full_dark.png')"></div>
-                        <div class="logo logo-white" style="background-image: url('images/logo/logo_full_white.png')"></div>
+                        <div class="logo logo-dark d-none" style="background-image: url('/static/images/logo/logo_full_dark.png')"></div>
+                        <div class="logo logo-white" style="background-image: url('/static/images/logo/logo_full_white.png')"></div>
                     </a>
                 </li>
             </ul>
             <ul class="nav-right">
-                <li class="user-profile">
-                    <a href="login.html">
-                        <div class="user-info login-btn pointer mrg-right-10">
-                            <span class="name pdd-right-5 text-white">Login</span>
-                        </div>
-                    </a>
-                </li>
+                <th:block th:include="${session.user == null} ? '/includes/login-nav' : '/includes/logout-nav'"/>
             </ul>
         </div>
     </header>
 
     <div class="about-cover card no-border mrg-btm-0">
-        <div class="cover-img overlay-dark bg" style="background-image: url('images/pages/index/bg.jpg')"></div>
+        <div class="cover-img overlay-dark bg" style="background-image: url('/static/images/pages/index/bg.jpg')"></div>
         <div class="welcome-text-container">
             <div class="welcome-txt">
                 <h1 class="text-white border bottom font-size-35 padding-5">Welcome Brown!</h1>
@@ -56,11 +50,11 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="tab-centered-1">
                             <div class="pdd-horizon-15 pdd-vertical-20">
-                                <a th:each="article, index : ${articles}" th:href="@{'/articles/' + ${index.index}}" class="card article-container">
+                                <a th:each="article : ${articles}" th:href="@{'/articles/' + ${article.id}}" class="card article-container">
                                     <div class="card-horizon">
                                         <div class="image-container col-md-4">
-                                            <div th:if="${article.coverUrl} == ''" class="background-holder has-content" style="background-image: url('images/pages/index/study.jpg')"></div>
-                                            <div th:unless="${article.coverUrl} == ''" class="background-holder has-content" th:style="'background-image: url(' + ${article.coverUrl} + ')'"></div>
+                                            <div class="background-holder has-content" th:style = "
+                                            'background-image: url(' + ${#strings.isEmpty(article.coverUrl) ? '/static/images/pages/index/study.jpg' : article.coverUrl} + ');'"></div>
                                         </div>
                                         <div class="container-fluid">
                                             <div class="row">
@@ -99,9 +93,9 @@
     </div>
 </div>
 
-<footer th:replace="common-footer.html :: commonFooter"></footer>
+<footer th:replace="/fragments/common-footer :: commonFooter"></footer>
 
-<th:block th:include="main-js :: mainJs"/>
+<th:block th:include="/fragments/main-js :: mainJs"/>
 
 </body>
 </html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+
+<head th:replace="/fragments/login-head :: loginHead"></head>
+
+<body>
+<div class="app">
+    <div class="header navbar bg-transparent no-border">
+        <div class="header-container pdd-right-15">
+            <ul class="nav-left mrg-left-0">
+                <li>
+                    <a href="/">
+                        <div class="logo logo-dark d-none" style="background-image: url('/static/images/logo/logo_full_dark.png')"></div>
+                        <div class="logo logo-white" style="background-image: url('/static/images/logo/logo_full_white.png')"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="authentication">
+        <div class="sign-in-2">
+            <div class="container-fluid no-pdd-horizon overlay-dark bg" style="background-image: url('/static/images/default/bg.jpg')">
+                <div class="row">
+                    <div class="col-md-10 col-sm-12 mx-auto">
+                        <div class="row">
+                            <div class="mx-auto full-height col-md-4">
+                                <div class="vertical-align full-height">
+                                    <div class="table-cell padding-20">
+                                        <div th:if="${error} != null" class="alert alert-danger" th:text="${error.errorMessage}"></div>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="pdd-horizon-30 pdd-vertical-30">
+                                                    <div class="mrg-btm-30">
+                                                        <h2 class="text-center no-mrg-vertical mrg-btm-15 text-dark">로그인</h2>
+                                                    </div>
+                                                    <form action="/login" method="post" th:object="${userLoginRequest}">
+                                                        <div class="form-group">
+                                                            <input type="email" name="email" class="form-control" placeholder="Id" required th:field="*{email}">
+                                                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="password" name="password" class="form-control" placeholder="Password" required th:field="*{password}">>
+                                                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></span>
+                                                        </div>
+                                                        <div class="checkbox font-size-13 text-dark inline-block no-mrg-vertical no-pdd-vertical">
+                                                            <input id="agreement" name="agreement" type="checkbox">
+                                                            <label for="agreement">로그인 유지</label>
+                                                        </div>
+                                                        <div class="pull-right mrg-left-10">
+                                                            <a href="">Forgot Password?</a>
+                                                        </div>
+                                                        <div class="mrg-top-20 text-right">
+                                                            <input type="submit" class="btn btn-tumblr">로그인</input>
+                                                        </div>
+                                                    </form>
+                                                    <div class="text-dark">
+                                                        <span>아직 회원이 아니신가요?</span>
+                                                        <a href="/signup" class="text-info pointer mrg-left-5">회원가입</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:include="/fragments/main-js :: mainJs"/>
+
+</body>
+</html>

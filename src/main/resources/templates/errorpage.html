@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+
+<head th:replace="/fragments/main-head.html :: mainHead"></head>
+
+<body>
+<p th:text="${error.errorMessage}"></p>
+<a href="/">오류발생! 메인으로 돌아가세요 </a>
+
+<footer th:replace="/fragments/common-footer.html :: commonFooter"></footer>
+
+<th:block th:include="/fragments/main-js :: mainJs"/>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<li th:fragment="logout-nav" id="header-user-dropdown-btn" class="user-profile dropdown no-border pointer">
+    <a class="user-info-link user-dropdown-menu dropdown-toggle" data-toggle="dropdown">
+        <img class="profile-img img-fluid" src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="Brown">
+        <div class="user-info text-white">
+            <span th:text="${session.user.name}" class="name pdd-right-5">Brown</span>
+            <i class="ti-angle-down font-size-10"></i>
+        </div>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="text-dark">
+            <a href="/mypage">
+                <i class="ti-user pdd-right-10"></i>
+                <span class="text-dark">마이 페이지</span>
+            </a>
+        </li>
+        <li role="separator" class="divider"></li>
+        <li class="text-dark">
+            <a href="/logout">
+                <i class="ti-power-off pdd-right-10"></i>
+                <span class="text-dark">로그아웃</span>
+            </a>
+        </li>
+        <li role="separator" class="divider"></li>
+        <li class="text-dark">
+            <a href="/users">
+                <i class="ti-power-off pdd-right-10"></i>
+                <span class="text-dark">Users</span>
+            </a>
+        </li>
+        <li role="separator" class="divider"></li>
+        <li class="text-dark">
+            <form th:action="@{'/users/' + ${session.user.id}}" method="post">
+                <input type="hidden" name="_method" value="delete"/>
+                <i class="ti-power-off pdd-right-10"></i>
+                <button type="submit" class="bullet-warning">회원탈퇴</button>
+            </form>
+        </li>
+    </ul>
+</li>
+</html>

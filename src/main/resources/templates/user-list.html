@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+
+<head th:replace="/fragments/main-head.html :: mainHead"></head>
+
+<body>
+<div>
+    <header id="header" class="header navbar bg-transparent no-border">
+        <div class="header-container">
+            <ul class="nav-left mrg-left-0">
+                <li>
+                    <a href="/">
+                        <div class="logo logo-dark d-none" style="background-image: url('/static/images/logo/logo_full_dark.png')"></div>
+                        <div class="logo logo-white" style="background-image: url('/static/images/logo/logo_full_white.png')"></div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav-right">
+                <th:block th:include="/includes/logout-nav"/>
+            </ul>
+        </div>
+    </header>
+
+    <div class="about-cover card no-border">
+        <div class="cover-img overlay-dark bg" style="background-image: url('/static/images/pages/index/bg.jpg')">
+            <div class="display-block height-100">
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid z-10 bottom-120 relative max-width-lg mx-auto mrg-btm-30 padding-30">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <div class="card-heading border bottom">
+                        <h4 class="card-title">User List</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled list-info">
+                            <li th:each="user : ${users}">
+                                <div class="pdd-vertical-10">
+                                    <img class="thumb-img img-circle" src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="">
+                                    <div class="info">
+                                        <a th:text="${user.name}" th:href="${session.user.email == user.email} ? '/mypage' : ''" class="title no-pdd-vertical text-semibold inline-block lh-1">Brown</a>
+                                        <span class="sub-title">
+                                            <span th:text="${user.email}">gracefulBrown@woowahan.com</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="/fragments/common-footer.html :: commonFooter"></footer>
+
+<th:block th:include="/fragments/main-js :: mainJs"/>
+
+</body>
+</html>
