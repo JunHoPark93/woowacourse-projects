@@ -1,9 +1,6 @@
 package techcourse.myblog.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Article {
@@ -14,6 +11,10 @@ public class Article {
     private String title;
     private String coverUrl;
     private String contents;
+
+    @ManyToOne
+    @JoinColumn(name = "author", foreignKey = @ForeignKey(name = "fk_article_to_user"))
+    private User author;
 
     private Article() {
     }
@@ -44,5 +45,9 @@ public class Article {
         this.title = article.title;
         this.coverUrl = article.coverUrl;
         this.contents = article.contents;
+    }
+
+    public void setAuthor(User user) {
+        this.author = user;
     }
 }
