@@ -50,4 +50,8 @@ public class Article {
     public void setAuthor(User user) {
         this.author = user;
     }
+
+    public boolean isAuthor(User author) {
+        return this.author.equals(author);
+    }
 }

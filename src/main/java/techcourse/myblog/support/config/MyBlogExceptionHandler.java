@@ -38,4 +38,11 @@ public class MyBlogExceptionHandler {
         model.addAttribute("error", errorMessage);
         return "errorpage";
     }
+
+    @ExceptionHandler(InvalidAuthorException.class)
+    public String handleInvalidAuthorException(InvalidAuthorException e, Model model) {
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
+        model.addAttribute("error", errorMessage);
+        return "redirect:/";
+    }
 }

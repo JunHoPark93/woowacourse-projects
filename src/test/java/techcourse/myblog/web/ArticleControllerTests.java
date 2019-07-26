@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,6 +14,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.web.reactive.function.BodyInserters.fromFormData;
 
 @AutoConfigureWebTestClient
 @ExtendWith(SpringExtension.class)
@@ -25,12 +25,28 @@ public class ArticleControllerTests {
     @Autowired
     private WebTestClient webTestClient;
 
+    private String cookie;
 
     @BeforeEach
     void setUp() {
+        // 회원가입
+        webTestClient.post().uri("/users")
+                .body(fromFormData("name", "Bob")
+                        .with("email", "test@gmail.com")
+                        .with("password", "PassWord1!")
+                        .with("reconfirmPassword", "PassWord1!"))
+                .exchange()
+                .expectStatus()
+                .isFound()
+        ;
+
+        cookie = getCookie("test@gmail.com");
+
+        // 글쓰기
         String title = "titleTest";
         String coverUrl = "coverUrlTest";
         String contents = "contentsTest";
+        String cookie = getCookie("test@gmail.com");
         webTestClient.post()
                 .uri("/articles")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -38,6 +54,7 @@ public class ArticleControllerTests {
                         .fromFormData("title", title)
                         .with("coverUrl", coverUrl)
                         .with("contents", contents))
+                .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isFound();
 
@@ -69,6 +86,7 @@ public class ArticleControllerTests {
                 .expectBody()
                 .consumeWith(response2 -> {
                     String body = new String(response2.getResponseBody());
+                    System.out.println(body);
                     assertThat(body.contains(title)).isTrue();
                     assertThat(body.contains(coverUrl)).isTrue();
                     assertThat(body.contains(contents)).isTrue();
@@ -79,24 +97,6 @@ public class ArticleControllerTests {
     void 존재하지_않는_게시글_조회_에러처리() {
         webTestClient.get()
                 .uri("/articles/" + "2")
-                .exchange()
-                .expectStatus().isOk();
-    }
-
-
-    @Test
-    void 게시글수정페이지() {
-        webTestClient.get().uri("/articles/1/edit")
-                .exchange()
-                .expectStatus().isOk();
-    }
-
-    @Test
-    void 게시글수정() {
-        webTestClient.put().uri("/articles/1")
-                .body(BodyInserters.fromFormData("title", "수정")
-                        .with("coverUrl", "수정")
-                        .with("contents", "수정"))
                 .exchange()
                 .expectStatus().isOk();
     }
@@ -112,12 +112,88 @@ public class ArticleControllerTests {
     }
 
     @Test
-    void article_Duplicate_Fail() {
-        webTestClient.post().uri("/articles")
-                .body(BodyInserters.fromFormData("title", "titleTest")
-                        .with("coverUrl", "커버")
-                        .with("contents", "중복"))
+    void 다른사용자가_게시글수정페이지접근_시도_게시글페이지로_이동() {
+        webTestClient.get().uri("/logout")
+                .exchange();
+
+        // 다른 사람 회원가입
+        webTestClient.post().uri("/users")
+                .body(fromFormData("name", "Bob")
+                        .with("email", "test2@gmail.com")
+                        .with("password", "PassWord1!")
+                        .with("reconfirmPassword", "PassWord1!"))
                 .exchange()
-                .expectStatus().is4xxClientError();
+                .expectStatus()
+                .isFound()
+        ;
+
+        String cookie = getCookie("test2@gmail.com");
+
+        webTestClient.get().uri("/articles/1/edit")
+                .header("Cookie", cookie)
+                .exchange()
+                .expectHeader()
+                .valueMatches("location", ".*/")
+                .expectStatus()
+                .isFound()
+        ;
+    }
+
+    @Test
+    void 다른사용자가_게시글수정_시도_게시글페이지로_이동() {
+        webTestClient.get().uri("/logout")
+                .exchange();
+
+        // 다른 사람 회원가입
+        webTestClient.post().uri("/users")
+                .body(fromFormData("name", "Bob")
+                        .with("email", "test2@gmail.com")
+                        .with("password", "PassWord1!")
+                        .with("reconfirmPassword", "PassWord1!"))
+                .exchange()
+                .expectStatus()
+                .isFound()
+        ;
+
+        String cookie = getCookie("test2@gmail.com");
+
+        webTestClient.put().uri("/articles/1")
+                .header("Cookie", cookie)
+                .exchange()
+                .expectHeader()
+                .valueMatches("location", ".*/")
+                .expectStatus()
+                .isFound()
+        ;
+    }
+
+    @Test
+    void 내가쓴글_수정페이지_접근() {
+        webTestClient.get().uri("/articles/1/edit")
+                .header("Cookie", cookie)
+                .exchange()
+                .expectStatus()
+                .isOk();
+    }
+
+    @Test
+    void 내가쓴글_수정_시도() {
+        webTestClient.put().uri("/articles/1")
+                .header("Cookie", cookie)
+                .exchange()
+                .expectStatus()
+                .isOk();
+    }
+
+    private String getCookie(String email) {
+        return webTestClient.post().uri("/login")
+                .body(fromFormData("email", email)
+                        .with("password", "PassWord1!"))
+                .exchange()
+                .expectStatus()
+                .isFound()
+                .returnResult(String.class)
+                .getResponseHeaders()
+                .getFirst("Set-Cookie");
     }
 }
