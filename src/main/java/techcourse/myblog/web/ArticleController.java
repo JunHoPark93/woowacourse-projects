@@ -18,8 +18,8 @@ public class ArticleController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("articles", articleService.findAll());
+    public String index(@RequestParam(defaultValue = "1") int page, Model model) {
+        model.addAttribute("articles", articleService.findAll(page));
         return "index";
     }
 

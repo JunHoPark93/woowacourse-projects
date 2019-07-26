@@ -19,7 +19,8 @@ public class WebConfig {
                         .addPathPatterns("/users")
                         .addPathPatterns("/mypage-edit")
                         .addPathPatterns("/mypage")
-                        .addPathPatterns("/mypage/*");
+                        .addPathPatterns("/mypage/*")
+                        .addPathPatterns("/articles");
             }
         };
     }

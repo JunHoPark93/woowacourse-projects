@@ -85,7 +85,7 @@ public class UserController {
     @PutMapping("/users/{userId}")
     public String editUser(@PathVariable("userId") Long userId, HttpServletRequest request, @Valid UserEditRequest userEditRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "/mypage-edit";
+            return "mypage-edit";
         }
         User user = userService.editUserName(userId, userEditRequest.getName());
         request.getSession().setAttribute(USER, user);

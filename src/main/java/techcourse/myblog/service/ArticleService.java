@@ -1,5 +1,8 @@
 package techcourse.myblog.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.ArticleRepository;
@@ -7,7 +10,6 @@ import techcourse.myblog.service.dto.ArticleRequest;
 import techcourse.myblog.service.exception.NoArticleException;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class ArticleService {
@@ -17,8 +19,9 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public List<Article> findAll() {
-        return articleRepository.findAll();
+    public Page<Article> findAll(int page) {
+        return articleRepository.findAll(
+                PageRequest.of(page - 1, 10, Sort.by("id").descending()));
     }
 
     public Article save(ArticleRequest articleRequest) {
