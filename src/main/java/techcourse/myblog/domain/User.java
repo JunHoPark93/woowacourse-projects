@@ -47,10 +47,9 @@ public class User {
         this.name = name;
     }
 
-    public boolean matchPassword(String password) {
-        return this.password.equals(password);
+    public boolean matchEmail(User user) {
+        return this.email.equals(user.email);
     }
-
     public Long getId() {
         return id;
     }

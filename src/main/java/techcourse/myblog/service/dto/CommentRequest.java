@@ -6,8 +6,6 @@ import javax.validation.constraints.NotNull;
 public class CommentRequest {
     @NotBlank(message = "댓글을 입력하세요!")
     private String contents;
-
-    @NotNull
     private Long articleId;
 
     public String getContents() {

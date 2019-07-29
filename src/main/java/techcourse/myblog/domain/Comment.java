@@ -14,7 +14,7 @@ public class Comment {
     private LocalDateTime createdTime;
 
     @ManyToOne
-    private User commentor;
+    private User commenter;
 
     @ManyToOne
     private Article article;
@@ -26,7 +26,7 @@ public class Comment {
         checkContents(contents);
         this.contents = contents;
         this.article = article;
-        this.commentor = user;
+        this.commenter = user;
         this.createdTime = LocalDateTime.now();
     }
 
@@ -34,6 +34,10 @@ public class Comment {
         if (contents == null) {
             throw new IllegalArgumentException("본문이 없습니다");
         }
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getContents() {
@@ -44,11 +48,16 @@ public class Comment {
         return createdTime;
     }
 
-    public User getCommentor() {
-        return commentor;
+    public User getCommenter() {
+        return commenter;
     }
 
     public Article getArticle() {
         return article;
+    }
+
+    public Comment updateContents(String contents) {
+        this.contents = contents;
+        return this;
     }
 }
