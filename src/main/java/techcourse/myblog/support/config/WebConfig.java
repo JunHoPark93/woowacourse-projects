@@ -20,6 +20,7 @@ public class WebConfig {
                         .addPathPatterns("/mypage-edit")
                         .addPathPatterns("/mypage")
                         .addPathPatterns("/mypage/*")
+                        .addPathPatterns("/writing")
                         .addPathPatterns("/articles");
             }
         };

@@ -77,27 +77,27 @@
                 </div>
                 <div class="comment">
                     <ul class="list-unstyled list-info">
-                        <li class="comment-item border bottom mrg-btm-30">
-                            <img class="thumb-img img-circle" src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">
-                            <div class="info">
-                                <span href="" class="text-bold inline-block">Jun</span>
-                                <span class="sub-title inline-block pull-right">
-                                    <i class="ti-timer pdd-right-5"></i>
-                                    <span>6 min ago</span>
-                            </span>
-                            <p class="width-80">3주라는 짧은 기간에 효과적으로 연습하도록 하기 위해 의식적인 연습을 기반으로 미션을 진행하도록 설계했다. 교육자로 살다 보니 효과적인 학습 방법에 대한 관심이 높아졌다. 효과적인 학습 방법을 찾던 중 “1만 시간의 재발견”이라는 책을 통해 의식적인 연습의 중요성을 느낄 수 있는 계기가 되었다.</p>
-                            </div>
-                        </li>
+<!--                        <li class="comment-item border bottom mrg-btm-30">-->
+<!--                            <img class="thumb-img img-circle" src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">-->
+<!--                            <div class="info">-->
+<!--                                <span href="" class="text-bold inline-block">Jun</span>-->
+<!--                                <span class="sub-title inline-block pull-right">-->
+<!--                                    <i class="ti-timer pdd-right-5"></i>-->
+<!--                                    <span>6 min ago</span>-->
+<!--                            </span>-->
+<!--                            <p class="width-80">3주라는 짧은 기간에 효과적으로 연습하도록 하기 위해 의식적인 연습을 기반으로 미션을 진행하도록 설계했다. 교육자로 살다 보니 효과적인 학습 방법에 대한 관심이 높아졌다. 효과적인 학습 방법을 찾던 중 “1만 시간의 재발견”이라는 책을 통해 의식적인 연습의 중요성을 느낄 수 있는 계기가 되었다.</p>-->
+<!--                            </div>-->
+<!--                        </li>-->
 
-                        <li class="comment-item border bottom mrg-btm-30">
+                        <li class="comment-item border bottom mrg-btm-30" th:each="comment : ${comments}">
                             <img class="thumb-img img-circle" src="https://avatars2.githubusercontent.com/u/3433096?v=4" alt="">
                             <div class="info">
-                                <span href="" class="text-bold inline-block">Jun</span>
+                                <span href="" class="text-bold inline-block" th:text="${comment.commentor.name}">Jun</span>
                                 <span class="sub-title inline-block pull-right">
                                     <i class="ti-timer pdd-right-5"></i>
                                     <span>6 min ago</span>
                                 </span>
-                                <p class="width-80">브라운 멋져</p>
+                                <p class="width-80" th:text="${comment.contents}">브라운 멋져</p>
                             </div>
                         </li>
 
@@ -105,6 +105,12 @@
                     <div class="add-comment">
                         <div id="editSection"></div>
                     </div>
+                    <form action="/comment", method="post">
+                        <button id="comment-submit" type="submit" class="button" value="댓글달기"></button>
+                        <input id="comment-contents" name="contents" type="hidden"/>
+                        <input name="articleId" type="hidden" th:value="${article.id}"/>
+                    </form>
+                    <button id="test" value="dfdfdf">dfdf</button>
                 </div>
             </div>
         </div>
@@ -127,9 +133,18 @@
         previewStyle: 'horizontal',
         events: {
             change: function () {
+                document.getElementById('comment-contents').setAttribute('value', editor.getMarkdown());
             }
         },
         height: '200px'
+    });
+
+    document.getElementById("test").addEventListener('click', function () {
+        console.log(editor.el);
+    })
+
+    document.getElementById("comment-submit").addEventListener('click', function() {
+        document.getElementById("comment-contents").value =  editor.el.value;
     });
 </script>
 </body>

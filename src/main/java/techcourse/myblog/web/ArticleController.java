@@ -4,19 +4,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.Article;
+import techcourse.myblog.domain.Comment;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.service.ArticleService;
+import techcourse.myblog.service.CommentService;
 import techcourse.myblog.service.dto.ArticleRequest;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class ArticleController {
     private ArticleService articleService;
+    private CommentService commentService;
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, CommentService commentService) {
         this.articleService = articleService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/")
@@ -43,7 +48,11 @@ public class ArticleController {
 
     @GetMapping("/articles/{articleId}")
     public String selectArticle(@PathVariable("articleId") long articleId, Model model) {
-        model.addAttribute("article", articleService.findById(articleId));
+        Article article = articleService.findById(articleId);
+        model.addAttribute("article", article);
+        // TODO commentservice
+        model.addAttribute("comments", commentService.findByArticle(article));
+
         return "article";
     }
 
