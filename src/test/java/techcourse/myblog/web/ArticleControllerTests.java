@@ -93,6 +93,7 @@ public class ArticleControllerTests {
     @Test
     void 게시글삭제() {
         webTestClient.delete().uri("/articles/1")
+                .header("Cookie", cookie)
                 .exchange()
                 .expectHeader()
                 .valueMatches("location", ".*/")
