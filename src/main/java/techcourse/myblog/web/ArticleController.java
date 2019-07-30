@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.Article;
-import techcourse.myblog.domain.Comment;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.service.ArticleService;
 import techcourse.myblog.service.CommentService;
@@ -12,7 +11,6 @@ import techcourse.myblog.service.dto.ArticleRequest;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class ArticleController {
@@ -39,9 +37,7 @@ public class ArticleController {
     @PostMapping("/articles")
     public String saveArticle(@Valid ArticleRequest articleRequest, Model model, HttpSession httpSession) {
         User user = (User) httpSession.getAttribute("user");
-
         Article article = articleService.save(articleRequest, user);
-
         model.addAttribute("article", article);
         return "redirect:/articles/" + article.getId();
     }
@@ -50,15 +46,13 @@ public class ArticleController {
     public String selectArticle(@PathVariable("articleId") long articleId, Model model) {
         Article article = articleService.findById(articleId);
         model.addAttribute("article", article);
-        // TODO commentservice
         model.addAttribute("comments", commentService.findByArticle(article));
-
         return "article";
     }
 
     @GetMapping("/articles/{articleId}/edit")
     public String edit(@PathVariable("articleId") long articleId, Model model, HttpSession httpSession) {
-        Article article = articleService.findById2(articleId, (User) httpSession.getAttribute("user"));
+        Article article = articleService.findByIdWithUser(articleId, (User) httpSession.getAttribute("user"));
         model.addAttribute("article", article);
         return "article-edit";
     }

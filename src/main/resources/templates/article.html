@@ -84,10 +84,10 @@
                                 <span href="" class="text-bold inline-block" th:text="${comment.commenter.name}">Jun</span>
                                 <span class="sub-title inline-block pull-right">
                                     <i class="ti-timer pdd-right-5"></i>
-                                    <span>6 min ago</span>
+                                    <span class="elapsed-time" th:text="${comment.elapsedTime}">6</span>
                                 </span>
                                 <p class="width-80" th:text="${comment.contents}">브라운 멋져</p>
-                                <th:block th:if="${comment.commenter.id == session.user.id}">
+                                <th:block th:if="${comment.commenter.id == session.user?.id}">
                                     <a th:href="@{'/comment/' + ${comment.id}}">수정</a>
                                     <form th:action="@{'/comment/' + ${comment.id}}" method="post">
                                         <input type="hidden" name="_method" value="delete"/>
@@ -97,14 +97,16 @@
                             </div>
                         </li>
                     </ul>
-                    <div class="add-comment">
-                        <div id="editSection"></div>
-                    </div>
-                    <form action="/comment", method="post">
-                        <button id="comment-submit" type="submit" class="button" value="댓글달기"></button>
-                        <input id="comment-contents" name="contents" type="hidden"/>
-                        <input name="articleId" type="hidden" th:value="${article.id}"/>
-                    </form>
+                    <th:block th:if="${session.user != null}">
+                        <div class="add-comment">
+                            <div id="editSection"></div>
+                        </div>
+                        <form action="/comment", method="post">
+                            <button id="comment-submit" type="submit" class="button">댓글달기</button>
+                            <input id="comment-contents" name="contents" type="hidden"/>
+                            <input name="articleId" type="hidden" th:value="${article.id}"/>
+                        </form>
+                    </th:block>
                 </div>
             </div>
         </div>
@@ -135,6 +137,18 @@
 
     document.getElementById("comment-submit").addEventListener('click', function() {
         document.getElementById("comment-contents").value =  editor.el.value;
+    });
+
+    const convertTime = function(elapsedtime) {
+        let hours = Math.floor(elapsedtime / 3600000);
+        return hours > 24 ? hours / 24 + "일전" : hours + "시간 전";
+    };
+
+    window.addEventListener("load", function(){
+        let span = document.getElementsByClassName("elapsed-time");
+        Array.from(span).forEach(function(s) {
+            s.textContent = convertTime(s.textContent);
+        });
     });
 </script>
 </body>

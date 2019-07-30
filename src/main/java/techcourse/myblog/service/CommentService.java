@@ -6,10 +6,14 @@ import techcourse.myblog.domain.Comment;
 import techcourse.myblog.domain.CommentRepository;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.service.dto.CommentRequest;
+import techcourse.myblog.service.dto.CommentResponse;
 import techcourse.myblog.service.exception.InvalidAuthorException;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -24,8 +28,13 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public List<Comment> findByArticle(Article article) {
-        return commentRepository.findByArticle(article);
+    public List<CommentResponse> findByArticle(Article article) {
+        return commentRepository.findByArticle(article).stream()
+                .map(comment -> new CommentResponse(comment.getId(),
+                        comment.getContents(),
+                        comment.getCreatedTime().until(LocalDateTime.now(), ChronoUnit.MILLIS),
+                        comment.getCommenter(),
+                        comment.getArticle())).collect(Collectors.toList());
     }
 
     @Transactional

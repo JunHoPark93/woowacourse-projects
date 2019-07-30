@@ -13,7 +13,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.web.reactive.function.BodyInserters.fromFormData;
 
 @AutoConfigureWebTestClient
@@ -68,29 +67,19 @@ public class ArticleControllerTests {
     }
 
     @Test
-    void articleForm() {
+    void 글쓰기_접근() {
         webTestClient.get().uri("/writing")
+                .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isOk();
     }
 
     @Test
     void 게시글조회() {
-        String title = "titleTest";
-        String coverUrl = "coverUrlTest";
-        String contents = "contentsTest";
         webTestClient.get()
                 .uri("/articles/" + "1")
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody()
-                .consumeWith(response2 -> {
-                    String body = new String(response2.getResponseBody());
-                    System.out.println(body);
-                    assertThat(body.contains(title)).isTrue();
-                    assertThat(body.contains(coverUrl)).isTrue();
-                    assertThat(body.contains(contents)).isTrue();
-                });
+                .expectStatus().isOk();
     }
 
     @Test
@@ -173,7 +162,7 @@ public class ArticleControllerTests {
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus()
-                .isOk();
+                .isFound();
     }
 
     @Test
@@ -182,7 +171,7 @@ public class ArticleControllerTests {
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus()
-                .isOk();
+                .isFound();
     }
 
     private String getCookie(String email) {

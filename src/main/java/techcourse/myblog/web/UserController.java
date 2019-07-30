@@ -50,11 +50,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String showUsers(Model model) {
-        List<UserResponse> users = new ArrayList<>();
-        for (User user : userService.findAll()) {
-            users.add(new UserResponse(user.getName(), user.getEmail()));
-        }
-        model.addAttribute("users", users);
+        model.addAttribute("users", userService.findAll());
         return "user-list";
     }
 
