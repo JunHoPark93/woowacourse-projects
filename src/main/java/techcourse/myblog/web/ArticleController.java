@@ -67,7 +67,7 @@ public class ArticleController {
     public String editArticle(@PathVariable("articleId") long articleId, @ModelAttribute ArticleRequest articleRequest, HttpSession httpSession, Model model) {
         Article article = articleService.editArticle(articleRequest, articleId, (User) httpSession.getAttribute("user"));
         model.addAttribute("article", article);
-        return "article";
+        return "redirect:/articles/" + articleId;
     }
 
     @DeleteMapping("/articles/{articleId}")
