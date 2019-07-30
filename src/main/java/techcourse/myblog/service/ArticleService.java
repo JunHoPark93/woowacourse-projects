@@ -59,7 +59,9 @@ public class ArticleService {
         }
     }
 
-    public void deleteById(long articleId) {
+    public void deleteById(long articleId, User user) {
+        Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
+        checkAuthor(user, article);
         articleRepository.deleteById(articleId);
     }
 }
