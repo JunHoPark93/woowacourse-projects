@@ -1,13 +1,11 @@
 package techcourse.myblog.domain;
 
+import techcourse.myblog.domain.common.ContentsAudit;
+
 import javax.persistence.*;
 
 @Entity
-public class Article {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Article extends ContentsAudit {
     private String title;
     private String coverUrl;
     private String contents;
@@ -23,10 +21,6 @@ public class Article {
         this.title = title;
         this.coverUrl = coverUrl;
         this.contents = contents;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getTitle() {

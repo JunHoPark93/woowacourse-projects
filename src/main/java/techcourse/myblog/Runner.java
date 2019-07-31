@@ -12,10 +12,11 @@ import techcourse.myblog.service.dto.UserRequest;
 
 @Component
 public class Runner implements ApplicationRunner {
-    @Autowired
     private UserService userService;
-    @Autowired
-    private ArticleService articleService;
+
+    public Runner(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -24,10 +25,6 @@ public class Runner implements ApplicationRunner {
         userRequest.setEmail("root@gmail.com");
         userRequest.setPassword("Password!1");
         userRequest.setReconfirmPassword("Password!1");
-        User user = userService.saveUser(userRequest);
-
-        ArticleRequest articleRequest = new ArticleRequest("title", "dd", "Dzz");
-
-        articleService.save(articleRequest, user);
+        userService.saveUser(userRequest);
     }
 }

@@ -9,12 +9,10 @@ import techcourse.myblog.service.UserService;
 import techcourse.myblog.service.dto.UserEditRequest;
 import techcourse.myblog.service.dto.UserLoginRequest;
 import techcourse.myblog.service.dto.UserRequest;
-import techcourse.myblog.service.dto.UserResponse;
+import techcourse.myblog.support.config.UserSessionContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -31,6 +29,7 @@ public class UserController {
         if (request.getSession().getAttribute(USER) == null) {
             return "login";
         }
+
         return "redirect:/";
     }
 
@@ -69,12 +68,14 @@ public class UserController {
     public String login(UserLoginRequest userLoginRequest, HttpServletRequest request) {
         User user = userService.findUserByEmail(userLoginRequest);
         request.getSession().setAttribute(USER, user);
+        UserSessionContext.set(user);
         return "redirect:/";
     }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute(USER);
+        UserSessionContext.remove();
         return "redirect:/";
     }
 
@@ -92,6 +93,7 @@ public class UserController {
     public String deleteUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
         userService.deleteById(userId);
         request.getSession().removeAttribute(USER);
+        UserSessionContext.remove();
         return "redirect:/";
     }
 }

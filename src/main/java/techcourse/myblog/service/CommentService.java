@@ -32,7 +32,7 @@ public class CommentService {
         return commentRepository.findByArticle(article).stream()
                 .map(comment -> new CommentResponse(comment.getId(),
                         comment.getContents(),
-                        comment.getCreatedTime().until(LocalDateTime.now(), ChronoUnit.MILLIS),
+                        comment.getCreatedDate().until(LocalDateTime.now(), ChronoUnit.MILLIS),
                         comment.getCommenter(),
                         comment.getArticle())).collect(Collectors.toList());
     }

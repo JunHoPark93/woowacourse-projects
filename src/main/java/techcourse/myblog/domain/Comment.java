@@ -1,17 +1,13 @@
 package techcourse.myblog.domain;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import techcourse.myblog.domain.common.ContentsAudit;
+
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Comment extends ContentsAudit {
     private String contents;
-
-    private LocalDateTime createdTime;
 
     @ManyToOne
     private User commenter;
@@ -27,7 +23,6 @@ public class Comment {
         this.contents = contents;
         this.article = article;
         this.commenter = user;
-        this.createdTime = LocalDateTime.now();
     }
 
     private void checkContents(String contents) {
@@ -42,10 +37,6 @@ public class Comment {
 
     public String getContents() {
         return contents;
-    }
-
-    public LocalDateTime getCreatedTime() {
-        return createdTime;
     }
 
     public User getCommenter() {

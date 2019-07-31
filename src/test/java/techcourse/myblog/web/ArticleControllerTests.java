@@ -163,7 +163,7 @@ public class ArticleControllerTests {
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus()
-                .isFound();
+                .isOk();
     }
 
     @Test
