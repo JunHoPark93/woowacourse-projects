@@ -11,9 +11,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.BodyInserters;
 
-import static org.springframework.web.reactive.function.BodyInserters.fromFormData;
+import static techcourse.myblog.web.WebTestHelper.*;
 
 @AutoConfigureWebTestClient
 @ExtendWith(SpringExtension.class)
@@ -30,37 +29,26 @@ public class CommentControllerTest {
     void setUp() {
         // 회원가입
         webTestClient.post().uri("/users")
-                .body(fromFormData("name", "Bob")
-                        .with("email", "test@gmail.com")
-                        .with("password", "PassWord1!")
-                        .with("reconfirmPassword", "PassWord1!"))
+                .body(signUpForm("CU", "love@gmail.com", "PassWord!1"))
                 .exchange()
                 .expectStatus()
                 .isFound()
         ;
 
-        cookie = getCookie("test@gmail.com");
+        cookie = getCookie("love@gmail.com");
 
         // 글쓰기
-        String title = "titleTest";
-        String coverUrl = "coverUrlTest";
-        String contents = "contentsTest";
-        String cookie = getCookie("test@gmail.com");
         webTestClient.post()
                 .uri("/articles")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(BodyInserters
-                        .fromFormData("title", title)
-                        .with("coverUrl", coverUrl)
-                        .with("contents", contents))
+                .body(articleForm())
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isFound();
 
         // 댓글작성
         webTestClient.post().uri("/comment")
-                .body(BodyInserters.fromFormData("contents", "kk")
-                        .with("articleId", "1"))
+                .body(commentForm())
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus()
@@ -70,8 +58,7 @@ public class CommentControllerTest {
     @Test
     void 댓글작성자_댓글수정() {
         webTestClient.put().uri("/comment/1")
-                .body(BodyInserters.fromFormData("contents", "kk")
-                        .with("articleId", "1"))
+                .body(commentForm())
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus()
@@ -89,8 +76,7 @@ public class CommentControllerTest {
 
     private String getCookie(String email) {
         return webTestClient.post().uri("/login")
-                .body(fromFormData("email", email)
-                        .with("password", "PassWord1!"))
+                .body(loginForm(email, "PassWord!1"))
                 .exchange()
                 .expectStatus()
                 .isFound()

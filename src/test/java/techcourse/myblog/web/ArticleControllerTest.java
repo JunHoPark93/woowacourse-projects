@@ -11,16 +11,15 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.BodyInserters;
 
-import static org.springframework.web.reactive.function.BodyInserters.fromFormData;
+import static techcourse.myblog.web.WebTestHelper.*;
 
 @AutoConfigureWebTestClient
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class ArticleControllerTests {
+public class ArticleControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
@@ -30,29 +29,19 @@ public class ArticleControllerTests {
     void setUp() {
         // 회원가입
         webTestClient.post().uri("/users")
-                .body(fromFormData("name", "Bob")
-                        .with("email", "test@gmail.com")
-                        .with("password", "PassWord1!")
-                        .with("reconfirmPassword", "PassWord1!"))
+                .body(signUpForm("CU", "love@gmail.com", "PassWord!1"))
                 .exchange()
                 .expectStatus()
                 .isFound()
         ;
 
-        cookie = getCookie("test@gmail.com");
+        cookie = getCookie("love@gmail.com");
 
         // 글쓰기
-        String title = "titleTest";
-        String coverUrl = "coverUrlTest";
-        String contents = "contentsTest";
-        String cookie = getCookie("test@gmail.com");
         webTestClient.post()
                 .uri("/articles")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(BodyInserters
-                        .fromFormData("title", title)
-                        .with("coverUrl", coverUrl)
-                        .with("contents", contents))
+                .body(articleForm())
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isFound();
@@ -60,15 +49,8 @@ public class ArticleControllerTests {
     }
 
     @Test
-    void index() {
-        webTestClient.get().uri("/")
-                .exchange()
-                .expectStatus().isOk();
-    }
-
-    @Test
     void 글쓰기_접근() {
-        webTestClient.get().uri("/writing")
+        webTestClient.get().uri("/articles")
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isOk();
@@ -108,16 +90,13 @@ public class ArticleControllerTests {
 
         // 다른 사람 회원가입
         webTestClient.post().uri("/users")
-                .body(fromFormData("name", "Bob")
-                        .with("email", "test2@gmail.com")
-                        .with("password", "PassWord1!")
-                        .with("reconfirmPassword", "PassWord1!"))
+                .body(signUpForm("Jay", "test@gmail.com", "PassWord!1"))
                 .exchange()
                 .expectStatus()
                 .isFound()
         ;
 
-        String cookie = getCookie("test2@gmail.com");
+        String cookie = getCookie("test@gmail.com");
 
         webTestClient.get().uri("/articles/1/edit")
                 .header("Cookie", cookie)
@@ -129,6 +108,7 @@ public class ArticleControllerTests {
         ;
     }
 
+
     @Test
     void 다른사용자가_게시글수정_시도_게시글페이지로_이동() {
         webTestClient.get().uri("/logout")
@@ -136,16 +116,13 @@ public class ArticleControllerTests {
 
         // 다른 사람 회원가입
         webTestClient.post().uri("/users")
-                .body(fromFormData("name", "Bob")
-                        .with("email", "test2@gmail.com")
-                        .with("password", "PassWord1!")
-                        .with("reconfirmPassword", "PassWord1!"))
+                .body(signUpForm("Jay", "test@gmail.com", "PassWord!1"))
                 .exchange()
                 .expectStatus()
                 .isFound()
         ;
 
-        String cookie = getCookie("test2@gmail.com");
+        String cookie = getCookie("test@gmail.com");
 
         webTestClient.put().uri("/articles/1")
                 .header("Cookie", cookie)
@@ -177,8 +154,7 @@ public class ArticleControllerTests {
 
     private String getCookie(String email) {
         return webTestClient.post().uri("/login")
-                .body(fromFormData("email", email)
-                        .with("password", "PassWord1!"))
+                .body(loginForm(email, "PassWord!1"))
                 .exchange()
                 .expectStatus()
                 .isFound()
