@@ -1,7 +1,6 @@
 package techcourse.myblog.service.dto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class CommentRequest {
     @NotBlank(message = "댓글을 입력하세요!")

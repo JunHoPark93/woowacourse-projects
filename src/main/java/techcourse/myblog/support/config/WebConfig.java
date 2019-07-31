@@ -1,9 +1,11 @@
 package techcourse.myblog.support.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import techcourse.myblog.support.config.mapper.CommentResponseMapper;
 import techcourse.myblog.support.encryptor.EncryptHelper;
 import techcourse.myblog.support.encryptor.SaltEncrypt;
 import techcourse.myblog.web.interceptor.AuthInterceptor;
@@ -29,5 +31,12 @@ public class WebConfig {
     @Bean
     public EncryptHelper encryptConfigure() {
         return new SaltEncrypt();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.addMappings(new CommentResponseMapper());
+        return modelMapper;
     }
 }

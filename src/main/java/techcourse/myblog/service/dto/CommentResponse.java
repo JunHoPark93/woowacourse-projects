@@ -6,11 +6,14 @@ import techcourse.myblog.domain.User;
 public class CommentResponse {
     private Long id;
     private String contents;
-    private long elapsedTime;
+    private Long elapsedTime;
     private User commenter;
     private Article article;
 
-    public CommentResponse(Long id, String contents, long elapsedTime, User commenter, Article article) {
+    private CommentResponse() {
+    }
+
+    public CommentResponse(Long id, String contents, Long elapsedTime, User commenter, Article article) {
         this.id = id;
         this.contents = contents;
         this.elapsedTime = elapsedTime;
@@ -34,11 +37,11 @@ public class CommentResponse {
         this.contents = contents;
     }
 
-    public long getElapsedTime() {
+    public Long getElapsedTime() {
         return elapsedTime;
     }
 
-    public void setElapsedTime(long elapsedTime) {
+    public void setElapsedTime(Long elapsedTime) {
         this.elapsedTime = elapsedTime;
     }
 

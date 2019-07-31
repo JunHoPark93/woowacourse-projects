@@ -3,10 +3,12 @@ package techcourse.myblog.domain;
 import techcourse.myblog.domain.common.ContentsAudit;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class Comment extends ContentsAudit {
+    @Lob
     private String contents;
 
     @ManyToOne

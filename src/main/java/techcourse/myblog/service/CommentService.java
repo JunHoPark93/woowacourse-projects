@@ -1,5 +1,6 @@
 package techcourse.myblog.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.Comment;
@@ -10,17 +11,17 @@ import techcourse.myblog.service.dto.CommentResponse;
 import techcourse.myblog.service.exception.InvalidAuthorException;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
     private CommentRepository commentRepository;
+    private ModelMapper commentMapper;
 
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, ModelMapper commentMapper) {
         this.commentRepository = commentRepository;
+        this.commentMapper = commentMapper;
     }
 
     public void save(CommentRequest commentRequest, Article article, User user) {
@@ -30,11 +31,8 @@ public class CommentService {
 
     public List<CommentResponse> findByArticle(Article article) {
         return commentRepository.findByArticle(article).stream()
-                .map(comment -> new CommentResponse(comment.getId(),
-                        comment.getContents(),
-                        comment.getCreatedDate().until(LocalDateTime.now(), ChronoUnit.MILLIS),
-                        comment.getCommenter(),
-                        comment.getArticle())).collect(Collectors.toList());
+                .map(comment -> commentMapper.map(comment, CommentResponse.class))
+                .collect(Collectors.toList());
     }
 
     @Transactional
