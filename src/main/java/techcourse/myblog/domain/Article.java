@@ -2,19 +2,22 @@ package techcourse.myblog.domain;
 
 import techcourse.myblog.domain.common.ContentsAudit;
 
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Article extends ContentsAudit {
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String coverUrl;
+
+    @Column(nullable = false)
+    @Lob
     private String contents;
 
     @ManyToOne
-    @JoinColumn(name = "author", foreignKey = @ForeignKey(name = "fk_article_to_user"))
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_article_to_user"))
     private User author;
 
     private Article() {

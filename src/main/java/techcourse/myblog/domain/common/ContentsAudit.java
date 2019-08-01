@@ -24,10 +24,6 @@ public abstract class ContentsAudit {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    @CreatedBy
-    @OneToOne
-    private User createdBy;
-
     @LastModifiedBy
     @OneToOne
     private User lastModifiedBy;
@@ -44,10 +40,6 @@ public abstract class ContentsAudit {
         return lastModifiedDate;
     }
 
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
     public User getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -62,10 +54,6 @@ public abstract class ContentsAudit {
 
     public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
     }
 
     public void setLastModifiedBy(User lastModifiedBy) {

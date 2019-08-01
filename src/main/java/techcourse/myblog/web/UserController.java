@@ -9,7 +9,6 @@ import techcourse.myblog.service.UserService;
 import techcourse.myblog.service.dto.UserEditRequest;
 import techcourse.myblog.service.dto.UserLoginRequest;
 import techcourse.myblog.service.dto.UserRequest;
-import techcourse.myblog.support.config.UserSessionContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -29,7 +28,6 @@ public class UserController {
         if (request.getSession().getAttribute(USER) == null) {
             return "login";
         }
-
         return "redirect:/";
     }
 
@@ -54,8 +52,8 @@ public class UserController {
     }
 
     @GetMapping("/mypage")
-    public String myPageForm(Model model, HttpServletRequest request) {
-        model.addAttribute(USER, request.getSession().getAttribute(USER));
+    public String myPageForm(Model model, User user) {
+        model.addAttribute(USER, user);
         return "mypage";
     }
 
@@ -68,14 +66,12 @@ public class UserController {
     public String login(UserLoginRequest userLoginRequest, HttpServletRequest request) {
         User user = userService.findUserByEmail(userLoginRequest);
         request.getSession().setAttribute(USER, user);
-        UserSessionContext.set(user);
         return "redirect:/";
     }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute(USER);
-        UserSessionContext.remove();
         return "redirect:/";
     }
 
@@ -93,7 +89,6 @@ public class UserController {
     public String deleteUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
         userService.deleteById(userId);
         request.getSession().removeAttribute(USER);
-        UserSessionContext.remove();
         return "redirect:/";
     }
 }

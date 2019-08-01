@@ -174,6 +174,17 @@ public class UserControllerTest {
         ;
     }
 
+    @Test
+    void 로그인후_userlist_페이지_접근() {
+        String cookie = getCookie();
+
+        webTestClient.get().uri("/users")
+                .header("Cookie", cookie)
+                .exchange()
+                .expectStatus().isOk()
+        ;
+    }
+
     private String getCookie() {
         return webTestClient.post().uri("/login")
                 .body(loginForm("love@gmail.com", "PassWord!1"))

@@ -87,7 +87,10 @@
                                     <span class="elapsed-time" th:text="${comment.elapsedTime}">6</span>
                                 </span>
                                 <p class="width-80" th:text="${comment.contents}">브라운 멋져</p>
+<!--
                                 <th:block th:if="${comment.commenter.id == session.user?.id}">
+-->
+                                <th:block>
                                     <a th:href="@{'/comment/' + ${comment.id}}">수정</a>
                                     <form th:action="@{'/comment/' + ${comment.id}}" method="post">
                                         <input type="hidden" name="_method" value="delete"/>

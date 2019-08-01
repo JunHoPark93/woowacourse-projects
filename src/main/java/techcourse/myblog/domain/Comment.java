@@ -1,20 +1,25 @@
 package techcourse.myblog.domain;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import techcourse.myblog.domain.common.ContentsAudit;
 
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Comment extends ContentsAudit {
     @Lob
+    @Column(nullable = false)
     private String contents;
 
     @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_comment_to_user"), nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User commenter;
 
     @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_comment_to_article"), nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Article article;
 
     private Comment() {

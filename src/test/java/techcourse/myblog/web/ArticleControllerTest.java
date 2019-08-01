@@ -41,7 +41,7 @@ public class ArticleControllerTest {
         webTestClient.post()
                 .uri("/articles")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(articleForm())
+                .body(articleForm("title", "coverUrl", "contents"))
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isFound();
@@ -147,6 +147,7 @@ public class ArticleControllerTest {
     void 내가쓴글_수정_시도() {
         webTestClient.put().uri("/articles/1")
                 .header("Cookie", cookie)
+                .body(articleForm("modifyingTitle", "modifyingUrl", "modifyingContents"))
                 .exchange()
                 .expectStatus()
                 .isFound();
