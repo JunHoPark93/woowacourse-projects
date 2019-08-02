@@ -52,4 +52,11 @@ public class MyBlogExceptionHandler {
         model.addAttribute("error", errorMessage);
         return "redirect:/";
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public String handleNoResourceFoundException(ResourceNotFoundException e, Model model) {
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
+        model.addAttribute("error", errorMessage);
+        return "redirect:/";
+    }
 }

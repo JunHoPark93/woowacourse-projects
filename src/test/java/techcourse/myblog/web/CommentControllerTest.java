@@ -41,7 +41,7 @@ public class CommentControllerTest {
         webTestClient.post()
                 .uri("/articles")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(articleForm("title", "coverUrl", "contents"))
+                .body(articleForm("title", "http://woowabros.github.io/img/2019-02-08/techcourse_poster.jpeg", "contents"))
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isFound();

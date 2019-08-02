@@ -2,8 +2,11 @@ package techcourse.myblog.domain;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import techcourse.myblog.domain.common.ContentsAudit;
+import techcourse.myblog.service.exception.ResourceNotFoundException;
 
 import javax.persistence.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 @Entity
 @EntityListeners(value = AuditingEntityListener.class)
@@ -26,9 +29,23 @@ public class Article extends ContentsAudit{
     }
 
     public Article(String title, String coverUrl, String contents) {
+        checkCoverImageResource(coverUrl);
         this.title = title;
         this.coverUrl = coverUrl;
         this.contents = contents;
+    }
+
+    private void checkCoverImageResource(String coverUrl) {
+        try {
+            HttpURLConnection.setFollowRedirects(false);
+            HttpURLConnection con = (HttpURLConnection) new URL(coverUrl).openConnection();
+            con.setRequestMethod("HEAD");
+            if (con.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new ResourceNotFoundException("리소스가 존재하지 않습니다");
+            }
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("리소스 경로가 올바르지 않습니다");
+        }
     }
 
     public Long getId() {

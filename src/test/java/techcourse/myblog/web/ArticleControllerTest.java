@@ -41,7 +41,7 @@ public class ArticleControllerTest {
         webTestClient.post()
                 .uri("/articles")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(articleForm("title", "coverUrl", "contents"))
+                .body(articleForm("title", "http://woowabros.github.io/img/2019-02-08/techcourse_poster.jpeg", "contents"))
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isFound();
@@ -147,8 +147,20 @@ public class ArticleControllerTest {
     void 내가쓴글_수정_시도() {
         webTestClient.put().uri("/articles/1")
                 .header("Cookie", cookie)
-                .body(articleForm("modifyingTitle", "modifyingUrl", "modifyingContents"))
+                .body(articleForm("modifyingTitle", "http://woowabros.github.io/img/2019-02-08/techcourse_poster.jpeg", "modifyingContents"))
                 .exchange()
+                .expectStatus()
+                .isFound();
+    }
+
+    @Test
+    void 존재하지않는_커버이미지로_게시글저장_메인페이지로_리다이렉트() {
+        webTestClient.post().uri("/articles")
+                .header("Cookie", cookie)
+                .body(articleForm("modifyingTitle", "invalidUrl", "modifyingContents"))
+                .exchange()
+                .expectHeader()
+                .valueMatches("location", ".*/")
                 .expectStatus()
                 .isFound();
     }

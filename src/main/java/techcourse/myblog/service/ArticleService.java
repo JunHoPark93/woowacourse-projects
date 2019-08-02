@@ -10,6 +10,7 @@ import techcourse.myblog.domain.User;
 import techcourse.myblog.service.dto.ArticleRequest;
 import techcourse.myblog.service.exception.InvalidAuthorException;
 import techcourse.myblog.service.exception.NoArticleException;
+import techcourse.myblog.service.exception.ResourceNotFoundException;
 
 import javax.transaction.Transactional;
 
@@ -27,10 +28,17 @@ public class ArticleService {
     }
 
     public Article save(ArticleRequest articleRequest, User user) {
-        Article article = new Article(articleRequest.getTitle(),
-                articleRequest.getCoverUrl(), articleRequest.getContents());
+        Article article = createArticle(articleRequest);
         article.setAuthor(user);
         return articleRepository.save(article);
+    }
+
+    private Article createArticle(ArticleRequest articleRequest) {
+        try {
+            return new Article(articleRequest.getTitle(), articleRequest.getCoverUrl(), articleRequest.getContents());
+        } catch (Exception e) {
+            throw new ResourceNotFoundException(e.getMessage());
+        }
     }
 
     public Article findById(long articleId) {
