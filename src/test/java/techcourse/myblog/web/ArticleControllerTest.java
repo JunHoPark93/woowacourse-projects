@@ -84,7 +84,7 @@ public class ArticleControllerTest {
     }
 
     @Test
-    void 다른사용자가_게시글수정페이지접근_시도_게시글페이지로_이동() {
+    void 다른사용자가_게시글수정페이지접근_시도_메인페이지로_이동() {
         webTestClient.get().uri("/logout")
                 .exchange();
 

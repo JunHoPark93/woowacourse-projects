@@ -60,4 +60,8 @@ public class Comment extends ContentsAudit {
         this.contents = contents;
         return this;
     }
+
+    public boolean isCommentor(User commenter) {
+        return this.commenter.equals(commenter);
+    }
 }

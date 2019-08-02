@@ -45,4 +45,11 @@ public class MyBlogExceptionHandler {
         model.addAttribute("error", errorMessage);
         return "redirect:/";
     }
+
+    @ExceptionHandler(NoCommentException.class)
+    public String handleNoCommentException(NoCommentException e, Model model) {
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
+        model.addAttribute("error", errorMessage);
+        return "redirect:/";
+    }
 }
