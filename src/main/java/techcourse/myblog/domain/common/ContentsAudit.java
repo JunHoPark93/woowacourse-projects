@@ -1,11 +1,8 @@
 package techcourse.myblog.domain.common;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import techcourse.myblog.domain.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,16 +14,11 @@ public abstract class ContentsAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @Column(nullable = false, updatable = false)
     @CreatedDate
     private LocalDateTime createdDate;
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
-
-    @LastModifiedBy
-    @OneToOne
-    private User lastModifiedBy;
 
     public Long getId() {
         return id;
@@ -40,10 +32,6 @@ public abstract class ContentsAudit {
         return lastModifiedDate;
     }
 
-    public User getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -54,9 +42,5 @@ public abstract class ContentsAudit {
 
     public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
-    }
-
-    public void setLastModifiedBy(User lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
     }
 }

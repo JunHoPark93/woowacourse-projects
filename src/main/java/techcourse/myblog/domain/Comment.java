@@ -2,11 +2,13 @@ package techcourse.myblog.domain;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import techcourse.myblog.domain.common.ContentsAudit;
 
 import javax.persistence.*;
 
 @Entity
+@EntityListeners(value = AuditingEntityListener.class)
 public class Comment extends ContentsAudit {
     @Lob
     @Column(nullable = false)

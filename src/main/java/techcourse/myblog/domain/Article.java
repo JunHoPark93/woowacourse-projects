@@ -1,11 +1,13 @@
 package techcourse.myblog.domain;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import techcourse.myblog.domain.common.ContentsAudit;
 
 import javax.persistence.*;
 
 @Entity
-public class Article extends ContentsAudit {
+@EntityListeners(value = AuditingEntityListener.class)
+public class Article extends ContentsAudit{
     @Column(nullable = false)
     private String title;
 
@@ -27,6 +29,10 @@ public class Article extends ContentsAudit {
         this.title = title;
         this.coverUrl = coverUrl;
         this.contents = contents;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
