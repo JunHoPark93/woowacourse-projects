@@ -1,9 +1,6 @@
 package techcourse.myblog.service.dto;
 
-import techcourse.myblog.support.validator.TitleConstraint;
-
 public class ArticleRequest {
-    @TitleConstraint
     private String title;
     private String coverUrl;
     private String contents;

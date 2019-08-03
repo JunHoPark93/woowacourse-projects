@@ -7,21 +7,20 @@ import techcourse.myblog.service.UserService;
 import techcourse.myblog.service.dto.UserRequest;
 
 @Component
-public class AppRunner implements ApplicationRunner {
+public class Runner implements ApplicationRunner {
     private UserService userService;
 
-    public AppRunner(UserService userService) {
+    public Runner(UserService userService) {
         this.userService = userService;
     }
 
     @Override
-    public void run(ApplicationArguments args) {
+    public void run(ApplicationArguments args) throws Exception {
         UserRequest userRequest = new UserRequest();
         userRequest.setName("CU");
         userRequest.setEmail("root@gmail.com");
-        userRequest.setPassword("PassWord!1");
-        userRequest.setReconfirmPassword("PassWord!1");
-
+        userRequest.setPassword("Password!1");
+        userRequest.setReconfirmPassword("Password!1");
         userService.saveUser(userRequest);
     }
 }

@@ -79,6 +79,20 @@
                                     </div>
                                 </a>
                             </div>
+                            <nav aria-label="...">
+                                <ul class="pagination justify-content-center">
+                                    <li th:class="${articles.first} ? 'page-item disabled' : 'page-item'">
+                                        <a th:href="@{/(page=${articles.number})}" class="page-link">
+                                            Prev
+                                        </a>
+                                    </li>
+                                    <li th:class="${articles.last} ? 'page-item disabled' : 'page-item'">
+                                        <a th:href="@{/(page=${articles.number + 2})}" class="page-link">
+                                            Next
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -86,7 +100,7 @@
             <div class="col-lg-3"></div>
         </div>
 
-        <a href="/writing" class="btn btn-primary btn-rounded btn-icon fixed lh-2-4 right-50 bottom-50 width-50px height-50px">
+        <a href="/articles" class="btn btn-primary btn-rounded btn-icon fixed lh-2-4 right-50 bottom-50 width-50px height-50px">
             <i class="ti-plus"></i>
         </a>
 
