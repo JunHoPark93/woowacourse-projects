@@ -11,6 +11,7 @@ import techcourse.myblog.service.exception.SignUpException;
 import techcourse.myblog.support.encryptor.EncryptHelper;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -37,7 +38,7 @@ public class UserService {
     }
 
     public List<User> findAll() {
-        return userRepository.findAll();
+        return Collections.unmodifiableList(userRepository.findAll());
     }
 
     public User findUserByEmail(UserLoginRequest userLoginRequest) {

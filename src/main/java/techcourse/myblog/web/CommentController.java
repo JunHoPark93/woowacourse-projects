@@ -9,7 +9,6 @@ import techcourse.myblog.service.ArticleService;
 import techcourse.myblog.service.CommentService;
 import techcourse.myblog.service.dto.CommentRequest;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -31,7 +30,7 @@ public class CommentController {
     }
 
     @GetMapping("/{commentId}")
-    public String editCommentPage(@PathVariable("commentId") Long commentId, Model model, User user) {
+    public String showCommentPage(@PathVariable("commentId") Long commentId, Model model, User user) {
         model.addAttribute("comment",
                 commentService.findComment(user, commentId));
         return "mycomment-edit";

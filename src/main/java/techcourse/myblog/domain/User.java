@@ -1,6 +1,7 @@
 package techcourse.myblog.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ public class User {
     @Column(nullable = false, length = 50)
     private String name;
 
+    @Email
     @Column(nullable = false)
     private String email;
 

@@ -12,8 +12,11 @@ import techcourse.myblog.service.exception.InvalidAuthorException;
 import techcourse.myblog.service.exception.NoCommentException;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class CommentService {
@@ -33,7 +36,8 @@ public class CommentService {
     public List<CommentResponse> findByArticle(Article article) {
         return commentRepository.findByArticle(article).stream()
                 .map(comment -> commentMapper.map(comment, CommentResponse.class))
-                .collect(Collectors.toList());
+                .collect(collectingAndThen(toList(),
+                        Collections::unmodifiableList));
     }
 
     @Transactional

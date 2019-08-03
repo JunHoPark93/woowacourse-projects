@@ -22,13 +22,13 @@ public class ArticleController {
         this.commentService = commentService;
     }
 
-    @GetMapping()
+    @GetMapping
     public String formArticle(Model model) {
         model.addAttribute("article", null);
         return "article-edit";
     }
 
-    @PostMapping()
+    @PostMapping
     public String saveArticle(@Valid ArticleRequest articleRequest, Model model, User user) {
         Article article = articleService.save(articleRequest, user);
         model.addAttribute("article", article);
@@ -44,7 +44,7 @@ public class ArticleController {
     }
 
     @GetMapping("/{articleId}/edit")
-    public String edit(@PathVariable("articleId") long articleId, Model model, User user) {
+    public String show(@PathVariable("articleId") long articleId, Model model, User user) {
         Article article = articleService.findByIdWithUser(articleId, user);
         model.addAttribute("article", article);
         return "article-edit";
