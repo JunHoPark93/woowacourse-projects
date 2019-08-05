@@ -74,28 +74,11 @@
                 <div class="width-100 border bottom mrg-btm-2
                 0 pdd-btm-10">
                     <span class="font-size-16">댓글</span>
-                    <span class="font-size-16 text-info" th:text="${comments.size()}">2</span>
+                    <span class="font-size-16 text-info" id="comment-size">2</span>
                 </div>
                 <div class="comment">
                     <ul class="list-unstyled list-info" id="comment-section">
-                        <li class="comment-item border bottom mrg-btm-30" th:each="comment : ${comments}">
-                            <img class="thumb-img img-circle" src="https://avatars2.githubusercontent.com/u/3433096?v=4" alt="">
-                            <div class="info">
-                                <span href="" class="text-bold inline-block" th:text="${comment.commenter.name}">Jun</span>
-                                <span class="sub-title inline-block pull-right">
-                                    <i class="ti-timer pdd-right-5"></i>
-                                    <span class="elapsed-time" th:text="${comment.elapsedTime}">6</span>
-                                </span>
-                                <p class="width-80" th:text="${comment.contents}">브라운 멋져</p>
-                                <th:block th:if="${comment.commenter.id == session.user?.id}">
-                                    <a th:href="@{'/comment/' + ${comment.id}}">수정</a>
-                                    <form th:action="@{'/comment/' + ${comment.id}}" method="post">
-                                        <input type="hidden" name="_method" value="delete"/>
-                                        <button type="submit" class="warning">삭제</button>
-                                    </form>
-                                </th:block>
-                            </div>
-                        </li>
+
                     </ul>
                     <th:block th:if="${session.user != null}">
                         <div class="add-comment">
@@ -113,7 +96,32 @@
 
 <th:block th:include="/fragments/article-js :: articleJs"/>
 
-<script>
+<script th:inline="javascript">
+    fetch('/comment/article/[[${article.id}]]', {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+        }
+    }).then(function(response) {
+        return response.json();
+    }).then(function(res) {
+        let node = document.getElementById('comment-section');
+        while (node.firstChild) {
+            node.removeChild(node.firstChild);
+        }
+
+        document.getElementById('comment-size').innerText = res.length;
+
+        res.forEach(function(element) {
+            console.log(element);
+            node.insertAdjacentHTML('beforeend',
+                template({"contents": element.contents,
+                    "commentId": element.id,
+                    "commenter": element.commenter.name,
+                    "elapsedTime": element.elapsedTime}))
+        });
+    });
+
     const viewer = tui.Editor.factory({
         el: document.querySelector('#viewerSection'),
         viewer: true,
@@ -164,6 +172,8 @@
                     node.removeChild(node.firstChild);
                 }
 
+                document.getElementById('comment-size').innerText = res.length;
+
                 res.forEach(function(element) {
                     console.log(element);
                     node.insertAdjacentHTML('beforeend',
@@ -199,6 +209,8 @@
             while (node.firstChild) {
                 node.removeChild(node.firstChild);
             }
+
+            document.getElementById('comment-size').innerText = res.length;
 
             res.forEach(function(element) {
                 console.log(element);

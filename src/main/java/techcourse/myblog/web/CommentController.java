@@ -27,6 +27,14 @@ public class CommentController {
         this.articleService = articleService;
     }
 
+    @GetMapping("/article/{articleId}")
+    @ResponseBody
+    public ResponseEntity<List<CommentResponse>> comments(@PathVariable("articleId") Long articleId) {
+        Article article = articleService.findById(articleId);
+        List<CommentResponse> commentResponses = commentService.findByArticle(article);
+        return new ResponseEntity<>(commentResponses, HttpStatus.OK);
+    }
+
     @PostMapping
     @ResponseBody
     public ResponseEntity<List<CommentResponse>> saveComment(@RequestBody CommentRequest commentRequest, User user) {

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.service.ArticleService;
-import techcourse.myblog.service.CommentService;
 import techcourse.myblog.service.dto.ArticleRequest;
 
 import javax.validation.Valid;
@@ -15,11 +14,9 @@ import javax.validation.Valid;
 @RequestMapping("/articles")
 public class ArticleController {
     private ArticleService articleService;
-    private CommentService commentService;
 
-    public ArticleController(ArticleService articleService, CommentService commentService) {
+    public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
-        this.commentService = commentService;
     }
 
     @GetMapping()
@@ -39,7 +36,6 @@ public class ArticleController {
     public String selectArticle(@PathVariable("articleId") long articleId, Model model) {
         Article article = articleService.findById(articleId);
         model.addAttribute("article", article);
-        model.addAttribute("comments", commentService.findByArticle(article));
         return "article";
     }
 
