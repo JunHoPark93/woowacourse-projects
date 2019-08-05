@@ -1,5 +1,7 @@
 package techcourse.myblog.web;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -8,9 +10,10 @@ import techcourse.myblog.domain.User;
 import techcourse.myblog.service.ArticleService;
 import techcourse.myblog.service.CommentService;
 import techcourse.myblog.service.dto.CommentRequest;
+import techcourse.myblog.service.dto.CommentResponse;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/comment")
@@ -24,10 +27,12 @@ public class CommentController {
     }
 
     @PostMapping
-    public String saveComment(@Valid CommentRequest commentRequest, User user) {
+    @ResponseBody
+    public ResponseEntity<List<CommentResponse>> saveComment(@RequestBody CommentRequest commentRequest, User user) {
         Article article = articleService.findById(commentRequest.getArticleId());
         commentService.save(commentRequest, article, user);
-        return "redirect:/articles/" + commentRequest.getArticleId();
+        List<CommentResponse> commentResponses = commentService.findByArticle(article);
+        return new ResponseEntity<>(commentResponses, HttpStatus.OK);
     }
 
     @GetMapping("/{commentId}")

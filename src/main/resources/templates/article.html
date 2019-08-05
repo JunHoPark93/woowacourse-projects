@@ -77,7 +77,7 @@
                     <span class="font-size-16 text-info" th:text="${comments.size()}">2</span>
                 </div>
                 <div class="comment">
-                    <ul class="list-unstyled list-info">
+                    <ul class="list-unstyled list-info" id="comment-section">
                         <li class="comment-item border bottom mrg-btm-30" th:each="comment : ${comments}">
                             <img class="thumb-img img-circle" src="https://avatars2.githubusercontent.com/u/3433096?v=4" alt="">
                             <div class="info">
@@ -101,11 +101,9 @@
                         <div class="add-comment">
                             <div id="editSection"></div>
                         </div>
-                        <form action="/comment", method="post">
-                            <button id="comment-submit" type="submit" class="button">댓글달기</button>
+                            <button id="comment-submit" type="button" class="button">댓글달기AJAX</button>
                             <input id="comment-contents" name="contents" type="hidden"/>
-                            <input name="articleId" type="hidden" th:value="${article.id}"/>
-                        </form>
+                            <input id="article-id" name="articleId" type="hidden" th:value="${article.id}"/>
                     </th:block>
                 </div>
             </div>
@@ -135,9 +133,60 @@
         height: '200px'
     });
 
+    const template = (comment) => {
+        return `<li class="comment-item border bottom mrg-btm-30">
+                    <img class="thumb-img img-circle" src="https://avatars2.githubusercontent.com/u/3433096?v=4" alt="">
+                    <div class="info">
+                        <span href="" class="text-bold inline-block">${comment.commenter}</span>
+                        <span class="sub-title inline-block pull-right">
+                            <i class="ti-timer pdd-right-5"></i>
+                            <span class="elapsed-time">${comment.elapsedTime}</span>
+                        </span>
+                        <p class="width-80">${comment.contents}</p>
+                        <a href="/comment/${comment.commentId}">수정</a>
+                        <form action="/comment/${comment.commentId}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="warning">삭제</button>
+                        </form>
+                    </div>
+                </li>`
+    };
+
     document.getElementById("comment-submit").addEventListener('click', function() {
-        document.getElementById("comment-contents").value =  editor.el.value;
+        let contents = document.getElementById("comment-contents").value;
+        let articleId = document.getElementById("article-id").value;
+        let lastCommentCreatedDate = document.getElementById("last-comment-created-date") == null ?
+            null : document.getElementById("last-comment-created-date").value;
+
+        let requestDto = {
+            contents: contents, articleId: articleId, lastCommentCreatedDate: lastCommentCreatedDate
+        };
+
+        fetch('/comment', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify(requestDto)
+        }).then(function(response) {
+            return response.json();
+        }).then(function(res) {
+            let node = document.getElementById('comment-section');
+            while (node.firstChild) {
+                node.removeChild(node.firstChild);
+            }
+
+            res.forEach(function(element) {
+                console.log(element);
+                node.insertAdjacentHTML('beforeend',
+                    template({"contents": element.contents,
+                        "commentId": element.id,
+                        "commenter": element.commenter.name,
+                        "elapsedTime": element.elapsedTime}))
+            });
+        });
     });
+
 
     const convertTime = function(elapsedtime) {
         let hours = Math.floor(elapsedtime / 3600000);
@@ -150,6 +199,9 @@
             s.textContent = convertTime(s.textContent);
         });
     });
+
+
+
 </script>
 </body>
 </html>

@@ -62,7 +62,7 @@ public class CommentService {
 
     private void checkAuthor(User user, Long commentId) {
         Comment comment = findById(commentId);
-        if (comment.isCommentor(user)) {
+        if (!comment.isCommentor(user)) {
             throw new InvalidAuthorException("작성자가 아닙니다");
         }
     }
