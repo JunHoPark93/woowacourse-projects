@@ -49,13 +49,13 @@ public class CommentService {
 
     public Comment findComment(User user, Long commentId) {
         Comment comment = findById(commentId);
-        if (comment.isCommentor(user)) {
+        if (!comment.isCommentor(user)) {
             throw new InvalidAuthorException("작성자가 아닙니다");
         }
         return comment;
     }
 
-    private Comment findById(Long commentId) {
+    public Comment findById(Long commentId) {
         return commentRepository.findById(commentId)
                 .orElseThrow(() -> new NoCommentException("댓글이 존재하지 않습니다"));
     }

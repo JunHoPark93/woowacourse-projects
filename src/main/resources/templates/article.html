@@ -144,13 +144,37 @@
                         </span>
                         <p class="width-80">${comment.contents}</p>
                         <a href="/comment/${comment.commentId}">수정</a>
-                        <form action="/comment/${comment.commentId}" method="post">
-                            <input type="hidden" name="_method" value="delete"/>
-                            <button type="submit" class="warning">삭제</button>
-                        </form>
+                        <button type="submit" class="warning" data-comment-id="${comment.commentId}">삭제</button>
                     </div>
                 </li>`
     };
+
+    document.getElementById("comment-section").addEventListener('click', function(event) {
+        if (event.target.classList.contains('warning')) {
+            fetch('/comment/' + event.target.dataset.commentId, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                }
+            }).then(function(response) {
+                return response.json();
+            }).then(function(res) {
+                let node = document.getElementById('comment-section');
+                while (node.firstChild) {
+                    node.removeChild(node.firstChild);
+                }
+
+                res.forEach(function(element) {
+                    console.log(element);
+                    node.insertAdjacentHTML('beforeend',
+                        template({"contents": element.contents,
+                            "commentId": element.id,
+                            "commenter": element.commenter.name,
+                            "elapsedTime": element.elapsedTime}))
+                });
+            });
+        }
+    });
 
     document.getElementById("comment-submit").addEventListener('click', function() {
         let contents = document.getElementById("comment-contents").value;

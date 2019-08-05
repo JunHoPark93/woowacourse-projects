@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.Article;
+import techcourse.myblog.domain.Comment;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.service.ArticleService;
 import techcourse.myblog.service.CommentService;
@@ -49,9 +50,12 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    public String deleteComment(@PathVariable("commentId") Long commentId, User user) {
+    @ResponseBody
+    public ResponseEntity<List<CommentResponse>> deleteComment(@PathVariable("commentId") Long commentId, User user) {
+        Comment comment = commentService.findById(commentId);
         commentService.deleteById(commentId, user);
-        return "redirect:/";
+        List<CommentResponse> commentResponses = commentService.findByArticle(comment.getArticle());
+        return new ResponseEntity<>(commentResponses, HttpStatus.OK);
     }
 }
 
