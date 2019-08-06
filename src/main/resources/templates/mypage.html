@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 
-<head th:replace="/fragments/mypage-head :: mypageHead"></head>
+<head th:replace="fragments/mypage-head :: mypageHead"></head>
 
 <body>
 <div>
@@ -111,7 +111,7 @@
     </div>
 </div>
 
-<th:block th:include="/fragments/main-js :: mainJs"/>
+<th:block th:include="fragments/main-js :: mainJs"/>
 
 </body>
 </html>

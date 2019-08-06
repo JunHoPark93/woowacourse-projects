@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="/fragments/article-edit-head :: articleEditHead">
+<head th:replace="fragments/article-edit-head :: articleEditHead">
 </head>
 
 <body>
@@ -50,7 +50,7 @@
     </form>
 </div>
 
-<th:block th:include="/fragments/article-js :: articleJs"/>
+<th:block th:include="fragments/article-js :: articleJs"/>
 
 <script type="text/javascript">
     const editor = new tui.Editor({

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 
-<head th:replace="/fragments/main-head.html :: mainHead"></head>
+<head th:replace="fragments/main-head.html :: mainHead"></head>
 
 <body>
 <div>
@@ -56,9 +56,9 @@
     </div>
 </div>
 
-<footer th:replace="/fragments/common-footer.html :: commonFooter"></footer>
+<footer th:replace="fragments/common-footer.html :: commonFooter"></footer>
 
-<th:block th:include="/fragments/main-js :: mainJs"/>
+<th:block th:include="fragments/main-js :: mainJs"/>
 
 </body>
 </html>

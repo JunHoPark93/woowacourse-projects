@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="/fragments/article-head :: articleHead">
+<head th:replace="fragments/article-head :: articleHead">
 
 </head>
 <body>
@@ -94,7 +94,7 @@
     </div>
 </div>
 
-<th:block th:include="/fragments/article-js :: articleJs"/>
+<th:block th:include="fragments/article-js :: articleJs"/>
 
 <script th:inline="javascript">
     fetch('/comment/article/[[${article.id}]]', {
