@@ -27,20 +27,21 @@ public class CommentController {
         this.articleService = articleService;
     }
 
-    @GetMapping("/article/{articleId}")
-    @ResponseBody
-    public ResponseEntity<List<CommentResponse>> comments(@PathVariable("articleId") Long articleId) {
-        Article article = articleService.findById(articleId);
-        List<CommentResponse> commentResponses = commentService.findByArticle(article);
-        return new ResponseEntity<>(commentResponses, HttpStatus.OK);
-    }
-
     @PostMapping
     @ResponseBody
     public ResponseEntity<List<CommentResponse>> saveComment(@RequestBody CommentRequest commentRequest, User user) {
         Article article = articleService.findById(commentRequest.getArticleId());
         commentService.save(commentRequest, article, user);
         List<CommentResponse> commentResponses = commentService.findByArticle(article);
+        return new ResponseEntity<>(commentResponses, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{commentId}")
+    @ResponseBody
+    public ResponseEntity<List<CommentResponse>> deleteComment(@PathVariable("commentId") Long commentId, User user) {
+        Comment comment = commentService.findById(commentId);
+        commentService.deleteById(commentId, user);
+        List<CommentResponse> commentResponses = commentService.findByArticle(comment.getArticle());
         return new ResponseEntity<>(commentResponses, HttpStatus.OK);
     }
 
@@ -55,15 +56,6 @@ public class CommentController {
     public String editComment(@Valid CommentRequest commentRequest, @PathVariable("commentId") Long commentId, User user) {
         commentService.update(commentRequest, user, commentId);
         return "redirect:/articles/" + commentRequest.getArticleId();
-    }
-
-    @DeleteMapping("/{commentId}")
-    @ResponseBody
-    public ResponseEntity<List<CommentResponse>> deleteComment(@PathVariable("commentId") Long commentId, User user) {
-        Comment comment = commentService.findById(commentId);
-        commentService.deleteById(commentId, user);
-        List<CommentResponse> commentResponses = commentService.findByArticle(comment.getArticle());
-        return new ResponseEntity<>(commentResponses, HttpStatus.OK);
     }
 }
 

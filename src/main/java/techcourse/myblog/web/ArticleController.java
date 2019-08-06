@@ -1,5 +1,7 @@
 package techcourse.myblog.web;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -7,8 +9,10 @@ import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.service.ArticleService;
 import techcourse.myblog.service.dto.ArticleRequest;
+import techcourse.myblog.service.dto.CommentResponse;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/articles")
@@ -57,5 +61,12 @@ public class ArticleController {
     public String deleteArticle(@PathVariable("articleId") long articleId, User user) {
         articleService.deleteById(articleId, user);
         return "redirect:/";
+    }
+
+    @GetMapping("/{articleId}/comment")
+    @ResponseBody
+    public ResponseEntity<List<CommentResponse>> comments(@PathVariable("articleId") Long articleId) {
+        List<CommentResponse> commentResponses = articleService.findAllComment(articleId);
+        return new ResponseEntity<>(commentResponses, HttpStatus.OK);
     }
 }

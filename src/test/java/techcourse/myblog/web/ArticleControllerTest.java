@@ -135,15 +135,6 @@ public class ArticleControllerTest {
     }
 
     @Test
-    void 내가쓴글_수정페이지_접근() {
-        webTestClient.get().uri("/articles/1/edit")
-                .header("Cookie", cookie)
-                .exchange()
-                .expectStatus()
-                .isOk();
-    }
-
-    @Test
     void 내가쓴글_수정_시도() {
         webTestClient.put().uri("/articles/1")
                 .header("Cookie", cookie)

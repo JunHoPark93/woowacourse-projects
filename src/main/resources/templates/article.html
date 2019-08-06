@@ -93,35 +93,11 @@
         </div>
     </div>
 </div>
-
-<th:block th:include="fragments/article-js :: articleJs"/>
-
 <script th:inline="javascript">
-    fetch('/comment/article/[[${article.id}]]', {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-        }
-    }).then(function(response) {
-        return response.json();
-    }).then(function(res) {
-        let node = document.getElementById('comment-section');
-        while (node.firstChild) {
-            node.removeChild(node.firstChild);
-        }
-
-        document.getElementById('comment-size').innerText = res.length;
-
-        res.forEach(function(element) {
-            console.log(element);
-            node.insertAdjacentHTML('beforeend',
-                template({"contents": element.contents,
-                    "commentId": element.id,
-                    "commenter": element.commenter.name,
-                    "elapsedTime": element.elapsedTime}))
-        });
-    });
-
+    let articleId = [[${article.id}]];
+</script>
+<th:block th:include="fragments/article-js :: articleJs"/>
+<script>
     const viewer = tui.Editor.factory({
         el: document.querySelector('#viewerSection'),
         viewer: true,
@@ -139,6 +115,36 @@
             }
         },
         height: '200px'
+    });
+
+    function drawComment(res) {
+        let node = document.getElementById('comment-section');
+        while (node.firstChild) {
+            node.removeChild(node.firstChild);
+        }
+
+        document.getElementById('comment-size').innerText = res.length;
+
+        res.forEach(function (element) {
+            console.log(element);
+            node.insertAdjacentHTML('beforeend',
+                template({
+                    "contents": element.contents,
+                    "commentId": element.id,
+                    "commenter": element.commenter.name
+                }))
+        });
+    }
+
+    fetch('/articles/' + articleId + "/comment", {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+        }
+    }).then(function(response) {
+        return response.json();
+    }).then(function(res) {
+        drawComment(res);
     });
 
     const template = (comment) => {
@@ -167,21 +173,7 @@
             }).then(function(response) {
                 return response.json();
             }).then(function(res) {
-                let node = document.getElementById('comment-section');
-                while (node.firstChild) {
-                    node.removeChild(node.firstChild);
-                }
-
-                document.getElementById('comment-size').innerText = res.length;
-
-                res.forEach(function(element) {
-                    console.log(element);
-                    node.insertAdjacentHTML('beforeend',
-                        template({"contents": element.contents,
-                            "commentId": element.id,
-                            "commenter": element.commenter.name,
-                            "elapsedTime": element.elapsedTime}))
-                });
+                drawComment(res)
             });
         }
     });
@@ -189,11 +181,9 @@
     document.getElementById("comment-submit").addEventListener('click', function() {
         let contents = document.getElementById("comment-contents").value;
         let articleId = document.getElementById("article-id").value;
-        let lastCommentCreatedDate = document.getElementById("last-comment-created-date") == null ?
-            null : document.getElementById("last-comment-created-date").value;
 
         let requestDto = {
-            contents: contents, articleId: articleId, lastCommentCreatedDate: lastCommentCreatedDate
+            contents: contents, articleId: articleId
         };
 
         fetch('/comment', {
@@ -205,39 +195,21 @@
         }).then(function(response) {
             return response.json();
         }).then(function(res) {
-            let node = document.getElementById('comment-section');
-            while (node.firstChild) {
-                node.removeChild(node.firstChild);
-            }
-
-            document.getElementById('comment-size').innerText = res.length;
-
-            res.forEach(function(element) {
-                console.log(element);
-                node.insertAdjacentHTML('beforeend',
-                    template({"contents": element.contents,
-                        "commentId": element.id,
-                        "commenter": element.commenter.name,
-                        "elapsedTime": element.elapsedTime}))
-            });
+            drawComment(res);
         });
     });
-
 
     const convertTime = function(elapsedtime) {
         let hours = Math.floor(elapsedtime / 3600000);
         return hours > 24 ? hours / 24 + "일전" : hours + "시간 전";
     };
 
-    window.addEventListener("load", function(){
+    window.addEventListener("load", function() {
         let span = document.getElementsByClassName("elapsed-time");
         Array.from(span).forEach(function(s) {
             s.textContent = convertTime(s.textContent);
         });
     });
-
-
-
 </script>
 </body>
 </html>
