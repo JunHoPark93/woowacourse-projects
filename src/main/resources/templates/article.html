@@ -16,7 +16,7 @@
                 </li>
             </ul>
             <ul class="nav-right">
-                <th:block th:include="${session.user == null} ? '/includes/login-nav' : '/includes/logout-nav'"/>
+                <th:block th:include="${session.user == null} ? 'includes/login-nav' : 'includes/logout-nav'"/>
             </ul>
         </div>
     </header>
