@@ -31,16 +31,6 @@ public class Runner implements ApplicationRunner {
         userRequest.setEmail("root@gmail.com");
         userRequest.setPassword("Password!1");
         userRequest.setReconfirmPassword("Password!1");
-        User user = userService.saveUser(userRequest);
-
-        ArticleRequest articleRequest = new ArticleRequest("dfd", "http://woowabros.github.io/img/2019-02-08/techcourse_poster.jpeg", "dd");
-        Article article  = articleService.save(articleRequest, user);
-
-        CommentRequest commentRequest = new CommentRequest();
-        commentRequest.setArticleId(1L);
-        commentRequest.setContents("df");
-        commentRequest.setLastCommentCreatedDate(null);
-
-        commentService.save(commentRequest, article, user);
+        userService.saveUser(userRequest);
     }
 }

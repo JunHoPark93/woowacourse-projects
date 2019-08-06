@@ -10,7 +10,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Mono;
+import techcourse.myblog.service.dto.CommentRequest;
+
+import java.util.Objects;
 
 import static techcourse.myblog.web.WebTestHelper.*;
 
@@ -45,18 +50,26 @@ public class CommentControllerTest {
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isFound();
-
-        // 댓글작성
-        webTestClient.post().uri("/comment")
-                .body(commentForm())
-                .header("Cookie", cookie)
-                .exchange()
-                .expectStatus()
-                .isFound();
     }
 
     @Test
-    void 댓글작성자_댓글수정() {
+    void 댓글달기() {
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.setContents("dfdf");
+        commentRequest.setArticleId(1L);
+
+        EntityExchangeResult<byte[]> entityExchangeResult = saveComment(commentRequest);
+
+        String body = new String(Objects.requireNonNull(entityExchangeResult.getResponseBody()));
+    }
+
+    @Test
+    void 댓글수정() {
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.setContents("dfdf");
+        commentRequest.setArticleId(1L);
+        saveComment(commentRequest);
+
         webTestClient.put().uri("/comment/1")
                 .body(commentForm())
                 .header("Cookie", cookie)
@@ -66,12 +79,40 @@ public class CommentControllerTest {
     }
 
     @Test
-    void 댓글작성자_댓글삭제() {
-        webTestClient.delete().uri("/comment/1")
+    void 댓글삭제() {
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.setContents("1st");
+        commentRequest.setArticleId(1L);
+        saveComment(commentRequest);
+
+        CommentRequest commentRequest2 = new CommentRequest();
+        commentRequest2.setContents("2nd");
+        commentRequest2.setArticleId(1L);
+        saveComment(commentRequest2);
+
+        EntityExchangeResult<byte[]> entityExchangeResult = webTestClient.delete().uri("/comment/2")
+                .header("Cookie", this.cookie)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .returnResult();
+
+        String body = new String(Objects.requireNonNull(entityExchangeResult.getResponseBody()));
+        System.out.println(body);
+    }
+
+    private EntityExchangeResult<byte[]> saveComment(CommentRequest commentRequest) {
+        return webTestClient.post().uri("/comment")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .body(Mono.just(commentRequest), CommentRequest.class)
                 .header("Cookie", cookie)
                 .exchange()
-                .expectStatus()
-                .isFound();
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .returnResult();
     }
 
     private String getCookie(String email) {
