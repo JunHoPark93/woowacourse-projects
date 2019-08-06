@@ -1,5 +1,6 @@
 package techcourse.myblog.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,8 +16,11 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 import techcourse.myblog.service.dto.CommentRequest;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static techcourse.myblog.web.WebTestHelper.*;
 
 @AutoConfigureWebTestClient
@@ -53,14 +57,18 @@ public class CommentControllerTest {
     }
 
     @Test
-    void 댓글달기() {
+    void 댓글달기() throws IOException {
         CommentRequest commentRequest = new CommentRequest();
         commentRequest.setContents("dfdf");
         commentRequest.setArticleId(1L);
 
         EntityExchangeResult<byte[]> entityExchangeResult = saveComment(commentRequest);
-
         String body = new String(Objects.requireNonNull(entityExchangeResult.getResponseBody()));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List responses = objectMapper.readValue(body, List.class);
+
+        assertThat(responses).hasSize(1);
     }
 
     @Test
@@ -79,7 +87,7 @@ public class CommentControllerTest {
     }
 
     @Test
-    void 댓글삭제() {
+    void 댓글삭제() throws IOException {
         CommentRequest commentRequest = new CommentRequest();
         commentRequest.setContents("1st");
         commentRequest.setArticleId(1L);
@@ -90,6 +98,11 @@ public class CommentControllerTest {
         commentRequest2.setArticleId(1L);
         saveComment(commentRequest2);
 
+        CommentRequest commentRequest3 = new CommentRequest();
+        commentRequest3.setContents("3rd");
+        commentRequest3.setArticleId(1L);
+        saveComment(commentRequest3);
+
         EntityExchangeResult<byte[]> entityExchangeResult = webTestClient.delete().uri("/comment/2")
                 .header("Cookie", this.cookie)
                 .exchange()
@@ -99,7 +112,10 @@ public class CommentControllerTest {
                 .returnResult();
 
         String body = new String(Objects.requireNonNull(entityExchangeResult.getResponseBody()));
-        System.out.println(body);
+        ObjectMapper objectMapper = new ObjectMapper();
+        List responses = objectMapper.readValue(body, List.class);
+
+        assertThat(responses).hasSize(2);
     }
 
     private EntityExchangeResult<byte[]> saveComment(CommentRequest commentRequest) {
