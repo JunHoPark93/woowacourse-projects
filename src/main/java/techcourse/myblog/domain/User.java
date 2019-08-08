@@ -49,8 +49,8 @@ public class User {
         this.name = name;
     }
 
-    public boolean matchEmail(User user) {
-        return this.email.equals(user.email);
+    public boolean matchEmail(String email) {
+        return this.email.equals(email);
     }
 
     public Long getId() {

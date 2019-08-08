@@ -1,7 +1,7 @@
 package techcourse.myblog.web.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
-import techcourse.myblog.domain.User;
+import techcourse.myblog.service.dto.UserSession;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +15,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        if (userSession == null) {
             response.sendRedirect("/login");
             return false;
         }

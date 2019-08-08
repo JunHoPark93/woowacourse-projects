@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.ArticleRepository;
 import techcourse.myblog.domain.User;
+import techcourse.myblog.service.dto.UserSession;
 import techcourse.myblog.service.dto.request.ArticleRequest;
 import techcourse.myblog.service.dto.response.ArticleResponse;
 import techcourse.myblog.service.exception.InvalidAuthorException;
@@ -18,10 +19,12 @@ import javax.transaction.Transactional;
 
 @Service
 public class ArticleService {
+    private UserService userService;
     private ArticleRepository articleRepository;
     private ModelMapper modelMapper;
 
-    public ArticleService(ArticleRepository articleRepository, ModelMapper modelMapper) {
+    public ArticleService(UserService userService, ArticleRepository articleRepository, ModelMapper modelMapper) {
+        this.userService = userService;
         this.articleRepository = articleRepository;
         this.modelMapper = modelMapper;
     }
@@ -31,9 +34,9 @@ public class ArticleService {
                 PageRequest.of(page - 1, 10, Sort.by("id").descending()));
     }
 
-    public ArticleResponse saveAndGet(ArticleRequest articleRequest, User user) {
+    public ArticleResponse saveAndGet(ArticleRequest articleRequest, UserSession userSession) {
         Article article = createArticle(articleRequest);
-        article.setAuthor(user);
+        article.setAuthor(findUser(userSession));
         articleRepository.save(article);
         return modelMapper.map(article, ArticleResponse.class);
     }
@@ -52,8 +55,9 @@ public class ArticleService {
     }
 
     @Transactional
-    public ArticleResponse editAndGet(ArticleRequest articleRequest, long articleId, User user) {
+    public ArticleResponse editAndGet(ArticleRequest articleRequest, long articleId, UserSession userSession) {
         Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
+        User user = findUser(userSession);
         checkAuthor(user, article);
         article.updateArticle(new Article(articleRequest.getTitle(), articleRequest.getCoverUrl(), articleRequest.getContents()));
 
@@ -66,8 +70,9 @@ public class ArticleService {
         }
     }
 
-    public void delete(long articleId, User user) {
+    public void delete(long articleId, UserSession userSession) {
         Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
+        User user = findUser(userSession);
         checkAuthor(user, article);
         articleRepository.deleteById(articleId);
     }
@@ -77,10 +82,15 @@ public class ArticleService {
                 .orElseThrow(() -> new NoArticleException("게시글이 존재하지 않습니다")), ArticleResponse.class);
     }
 
-    public ArticleResponse find(long articleId, User user) {
+    public ArticleResponse find(long articleId, UserSession userSession) {
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new NoArticleException("게시글이 존재하지 않습니다"));
+        User user = findUser(userSession);
         checkAuthor(user, article);
         return modelMapper.map(article, ArticleResponse.class);
+    }
+
+    private User findUser(UserSession userSession) {
+        return userService.findById(userSession.getId());
     }
 }

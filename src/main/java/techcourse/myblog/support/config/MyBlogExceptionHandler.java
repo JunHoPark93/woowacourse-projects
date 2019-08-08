@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import techcourse.myblog.service.dto.request.UserEditRequest;
 import techcourse.myblog.service.dto.request.UserLoginRequest;
+import techcourse.myblog.service.dto.request.UserRequest;
 import techcourse.myblog.service.exception.*;
 
 @ControllerAdvice
@@ -21,6 +22,7 @@ public class MyBlogExceptionHandler {
     public String handleSignUpException(SignUpException e, Model model) {
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
         model.addAttribute("error", errorMessage);
+        model.addAttribute("userRequest", new UserRequest());
         return "signup";
     }
 

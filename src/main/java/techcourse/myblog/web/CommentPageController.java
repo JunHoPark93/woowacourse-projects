@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import techcourse.myblog.domain.User;
 import techcourse.myblog.service.CommentService;
+import techcourse.myblog.service.dto.UserSession;
 import techcourse.myblog.service.dto.request.CommentRequest;
 
 import javax.validation.Valid;
@@ -22,14 +22,14 @@ public class CommentPageController {
     }
 
     @GetMapping("/{commentId}")
-    public String editCommentPage(@PathVariable("commentId") Long commentId, Model model, User user) {
-        model.addAttribute("comment", commentService.find(user, commentId));
+    public String editCommentPage(@PathVariable("commentId") Long commentId, Model model, UserSession userSession) {
+        model.addAttribute("comment", commentService.find(userSession, commentId));
         return "mycomment-edit";
     }
 
     @PutMapping("/{commentId}")
-    public String editComment(@Valid CommentRequest commentRequest, @PathVariable("commentId") Long commentId, User user) {
-        commentService.update(commentRequest, user, commentId);
+    public String editComment(@Valid CommentRequest commentRequest, @PathVariable("commentId") Long commentId, UserSession userSession) {
+        commentService.update(commentRequest, userSession, commentId);
         return "redirect:/articles/" + commentRequest.getArticleId();
     }
 }

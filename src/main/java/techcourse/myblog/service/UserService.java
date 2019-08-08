@@ -1,10 +1,14 @@
 package techcourse.myblog.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.domain.UserRepository;
+import techcourse.myblog.service.dto.UserSession;
+import techcourse.myblog.service.dto.request.UserEditRequest;
 import techcourse.myblog.service.dto.request.UserLoginRequest;
 import techcourse.myblog.service.dto.request.UserRequest;
+import techcourse.myblog.service.dto.response.UserResponse;
 import techcourse.myblog.service.exception.EditException;
 import techcourse.myblog.service.exception.LoginException;
 import techcourse.myblog.service.exception.SignUpException;
@@ -17,15 +21,24 @@ import java.util.List;
 public class UserService {
     private UserRepository userRepository;
     private EncryptHelper encryptHelper;
+    private ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository, EncryptHelper encryptHelper) {
+    public UserService(UserRepository userRepository, EncryptHelper encryptHelper, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.encryptHelper = encryptHelper;
+        this.modelMapper = modelMapper;
     }
 
-    public User saveUser(UserRequest userRequest) {
+    public void save(UserRequest userRequest) {
+        checkEmail(userRequest);
         User user = createUser(userRequest);
-        return userRepository.save(user);
+        userRepository.save(user);
+    }
+
+    private void checkEmail(UserRequest userRequest) {
+        if (userRepository.existsByEmail(userRequest.getEmail())) {
+            throw new SignUpException("이미 존재하는 email 입니다");
+        }
     }
 
     private User createUser(UserRequest userRequest) {
@@ -40,12 +53,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findUserByEmail(UserLoginRequest userLoginRequest) {
+    public UserSession makeSession(UserLoginRequest userLoginRequest) {
         User user = userRepository.findUserByEmail(userLoginRequest.getEmail())
                 .orElseThrow(() -> new LoginException("email 없음"));
-
         checkPassword(userLoginRequest, user);
-        return user;
+        return new UserSession(user.getId(), user.getName(), user.getEmail());
+    }
+
+    User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new LoginException("user 없음"));
     }
 
     private void checkPassword(UserLoginRequest userLoginRequest, User user) {
@@ -55,10 +71,10 @@ public class UserService {
     }
 
     @Transactional
-    public User editUserName(Long userId, String name) {
+    public UserSession editAndFind(Long userId, UserEditRequest userEditRequest) {
         User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
-        changeName(name, user);
-        return user;
+        changeName(userEditRequest.getName(), user);
+        return new UserSession(user.getId(), user.getName(), user.getEmail());
     }
 
     private void changeName(String name, User user) {
@@ -69,7 +85,16 @@ public class UserService {
         }
     }
 
-    public void deleteById(Long userId) {
+    public void delete(Long userId, UserSession userSession) {
+        User user = findById(userId);
+        if (!user.matchEmail(userSession.getEmail())) {
+            throw new SignUpException("해당 user가 아닙니다");
+        }
         userRepository.deleteById(userId);
+    }
+
+    public UserResponse find(UserSession userSession) {
+        User user = findById(userSession.getId());
+        return modelMapper.map(user, UserResponse.class);
     }
 }

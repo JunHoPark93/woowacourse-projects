@@ -64,7 +64,7 @@ public class UserControllerTest {
                 .expectBody()
                 .consumeWith(response -> {
                     String body = new String(response.getResponseBody());
-                    assertTrue(body.contains("이메일 중복입니다"));
+                    assertTrue(body.contains("이미 존재하는 email 입니다"));
                 })
         ;
     }

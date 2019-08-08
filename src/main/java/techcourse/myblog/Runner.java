@@ -21,6 +21,6 @@ public class Runner implements ApplicationRunner {
         userRequest.setEmail("root@gmail.com");
         userRequest.setPassword("Password!1");
         userRequest.setReconfirmPassword("Password!1");
-        userService.saveUser(userRequest);
+        userService.save(userRequest);
     }
 }

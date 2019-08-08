@@ -3,8 +3,8 @@ package techcourse.myblog.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import techcourse.myblog.domain.User;
 import techcourse.myblog.service.ArticleService;
+import techcourse.myblog.service.dto.UserSession;
 import techcourse.myblog.service.dto.request.ArticleRequest;
 import techcourse.myblog.service.dto.response.ArticleResponse;
 
@@ -26,8 +26,8 @@ public class ArticlePageController {
     }
 
     @PostMapping()
-    public String saveArticle(@Valid ArticleRequest articleRequest, Model model, User user) {
-        ArticleResponse articleResponse = articleService.saveAndGet(articleRequest, user);
+    public String saveArticle(@Valid ArticleRequest articleRequest, Model model, UserSession userSession) {
+        ArticleResponse articleResponse = articleService.saveAndGet(articleRequest, userSession);
         model.addAttribute("article", articleResponse);
         return "redirect:/articles/" + articleResponse.getId();
     }
@@ -40,22 +40,22 @@ public class ArticlePageController {
     }
 
     @GetMapping("/{articleId}/edit")
-    public String edit(@PathVariable("articleId") long articleId, Model model, User user) {
-        ArticleResponse articleResponse = articleService.find(articleId, user);
+    public String edit(@PathVariable("articleId") long articleId, Model model, UserSession userSession) {
+        ArticleResponse articleResponse = articleService.find(articleId, userSession);
         model.addAttribute("article", articleResponse);
         return "article-edit";
     }
 
     @PutMapping("/{articleId}")
-    public String editArticle(@PathVariable("articleId") long articleId, @ModelAttribute ArticleRequest articleRequest, User user, Model model) {
-        ArticleResponse articleResponse = articleService.editAndGet(articleRequest, articleId, user);
+    public String editArticle(@PathVariable("articleId") long articleId, @ModelAttribute ArticleRequest articleRequest, UserSession userSession, Model model) {
+        ArticleResponse articleResponse = articleService.editAndGet(articleRequest, articleId, userSession);
         model.addAttribute("article", articleResponse);
         return "redirect:/articles/" + articleId;
     }
 
     @DeleteMapping("/{articleId}")
-    public String deleteArticle(@PathVariable("articleId") long articleId, User user) {
-        articleService.delete(articleId, user);
+    public String deleteArticle(@PathVariable("articleId") long articleId, UserSession userSession) {
+        articleService.delete(articleId, userSession);
         return "redirect:/";
     }
 }

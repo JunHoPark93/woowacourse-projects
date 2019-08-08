@@ -2,10 +2,8 @@ package techcourse.myblog.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import techcourse.myblog.domain.Article;
-import techcourse.myblog.domain.Comment;
-import techcourse.myblog.domain.CommentRepository;
-import techcourse.myblog.domain.User;
+import techcourse.myblog.domain.*;
+import techcourse.myblog.service.dto.UserSession;
 import techcourse.myblog.service.dto.request.CommentRequest;
 import techcourse.myblog.service.dto.response.CommentResponse;
 import techcourse.myblog.service.exception.InvalidAuthorException;
@@ -17,19 +15,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
-    private CommentRepository commentRepository;
     private ArticleService articleService;
+    private UserService userService;
+    private CommentRepository commentRepository;
     private ModelMapper commentMapper;
 
-    public CommentService(CommentRepository commentRepository, ArticleService articleService, ModelMapper commentMapper) {
-        this.commentRepository = commentRepository;
+    public CommentService(ArticleService articleService, UserService userService, CommentRepository commentRepository, ModelMapper commentMapper) {
         this.articleService = articleService;
+        this.userService = userService;
+        this.commentRepository = commentRepository;
         this.commentMapper = commentMapper;
     }
 
-    public List<CommentResponse> saveAndGet(CommentRequest commentRequest, User user) {
+    public List<CommentResponse> saveAndGet(CommentRequest commentRequest, UserSession userSession) {
         Article article = articleService.findById(commentRequest.getArticleId());
-        Comment comment = new Comment(commentRequest.getContents(), article, user);
+        Comment comment = new Comment(commentRequest.getContents(), article, findUser(userSession));
         commentRepository.save(comment);
         return findByArticle(article);
     }
@@ -47,13 +47,13 @@ public class CommentService {
     }
 
     @Transactional
-    public void update(CommentRequest commentRequest, User user, Long commentId) {
-        Comment comment = findComment(user, commentId);
+    public void update(CommentRequest commentRequest, UserSession userSession, Long commentId) {
+        Comment comment = findComment(findUser(userSession), commentId);
         comment.updateContents(commentRequest.getContents());
     }
 
-    public List<CommentResponse> deleteAndGet(Long commentId, User user) {
-        Article article = findComment(user, commentId).getArticle();
+    public List<CommentResponse> deleteAndGet(Long commentId, UserSession userSession) {
+        Article article = findComment(findUser(userSession), commentId).getArticle();
         commentRepository.deleteById(commentId);
         return findByArticle(article);
     }
@@ -71,7 +71,12 @@ public class CommentService {
                 .orElseThrow(() -> new NoCommentException("댓글이 존재하지 않습니다"));
     }
 
-    public CommentResponse find(User user, Long commentId) {
+    public CommentResponse find(UserSession userSession, Long commentId) {
+        User user = findUser(userSession);
         return commentMapper.map(findComment(user, commentId), CommentResponse.class);
+    }
+
+    private User findUser(UserSession userSession) {
+        return userService.findById(userSession.getId());
     }
 }
