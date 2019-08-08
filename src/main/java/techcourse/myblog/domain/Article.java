@@ -10,7 +10,7 @@ import java.net.URL;
 
 @Entity
 @EntityListeners(value = AuditingEntityListener.class)
-public class Article extends ContentsAudit{
+public class Article extends ContentsAudit {
     @Column(nullable = false)
     private String title;
 
@@ -62,6 +62,10 @@ public class Article extends ContentsAudit{
 
     public String getContents() {
         return contents;
+    }
+
+    public User getAuthor() {
+        return author;
     }
 
     public void updateArticle(Article article) {

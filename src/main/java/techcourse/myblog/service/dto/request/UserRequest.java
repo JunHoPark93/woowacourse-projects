@@ -1,4 +1,4 @@
-package techcourse.myblog.service.dto;
+package techcourse.myblog.service.dto.request;
 
 import techcourse.myblog.support.validator.EmailConstraint;
 import techcourse.myblog.support.validator.EqualFields;

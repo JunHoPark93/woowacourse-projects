@@ -3,8 +3,8 @@ package techcourse.myblog.support.config;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import techcourse.myblog.service.dto.UserEditRequest;
-import techcourse.myblog.service.dto.UserLoginRequest;
+import techcourse.myblog.service.dto.request.UserEditRequest;
+import techcourse.myblog.service.dto.request.UserLoginRequest;
 import techcourse.myblog.service.exception.*;
 
 @ControllerAdvice

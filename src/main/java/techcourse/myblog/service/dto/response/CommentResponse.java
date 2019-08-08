@@ -1,4 +1,4 @@
-package techcourse.myblog.service.dto;
+package techcourse.myblog.service.dto.response;
 
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.User;

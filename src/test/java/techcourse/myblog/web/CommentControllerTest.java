@@ -14,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
-import techcourse.myblog.service.dto.CommentRequest;
+import techcourse.myblog.service.dto.request.CommentRequest;
 
 import java.io.IOException;
 import java.util.List;

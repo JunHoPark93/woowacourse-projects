@@ -1,6 +1,6 @@
 package techcourse.myblog.support.validator;
 
-import techcourse.myblog.service.dto.UserRequest;
+import techcourse.myblog.service.dto.request.UserRequest;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

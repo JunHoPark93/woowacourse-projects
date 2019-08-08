@@ -6,9 +6,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.service.UserService;
-import techcourse.myblog.service.dto.UserEditRequest;
-import techcourse.myblog.service.dto.UserLoginRequest;
-import techcourse.myblog.service.dto.UserRequest;
+import techcourse.myblog.service.dto.request.UserEditRequest;
+import techcourse.myblog.service.dto.request.UserLoginRequest;
+import techcourse.myblog.service.dto.request.UserRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;

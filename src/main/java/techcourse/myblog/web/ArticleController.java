@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import techcourse.myblog.service.CommentService;
-import techcourse.myblog.service.dto.CommentResponse;
+import techcourse.myblog.service.dto.response.CommentResponse;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class ArticleController {
 
     @GetMapping("/{articleId}/comment")
     public ResponseEntity<List<CommentResponse>> comments(@PathVariable("articleId") Long articleId) {
-        List<CommentResponse> commentResponses = commentService.findByArticleId(articleId);
+        List<CommentResponse> commentResponses = commentService.find(articleId);
         return new ResponseEntity<>(commentResponses, HttpStatus.OK);
     }
 }
