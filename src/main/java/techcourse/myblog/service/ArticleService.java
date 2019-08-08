@@ -8,21 +8,17 @@ import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.ArticleRepository;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.service.dto.ArticleRequest;
-import techcourse.myblog.service.dto.CommentResponse;
 import techcourse.myblog.service.exception.InvalidAuthorException;
 import techcourse.myblog.service.exception.NoArticleException;
 import techcourse.myblog.service.exception.ResourceNotFoundException;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class ArticleService {
-    private CommentService commentService;
     private ArticleRepository articleRepository;
 
-    public ArticleService(CommentService commentService, ArticleRepository articleRepository) {
-        this.commentService = commentService;
+    public ArticleService(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
     }
 
@@ -75,10 +71,5 @@ public class ArticleService {
         Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
         checkAuthor(user, article);
         articleRepository.deleteById(articleId);
-    }
-
-    public List<CommentResponse> findAllComment(Long articleId) {
-        Article article = findById(articleId);
-        return commentService.findByArticle(article);
     }
 }

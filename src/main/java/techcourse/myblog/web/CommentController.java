@@ -17,26 +17,20 @@ import java.util.List;
 @RequestMapping("/comment")
 public class CommentController {
     private CommentService commentService;
-    private ArticleService articleService;
 
-    public CommentController(CommentService commentService, ArticleService articleService) {
+    public CommentController(CommentService commentService) {
         this.commentService = commentService;
-        this.articleService = articleService;
     }
 
     @PostMapping
     public ResponseEntity<List<CommentResponse>> saveComment(@RequestBody CommentRequest commentRequest, User user) {
-        Article article = articleService.findById(commentRequest.getArticleId());
-        commentService.save(commentRequest, article, user);
-        List<CommentResponse> commentResponses = commentService.findByArticle(article);
+        List<CommentResponse> commentResponses = commentService.saveAndGetComments(commentRequest, user);
         return new ResponseEntity<>(commentResponses, HttpStatus.OK);
     }
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity<List<CommentResponse>> deleteComment(@PathVariable("commentId") Long commentId, User user) {
-        Comment comment = commentService.findById(commentId);
-        commentService.deleteById(commentId, user);
-        List<CommentResponse> commentResponses = commentService.findByArticle(comment.getArticle());
+        List<CommentResponse> commentResponses = commentService.deleteAndGetComments(commentId, user);
         return new ResponseEntity<>(commentResponses, HttpStatus.OK);
     }
 }
