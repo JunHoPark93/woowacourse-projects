@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>woostagram</title>
+    <meta name="robots" content="index, follow">
+    
+    <meta name="keyword" content="우아한테크코스, 프로그래밍, 개발자, 백엔드, 프론트엔드, Backend, Frontend, IOS, Android">
+    <meta name="description" id="metaDesc" content="woostagram">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="우아한테크코스">
+    <meta property="og:description" id="metaOgDesc" content="woostagram">
+    <meta property="og:image" content="/images/logo/logo-thumnail-bg.jpg">
+    <meta property="og:url" content="https://woowacourse.github.io/">
+    
+    <meta name="twitter:card" content="website">
+    <meta name="twitter:title" content="우아한테크코스">
+    <meta name="twitter:description" id="metaTwitterDesc" content="woostagram">
+    <meta name="twitter:image" content="/images/logo/logo-thumnail-bg.jpg">
+    <meta name="twitter:domain" content="https://woowacourse.github.io/">
+    
+    <link rel="shortcut icon" href="/images/logo/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amiri:400,400i|Source+Sans+Pro:400,400i,600,700'">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/zzazan.css">
+</head>
+<body>
+<div>
+    <div class="page-container mrg-top-80">
+        <div class="main-content">
+            <div class="container-fluid max-width-lg mx-auto">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto float-left clear-none">
+                        <div id="zzazanstagram" class="pdd-right-35 mrg-top-30 inline-block">
+                            <div id="main-carousel-slide" class="carousel slide inline-block" data-ride="carousel" data-interval="3000">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img src="/images/default/zzazanstagram_main1.jpg" class="d-block w-100" alt="">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="/images/default/zzazanstagram_main2.jpg" class="d-block w-100" alt="">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="/images/default/zzazanstagram_main3.jpg" class="d-block w-100" alt="">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="/images/default/zzazanstagram_main4.jpg" class="d-block w-100" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+	                    
+                        <div id="signup-card" class="card inline-block absolute">
+                            <div class="card-title mrg-top-30">
+                                <img class="logo desktop-view mrg-top-5 mrg-left-85" src="/images/logo/zzazanstagram.png">
+                                <h5 id="signup-greeting-message">친구들의 사진을 보려면 가입하세요 :)</h5>
+                            </div>
+                            <div class="card-body pdd-top-0">
+                                <form id="signup-form" action="/members" method="post" class="form-horizontal mrg-top-40">
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <input type="email" name="email" class="form-control" id="signup-form-email" placeholder="이메일" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <input type="password" name="password" class="form-control" id="signup-form-password" placeholder="비밀번호" required pattern=".*(?=^.{8,}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <input type="password" class="form-control" id="signup-form-password-confirm" placeholder="비밀번호 확인">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <input type="text" name="nickName" class="form-control" id="signup-form-nick-name" placeholder="사용자 닉네임" required pattern="[A-Za-zㄱ-ㅎㅏ-ㅣ가-힣]{2,10}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <input type="text" name="name" class="form-control" id="signup-form-name" placeholder="이름" required pattern="[A-Za-zㄱ-ㅎㅏ-ㅣ가-힣]{2,10}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mrg-btm-15">
+                                        <div class="col-md-12">
+                                            <input type="text" name="profile" class="form-control" id="signup-form-profile" placeholder="프로필 사진 URL">
+                                        </div>
+                                    </div>
+                                    <button id="signup-card-submit-btn" type="submit" class="btn-inverse btn-primary btn-sm">가입하기</button>
+                                </form>
+                            </div>
+                        </div>
+    
+                        <div id="signup-to-login-card" class="card absolute inline-block">
+                            <div class="card-body pdd-left-90">
+                                <form action="/login" method="get">
+                                    <text class="card-title">계정이 있으신가요?</text>
+                                    <button type="submit" class="btn-inverse btn-primary btn-xs mrg-left-5">로그인</button>
+                                </form>
+                            </div>
+                        </div>
+	                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
+<script>
+    
+    const form = document.querySelector("#signup-form");
+    const email = document.querySelector("#signup-form-email");
+    const password = document.querySelector("#signup-form-password");
+    const passwordConfirm = document.querySelector("#signup-form-password-confirm");
+    const nickName = document.querySelector("#signup-form-nick-name");
+    const name = document.querySelector("#signup-form-name");
+    
+    function setCustomValidityMessage(el, message) {
+        if (el.validity.valueMissing || el.validity.patternMismatch) {
+            el.setCustomValidity(message);
+            return;
+        }
+        el.setCustomValidity('');
+    }
+    
+    email.addEventListener("input", function () {
+        setCustomValidityMessage(email, "올바른 이메일 주소를 입력해 주세요.");
+    });
+
+    password.addEventListener("input", function () {
+        setCustomValidityMessage(password, "알파벳 소문자, 대문자, 특수문자를 모두 포함하여 8자리 이상으로 작성해 주세요.");
+    });
+
+    nickName.addEventListener("input", function () {
+        setCustomValidityMessage(nickName, "닉네임은 2~10자 사이로 입력해 주세요.");
+    });
+
+    name.addEventListener("input", function () {
+        setCustomValidityMessage(name, "이름은 2~10자 사이로 입력해 주세요.");
+    });
+
+    function checkPassword() {
+        if (password.value !== passwordConfirm.value) {
+            passwordConfirm.setCustomValidity('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+        passwordConfirm.setCustomValidity('');
+    }
+
+    password.onchange = checkPassword;
+    passwordConfirm.onkeyup = checkPassword;
+    
+    form.addEventListener("submit", function () {
+        setCustomValidityMessage(email, "올바른 이메일 주소를 입력해 주세요.");
+        setCustomValidityMessage(password, "알파벳 소문자, 대문자, 특수문자를 모두 포함하여 8자리 이상으로 작성해 주세요.");
+        setCustomValidityMessage(nickName, "닉네임은 2~10자 사이로 입력해 주세요.");
+        setCustomValidityMessage(name, "이름은 2~10자 사이로 입력해 주세요.");
+    })
+    
+</script>
+</body>
+</html>

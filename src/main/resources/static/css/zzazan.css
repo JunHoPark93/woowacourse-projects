@@ -1,0 +1,62 @@
+#zzazanstagram {
+    background-image: url("https://www.instagram.com/static/images/homepage/home-phones@2x.png/9364675fb26a.png");
+    background-repeat:no-repeat;
+    background-size: contain;
+    width: 454px;
+    height: 618px;
+}
+
+#main-carousel-slide {
+    width: 244px;
+    margin: 96px 0 0 149px;
+}
+
+#signup-greeting-message {
+    margin: 20px 0 0 40px;
+}
+
+#login-card {
+    width: 350px;
+}
+
+#signup-card {
+    width: 350px;
+}
+
+#login-card-submit-btn {
+    width: 308px;
+    height: 30px;
+    font-size: 12px;
+    padding: 0;
+}
+
+#signup-card-submit-btn {
+    width: 308px;
+    height: 30px;
+    font-size: 12px;
+    padding: 0;
+}
+
+#login-to-signup-card {
+    width: 350px;
+    margin-top: 390px;
+}
+
+#signup-to-login-card {
+    width: 350px;
+    margin-top: 590px;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.clear-none {
+    clear: none;
+}
+
+

@@ -1,0 +1,68 @@
+@media only screen and (min-width: 480px) {
+    .mobile-view {
+        display: none;
+    }
+
+    .desktop-view {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .mobile-view {
+        display: block;
+    }
+
+    .desktop-view {
+        display: none;
+    }
+}
+
+header ul.nav-right li, header ul.nav-left li {
+    height: 76px;
+}
+
+.header {
+    background-color: white;
+    padding: 0 16px;
+    height: 76px;
+    top: 0px;
+}
+
+.logo {
+    width: 170px;
+    height: auto;
+    line-height: 76px;
+    position: relative;
+}
+
+.user-profile {
+    height: 43px;
+}
+
+.profile-img {
+    width: 24px;
+    height: 24px;
+}
+
+.add-comment textarea::placeholder {
+    color: #666;
+}
+
+.mini-profile-img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.activated-heart {
+    color:#ed4956;
+}
+
+.hashtag {
+    color: #003569;
+}
+
+.search-input .advanced-search .search-wrapper .search-result-item {
+    height: 40px;
+}
