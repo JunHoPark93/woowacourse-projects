@@ -62,7 +62,7 @@ public abstract class RequestTemplate {
 
     private String getCookie() {
         return webTestClient.post().uri("/login")
-                .body(loginForm("test@gmail.com", "Password!1"))
+                .body(loginForm("abc@naver.com", "aa1231!!"))
                 .exchange()
                 .expectStatus()
                 .isFound()

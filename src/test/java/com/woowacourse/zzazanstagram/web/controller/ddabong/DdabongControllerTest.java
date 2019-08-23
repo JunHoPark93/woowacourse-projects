@@ -25,7 +25,7 @@ class DdabongControllerTest extends RequestTemplate {
     }
 
     private WebTestClient.BodyContentSpec getDdabongCount(String articleId) {
-        return postHeaderWithLogin("/articles/" + articleId + "/ddabongs")
+        return getHeaderWithLogin("/articles/" + articleId + "/ddabongs")
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)

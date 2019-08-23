@@ -1,4 +1,4 @@
-package com.woowacourse.zzazanstagram.web.controller.article;
+package com.woowacourse.zzazanstagram.web.controller.comment;
 
 import com.woowacourse.zzazanstagram.model.RequestTemplate;
 import com.woowacourse.zzazanstagram.model.comment.domain.vo.CommentContents;
@@ -11,7 +11,7 @@ import static com.woowacourse.zzazanstagram.model.article.ArticleConstant.CONTEN
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CommentControllerTest extends RequestTemplate {
-    private static final int MAX_LENGTH_OF_COMMENT = 100;
+    private static final int MAX_LENGTH_OF_COMMENT = 500;
     private static final long ARTICLE_ID = 1L;
 
     @Test
@@ -50,7 +50,7 @@ class CommentControllerTest extends RequestTemplate {
     }
 
     @Test
-    void 댓글의_길이가_101글자인_경우() {
+    void 댓글의_길이가_501글자인_경우() {
         StringBuilder contents = new StringBuilder();
         for (int i = 0; i <= MAX_LENGTH_OF_COMMENT; i++) {
             contents.append("a");
@@ -65,7 +65,7 @@ class CommentControllerTest extends RequestTemplate {
     }
 
     @Test
-    void 댓글의_길이가_100글자인_경우() {
+    void 댓글의_길이가_500글자인_경우() {
         StringBuilder contents = new StringBuilder();
         for (int i = 0; i < MAX_LENGTH_OF_COMMENT; i++) {
             contents.append("a");

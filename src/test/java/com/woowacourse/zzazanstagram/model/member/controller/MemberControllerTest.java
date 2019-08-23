@@ -38,11 +38,11 @@ class MemberControllerTest extends RequestTemplate {
     @Test
     void 회원가입_실패_이메일_중복() {
         postRequest("/members")
-                .body(WebTestHelper.userSignUpForm("test@gmail.com",
+                .body(WebTestHelper.userSignUpForm("abc@naver.com",
                         "myName",
                         "https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-600w-1048185397.jpg",
                         "myNick",
-                        "Password!1"))
+                        "aa1231!!"))
                 .exchange()
                 .expectHeader().valueMatches("location", URL_REGEX + "/signup")
                 .expectStatus().is3xxRedirection();
@@ -64,8 +64,8 @@ class MemberControllerTest extends RequestTemplate {
     @Test
     void 로그인_성공() {
         postRequest("/login")
-                .body(WebTestHelper.loginForm("test@gmail.com",
-                        "Password!1"))
+                .body(WebTestHelper.loginForm("abc@naver.com",
+                        "aa1231!!"))
                 .exchange()
                 .expectHeader().valueMatches("location", URL_REGEX + "/" + JSESSIONID_URL)
                 .expectStatus().is3xxRedirection();
