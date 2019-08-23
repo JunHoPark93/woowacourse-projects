@@ -1,6 +1,10 @@
 package com.woowacourse.zzazanstagram.model.article.dto;
 
+import com.woowacourse.zzazanstagram.model.comment.dto.CommentResponse;
+
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 public class ArticleResponse {
     private Long id;
@@ -11,13 +15,13 @@ public class ArticleResponse {
     private String profileImage;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
-
-    //Todo 댓글, 좋아요 추가하자
+    private List<CommentResponse> commentResponses;
+    //좋아요 추가하기
 
     public ArticleResponse() {
     }
 
-    private ArticleResponse(Long id, String image, String contents, String nickName, String profileImage, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+    private ArticleResponse(Long id, String image, String contents, String nickName, String profileImage, LocalDateTime createdDate, LocalDateTime lastModifiedDate, List<CommentResponse> commentResponses) {
         this.id = id;
         this.image = image;
         this.contents = contents;
@@ -25,6 +29,7 @@ public class ArticleResponse {
         this.profileImage = profileImage;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
+        this.commentResponses = commentResponses;
     }
 
     public Long getId() {
@@ -55,8 +60,12 @@ public class ArticleResponse {
         return lastModifiedDate;
     }
 
+    public List<CommentResponse> getCommentResponses() {
+        return commentResponses;
+    }
 
     public static final class ArticleResponseBuilder {
+
         private Long id;
         private String image;
         private String contents;
@@ -65,6 +74,7 @@ public class ArticleResponse {
         private String profileImage;
         private LocalDateTime createdDate;
         private LocalDateTime lastModifiedDate;
+        private List<CommentResponse> commentResponses;
 
         private ArticleResponseBuilder() {
         }
@@ -108,8 +118,33 @@ public class ArticleResponse {
             return this;
         }
 
-        public ArticleResponse build() {
-            return new ArticleResponse(id, image, contents, nickName, profileImage, createdDate, lastModifiedDate);
+        public ArticleResponseBuilder commentResponses(List<CommentResponse> commentResponses) {
+            this.commentResponses = commentResponses;
+            return this;
         }
+
+        public ArticleResponse build() {
+            return new ArticleResponse(id, image, contents, nickName, profileImage, createdDate, lastModifiedDate, commentResponses);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ArticleResponse response = (ArticleResponse) o;
+        return Objects.equals(id, response.id) &&
+                Objects.equals(image, response.image) &&
+                Objects.equals(contents, response.contents) &&
+                Objects.equals(nickName, response.nickName) &&
+                Objects.equals(profileImage, response.profileImage) &&
+                Objects.equals(createdDate, response.createdDate) &&
+                Objects.equals(lastModifiedDate, response.lastModifiedDate) &&
+                Objects.equals(commentResponses, response.commentResponses);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, image, contents, nickName, profileImage, createdDate, lastModifiedDate, commentResponses);
     }
 }

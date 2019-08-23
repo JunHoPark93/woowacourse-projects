@@ -25,10 +25,10 @@ class MemberControllerTest extends RequestTemplate {
     @Test
     void 회원가입_성공() {
         postRequest("/members")
-                .body(WebTestHelper.userSignUpForm("test2@gmail.com",
-                        "myName",
+                .body(WebTestHelper.userSignUpForm("newmember@gmail.com",
+                        "Jay",
                         "https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-600w-1048185397.jpg",
-                        "myNick2",
+                        "JayJay",
                         "Password!1"))
                 .exchange()
                 .expectHeader().valueMatches("location", URL_REGEX + "/login")
@@ -41,7 +41,7 @@ class MemberControllerTest extends RequestTemplate {
                 .body(WebTestHelper.userSignUpForm("test@gmail.com",
                         "myName",
                         "https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-600w-1048185397.jpg",
-                        "myNick2",
+                        "myNick",
                         "Password!1"))
                 .exchange()
                 .expectHeader().valueMatches("location", URL_REGEX + "/signup")
@@ -88,6 +88,14 @@ class MemberControllerTest extends RequestTemplate {
                         "Password@2"))
                 .exchange()
                 .expectHeader().valueMatches("location", URL_REGEX + "/login" + JSESSIONID_URL)
+                .expectStatus().is3xxRedirection();
+    }
+
+    @Test
+    void 로그아웃() {
+        getHeaderWithLogin("/logout")
+                .exchange()
+                .expectHeader().valueMatches("location", URL_REGEX + "/login")
                 .expectStatus().is3xxRedirection();
     }
 }

@@ -11,6 +11,7 @@ import java.util.Objects;
 @MappedSuperclass
 @EntityListeners(value = AuditingEntityListener.class)
 public abstract class BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

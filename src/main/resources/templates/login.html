@@ -1,106 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>woostagram</title>
-    <meta name="robots" content="index, follow">
-    
-    <meta name="keyword" content="우아한테크코스, 프로그래밍, 개발자, 백엔드, 프론트엔드, Backend, Frontend, IOS, Android">
-    <meta name="description" id="metaDesc" content="woostagram">
-    
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="우아한테크코스">
-    <meta property="og:description" id="metaOgDesc" content="woostagram">
-    <meta property="og:image" content="/images/logo/logo-thumnail-bg.jpg">
-    <meta property="og:url" content="https://woowacourse.github.io/">
-    
-    <meta name="twitter:card" content="website">
-    <meta name="twitter:title" content="우아한테크코스">
-    <meta name="twitter:description" id="metaTwitterDesc" content="woostagram">
-    <meta name="twitter:image" content="/images/logo/logo-thumnail-bg.jpg">
-    <meta name="twitter:domain" content="https://woowacourse.github.io/">
-    
-    <link rel="shortcut icon" href="/images/logo/favicon.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amiri:400,400i|Source+Sans+Pro:400,400i,600,700'">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="/css/index.css">
-    <link rel="stylesheet" href="/css/zzazan.css">
+	<th:block th:replace="fragments/commonHeader"></th:block>
 </head>
 <body>
 <div>
-    <div class="page-container mrg-top-80">
-        <div class="main-content">
-            <div class="container-fluid max-width-lg mx-auto">
-                <div class="row">
-                    <div class="col-lg-10 mx-auto float-left clear-none">
-                        <div id="zzazanstagram" class="pdd-right-35 mrg-top-30 inline-block">
-                            <div id="main-carousel-slide" class="carousel slide inline-block" data-ride="carousel" data-interval="3000">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img src="/images/default/zzazanstagram_main1.jpg" class="d-block w-100" alt="">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="/images/default/zzazanstagram_main2.jpg" class="d-block w-100" alt="">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="/images/default/zzazanstagram_main3.jpg" class="d-block w-100" alt="">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="/images/default/zzazanstagram_main4.jpg" class="d-block w-100" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-	                    
-                        <div id="login-card" class="card inline-block absolute mrg-top-100">
-                            <div class="card-title mrg-top-30">
-                                <img class="logo desktop-view mrg-top-5 mrg-left-85" src="/images/logo/zzazanstagram.png">
-                            </div>
-                            <div class="card-body pdd-top-0">
-                                <form id="login-form" action="/login" method="post" class="form-horizontal mrg-top-40">
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input type="email" name="email" class="form-control" id="login-form-email" placeholder="이메일" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input type="password" name="password" class="form-control" id="login-form-password" placeholder="비밀번호" required>
-                                        </div>
-                                    </div>
-                                    <button id="login-card-submit-btn" type="submit" class="btn-inverse btn-primary btn-sm">로그인</button>
-                                </form>
-                            </div>
-                        </div>
-    
-                        <div id="login-to-signup-card" class="card inline-block absolute">
-                            <div class="card-body pdd-left-90">
-                                <form action="/signup" method="get">
-                                    <text class="card-title">계정이 없으신가요?</text>
-                                    <button type="submit" class="btn-inverse btn-primary btn-xs mrg-left-5">회원 가입</button>
-                                </form>
-                            </div>
-                        </div>
-	                    
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="page-container mrg-top-80">
+		<div class="main-content">
+			<div class="container-fluid max-width-lg mx-auto">
+				<div class="row">
+					<div class="col-lg-10 mx-auto float-left clear-none">
+						<div id="zzazanstagram" class="pdd-right-35 mrg-top-30 inline-block">
+							<div id="main-carousel-slide" class="carousel slide inline-block" data-ride="carousel"
+							     data-interval="3000">
+								<div class="carousel-inner">
+									<div class="carousel-item active">
+										<img src="/images/default/zzazanstagram_main1.jpg" class="d-block w-100" alt="">
+									</div>
+									<div class="carousel-item">
+										<img src="/images/default/zzazanstagram_main2.jpg" class="d-block w-100" alt="">
+									</div>
+									<div class="carousel-item">
+										<img src="/images/default/zzazanstagram_main3.jpg" class="d-block w-100" alt="">
+									</div>
+									<div class="carousel-item">
+										<img src="/images/default/zzazanstagram_main4.jpg" class="d-block w-100" alt="">
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div id="login-card" class="card inline-block absolute mrg-top-100">
+							<div class="card-title mrg-top-30">
+								<img class="logo desktop-view mrg-top-5 mrg-left-85"
+								     src="/images/logo/zzazanstagram.png">
+							</div>
+							<div class="card-body pdd-top-0">
+								<form id="login-form" action="/login" method="post" class="form-horizontal mrg-top-40">
+									<div class="form-group row">
+										<div class="col-md-12">
+											<input type="email" name="email" class="form-control" id="login-form-email"
+											       placeholder="이메일" required>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-md-12">
+											<input type="password" name="password" class="form-control"
+											       id="login-form-password" placeholder="비밀번호" required>
+										</div>
+									</div>
+									<button id="login-card-submit-btn" type="submit"
+									        class="btn-inverse btn-primary btn-sm">로그인
+									</button>
+								</form>
+							</div>
+						</div>
+						
+						<div id="login-to-signup-card" class="card inline-block absolute">
+							<div class="card-body pdd-left-90">
+								<form action="/signup" method="get">
+									<text class="card-title">계정이 없으신가요?</text>
+									<button type="submit" class="btn-inverse btn-primary btn-xs mrg-left-5">회원 가입
+									</button>
+								</form>
+							</div>
+						</div>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
 <script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
+        integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

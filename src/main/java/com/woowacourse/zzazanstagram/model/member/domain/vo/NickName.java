@@ -4,6 +4,7 @@ import com.woowacourse.zzazanstagram.model.member.exception.MemberNickNameFormat
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 public class NickName {
@@ -12,11 +13,11 @@ public class NickName {
     @Column(name = "nick_name", unique = true)
     private String nickName;
 
-    private NickName(final String name) {
-        this.nickName = validate(name);
+    private NickName() {
     }
 
-    private NickName() {
+    private NickName(final String name) {
+        this.nickName = validate(name);
     }
 
     public static NickName of(final String name) {
@@ -36,5 +37,18 @@ public class NickName {
 
     public String getNickName() {
         return nickName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NickName nickName1 = (NickName) o;
+        return Objects.equals(nickName, nickName1.nickName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickName);
     }
 }

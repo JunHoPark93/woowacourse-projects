@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import java.time.Duration;
+
 import static com.woowacourse.zzazanstagram.model.support.WebTestHelper.loginForm;
 
 @ActiveProfiles("test")
@@ -20,7 +22,12 @@ public abstract class RequestTemplate {
     public WebTestClient webTestClient;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
+        webTestClient = webTestClient
+                .mutate()
+                .responseTimeout(Duration.ofMillis(30000))
+                .build();
+
         if (email == null) {
             webTestClient.post().uri("/members")
                     .body(WebTestHelper.userSignUpForm("test@gmail.com",
@@ -62,5 +69,16 @@ public abstract class RequestTemplate {
                 .returnResult(String.class)
                 .getResponseHeaders()
                 .getFirst("Set-Cookie");
+    }
+
+    public void saveOtherMember(String nickName, String email) {
+        webTestClient.post().uri("/members")
+                .body(WebTestHelper.userSignUpForm(
+                        email,
+                        "otherUser",
+                        "https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-600w-1048185397.jpg",
+                        nickName,
+                        "Password!1"))
+                .exchange();
     }
 }

@@ -866,7 +866,7 @@ textarea.form-control{min-height:175px}
 .list-info>li>a{display:block;position:relative;padding:12px 0}
 .list-info>li>a:focus,.list-info>li>a:hover{text-decoration:none}
 .list-info .thumb-img{line-height:40px;width:40px;text-align:center;font-size:17px;border-radius:50px;float:left}
-.list-info img.thumb-img{height:40px;width:40px}
+.list-info img.thumb-img{height:40px;width:40px;object-fit:cover}
 .list-info .info{padding-left:55px;height:auto;position:relative}
 .list-info .info .title{display:block;color:#333;line-height:1.5}
 .list-info .info .title.pdd-top-5{padding-top:7px!important}

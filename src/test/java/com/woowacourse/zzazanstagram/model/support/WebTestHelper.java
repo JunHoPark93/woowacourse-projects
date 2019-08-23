@@ -17,4 +17,9 @@ public class WebTestHelper {
         return fromFormData("email", email)
                 .with("password", password);
     }
+
+    public static BodyInserters.FormInserter<String> followForm(Long followeeId, Long followerId) {
+        return fromFormData("followeeId", String.valueOf(followeeId))
+                .with("followerId", String.valueOf(followerId));
+    }
 }

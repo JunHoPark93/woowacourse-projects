@@ -5,6 +5,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 public class Password {
@@ -13,11 +14,11 @@ public class Password {
     @Column(name = "password")
     private String password;
 
-    private Password(final String password) {
-        this.password = validate(password);
+    private Password() {
     }
 
-    private Password() {
+    private Password(final String password) {
+        this.password = validate(password);
     }
 
     public static Password of(final String password) {
@@ -55,5 +56,18 @@ public class Password {
         static boolean isMatch(String password, String hashed) {
             return BCrypt.checkpw(password, hashed);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Password password1 = (Password) o;
+        return Objects.equals(password, password1.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(password);
     }
 }

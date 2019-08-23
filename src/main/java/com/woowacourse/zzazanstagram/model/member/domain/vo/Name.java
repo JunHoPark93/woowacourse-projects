@@ -4,6 +4,7 @@ import com.woowacourse.zzazanstagram.model.member.exception.MemberNameFormatExce
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 public class Name {
@@ -12,11 +13,11 @@ public class Name {
     @Column(name = "name")
     private String name;
 
-    private Name(final String name) {
-        this.name = validate(name);
+    private Name() {
     }
 
-    private Name() {
+    private Name(final String name) {
+        this.name = validate(name);
     }
 
     public static Name of(final String name) {
@@ -36,5 +37,18 @@ public class Name {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Name name1 = (Name) o;
+        return Objects.equals(name, name1.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

@@ -4,6 +4,7 @@ import com.woowacourse.zzazanstagram.model.member.exception.MemberEmailFormatExc
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 public class Email {
@@ -12,11 +13,11 @@ public class Email {
     @Column(name = "email", unique = true)
     private String email;
 
-    private Email(final String email) {
-        this.email = validate(email);
+    private Email() {
     }
 
-    private Email() {
+    private Email(final String email) {
+        this.email = validate(email);
     }
 
     public static Email of(final String email) {
@@ -36,5 +37,18 @@ public class Email {
 
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Email email1 = (Email) o;
+        return Objects.equals(email, email1.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
     }
 }
