@@ -22,6 +22,7 @@ const INDEX_PAGE = (function () {
 
     const IndexPageController = function () {
         const searchService = new SearchService();
+        const articleService = new ArticleService();
         const commentService = new CommentService();
         const ddabongService = new DdabongService();
 
@@ -33,26 +34,67 @@ const INDEX_PAGE = (function () {
             document.querySelector(".search-input input").addEventListener('keyup', searchService.showSearchedList);
         };
 
+        const fetchArticles = function () {
+            articleService.fetchArticlePages();
+        };
+
         const addComment = function () {
             document.querySelectorAll('.btn-add-comment')
                 .forEach(el => el.addEventListener('click', commentService.addComment));
         };
+
         const toggleHeart = function () {
             document.querySelectorAll('.fa-heart-o').forEach((el) => {
                 el.addEventListener('click', ddabongService.toggleHeart);
             })
         };
 
+        const getScrollTop = function () {
+            return (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        };
+
+        const getDocumentHeight = function () {
+            const body = document.body;
+            const html = document.documentElement;
+
+            return Math.max(
+                body.scrollHeight, body.offsetHeight,
+                html.clientHeight, html.scrollHeight, html.offsetHeight
+            );
+        };
+
         const init = function () {
             toggleSearchInput();
             showSearchedList();
+            fetchArticles();
             addComment();
             toggleHeart();
         };
 
+        const onscroll = function () {
+            // console.log('getScrollTop : ' + getScrollTop());
+            // console.log('getDocumentHeight : ' + getDocumentHeight());
+            // console.log('window.innerHeight : ' + window.innerHeight);
+
+            if (getScrollTop() === getDocumentHeight() - window.innerHeight) {
+                articleService.fetchArticlePages();
+            }
+        };
+
         return {
             init: init,
+            onscroll: onscroll,
         };
+    };
+
+    const ArticleService = function () {
+        const fetchArticlePages = function () {
+            console.log('fetch Articles Pages');
+        };
+
+        return {
+            fetchArticlePages: fetchArticlePages,
+        }
     };
 
     const SearchService = function () {
@@ -82,12 +124,12 @@ const INDEX_PAGE = (function () {
 
         const getCommentTemplate = function (nickName, commentContents) {
             return `<li>
-                              <p class="inline-block text-bold  no-mrg-btm mrg-left-15">
-                                  ${nickName}
-                              </p>
-                              <p class="inline-block no-mrg-btm mrg-left-5">${commentContents}</p>
-                        </li>`;
-        }
+                          <p class="inline-block text-bold  no-mrg-btm mrg-left-15">
+                              ${nickName}
+                          </p>
+                          <p class="inline-block no-mrg-btm mrg-left-5">${commentContents}</p>
+                    </li>`;
+        };
 
         const addComment = function (event) {
             const message = event.target.closest("div");
@@ -114,7 +156,6 @@ const INDEX_PAGE = (function () {
                 }).catch(err => {
                 alert(err.response.data);
             });
-
         };
 
         return {
@@ -152,14 +193,24 @@ const INDEX_PAGE = (function () {
         }
     };
 
+    const indexPageController = new IndexPageController();
+
     const init = function () {
-        const indexPageController = new IndexPageController();
         indexPageController.init();
+    };
+
+    const onscroll = function () {
+        indexPageController.onscroll();
     };
 
     return {
         init: init,
+        onscroll: onscroll,
     }
 })();
 
 INDEX_PAGE.init();
+
+window.onscroll = function () {
+    INDEX_PAGE.onscroll();
+};
