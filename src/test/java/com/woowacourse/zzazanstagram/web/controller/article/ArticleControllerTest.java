@@ -61,7 +61,7 @@ class ArticleControllerTest extends RequestTemplate {
 
     @Test
     void 게시글_삭제_성공_테스트() {
-        deleteHeaderWithLogin("/articles/3")
+        deleteHeaderWithLogin("/articles/2")
                 .exchange()
                 .expectStatus().isOk();
     }
