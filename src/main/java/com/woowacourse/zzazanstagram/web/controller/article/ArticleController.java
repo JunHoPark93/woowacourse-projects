@@ -6,7 +6,6 @@ import com.woowacourse.zzazanstagram.model.member.MemberSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -21,12 +20,6 @@ public class ArticleController {
 
     public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
-    }
-
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("articles", articleService.getArticleResponses());
-        return "index";
     }
 
     @GetMapping("/articles/new")

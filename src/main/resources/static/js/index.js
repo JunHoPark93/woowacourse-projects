@@ -1,8 +1,8 @@
 const INDEX_PAGE = (function () {
     const Api = function () {
         const request = {
-            get(path) {
-                return axios.get(`${path}`);
+            get(path, params) {
+                return axios.get(`${path}`, {params: params});
             },
             post(path, data) {
                 return axios.post(`${path}`, data);
@@ -21,6 +21,8 @@ const INDEX_PAGE = (function () {
     };
 
     const IndexPageController = function () {
+        const defaultArticlePaginationSize = 2;
+
         const searchService = new SearchService();
         const articleService = new ArticleService();
         const commentService = new CommentService();
@@ -35,7 +37,7 @@ const INDEX_PAGE = (function () {
         };
 
         const fetchArticles = function () {
-            articleService.fetchArticlePages();
+            articleService.fetchArticlePages(Number.MAX_SAFE_INTEGER, defaultArticlePaginationSize);
         };
 
         const addComment = function () {
@@ -72,12 +74,9 @@ const INDEX_PAGE = (function () {
         };
 
         const onscroll = function () {
-            // console.log('getScrollTop : ' + getScrollTop());
-            // console.log('getDocumentHeight : ' + getDocumentHeight());
-            // console.log('window.innerHeight : ' + window.innerHeight);
-
             if (getScrollTop() === getDocumentHeight() - window.innerHeight) {
-                articleService.fetchArticlePages();
+                // TODO : lastArticleId 가져오기
+                articleService.fetchArticlePages(4, defaultArticlePaginationSize);
             }
         };
 
@@ -88,8 +87,21 @@ const INDEX_PAGE = (function () {
     };
 
     const ArticleService = function () {
-        const fetchArticlePages = function () {
-            console.log('fetch Articles Pages');
+        const request = new Api().request;
+
+        const fetchArticlePages = function (lastArticleId, size) {
+            request
+                .get('/articles', {
+                    lastArticleId: lastArticleId,
+                    size: size,
+                })
+                .then(response => {
+                    console.log(response);
+                    return response.data;
+                })
+                .then(data => {
+                    console.log(data);
+                })
         };
 
         return {
