@@ -55,4 +55,11 @@ public class ArticleService {
     public Article findArticleById(Long articleId) {
         return articleRepository.findById(articleId).orElseThrow(() -> new ArticleException("해당 게시글을 찾을 수 없습니다."));
     }
+
+    public void delete(Long articleId, String email) {
+        Article article = findArticleById(articleId);
+        Member member = memberService.findByEmail(email);
+        article.checkAuthentication(member);
+        articleRepository.delete(article);
+    }
 }

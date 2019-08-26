@@ -59,6 +59,20 @@ class ArticleControllerTest extends RequestTemplate {
                 });
     }
 
+    @Test
+    void 게시글_삭제_성공_테스트() {
+        deleteHeaderWithLogin("/articles/3")
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+    @Test
+    void 게시글_삭제_권한없음_테스트() {
+        deleteHeaderWithLogin("/articles/4", "abc@gmail.com", "aa1231!!")
+                .exchange()
+                .expectStatus().is4xxClientError();
+    }
+
     private WebTestClient.ResponseSpec showArticles() {
         return getHeaderWithLogin("/")
                 .exchange()
