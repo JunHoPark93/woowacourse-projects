@@ -3,6 +3,7 @@ package com.woowacourse.zzazanstagram.model.follow.service;
 import com.woowacourse.zzazanstagram.model.follow.domain.Follow;
 import com.woowacourse.zzazanstagram.model.follow.dto.FollowRequest;
 import com.woowacourse.zzazanstagram.model.follow.dto.FollowResponse;
+import com.woowacourse.zzazanstagram.model.follow.dto.FollowResult;
 import com.woowacourse.zzazanstagram.model.follow.repository.FollowRepository;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberRelationResponse;
@@ -23,16 +24,16 @@ public class FollowService {
         this.followRepository = followRepository;
     }
 
-    public boolean follow(FollowRequest followRequest) {
+    public FollowResult follow(FollowRequest followRequest) {
         Member followee = findMember(followRequest.getFolloweeId());
         Member follower = findMember(followRequest.getFollowerId());
         return followRepository.findByFolloweeAndFollower(followee, follower)
                 .map(x -> {
                     followRepository.delete(x);
-                    return false;
+                    return new FollowResult(MemberAssembler.assemble(followee), MemberAssembler.assemble(follower), false);
                 }).orElseGet(() -> {
                     followRepository.save(new Follow(followee, follower));
-                    return true;
+                    return new FollowResult(MemberAssembler.assemble(followee), MemberAssembler.assemble(follower), true);
                 });
     }
 
