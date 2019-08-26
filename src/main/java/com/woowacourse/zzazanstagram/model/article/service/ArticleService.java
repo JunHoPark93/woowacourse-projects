@@ -65,4 +65,11 @@ public class ArticleService {
 
         return articles.stream().map(ArticleAssembler::toDto).collect(Collectors.toList());
     }
+  
+    public void delete(Long articleId, String email) {
+        Article article = findArticleById(articleId);
+        Member member = memberService.findByEmail(email);
+        article.checkAuthentication(member);
+        articleRepository.delete(article);
+    }
 }

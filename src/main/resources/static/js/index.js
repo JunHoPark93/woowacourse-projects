@@ -29,6 +29,7 @@ const INDEX_PAGE = (function () {
         const articleService = new ArticleService();
         const commentService = new CommentService();
         const ddabongService = new DdabongService();
+        const articleService = new ArticleService();
 
         const toggleSearchInput = function () {
             document.querySelector('.search-toggle').addEventListener('click', searchService.toggleSearchInput);
@@ -48,9 +49,13 @@ const INDEX_PAGE = (function () {
         };
 
         const toggleHeart = function () {
-            document.querySelectorAll('.fa-heart-o').forEach((el) => {
-                el.addEventListener('click', ddabongService.toggleHeart);
-            })
+            document.querySelectorAll('.fa-heart-o')
+                .forEach(el => el.addEventListener('click', ddabongService.toggleHeart));
+        };
+
+        const deleteArticle = function () {
+            document.querySelectorAll('.deleteArticle')
+                .forEach(el => el.addEventListener('click', articleService.deleteArticle));
         };
 
         const getScrollTop = function () {
@@ -73,6 +78,7 @@ const INDEX_PAGE = (function () {
             fetchArticles();
             addComment();
             toggleHeart();
+            deleteArticle();
         };
 
         const onscroll = function () {
@@ -145,9 +151,31 @@ const INDEX_PAGE = (function () {
                     });
                 })
         };
+      
+      const deleteArticle = function (event) {
+            event.preventDefault();
+            const message = event.target.closest("div");
+            const articleId = message.parentElement.id;
+
+            request
+                .delete('/articles/' + articleId)
+                .then(response => {
+                    console.log(response);
+
+                    if (response.data === "SUCCESS") {
+                        const childNode = message.parentNode;
+                        const parentNode = childNode.parentNode;
+                        parentNode.removeChild(childNode);
+                    }
+                }).catch(response => {
+                console.log(response);
+                alert("게시글에 대한 권한이 없습니다.");
+            });
+        };
 
         return {
             fetchArticlePages: fetchArticlePages,
+            deleteArticle: deleteArticle,
         }
     };
 
@@ -232,11 +260,12 @@ const INDEX_PAGE = (function () {
                     }
                 });
         };
+
         return {
             toggleHeart: toggleHeart,
         }
     };
-
+  
     const indexPageController = new IndexPageController();
 
     const init = function () {

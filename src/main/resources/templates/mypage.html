@@ -2,8 +2,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:replace="fragments/commonHeader"></th:block>
+    <link rel="stylesheet" href="/css/vanilla-notify.css" />
 </head>
 <body>
+<!-- TODO 값을 어떻게 socket-notification.js로 보낼까? 일단은 input hidden으로 해보고 질문해보기-->
+<input id="session-name" type="hidden" th:value="${session.member.nickName}"/>
 <div>
 	<header id="header" class="header navbar">
 		<div class="header-container max-width-lg mx-auto">
@@ -364,6 +367,10 @@
         integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
         crossorigin="anonymous"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/js/vanilla-notify.js"></script>
+<script src="/js/socket-notification.js"></script>
 <script th:inline="javascript">
 	
     const MYPAGE = (function () {
@@ -373,6 +380,7 @@
         const profileBlockUnFollowModalBtn = document.querySelector("#profile-block-unfollow-modal-btn");
         const profileBlockUnFollowBtn = document.querySelector("#profile-block-unfollow-btn");
         const profileBlockLogoutBtn = document.querySelector("#profile-block-logout-btn");
+        const sessionName = document.getElementById("session-name").value;
 
         const MyPageController = function () {
 
@@ -417,6 +425,10 @@
             const logout = function () {
                 profileBlockLogoutBtn.addEventListener("click", myPageService.logout);
             };
+            
+            const openSocketConnection = function() {
+            	myPageService.openSocketConnection();
+      			}
 
             const init = function () {
                 toggleSearchInput();
@@ -429,6 +441,7 @@
                 doubleFollowMember();
                 settings();
                 logout();
+                openSocketConnection();
             };
 
             return {
@@ -546,6 +559,9 @@
             };
 
             const followMember = function () {
+            	// TODO follow 버튼을 누르면 socket 연결을한다 -> 이거 안돼, 처음 페이지 들어갈 때 해야함 서비스에 만들었다
+				console.log('mypage.html의 sessionName');
+				console.log(sessionName);
                 const followeeId = [[${session.member.id}]];
                 const followerId = [[${member.id}]];
                 const formData = new FormData();
@@ -624,13 +640,17 @@
             };
 
             const logout = function () {
-                axios({
-                    method: 'get',
-                    url: '/logout'
-                }).then(data => {
-                    window.location = '/login';
-                });
-            };
+            	axios({
+					method: 'get',
+					url: '/logout'
+				}).then(data => {
+					window.location = '/login';
+				});
+			};
+            
+            const openSocketConnection = function() {
+            	socketConnect(sessionName);
+			};
 
             return {
                 toggleSearchInput: toggleSearchInput,
@@ -642,7 +662,8 @@
                 unfollowMember: unfollowMember,
                 doubleFollowMember: doubleFollowMember,
                 settings: settings,
-                logout: logout,
+				        logout: logout,
+				        openSocketConnection: openSocketConnection,
             }
         };
 
