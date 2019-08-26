@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @Entity
 public class Article extends BaseEntity {
     private static final Pattern WHTIE_SPACE_PATTERN = Pattern.compile("[ \\t\\r\\n\\v\\f]");
+    private static final String HASHTAG_PREFIX = "#";
+    private static final int NEXT_INDEX_OF_PREFIX = 1;
 
     private Image image;
     private Contents contents;
@@ -90,8 +92,8 @@ public class Article extends BaseEntity {
 
     public List<TagKeyword> extractTagKeywords() {
         return Arrays.stream(getContentsValue().split(WHTIE_SPACE_PATTERN.pattern()))
-                .filter(x -> x.startsWith("#"))
-                .map(x -> new TagKeyword(x.substring(1)))
+                .filter(x -> x.startsWith(HASHTAG_PREFIX))
+                .map(x -> new TagKeyword(x.substring(NEXT_INDEX_OF_PREFIX)))
                 .collect(Collectors.toList());
     }
 }

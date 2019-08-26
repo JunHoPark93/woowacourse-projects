@@ -20,7 +20,7 @@ public class HashTag extends BaseEntity {
     @JoinColumn(name = "tagkeyword_id", foreignKey = @ForeignKey(name = "fk_hashtag_to_tagkeyword"), nullable = false)
     private TagKeyword tagKeyword;
 
-    private HashTag() {
+    protected HashTag() {
     }
 
     public HashTag(Article article, TagKeyword tagKeyword) {
