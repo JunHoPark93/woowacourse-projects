@@ -61,7 +61,7 @@ public class ArticleService {
 
     public List<ArticleResponse> getArticlePages(Long lastArticleId, List<Member> followers, int size) {
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
-        Page<Article> articles = articleRepository.findArticlesByPages(lastArticleId, followers, pageRequest);
+        Page<Article> articles = articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest);
 
         return articles.stream().map(ArticleAssembler::toDto).collect(Collectors.toList());
     }
