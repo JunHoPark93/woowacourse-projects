@@ -114,6 +114,34 @@ const INDEX_PAGE = (function () {
                 return node;
             }
 
+            function appendCommentsOnArticleCard(json) {
+                const commentResponses = json.commentResponses;
+                const commentSize = Object.keys(commentResponses).length;
+                const commentList = document.querySelector('#comment-list-' + json.id);
+
+                function appendComments(commentList, size) {
+                    for (let i = 0; i < size; i++) {
+                        commentList.appendChild(createNewNode(articleCardTemplate.comment(commentResponses[i])))
+                    }
+                }
+
+                if (commentSize > defaultCommentPreviewSize) {
+                    const commentPreviewMessage = document.querySelector('#comment-preview-message-' + json.id);
+                    commentPreviewMessage.appendChild(createNewNode(articleCardTemplate.commentPreviewMessage(commentSize, json.id)));
+
+                    const indexArticlesModal = document.querySelector('#index-articles-modal');
+                    indexArticlesModal.appendChild(createNewNode(articleCardTemplate.articleModal(json)));
+
+                    const commentModalList = document.querySelector('#comment-list-modal-' + json.id);
+                    appendComments(commentModalList, commentSize);
+
+                    appendComments(commentList, defaultCommentPreviewSize);
+                    return;
+                }
+
+                appendComments(commentList, commentSize);
+            }
+
             request
                 .get('/articles', {
                     lastArticleId: lastArticleId,
@@ -129,25 +157,7 @@ const INDEX_PAGE = (function () {
 
                         indexArticles.appendChild(articleNode);
 
-                        const commentResponses = json.commentResponses;
-                        const commentSize = Object.keys(commentResponses).length;
-                        const commentList = document.querySelector('#comment-list-' + json.id);
-
-                        function appendComments(size) {
-                            for (let i = 0; i < size; i++) {
-                                commentList.appendChild(createNewNode(articleCardTemplate.comment(commentResponses[i])))
-                            }
-                        }
-
-                        if (commentSize > defaultCommentPreviewSize) {
-                            const commentPreviewMessage = document.querySelector('#comment-preview-message-' + json.id);
-                            commentPreviewMessage.appendChild(createNewNode(articleCardTemplate.commentPreviewMessage(commentSize)));
-
-                            appendComments(defaultCommentPreviewSize);
-                            return;
-                        }
-
-                        appendComments(commentSize);
+                        appendCommentsOnArticleCard(json);
                     });
                 })
         };
