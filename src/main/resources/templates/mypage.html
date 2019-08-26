@@ -83,7 +83,8 @@
 												<button type="button" class="btn btn-default">
 													정보 수정
 												</button>
-												<button id="profile-block-logout-btn" type="button" class="btn btn-default">
+												<button id="profile-block-logout-btn" type="button"
+												        class="btn btn-default">
 													로그 아웃
 												</button>
 											</div>
@@ -371,6 +372,7 @@
 <script src="/js/vanilla-notify.js"></script>
 <script src="/js/socket-notification.js"></script>
 <script th:inline="javascript">
+	
     const MYPAGE = (function () {
         const profileBlockSettingsBtn = document.querySelector("#profile-block-settings-btn");
         const profileBlockFollowBtn = document.querySelector("#profile-block-follow-btn");
@@ -419,14 +421,14 @@
             const settings = function () {
                 profileBlockSettingsBtn.addEventListener("click", myPageService.settings);
             };
-            
-            const logout = function() {
-				profileBlockLogoutBtn.addEventListener("click", myPageService.logout);
-			};
+
+            const logout = function () {
+                profileBlockLogoutBtn.addEventListener("click", myPageService.logout);
+            };
             
             const openSocketConnection = function() {
             	myPageService.openSocketConnection();
-			}
+      			}
 
             const init = function () {
                 toggleSearchInput();
@@ -453,17 +455,17 @@
 
             let isFollower = false;
             let isFollowing = false;
-	
-			function showBtn(btn) {
-				btn.classList.remove('display-none');
-				btn.classList.add('display-inline-block');
-			}
-	
-			function hideBtn(btn) {
-				btn.classList.remove('display-inline-block');
-				btn.classList.add('display-none');
-			}
-	
+
+            function showBtn(btn) {
+                btn.classList.remove('display-none');
+                btn.classList.add('display-inline-block');
+            }
+
+            function hideBtn(btn) {
+                btn.classList.remove('display-inline-block');
+                btn.classList.add('display-none');
+            }
+
             const followMemberTemplate = function (json) {
                 return `<div class="pdd-vertical-10 pdd-horizon-20 mrg-vertical-5">
 							<img class="thumb-img img-circle"
@@ -477,14 +479,14 @@
 							</div>
 						</div>`
             };
-	
+
             const toggleSearchInput = function (event) {
                 event.preventDefault();
                 document.querySelector('.search-box').classList.toggle('active')
                 document.querySelector(".search-input").classList.toggle("active")
                 document.querySelector(".search-input input").focus()
             };
-	
+
             const showSearchedList = function (event) {
                 if (event.target.value.length > 0) {
                     document.querySelector(".advanced-search").classList.add("active")
@@ -492,7 +494,7 @@
                     document.querySelector(".advanced-search").classList.remove("active")
                 }
             };
-	
+
             const showFollowingMembers = function (event) {
                 event.preventDefault();
                 axios({
@@ -509,7 +511,7 @@
                     })
                 });
             };
-	
+
             const showFollowerMembers = function (event) {
                 event.preventDefault();
                 axios({
@@ -526,11 +528,11 @@
                     });
                 });
             };
-	
-			const getFollowRelation = function () {
+
+            const getFollowRelation = function () {
                 if ([[${session.member.nickName.equals(member.nickName)}]]) {
-					showBtn(profileBlockSettingsBtn);
-					return;
+                    showBtn(profileBlockSettingsBtn);
+                    return;
                 }
 
                 axios({
@@ -543,19 +545,19 @@
                     isFollowing = data.following;
 
                     if (isFollowing) {
-                    	showBtn(profileBlockUnFollowModalBtn);
+                        showBtn(profileBlockUnFollowModalBtn);
                         return;
                     }
 
                     if (isFollower) {
-                    	showBtn(profileBlockDoubleFollowBtn);
+                        showBtn(profileBlockDoubleFollowBtn);
                         return;
                     }
-	
+
                     showBtn(profileBlockFollowBtn);
                 });
             };
-			
+
             const followMember = function () {
             	// TODO follow 버튼을 누르면 socket 연결을한다 -> 이거 안돼, 처음 페이지 들어갈 때 해야함 서비스에 만들었다
 				console.log('mypage.html의 sessionName');
@@ -572,11 +574,11 @@
                     url: '/follow',
                     data: formData
                 }).then(() => {
-                	hideBtn(profileBlockFollowBtn);
-                	showBtn(profileBlockUnFollowModalBtn);
+                    hideBtn(profileBlockFollowBtn);
+                    showBtn(profileBlockUnFollowModalBtn);
                 });
             };
-	
+
             const unfollowMember = function () {
                 const followeeId = [[${session.member.id}]];
                 const followerId = [[${member.id}]];
@@ -590,30 +592,30 @@
                     url: '/follow',
                     data: formData
                 }).then(() => {
-					refreshFollowBtn();
+                    refreshFollowBtn();
                 });
             };
-			
-			const refreshFollowBtn = function () {
-				axios({
-					method: 'get',
-					url: '/follow/relation/' + [[${member.id}]]
-				}).then(response => {
-					return response.data;
-				}).then(data => {
-					isFollower = data.follower;
-					isFollowing = data.following;
-				}).then(() => {
-					hideBtn(profileBlockUnFollowModalBtn);
-					document.querySelector('#modal-following-cancel').click();
-					
-					if (isFollower) {
-						showBtn(profileBlockDoubleFollowBtn);
-						return;
-					}
-					showBtn(profileBlockFollowBtn);
-				});
-			};
+
+            const refreshFollowBtn = function () {
+                axios({
+                    method: 'get',
+                    url: '/follow/relation/' + [[${member.id}]]
+                }).then(response => {
+                    return response.data;
+                }).then(data => {
+                    isFollower = data.follower;
+                    isFollowing = data.following;
+                }).then(() => {
+                    hideBtn(profileBlockUnFollowModalBtn);
+                    document.querySelector('#modal-following-cancel').click();
+
+                    if (isFollower) {
+                        showBtn(profileBlockDoubleFollowBtn);
+                        return;
+                    }
+                    showBtn(profileBlockFollowBtn);
+                });
+            };
 
             const doubleFollowMember = function () {
                 const followeeId = [[${session.member.id}]];
@@ -628,15 +630,15 @@
                     url: '/follow',
                     data: formData
                 }).then(() => {
-                	hideBtn(profileBlockDoubleFollowBtn);
-                	showBtn(profileBlockUnFollowModalBtn);
+                    hideBtn(profileBlockDoubleFollowBtn);
+                    showBtn(profileBlockUnFollowModalBtn);
                 });
             };
 
             const settings = function () {
                 // TODO setting
             };
-            
+
             const logout = function () {
             	axios({
 					method: 'get',
@@ -660,8 +662,8 @@
                 unfollowMember: unfollowMember,
                 doubleFollowMember: doubleFollowMember,
                 settings: settings,
-				logout: logout,
-				openSocketConnection: openSocketConnection,
+				        logout: logout,
+				        openSocketConnection: openSocketConnection,
             }
         };
 

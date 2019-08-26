@@ -27,12 +27,6 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("articles", articleService.getArticleResponses());
-        return "index";
-    }
-
     @GetMapping("/articles/new")
     public String createArticle() {
         return "article-edit";

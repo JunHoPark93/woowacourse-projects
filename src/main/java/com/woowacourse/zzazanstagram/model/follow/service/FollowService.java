@@ -11,6 +11,7 @@ import com.woowacourse.zzazanstagram.model.member.service.MemberAssembler;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,7 @@ public class FollowService {
     public List<FollowResponse> findFollowers(Long id) {
         Member member = findMember(id);
         List<Follow> follows = followRepository.findByFollower(member);
+
         return follows.stream()
                 .map(Follow::getFollowee)
                 .map(MemberAssembler::assemble)
@@ -47,14 +49,35 @@ public class FollowService {
                 .collect(Collectors.toList());
     }
 
+    public List<Long> findFollowersIds(Long id) {
+        Member member = findMember(id);
+        List<Follow> follows = followRepository.findByFollower(member);
+
+        return Collections.unmodifiableList(follows.stream()
+                .map(Follow::getFollowee)
+                .map(Member::getId)
+                .collect(Collectors.toList()));
+    }
+
     public List<FollowResponse> findFollowings(Long id) {
         Member member = findMember(id);
         List<Follow> follows = followRepository.findByFollowee(member);
+
         return follows.stream()
                 .map(Follow::getFollower)
                 .map(MemberAssembler::assemble)
                 .map(FollowResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    public List<Long> findFollowingsIds(Long id) {
+        Member member = findMember(id);
+        List<Follow> follows = followRepository.findByFollowee(member);
+
+        return Collections.unmodifiableList(follows.stream()
+                .map(Follow::getFollower)
+                .map(Member::getId)
+                .collect(Collectors.toList()));
     }
 
     private Member findMember(Long id) {
