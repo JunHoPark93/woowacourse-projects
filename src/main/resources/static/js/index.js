@@ -1,3 +1,5 @@
+// import { ArticleCardTemplate } from 'ArticleCardTemplate.js';
+
 const INDEX_PAGE = (function () {
     const Api = function () {
         const request = {
@@ -75,8 +77,15 @@ const INDEX_PAGE = (function () {
 
         const onscroll = function () {
             if (getScrollTop() === getDocumentHeight() - window.innerHeight) {
-                // TODO : lastArticleId 가져오기
-                articleService.fetchArticlePages(4, defaultArticlePaginationSize);
+                const articleCards = document.querySelectorAll('.article-card');
+
+                const minId = Array.from(articleCards).map(function (card) {
+                    return parseInt(card.id, 10);
+                }).reduce(function (previous, current) {
+                    return previous > current ? current : previous;
+                });
+
+                articleService.fetchArticlePages(minId, defaultArticlePaginationSize);
             }
         };
 
@@ -87,20 +96,53 @@ const INDEX_PAGE = (function () {
     };
 
     const ArticleService = function () {
+        const defaultCommentPreviewSize = 2;
         const request = new Api().request;
+        const indexArticles = document.querySelector("#index-articles");
+        const articleCardTemplate = new ArticleCardTemplate();
 
         const fetchArticlePages = function (lastArticleId, size) {
+            function createNewNode(innerHTML) {
+                const node = document.createElement("span");
+                node.innerHTML = innerHTML;
+                return node;
+            }
+
             request
                 .get('/articles', {
                     lastArticleId: lastArticleId,
                     size: size,
                 })
                 .then(response => {
-                    console.log(response);
                     return response.data;
                 })
                 .then(data => {
-                    console.log(data);
+                    data.forEach(function (json) {
+                        console.log(json);
+                        const articleNode = createNewNode(articleCardTemplate.articleCard(json));
+
+                        indexArticles.appendChild(articleNode);
+
+                        const commentResponses = json.commentResponses;
+                        const commentSize = Object.keys(commentResponses).length;
+                        const commentList = document.querySelector('#comment-list-' + json.id);
+
+                        function appendComments(size) {
+                            for (let i = 0; i < size; i++) {
+                                commentList.appendChild(createNewNode(articleCardTemplate.comment(commentResponses[i])))
+                            }
+                        }
+
+                        if (commentSize > defaultCommentPreviewSize) {
+                            const commentPreviewMessage = document.querySelector('#comment-preview-message-' + json.id);
+                            commentPreviewMessage.appendChild(createNewNode(articleCardTemplate.commentPreviewMessage(commentSize)));
+
+                            appendComments(defaultCommentPreviewSize);
+                            return;
+                        }
+
+                        appendComments(commentSize);
+                    });
                 })
         };
 
@@ -133,15 +175,7 @@ const INDEX_PAGE = (function () {
 
     const CommentService = function () {
         const request = new Api().request;
-
-        const getCommentTemplate = function (nickName, commentContents) {
-            return `<li>
-                          <p class="inline-block text-bold  no-mrg-btm mrg-left-15">
-                              ${nickName}
-                          </p>
-                          <p class="inline-block no-mrg-btm mrg-left-5">${commentContents}</p>
-                    </li>`;
-        };
+        const articleCardTemplate = new ArticleCardTemplate();
 
         const addComment = function (event) {
             const message = event.target.closest("div");
@@ -150,8 +184,8 @@ const INDEX_PAGE = (function () {
             const inputValue = message.querySelector("input").value;
             const commentList = message.parentElement.querySelector("#comment-list");
 
-            if (inputValue.length < 1 || inputValue.length > 100) {
-                alert('댓글은 1글자 이상 100글자 이하로 입력해 주세요');
+            if (inputValue.length < 1 || inputValue.length > 500) {
+                alert('댓글은 1글자 이상 500글자 이하로 입력해 주세요');
                 return;
             }
 
@@ -159,10 +193,8 @@ const INDEX_PAGE = (function () {
                 .post('/' + articleId + '/comments/new', {contents: inputValue})
                 .then(res => {
                     console.log(res);
-                    const nickName = res.data.commenterNickName;
-                    const commentContents = res.data.commentContents;
 
-                    const comment = getCommentTemplate(nickName, commentContents);
+                    const comment = articleCardTemplate.comment(res.data);
                     commentList.insertAdjacentHTML('beforeend', comment);
                     document.getElementById('comment-input').value = '';
                 }).catch(err => {
