@@ -23,13 +23,12 @@ const INDEX_PAGE = (function () {
     };
 
     const IndexPageController = function () {
-        const defaultArticlePaginationSize = 2;
+        const defaultArticlePaginationSize = 5;
 
         const searchService = new SearchService();
         const articleService = new ArticleService();
         const commentService = new CommentService();
         const ddabongService = new DdabongService();
-        const articleService = new ArticleService();
 
         const toggleSearchInput = function () {
             document.querySelector('.search-toggle').addEventListener('click', searchService.toggleSearchInput);
@@ -161,8 +160,8 @@ const INDEX_PAGE = (function () {
                     });
                 })
         };
-      
-      const deleteArticle = function (event) {
+
+        const deleteArticle = function (event) {
             event.preventDefault();
             const message = event.target.closest("div");
             const articleId = message.parentElement.id;
@@ -275,7 +274,7 @@ const INDEX_PAGE = (function () {
             toggleHeart: toggleHeart,
         }
     };
-  
+
     const indexPageController = new IndexPageController();
 
     const init = function () {

@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:replace="fragments/commonHeader"></th:block>
-    <link rel="stylesheet" href="/css/vanilla-notify.css" />
+	<link rel="stylesheet" href="/css/vanilla-notify.css"/>
 </head>
 <body>
 <!-- TODO 값을 어떻게 socket-notification.js로 보낼까? 일단은 input hidden으로 해보고 질문해보기-->
@@ -372,7 +372,7 @@
 <script src="/js/vanilla-notify.js"></script>
 <script src="/js/socket-notification.js"></script>
 <script th:inline="javascript">
-	
+
     const MYPAGE = (function () {
         const profileBlockSettingsBtn = document.querySelector("#profile-block-settings-btn");
         const profileBlockFollowBtn = document.querySelector("#profile-block-follow-btn");
@@ -425,10 +425,10 @@
             const logout = function () {
                 profileBlockLogoutBtn.addEventListener("click", myPageService.logout);
             };
-            
-            const openSocketConnection = function() {
-            	myPageService.openSocketConnection();
-      			}
+
+            const openSocketConnection = function () {
+                myPageService.openSocketConnection();
+            }
 
             const init = function () {
                 toggleSearchInput();
@@ -559,9 +559,9 @@
             };
 
             const followMember = function () {
-            	// TODO follow 버튼을 누르면 socket 연결을한다 -> 이거 안돼, 처음 페이지 들어갈 때 해야함 서비스에 만들었다
-				console.log('mypage.html의 sessionName');
-				console.log(sessionName);
+                // TODO follow 버튼을 누르면 socket 연결을한다 -> 이거 안돼, 처음 페이지 들어갈 때 해야함 서비스에 만들었다
+                console.log('mypage.html의 sessionName');
+                console.log(sessionName);
                 const followeeId = [[${session.member.id}]];
                 const followerId = [[${member.id}]];
                 const formData = new FormData();
@@ -640,17 +640,17 @@
             };
 
             const logout = function () {
-            	axios({
-					method: 'get',
-					url: '/logout'
-				}).then(data => {
-					window.location = '/login';
-				});
-			};
-            
-            const openSocketConnection = function() {
-            	socketConnect(sessionName);
-			};
+                axios({
+                    method: 'get',
+                    url: '/logout'
+                }).then(data => {
+                    window.location = '/login';
+                });
+            };
+
+            const openSocketConnection = function () {
+                socketConnect(sessionName);
+            };
 
             return {
                 toggleSearchInput: toggleSearchInput,
@@ -662,8 +662,8 @@
                 unfollowMember: unfollowMember,
                 doubleFollowMember: doubleFollowMember,
                 settings: settings,
-				        logout: logout,
-				        openSocketConnection: openSocketConnection,
+                logout: logout,
+                openSocketConnection: openSocketConnection,
             }
         };
 
