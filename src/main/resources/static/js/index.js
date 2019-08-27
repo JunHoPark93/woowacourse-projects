@@ -53,7 +53,7 @@ const INDEX_PAGE = (function () {
         };
 
         const deleteArticle = function () {
-            document.querySelectorAll('.deleteArticle')
+            document.querySelectorAll('.delete-article')
                 .forEach(el => el.addEventListener('click', articleService.deleteArticle));
         };
 
@@ -103,9 +103,24 @@ const INDEX_PAGE = (function () {
     const ArticleService = function () {
         const defaultCommentPreviewSize = 2;
         const commentService = new CommentService();
+        const ddabongService = new DdabongService();
         const request = new Api().request;
         const indexArticles = document.querySelector("#index-articles");
         const articleCardTemplate = new ArticleCardTemplate();
+
+        function addEventsToArticles() {
+            document.querySelectorAll('.btn-add-comment')
+                .forEach(el => el.addEventListener('click', commentService.addComment));
+
+            document.querySelectorAll('.btn-modal-add-comment')
+                .forEach(el => el.addEventListener('click', commentService.addComment));
+
+            document.querySelectorAll('.fa-heart-o')
+                .forEach(el => el.addEventListener('click', ddabongService.toggleHeart));
+
+            document.querySelectorAll('.delete-article')
+                .forEach(el => el.addEventListener('click', deleteArticle));
+        }
 
         const fetchArticlePages = function (lastArticleId, size) {
             function createNewNode(innerHTML) {
@@ -164,12 +179,8 @@ const INDEX_PAGE = (function () {
 
                         appendCommentsOnArticleCard(json);
 
-                        document.querySelectorAll('.btn-add-comment')
-                            .forEach(el => el.addEventListener('click', commentService.addComment));
-
-                        document.querySelectorAll('.btn-modal-add-comment')
-                            .forEach(el => el.addEventListener('click', commentService.addComment));
-                    });
+                        addEventsToArticles();
+                    })
                 })
         };
 
