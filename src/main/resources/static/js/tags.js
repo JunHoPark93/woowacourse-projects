@@ -1,4 +1,4 @@
-const INDEX_PAGE = (function () {
+const HASHTAG_PAGE = (function () {
     const Api = function () {
         const request = {
             get(path) {
@@ -82,11 +82,9 @@ const INDEX_PAGE = (function () {
 
         const getCommentTemplate = function (nickName, commentContents) {
             return `<li>
-                              <p class="inline-block text-bold  no-mrg-btm mrg-left-15">
-                                  ${nickName}
-                              </p>
-                              <p class="inline-block no-mrg-btm mrg-left-5">${commentContents}</p>
-                        </li>`;
+                        <p class="inline-block text-bold  no-mrg-btm mrg-left-15">${nickName}</p>
+                        <p class="inline-block no-mrg-btm mrg-left-5">${commentContents}</p>
+                   </li>`;
         }
 
         const addComment = function (event) {
@@ -96,8 +94,8 @@ const INDEX_PAGE = (function () {
             const inputValue = message.querySelector("input").value;
             const commentList = message.parentElement.querySelector("#comment-list");
 
-            if (inputValue.length < 1 || inputValue.length > 100) {
-                alert('댓글은 1글자 이상 100글자 이하로 입력해 주세요');
+            if (inputValue.length < 1 || inputValue.length > 500) {
+                alert('댓글은 1글자 이상 500글자 이하로 입력해 주세요');
                 return;
             }
 
@@ -162,4 +160,4 @@ const INDEX_PAGE = (function () {
     }
 })();
 
-INDEX_PAGE.init();
+HASHTAG_PAGE.init();
