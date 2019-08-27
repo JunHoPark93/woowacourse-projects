@@ -29,8 +29,16 @@ public class FollowController {
     @PostMapping("/follow")
     public ResponseEntity follow(FollowRequest followRequest) {
         FollowResult followResult = followService.follow(followRequest);
-        simpMessagingTemplate.convertAndSend("/topics/follow-notification/" + followResult.getFollowerNickName(), followResult);
+        List<String> targetUrls = followService.findTargetEndpoint(followResult.getFollower());
+        sendNotificationToLoggedInMember(followResult, targetUrls);
+
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    private void sendNotificationToLoggedInMember(FollowResult followResult, List<String> targetUrls) {
+        for (String targetUrl : targetUrls) {
+            simpMessagingTemplate.convertAndSend("/topics/follow-notification/" + targetUrl, followResult);
+        }
     }
 
     @GetMapping("/follow/follower/{memberId}")

@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
@@ -33,7 +32,6 @@ public class ArticleService {
     private final S3Uploader s3Uploader;
     private final String dirName;
 
-    // TODO 파라미터가 너무 많은 것 같지 않니?
     public ArticleService(ArticleRepository articleRepository, HashTagService hashTagService, MemberService memberService,
                           S3Uploader s3Uploader, @Value("${cloud.aws.s3.dirName.article}") String dirName) {
         this.articleRepository = articleRepository;
@@ -43,39 +41,40 @@ public class ArticleService {
         this.dirName = dirName;
     }
 
-    public List<ArticleResponse> getArticleResponses() {
-        List<Article> articles = articleRepository.findAllByOrderByIdDesc();
-        return articles.stream()
-                .map(ArticleAssembler::toDto)
-                .collect(Collectors.toList());
-    }
-
+    @Transactional
     public void save(ArticleRequest dto, String email) {
         Member author = memberService.findByEmail(email);
         MultipartFile file = dto.getFile();
         String imageUrl = s3Uploader.upload(file, dirName);
         Article article = ArticleAssembler.toEntity(dto, imageUrl, author);
         articleRepository.save(article);
-        hashTagService.save(article); // TODO 게시글은 저장됐는데 해시태그를 저장하다가 뻑이 난다면?
+        hashTagService.save(article);
 
         log.info("{} imageUrl : {}", TAG, imageUrl);
         log.info("{} create() >> {}", TAG, article);
+    }
+
+    public ArticleResponse getArticle(Long articleId, String memberEmail) {
+        Member loginMember = memberService.findByEmail(memberEmail);
+        Article article = findArticleById(articleId);
+
+        return ArticleAssembler.toDto(article, loginMember);
     }
 
     public Article findArticleById(Long articleId) {
         return articleRepository.findById(articleId).orElseThrow(() -> new ArticleException("해당 게시글을 찾을 수 없습니다."));
     }
 
-    public List<ArticleResponse> getArticlePages(Long lastArticleId, List<Member> followers, int size) {
+    public Page<Article> getArticlePages(Long lastArticleId, List<Member> followers, int size) {
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
-        Page<Article> articles = articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest);
 
-        return articles.stream().map(ArticleAssembler::toDto).collect(Collectors.toList());
+        return articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest);
     }
 
     public void delete(Long articleId, String email) {
         Article article = findArticleById(articleId);
         Member member = memberService.findByEmail(email);
+
         article.checkAuthentication(member);
         articleRepository.delete(article);
     }

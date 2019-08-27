@@ -31,10 +31,10 @@ public class Article extends BaseEntity {
     @JoinColumn(name = "author", nullable = false, foreignKey = @ForeignKey(name = "fk_article_to_member"))
     private Member author;
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", orphanRemoval = true)
     private List<Ddabong> ddabongs = new ArrayList<>();
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
@@ -59,6 +59,13 @@ public class Article extends BaseEntity {
         if (!this.author.getEmail().equals(member.getEmail())) {
             throw new ArticleAuthenticationException("게시글에 대한 권한이 없습니다.");
         }
+    }
+
+    public boolean getDdabongClicked(Member member) {
+        return ddabongs.stream().filter(ddabong -> ddabong.matchMember(member))
+                .findFirst()
+                .map(Ddabong::isClicked)
+                .orElse(false);
     }
 
     public Image getImage() {

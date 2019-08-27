@@ -34,6 +34,14 @@ public class ArticleController {
         return "article-edit";
     }
 
+    @GetMapping("/articles/{articleId}")
+    public String getArticle(@PathVariable Long articleId, MemberSession memberSession, Model model) {
+        ArticleResponse articleResponse = articleService.getArticle(articleId, memberSession.getEmail());
+        model.addAttribute("article", articleResponse);
+
+        return "article";
+    }
+
     @PostMapping("/articles")
     public String create(@Valid ArticleRequest dto, MemberSession memberSession) {
         articleService.save(dto, memberSession.getEmail());
