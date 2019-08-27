@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
@@ -37,12 +36,12 @@ public class ArticleService {
         this.dirName = dirName;
     }
 
-    public List<ArticleResponse> getArticleResponses() {
-        List<Article> articles = articleRepository.findAllByOrderByIdDesc();
-        return articles.stream()
-                .map(ArticleAssembler::toDto)
-                .collect(Collectors.toList());
-    }
+//    public List<ArticleResponse> getArticleResponses() {
+//        List<Article> articles = articleRepository.findAllByOrderByIdDesc();
+//        return articles.stream()
+//                .map(ArticleAssembler::toDto)
+//                .collect(Collectors.toList());
+//    }
 
     public void save(ArticleRequest dto, String email) {
         Member author = memberService.findByEmail(email);
@@ -55,20 +54,27 @@ public class ArticleService {
         log.info("{} create() >> {}", TAG, article);
     }
 
+    public ArticleResponse getArticle(Long articleId, String memberEmail) {
+        Member loginMember = memberService.findByEmail(memberEmail);
+        Article article = findArticleById(articleId);
+
+        return ArticleAssembler.toDto(article, loginMember);
+    }
+
     public Article findArticleById(Long articleId) {
         return articleRepository.findById(articleId).orElseThrow(() -> new ArticleException("해당 게시글을 찾을 수 없습니다."));
     }
 
-    public List<ArticleResponse> getArticlePages(Long lastArticleId, List<Member> followers, int size) {
+    public Page<Article> getArticlePages(Long lastArticleId, List<Member> followers, int size) {
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
-        Page<Article> articles = articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest);
 
-        return articles.stream().map(ArticleAssembler::toDto).collect(Collectors.toList());
+        return articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest);
     }
 
     public void delete(Long articleId, String email) {
         Article article = findArticleById(articleId);
         Member member = memberService.findByEmail(email);
+
         article.checkAuthentication(member);
         articleRepository.delete(article);
     }
