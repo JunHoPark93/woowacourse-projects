@@ -65,11 +65,7 @@ const ArticleCardTemplate = function () {
                         <li class=" no-pdd">
                             <div class="info pdd-left-15 pdd-vertical-5">
                                 <a href="" class="title no-pdd-vertical text-bold inline-block font-size-15">${json.nickName}</a>
-                                <p>${json.contents}</p>
-                                <p>
-                                    <a href="" class="hashtag">#우테코1기</a>
-                                    <a href="" class="hashtag">#베스트커플상</a>
-                                </p>
+                                <p>` + articleContents(json.contents) + `</p>
                                 <time class="font-size-8 text-gray d-block">${json.lastModifiedDate}</time>
                                 <span id="comment-preview-message-${json.id}"></span>
                             </div>
@@ -89,6 +85,12 @@ const ArticleCardTemplate = function () {
                 </div>
             </div>
         </div>`
+    };
+
+    const articleContents = function (contents) {
+        return contents.split(/[ \t\r\n\v\f]/g)
+            .map(w => (w.startsWith('#') ? `<a href="/tags/${w.substring(1)}" class="hashtag">${w}</a>` : w))
+            .join(' ');
     };
 
     const comment = function (json) {

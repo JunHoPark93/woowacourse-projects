@@ -38,4 +38,11 @@ public class HashTagService {
                 )
                 .collect(Collectors.toList());
     }
+  
+    public List<HashTag> findAllByTagKeyword(String keyword) {
+        TagKeyword tagKeyword = tagKeywordRepository.findByTagKeyword(keyword)
+                .orElseThrow(() -> new HashTagException("해당 해시태그에 대한 게시글이 존재하지 않습니다."));
+
+        return hashTagRepository.findAllByTagKeywordOrderByArticleCreatedDateDesc(tagKeyword);
+    }
 }

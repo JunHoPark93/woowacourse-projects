@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class ArticleController {
@@ -51,5 +52,15 @@ public class ArticleController {
     public ResponseEntity<String> deleteArticle(@PathVariable Long articleId, MemberSession memberSession) {
         articleService.delete(articleId, memberSession.getEmail());
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
+    @GetMapping("/tags/{tagKeyword}")
+    public String getArticlesByTagKeyword(@PathVariable String tagKeyword, Model model) {
+        List<ArticleResponse> articleResponses = articleService.findArticleByTagKeyword(tagKeyword);
+        model.addAttribute("articles", articleResponses);
+
+        log.info("{} getArticlesByTagKeyword() >> {}", TAG, tagKeyword);
+
+        return "tags";
     }
 }
