@@ -102,6 +102,7 @@ const INDEX_PAGE = (function () {
 
     const ArticleService = function () {
         const defaultCommentPreviewSize = 2;
+        const commentService = new CommentService();
         const request = new Api().request;
         const indexArticles = document.querySelector("#index-articles");
         const articleCardTemplate = new ArticleCardTemplate();
@@ -124,17 +125,23 @@ const INDEX_PAGE = (function () {
                     }
                 }
 
-                if (commentSize > defaultCommentPreviewSize) {
-                    const commentPreviewMessage = document.querySelector('#comment-preview-message-' + json.id);
-                    commentPreviewMessage.appendChild(createNewNode(articleCardTemplate.commentPreviewMessage(commentSize, json.id)));
-
+                function appendArticleModal() {
                     const indexArticlesModal = document.querySelector('#index-articles-modal');
-                    indexArticlesModal.appendChild(createNewNode(articleCardTemplate.articleModal(json)));
+                    const articleModalNode = createNewNode(articleCardTemplate.articleModal(json));
+                    indexArticlesModal.appendChild(articleModalNode);
 
                     const commentModalList = document.querySelector('#comment-list-modal-' + json.id);
                     appendComments(commentModalList, commentSize);
+                }
+
+                if (commentSize > defaultCommentPreviewSize) {
+                    const commentPreviewMessage = document.querySelector('#comment-preview-message-' + json.id);
+                    const commentPreviewMessageNode = createNewNode(articleCardTemplate.commentPreviewMessage(commentSize, json.id));
+                    commentPreviewMessage.appendChild(commentPreviewMessageNode);
 
                     appendComments(commentList, defaultCommentPreviewSize);
+
+                    appendArticleModal();
                     return;
                 }
 
@@ -153,10 +160,15 @@ const INDEX_PAGE = (function () {
                     data.forEach(function (json) {
                         console.log(json);
                         const articleNode = createNewNode(articleCardTemplate.articleCard(json));
-
                         indexArticles.appendChild(articleNode);
 
                         appendCommentsOnArticleCard(json);
+
+                        document.querySelectorAll('.btn-add-comment')
+                            .forEach(el => el.addEventListener('click', commentService.addComment));
+
+                        document.querySelectorAll('.btn-modal-add-comment')
+                            .forEach(el => el.addEventListener('click', commentService.addComment));
                     });
                 })
         };
@@ -216,10 +228,12 @@ const INDEX_PAGE = (function () {
 
         const addComment = function (event) {
             const message = event.target.closest("div");
-            const articleId = message.id.split("-")[2];
+            const articleIdSplits = message.id.split("-");
+            const articleId = articleIdSplits[articleIdSplits.length - 1];
 
-            const inputValue = message.querySelector("input").value;
-            const commentList = message.parentElement.querySelector("#comment-list");
+            const input = message.querySelector("input");
+            const inputValue = input.value;
+            const commentList = message.parentElement.querySelector(".comment-list");
 
             if (inputValue.length < 1 || inputValue.length > 500) {
                 alert('댓글은 1글자 이상 500글자 이하로 입력해 주세요');
@@ -233,7 +247,7 @@ const INDEX_PAGE = (function () {
 
                     const comment = articleCardTemplate.comment(res.data);
                     commentList.insertAdjacentHTML('beforeend', comment);
-                    document.getElementById('comment-input').value = '';
+                    input.value = '';
                 }).catch(err => {
                 alert(err.response.data);
             });

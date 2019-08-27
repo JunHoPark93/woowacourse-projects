@@ -123,7 +123,7 @@ const ArticleCardTemplate = function () {
                         </div>
                     </li>
                 </ul>
-                <ul id="comment-list-${json.id}" class="list-unstyled list-info pdd-horizon-5">
+                <ul id="comment-list-${json.id}" class="comment-list list-unstyled list-info pdd-horizon-5">
                 </ul>
                 <p class="mrg-btm-5"></p>
                 <div id="article-comment-input-${json.id}" class="add-comment relative">
@@ -156,14 +156,14 @@ const ArticleCardTemplate = function () {
                         </div>
                     </li>
                 </ul>
-                <ul id="comment-list-modal-${json.id}" class="list-unstyled list-info pdd-horizon-5">
+                <ul id="comment-list-modal-${json.id}" class="comment-list list-unstyled list-info pdd-horizon-5">
                 </ul>
                 <p class="mrg-btm-5"></p>
                 <div id="article-comment-input-modal-${json.id}" class="add-comment relative">
                     <input id="comment-input-modal-${json.id}" rows="1" class="form-control text-dark padding-15"
                            placeholder="댓글 달기...">
                     <p class="absolute top-2 right-0">
-                        <button class="btn btn-default no-border text-gray btn-add-comment">게시
+                        <button class="btn btn-default no-border text-gray btn-modal-add-comment">게시
                         </button>
                     </p>
                 </div>
