@@ -31,6 +31,10 @@ public class Ddabong extends BaseEntity {
         clicked = !clicked;
     }
 
+    public boolean matchMember(Member member) {
+        return this.member.equals(member);
+    }
+
     public Article getArticle() {
         return article;
     }

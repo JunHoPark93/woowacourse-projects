@@ -10,18 +10,18 @@ public class ArticleResponse {
     private Long id;
     private String image;
     private String contents;
-    //    private String hashTag;
     private String nickName;
     private String profileImage;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
     private List<CommentResponse> commentResponses;
-    //좋아요 추가하기
+    private long ddabongCount;
+    private boolean isDdabongClicked;
 
     public ArticleResponse() {
     }
 
-    private ArticleResponse(Long id, String image, String contents, String nickName, String profileImage, LocalDateTime createdDate, LocalDateTime lastModifiedDate, List<CommentResponse> commentResponses) {
+    public ArticleResponse(Long id, String image, String contents, String nickName, String profileImage, LocalDateTime createdDate, LocalDateTime lastModifiedDate, List<CommentResponse> commentResponses, long ddabongCount, boolean isDdabongClicked) {
         this.id = id;
         this.image = image;
         this.contents = contents;
@@ -30,6 +30,8 @@ public class ArticleResponse {
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
         this.commentResponses = commentResponses;
+        this.ddabongCount = ddabongCount;
+        this.isDdabongClicked = isDdabongClicked;
     }
 
     public Long getId() {
@@ -64,17 +66,26 @@ public class ArticleResponse {
         return commentResponses;
     }
 
+    public long getDdabongCount() {
+        return ddabongCount;
+    }
+
+    public boolean isDdabongClicked() {
+        return isDdabongClicked;
+    }
+
     public static final class ArticleResponseBuilder {
 
         private Long id;
         private String image;
         private String contents;
-        //    private String hashTag;
         private String nickName;
         private String profileImage;
         private LocalDateTime createdDate;
         private LocalDateTime lastModifiedDate;
         private List<CommentResponse> commentResponses;
+        private long ddabongCount;
+        private boolean isDdabongClicked;
 
         private ArticleResponseBuilder() {
         }
@@ -123,8 +134,18 @@ public class ArticleResponse {
             return this;
         }
 
+        public ArticleResponseBuilder ddabongCount(long ddabongCount) {
+            this.ddabongCount = ddabongCount;
+            return this;
+        }
+
+        public ArticleResponseBuilder isDdabongClicked(boolean isDdabongClicked) {
+            this.isDdabongClicked = isDdabongClicked;
+            return this;
+        }
+
         public ArticleResponse build() {
-            return new ArticleResponse(id, image, contents, nickName, profileImage, createdDate, lastModifiedDate, commentResponses);
+            return new ArticleResponse(id, image, contents, nickName, profileImage, createdDate, lastModifiedDate, commentResponses, ddabongCount, isDdabongClicked);
         }
     }
 
@@ -132,19 +153,21 @@ public class ArticleResponse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ArticleResponse response = (ArticleResponse) o;
-        return Objects.equals(id, response.id) &&
-                Objects.equals(image, response.image) &&
-                Objects.equals(contents, response.contents) &&
-                Objects.equals(nickName, response.nickName) &&
-                Objects.equals(profileImage, response.profileImage) &&
-                Objects.equals(createdDate, response.createdDate) &&
-                Objects.equals(lastModifiedDate, response.lastModifiedDate) &&
-                Objects.equals(commentResponses, response.commentResponses);
+        final ArticleResponse that = (ArticleResponse) o;
+        return ddabongCount == that.ddabongCount &&
+                isDdabongClicked == that.isDdabongClicked &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(image, that.image) &&
+                Objects.equals(contents, that.contents) &&
+                Objects.equals(nickName, that.nickName) &&
+                Objects.equals(profileImage, that.profileImage) &&
+                Objects.equals(createdDate, that.createdDate) &&
+                Objects.equals(lastModifiedDate, that.lastModifiedDate) &&
+                Objects.equals(commentResponses, that.commentResponses);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, image, contents, nickName, profileImage, createdDate, lastModifiedDate, commentResponses);
+        return Objects.hash(id, image, contents, nickName, profileImage, createdDate, lastModifiedDate, commentResponses, ddabongCount, isDdabongClicked);
     }
 }

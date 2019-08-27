@@ -3,7 +3,8 @@ package com.woowacourse.zzazanstagram.model.ddabong.service;
 import com.woowacourse.zzazanstagram.model.article.domain.Article;
 import com.woowacourse.zzazanstagram.model.article.service.ArticleService;
 import com.woowacourse.zzazanstagram.model.ddabong.domain.Ddabong;
-import com.woowacourse.zzazanstagram.model.ddabong.dto.DdabongResponse;
+import com.woowacourse.zzazanstagram.model.ddabong.dto.DdabongMemberResponse;
+import com.woowacourse.zzazanstagram.model.ddabong.dto.DdabongToggleResponse;
 import com.woowacourse.zzazanstagram.model.ddabong.repository.DdabongRepository;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
@@ -23,7 +24,7 @@ public class DdabongService {
     }
 
     @Transactional
-    public DdabongResponse toggleDdabong(Long articleId, String memberEmail) {
+    public DdabongToggleResponse toggleDdabong(Long articleId, String memberEmail) {
         Article article = articleService.findArticleById(articleId);
         Member member = memberService.findByEmail(memberEmail);
 
@@ -37,7 +38,13 @@ public class DdabongService {
         });
     }
 
-    private DdabongResponse getDdabongResponse(Article article, Ddabong createdDdabong) {
+    private DdabongToggleResponse getDdabongResponse(Article article, Ddabong createdDdabong) {
         return DdabongAssembler.toDto(article.getDdabongCount(), createdDdabong.isClicked());
+    }
+
+    public DdabongMemberResponse fetchDdabongMembers(Long articleId) {
+        Article article = articleService.findArticleById(articleId);
+
+        return DdabongAssembler.toDto(article.getDdabongs());
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice(assignableTypes = ArticleController.class)
 public class ArticleControllerAdvice {
     private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
-    private static final String TAG = "[MemberControllerAdvice]";
+    private static final String TAG = "[ArticleControllerAdvice]";
 
     @ExceptionHandler(ArticleAuthenticationException.class)
     public ResponseEntity<String> handleArticleAuthenticationException(ArticleAuthenticationException e) {

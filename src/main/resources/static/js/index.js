@@ -57,6 +57,11 @@ const INDEX_PAGE = (function () {
                 .forEach(el => el.addEventListener('click', articleService.deleteArticle));
         };
 
+        const fetchDdabongMembers = function () {
+            document.querySelectorAll('.ddabong-members')
+                .forEach(el => el.addEventListener('click', ddabongService.fetchDdabongMembers));
+        };
+
         const getScrollTop = function () {
             return (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
         };
@@ -78,6 +83,7 @@ const INDEX_PAGE = (function () {
             addComment();
             toggleHeart();
             deleteArticle();
+            fetchDdabongMembers();
         };
 
         const onscroll = function () {
@@ -112,14 +118,14 @@ const INDEX_PAGE = (function () {
             document.querySelectorAll('.btn-add-comment')
                 .forEach(el => el.addEventListener('click', commentService.addComment));
 
-            document.querySelectorAll('.btn-modal-add-comment')
-                .forEach(el => el.addEventListener('click', commentService.addComment));
-
-            document.querySelectorAll('.fa-heart-o')
+            document.querySelectorAll('.ddabong-heart')
                 .forEach(el => el.addEventListener('click', ddabongService.toggleHeart));
 
             document.querySelectorAll('.delete-article')
                 .forEach(el => el.addEventListener('click', deleteArticle));
+
+            document.querySelectorAll('.ddabong-members')
+                .forEach(el => el.addEventListener('click', ddabongService.fetchDdabongMembers));
         }
 
         const fetchArticlePages = function (lastArticleId, size) {
@@ -140,23 +146,12 @@ const INDEX_PAGE = (function () {
                     }
                 }
 
-                function appendArticleModal() {
-                    const indexArticlesModal = document.querySelector('#index-articles-modal');
-                    const articleModalNode = createNewNode(articleCardTemplate.articleModal(json));
-                    indexArticlesModal.appendChild(articleModalNode);
-
-                    const commentModalList = document.querySelector('#comment-list-modal-' + json.id);
-                    appendComments(commentModalList, commentSize);
-                }
-
                 if (commentSize > defaultCommentPreviewSize) {
                     const commentPreviewMessage = document.querySelector('#comment-preview-message-' + json.id);
                     const commentPreviewMessageNode = createNewNode(articleCardTemplate.commentPreviewMessage(commentSize, json.id));
                     commentPreviewMessage.appendChild(commentPreviewMessageNode);
 
                     appendComments(commentList, defaultCommentPreviewSize);
-
-                    appendArticleModal();
                     return;
                 }
 
@@ -176,6 +171,14 @@ const INDEX_PAGE = (function () {
                         console.log(json);
                         const articleNode = createNewNode(articleCardTemplate.articleCard(json));
                         indexArticles.appendChild(articleNode);
+
+                        if (json.ddabongClicked) {
+                            const ddabongHeart = document.querySelector('#ddabong-' + json.id);
+                            ddabongService.activeDdabong(ddabongHeart);
+                        }
+
+                        const ddabongMessage = document.querySelector('#ddabong-message-' + json.id);
+                        ddabongMessage.innerText = json.ddabongCount;
 
                         appendCommentsOnArticleCard(json);
 
@@ -198,6 +201,7 @@ const INDEX_PAGE = (function () {
                         const childNode = message.parentNode;
                         const parentNode = childNode.parentNode;
                         parentNode.removeChild(childNode);
+                        alert("게시글이 삭제되었습니다.");
                     }
                 }).catch(response => {
                 console.log(response);
@@ -270,14 +274,29 @@ const INDEX_PAGE = (function () {
     };
 
     const DdabongService = function () {
+        const memberCardTemplate = new MemberCardTemplate();
         const request = new Api().request;
+
+        function activeDdabong(el) {
+            el.classList.remove('fa-heart-o');
+            el.classList.add('fa-heart', 'activated-heart');
+        }
+
+        function disableDdabong(el) {
+            el.classList.remove('fa-heart', 'activated-heart');
+            el.classList.add('fa-heart-o');
+        }
 
         const toggleHeart = function (event) {
             event.preventDefault();
             const message = event.target.closest("div");
-            const articleId = message.id;
-            const childNodes = message.childNodes;
-            const ddabongCountTag = childNodes[7].childNodes[3].childNodes[3];
+            let articleId = message.id;
+
+            const splits = articleId.split('-');
+            if (splits.length > 1) {
+                articleId = splits[splits.length - 1];
+            }
+            const ddabongCountTag = message.querySelector('.ddabong-message');
 
             request
                 .get('/articles/' + articleId + '/ddabongs')
@@ -286,17 +305,41 @@ const INDEX_PAGE = (function () {
                     ddabongCountTag.innerText = response.data.count;
 
                     if (response.data.clicked === true) {
-                        event.target.classList.remove('fa-heart-o');
-                        event.target.classList.add('fa-heart', 'activated-heart');
+                        activeDdabong(event.target);
                     } else {
-                        event.target.classList.remove('fa-heart', 'activated-heart');
-                        event.target.classList.add('fa-heart-o');
+                        disableDdabong(event.target);
                     }
                 });
         };
 
+        const fetchDdabongMembers = function (event) {
+            const message = event.target.closest("div").parentNode;
+            const articleIdSplits = message.id.split("-");
+            const articleId = articleIdSplits[articleIdSplits.length - 1];
+
+            const ddabongUlTag = document.querySelector('#ddabong-ul');
+
+            console.log(articleId);
+            request
+                .get('/ddabongs/members/' + articleId)
+                .then(response => {
+                    console.log(response);
+                    return response.data.memberResponses;
+                })
+                .then(memberResponses => {
+                    ddabongUlTag.innerHTML = "";
+                    memberResponses.forEach(member => {
+                        const memberNode = document.createElement("LI");
+                        memberNode.innerHTML = memberCardTemplate.memberTemplate(member);
+                        ddabongUlTag.appendChild(memberNode);
+                    })
+                })
+        };
+
         return {
+            activeDdabong: activeDdabong,
             toggleHeart: toggleHeart,
+            fetchDdabongMembers: fetchDdabongMembers,
         }
     };
 
