@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface TagKeywordRepository extends JpaRepository<TagKeyword, Long> {
-    Optional<TagKeyword> findByTagKeyword(TagKeyword tagKeyword);
+    Optional<TagKeyword> findByTagKeyword(String tagKeyword);
 }
