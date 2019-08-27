@@ -47,9 +47,11 @@ public class ArticleController {
     }
 
     @GetMapping("/tags/{tagKeyword}")
-    public String getArticlePages(@PathVariable String tagKeyword, Model model) {
+    public String getArticlesByTagKeyword(@PathVariable String tagKeyword, Model model) {
         List<ArticleResponse> articleResponses = articleService.findArticleByTagKeyword(tagKeyword);
-        model.addAttribute(articleResponses);
+        model.addAttribute("articles", articleResponses);
+
+        log.info("{} getArticlesByTagKeyword() >> {}", TAG, tagKeyword);
 
         return "tags";
     }
