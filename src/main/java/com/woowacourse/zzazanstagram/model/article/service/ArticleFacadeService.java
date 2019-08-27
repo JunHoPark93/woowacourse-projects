@@ -1,10 +1,12 @@
 package com.woowacourse.zzazanstagram.model.article.service;
 
+import com.woowacourse.zzazanstagram.model.article.dto.ArticleMyPageResponse;
 import com.woowacourse.zzazanstagram.model.article.domain.Article;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.ddabong.service.DdabongService;
 import com.woowacourse.zzazanstagram.model.follow.service.FollowService;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
+import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -46,5 +48,10 @@ public class ArticleFacadeService {
     private void addLoginMemberTo(List<Member> followers, Long loginMemberId) {
         Member loginMember = memberService.findById(loginMemberId);
         followers.add(loginMember);
+    }
+
+    public List<ArticleMyPageResponse> getMyPageArticles(Long lastArticleId, int size, String nickName) {
+        MemberResponse memberResponse = memberService.findByNickName(nickName);
+        return articleService.getMyPageArticles(lastArticleId, size, memberResponse.getId());
     }
 }

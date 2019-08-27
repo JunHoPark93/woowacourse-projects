@@ -97,6 +97,14 @@ public class FollowService {
         return new MemberRelationResponse(isFollower, isFollowing);
     }
 
+    public long countFollowees(Long memberId) {
+        return followRepository.countByFolloweeId(memberId);
+    }
+
+    public long countFollowers(Long memberId) {
+        return followRepository.countByFollowerId(memberId);
+    }
+  
     public List<String> findTargetEndpoint(MemberResponse target) {
         List<String> targets = new ArrayList<>();
         sessionMap.entrySet().stream()
