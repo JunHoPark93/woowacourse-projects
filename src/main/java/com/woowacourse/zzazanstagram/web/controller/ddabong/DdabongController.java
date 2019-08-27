@@ -1,6 +1,7 @@
 package com.woowacourse.zzazanstagram.web.controller.ddabong;
 
-import com.woowacourse.zzazanstagram.model.ddabong.dto.DdabongResponse;
+import com.woowacourse.zzazanstagram.model.ddabong.dto.DdabongMemberResponse;
+import com.woowacourse.zzazanstagram.model.ddabong.dto.DdabongToggleResponse;
 import com.woowacourse.zzazanstagram.model.ddabong.service.DdabongService;
 import com.woowacourse.zzazanstagram.model.member.MemberSession;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,15 @@ public class DdabongController {
     }
 
     @GetMapping("/articles/{articleId}/ddabongs")
-    public ResponseEntity<DdabongResponse> clickDdabong(@PathVariable Long articleId, MemberSession memberSession) {
-        DdabongResponse ddabongResponse = ddabongService.toggleDdabong(articleId, memberSession.getEmail());
-        return new ResponseEntity<>(ddabongResponse, HttpStatus.OK);
+    public ResponseEntity<DdabongToggleResponse> clickDdabong(@PathVariable Long articleId, MemberSession memberSession) {
+        DdabongToggleResponse ddabongToggleResponse = ddabongService.toggleDdabong(articleId, memberSession.getEmail());
+        return new ResponseEntity<>(ddabongToggleResponse, HttpStatus.OK);
+    }
+
+    // todo url path 수정
+    @GetMapping("/ddabongs/members/{articleId}")
+    public ResponseEntity<DdabongMemberResponse> fetchDdabongMembers(@PathVariable Long articleId) {
+        DdabongMemberResponse ddabongMemberResponse = ddabongService.fetchDdabongMembers(articleId);
+        return new ResponseEntity<>(ddabongMemberResponse, HttpStatus.OK);
     }
 }

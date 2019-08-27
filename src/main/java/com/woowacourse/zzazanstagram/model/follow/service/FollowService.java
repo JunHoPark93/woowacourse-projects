@@ -7,18 +7,25 @@ import com.woowacourse.zzazanstagram.model.follow.dto.FollowResult;
 import com.woowacourse.zzazanstagram.model.follow.repository.FollowRepository;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberRelationResponse;
+import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.service.MemberAssembler;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class FollowService {
     private MemberService memberService;
     private FollowRepository followRepository;
+
+    @Autowired
+    private Map<String, MemberResponse> sessionMap;
 
     public FollowService(MemberService memberService, FollowRepository followRepository) {
         this.memberService = memberService;
@@ -96,5 +103,14 @@ public class FollowService {
 
     public long countFollowers(Long memberId) {
         return followRepository.countByFollowerId(memberId);
+    }
+  
+    public List<String> findTargetEndpoint(MemberResponse target) {
+        List<String> targets = new ArrayList<>();
+        sessionMap.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(target))
+                .map(Map.Entry::getKey)
+                .forEach(targets::add);
+        return targets;
     }
 }

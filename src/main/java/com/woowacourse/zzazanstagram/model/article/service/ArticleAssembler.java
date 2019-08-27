@@ -22,7 +22,7 @@ public class ArticleAssembler {
         return new Article(image, contents, author);
     }
 
-    public static ArticleResponse toDto(Article article) {
+    public static ArticleResponse toDto(Article article, Member loginMember) {
         List<Comment> comments = article.getComments();
         List<CommentResponse> commentResponses = comments.stream()
                 .map(CommentAssembler::toDto)
@@ -37,6 +37,8 @@ public class ArticleAssembler {
                 .createdDate(article.getCreatedDate())
                 .lastModifiedDate(article.getLastModifiedDate())
                 .commentResponses(commentResponses)
+                .ddabongCount(article.getDdabongCount())
+                .isDdabongClicked(article.getDdabongClicked(loginMember))
                 .build();
     }
 

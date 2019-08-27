@@ -1,15 +1,18 @@
 package com.woowacourse.zzazanstagram.model.article.service;
 
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleMyPageResponse;
+import com.woowacourse.zzazanstagram.model.article.domain.Article;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.ddabong.service.DdabongService;
 import com.woowacourse.zzazanstagram.model.follow.service.FollowService;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleFacadeService {
@@ -30,7 +33,11 @@ public class ArticleFacadeService {
         List<Member> followers = findFollowersByMemberId(loginMemberId);
         addLoginMemberTo(followers, loginMemberId);
 
-        return articleService.getArticlePages(lastArticleId, followers, size);
+        Page<Article> articles = articleService.getArticlePages(lastArticleId, followers, size);
+        Member loginMember = memberService.findById(loginMemberId);
+
+        return articles.stream().map(article -> ArticleAssembler.toDto(article, loginMember))
+                .collect(Collectors.toList());
     }
 
     private List<Member> findFollowersByMemberId(Long memberId) {
