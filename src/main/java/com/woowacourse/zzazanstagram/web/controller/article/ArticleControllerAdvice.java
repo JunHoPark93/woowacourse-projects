@@ -1,6 +1,7 @@
 package com.woowacourse.zzazanstagram.web.controller.article;
 
 import com.woowacourse.zzazanstagram.model.article.exception.ArticleAuthenticationException;
+import com.woowacourse.zzazanstagram.model.hashtag.service.HashTagException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,13 @@ public class ArticleControllerAdvice {
     @ExceptionHandler(ArticleAuthenticationException.class)
     public ResponseEntity<String> handleArticleAuthenticationException(ArticleAuthenticationException e) {
         log.error("{} ArticleAuthenticationException >> {}", TAG, e.getMessage());
+
+        return new ResponseEntity<>("ERROR", HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(HashTagException.class)
+    public ResponseEntity<String> handleHashTagException(HashTagException e) {
+        log.error("{} HashTagException >> {}", TAG, e.getMessage());
 
         return new ResponseEntity<>("ERROR", HttpStatus.UNAUTHORIZED);
     }

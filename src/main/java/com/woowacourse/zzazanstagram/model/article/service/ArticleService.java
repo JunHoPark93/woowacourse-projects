@@ -5,6 +5,7 @@ import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.article.exception.ArticleException;
 import com.woowacourse.zzazanstagram.model.article.repository.ArticleRepository;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.HashTag;
 import com.woowacourse.zzazanstagram.model.hashtag.service.HashTagService;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
@@ -77,5 +78,13 @@ public class ArticleService {
         Member member = memberService.findByEmail(email);
         article.checkAuthentication(member);
         articleRepository.delete(article);
+    }
+
+    public List<ArticleResponse> findArticleByTagKeyword(String tagKeyword) {
+        return hashTagService.findAllByTagKeyword(tagKeyword)
+                .stream()
+                .map(HashTag::getArticle)
+                .map(ArticleAssembler::toDto)
+                .collect(Collectors.toList());
     }
 }

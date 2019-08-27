@@ -4,7 +4,6 @@ import com.woowacourse.zzazanstagram.config.S3MockConfig;
 import com.woowacourse.zzazanstagram.model.RequestTemplate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
@@ -69,6 +68,26 @@ class ArticleControllerTest extends RequestTemplate {
     @Test
     void 게시글_삭제_권한없음_테스트() {
         deleteHeaderWithLogin("/articles/4", "abc@gmail.com", "aa1231!!")
+                .exchange()
+                .expectStatus().is4xxClientError();
+    }
+
+    @Test
+    void 특정_해시태그가_달린_게시글_조회_테스트() {
+        createArticle();
+
+        getHeaderWithLogin("/tags/닉")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody().consumeWith(res -> {
+            String body = new String(res.getResponseBody());
+            assertThat(body.contains(CONTENTS));
+        });
+    }
+
+    @Test
+    void 해시태그에_대한_게시글이_존재하지_않는_경우_예외처리() {
+        getHeaderWithLogin("/tags/없는해시태그")
                 .exchange()
                 .expectStatus().is4xxClientError();
     }

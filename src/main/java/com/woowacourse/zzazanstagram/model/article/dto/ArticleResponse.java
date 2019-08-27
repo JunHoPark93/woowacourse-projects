@@ -10,7 +10,6 @@ public class ArticleResponse {
     private Long id;
     private String image;
     private String contents;
-    //    private String hashTag;
     private String nickName;
     private String profileImage;
     private LocalDateTime createdDate;

@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface HashTagRepository extends JpaRepository<HashTag, Long> {
     List<HashTag> findAllByArticle(Article article);
+
     List<HashTag> findAllByTagKeyword(TagKeyword tagKeyword);
 }
