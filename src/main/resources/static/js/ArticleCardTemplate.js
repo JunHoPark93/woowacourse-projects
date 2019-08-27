@@ -51,7 +51,7 @@ const ArticleCardTemplate = function () {
                     </span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="deleteArticle">
+                    <li class="delete-article">
                         <a class="pointer">
                             <i class="ti-trash pdd-right-10 text-dark"></i>
                             <span class="">게시글 삭제</span>
