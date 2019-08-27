@@ -5,8 +5,8 @@
 	<link rel="stylesheet" href="/css/vanilla-notify.css"/>
 </head>
 <body>
-<!-- TODO 값을 어떻게 socket-notification.js로 보낼까? 일단은 input hidden으로 해보고 질문해보기-->
 <input id="session-name" type="hidden" th:value="${session.member.nickName}"/>
+<input id="endpoint" type="hidden" th:value="${endpoint}"/>
 <div>
 	<header id="header" class="header navbar">
 		<div class="header-container max-width-lg mx-auto">
@@ -649,7 +649,7 @@
             };
 
             const openSocketConnection = function () {
-                socketConnect(sessionName);
+                socketConnect();
             };
 
             return {

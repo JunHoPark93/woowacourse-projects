@@ -1,12 +1,11 @@
 var stompClient = null;
 
-function socketConnect(sessionName) {
+function socketConnect() {
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        console.log('sessionName : ' + sessionName);
-        stompClient.subscribe('/topics/follow-notification/' + sessionName, function (notification) {
+        const endpoint = readCookie('endpoint');
+        stompClient.subscribe('/topics/follow-notification/' + endpoint, function (notification) {
             console.log("구독 알람 !!");
             console.log(notification);
             const data = JSON.parse(notification.body);
@@ -22,3 +21,13 @@ function socketConnect(sessionName) {
     });
 }
 
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
