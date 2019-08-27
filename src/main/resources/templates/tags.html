@@ -126,11 +126,7 @@
                                             <div class="info pdd-left-15 pdd-vertical-5">
                                                 <a th:text="${article.nickName}" href=""
                                                    class="title no-pdd-vertical text-bold inline-block font-size-15"></a>
-                                                <p th:text="${article.contents}"></p>
-                                                <p>
-                                                    <a href="" class="hashtag">#우테코1기</a>
-                                                    <a href="" class="hashtag">#베스트커플상</a>
-                                                </p>
+                                                <p th:id="'article-contents-' + ${article.id}"></p>
                                                 <time th:text="${article.lastModifiedDate}"
                                                       class="font-size-8 text-gray d-block">12시간 전
                                                 </time>
@@ -179,5 +175,20 @@
         crossorigin="anonymous"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/tags.js"></script>
+<script th:inline="javascript">
+    window.onload = function () {
+        const articles = [[${articles}]];
+
+        articles.forEach(article => {
+            const articleContents = document.getElementById('article-contents-' + article.id);
+            const contentsTag = article.contents
+                .split(/[ \t\r\n\v\f]/g)
+                .map(w => (w.startsWith('#') ? `<a href="/tags/${w.substring(1)}" class="hashtag">${w}</a>` : w))
+                .join(' ');
+
+            articleContents.insertAdjacentHTML('afterbegin', contentsTag);
+        });
+    }
+</script>
 </body>
 </html>
