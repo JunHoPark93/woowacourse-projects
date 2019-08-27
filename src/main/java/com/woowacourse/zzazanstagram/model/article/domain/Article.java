@@ -37,6 +37,10 @@ public class Article extends BaseEntity {
         this.author = author;
     }
 
+    public long getCommentsCount() {
+        return comments.size();
+    }
+
     public long getDdabongCount() {
         return ddabongs.stream()
                 .filter(Ddabong::isClicked)

@@ -3,6 +3,7 @@ package com.woowacourse.zzazanstagram.model.article.service;
 import com.woowacourse.zzazanstagram.model.article.domain.Article;
 import com.woowacourse.zzazanstagram.model.article.domain.vo.Contents;
 import com.woowacourse.zzazanstagram.model.article.domain.vo.Image;
+import com.woowacourse.zzazanstagram.model.article.dto.ArticleMyPageResponse;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.comment.domain.Comment;
@@ -37,5 +38,9 @@ public class ArticleAssembler {
                 .lastModifiedDate(article.getLastModifiedDate())
                 .commentResponses(commentResponses)
                 .build();
+    }
+
+    public static ArticleMyPageResponse toMyPageDto(Article article) {
+        return new ArticleMyPageResponse(article.getId(), article.getImageValue(), article.getDdabongCount(), article.getCommentsCount());
     }
 }

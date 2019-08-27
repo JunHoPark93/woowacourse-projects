@@ -133,13 +133,13 @@
 							<div class="mrg-btm-15 font-size-15">
 								<span class="mrg-right-30">
 									<span>게시물</span>
-									<span class="text-bold"> 16</span>
+									<span class="text-bold" th:text="${member.articleNumber}"></span>
 								</span>
 								<span class="mrg-right-30">
 									<a id="follower-btn" class="pointer" data-toggle="modal"
 									   data-target="#modal-follower">
 										<span>팔로워</span>
-										<span class="text-bold"> 91</span>
+										<span class="text-bold" th:text="${member.followerNumber}"></span>
 									</a>
 									<div class="modal fade" id="modal-follower">
 										<div class="modal-dialog modal-sm" role="document">
@@ -157,7 +157,7 @@
 									<a id="following-btn" class="pointer" data-toggle="modal"
 									   data-target="#modal-following">
 										<span>팔로잉</span>
-										<span class="text-bold"> 104</span>
+										<span class="text-bold" th:text="${member.followeeNumber}"></span>
 									</a>
 									<div class="modal fade" id="modal-following">
 										<div class="modal-dialog modal-sm" role="document">
@@ -187,173 +187,6 @@
 							</div>
 						</div>
 					</div>
-					
-					<div class="col-lg-4 col-md-4">
-						<!-- TODO : modal id에 article.id 넣어주기 -->
-						<div class="card">
-							
-							<a class="pointer" data-toggle="modal" data-target="#modal-article-id1">
-								<div class="bg article-bg-img"
-								     style="background-image: url('https://media.gettyimages.com/photos/spring-field-picture-id539016480?s=612x612');">
-									<div class="card-block pdd-btm-15">
-										<div class="mrg-top-240">
-											<div class="text-white text-opacity text-right">
-											<span>
-												<i class="ti-heart pdd-right-5"></i>
-												<span> 168</span>
-                                            </span>
-												<span class="pdd-horizon-10">
-												|
-											</span>
-												<span>
-												<i class="ti-comment pdd-right-5"></i>
-												<span> 88</span>
-                                            </span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</a>
-							
-							<div class="modal fade" id="modal-article-id1">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-body">
-											
-											<div class="card widget-feed no-pdd mrg-btm-70">
-												<div class="feed-header padding-15">
-													<ul class="list-unstyled list-info">
-														<li>
-															<img class="thumb-img img-circle"
-															     src="https://media.gettyimages.com/photos/spring-field-picture-id539016480?s=612x612"
-															     alt="">
-															<div class="info">
-																<a class="title no-pdd-vertical text-bold inline-block font-size-15">
-																	nick
-																</a>
-															</div>
-														</li>
-														<a class="pointer absolute top-10 right-0"
-														   data-toggle="dropdown"
-														   aria-expanded="false">
-															<span class="btn-icon text-dark">
-																<i class="ti-more font-size-16"></i>
-                                                            </span>
-														</a>
-														<ul class="dropdown-menu">
-															<li>
-																<a class="pointer">
-																	<i class="ti-trash pdd-right-10 text-dark"></i>
-																	<span class="">게시글 삭제</span>
-																</a>
-															</li>
-														</ul>
-													</ul>
-												</div>
-												<div class="feed-body no-pdd">
-													<img class="img-fluid"
-													     src="https://media.gettyimages.com/photos/spring-field-picture-id539016480?s=612x612"
-													     alt="">
-												</div>
-												<ul class="feed-action pdd-horizon-15 pdd-top-5">
-													<li>
-														<a href="">
-															<i class="fa fa-heart-o font-size-25"></i>
-														</a>
-													</li>
-													<li>
-														<a href="">
-															<i class="ti-comment font-size-22"></i>
-														</a>
-													</li>
-													<li>
-														<a href="">
-															<i class="ti-export font-size-22"></i>
-														</a>
-													</li>
-													<li class="float-right">
-														<a href="" class="pdd-right-0">
-															<i class="fa fa-bookmark-o font-size-25"></i>
-														</a>
-													</li>
-												</ul>
-												<div class="feedback-status-container pdd-horizon-15">
-													<img class="mini-profile-img"
-													     src="/images/default/eastjun_profile.jpg">
-													<p class="no-mrg pdd-left-5 d-inline-block">
-														<span class="text-bold">eastjun</span>님 외 <span
-															class="text-bold">37</span>명이 좋아합니다.
-													</p>
-												</div>
-												<div class="feed-footer">
-													<div class="comment">
-														<ul class="list-unstyled list-info pdd-horizon-5">
-															<li class="comment-item no-pdd">
-																<div class="info pdd-left-15 pdd-vertical-5">
-																	<a href=""
-																	   class="title no-pdd-vertical text-bold inline-block font-size-15">
-																		nickName
-																	</a>
-																	<!--<span class="font-size-14">안돌 어디갔다 온거였지?</span>-->
-																	<p text="asdf"></p>
-																	<p>
-																		<a href="" class="hashtag">#우테코1기</a>
-																		<a href="" class="hashtag">#베스트커플상</a>
-																	</p>
-																	<time class="font-size-8 text-gray d-block">12시간 전
-																	</time>
-																</div>
-															</li>
-														</ul>
-														<div class="add-comment relative">
-															<textarea rows="1" class="form-control text-dark padding-15"
-															          placeholder="댓글 달기..."></textarea>
-															<div class="absolute top-5 right-0">
-																<button class="btn btn-default no-border text-gray">게시
-																</button>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										
-										
-										</div>
-									</div>
-								</div>
-							</div>
-						
-						</div>
-					</div>
-					
-					
-					<div class="col-lg-4 col-md-4">
-						<a href="">
-							<div class="card">
-								<div class="bg article-bg-img"
-								     style="background-image: url('https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');">
-									<div class="card-block pdd-btm-15">
-										<div class="mrg-top-240">
-											<div class="text-white text-opacity text-right">
-											<span>
-												<i class="ti-heart pdd-right-5"></i>
-												<span> 168</span>
-                                            </span>
-												<span class="pdd-horizon-10">
-												|
-											</span>
-												<span>
-												<i class="ti-comment pdd-right-5"></i>
-												<span> 88</span>
-                                            </span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</a>
-					</div>
-				
 				</div>
 			</div>
 		</div>
@@ -428,7 +261,31 @@
 
             const openSocketConnection = function () {
                 myPageService.openSocketConnection();
-            }
+            };
+
+            const getMyPageArticles = function () {
+                myPageService.getMyPageArticles();
+            };
+
+            const getScrollTop = function () {
+                return (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+            };
+
+            const getDocumentHeight = function () {
+                const body = document.body;
+                const html = document.documentElement;
+
+                return Math.max(
+                    body.scrollHeight, body.offsetHeight,
+                    html.clientHeight, html.scrollHeight, html.offsetHeight
+                );
+            };
+
+            const onscroll = function () {
+                if (getScrollTop() === getDocumentHeight() - window.innerHeight) {
+                    getMyPageArticles()
+                }
+            };
 
             const init = function () {
                 toggleSearchInput();
@@ -442,9 +299,11 @@
                 settings();
                 logout();
                 openSocketConnection();
+                getMyPageArticles();
             };
 
             return {
+                onscroll: onscroll,
                 init: init,
             }
         };
@@ -466,13 +325,41 @@
                 btn.classList.add('display-none');
             }
 
+            const myPageArticleTemplate = myPageArticle =>
+                `<div id="mypage-article-${myPageArticle.id}" class="my-page-card col-lg-4 col-md-4">
+                        <div class="card">
+                            <a class="pointer" data-toggle="modal" data-target="#modal-article-id1">
+                                <div class="bg article-bg-img"
+                                     style="background-image: url(${myPageArticle.image});">
+                                    <div class="card-block pdd-btm-15">
+                                        <div class="mrg-top-240">
+                                            <div class="text-white text-opacity text-right">
+											<span>
+												<i class="ti-heart pdd-right-5"></i>
+												<span> ${myPageArticle.ddabongNumber}</span>
+                                            </span>
+                                                <span class="pdd-horizon-10">
+												|
+											</span>
+                                                <span>
+												<i class="ti-comment pdd-right-5"></i>
+												<span> ${myPageArticle.commentNumber}</span>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+              </div>`
+
             const followMemberTemplate = function (json) {
                 return `<div class="pdd-vertical-10 pdd-horizon-20 mrg-vertical-5">
 							<img class="thumb-img img-circle"
 							src="${json.profileImage}"
 							alt="">
 							<div class="info">
-								<span class="title lh-1-5">${json.nickName}</span>
+								<a href="/members/${json.nickName}">${json.nickName}</a>
 								<span class="sub-title">
 									<span>${json.name}</span>
 								</span>
@@ -560,8 +447,6 @@
 
             const followMember = function () {
                 // TODO follow 버튼을 누르면 socket 연결을한다 -> 이거 안돼, 처음 페이지 들어갈 때 해야함 서비스에 만들었다
-                console.log('mypage.html의 sessionName');
-                console.log(sessionName);
                 const followeeId = [[${session.member.id}]];
                 const followerId = [[${member.id}]];
                 const formData = new FormData();
@@ -652,6 +537,38 @@
                 socketConnect(sessionName);
             };
 
+            const parseId = (id, regex) => {
+                const splitId = id.split(regex);
+                return splitId[splitId.length - 1];
+            };
+
+            const getMyPageArticles = function () {
+                let cardList = document.querySelectorAll('.my-page-card');
+                let cardListLength = cardList.length;
+                let lastArticleId = Number.MAX_SAFE_INTEGER;
+                if (cardListLength !== 0) {
+                    lastArticleId = parseId(cardList[cardListLength - 1].id, "-");
+                }
+                const articleData = {
+                    nickName: [[${member.nickName}]],
+                    lastArticleId: lastArticleId,
+                    size: 6,
+                };
+                axios.get('/mypage/articles', {params: articleData})
+                    .then(res => res.data)
+                    .then(res => addMyPageArticles(res));
+            };
+
+            const addMyPageArticles = myPageArticles => {
+                myPageArticles.forEach(myPageArticle => addMyPageArticle(myPageArticle));
+            };
+
+            const addMyPageArticle = myPageArticle => {
+                const articleTemplate = myPageArticleTemplate(myPageArticle);
+                console.log('id : ', myPageArticle.id);
+                document.querySelector(".row").insertAdjacentHTML("beforeend", articleTemplate);
+            };
+
             return {
                 toggleSearchInput: toggleSearchInput,
                 showSearchedList: showSearchedList,
@@ -664,20 +581,32 @@
                 settings: settings,
                 logout: logout,
                 openSocketConnection: openSocketConnection,
+                getMyPageArticles: getMyPageArticles,
             }
         };
 
+        const myPageController = new MyPageController();
+
         const init = function () {
-            const myPageController = new MyPageController();
             myPageController.init();
         };
 
+        const onscroll = function () {
+            myPageController.onscroll();
+        }
         return {
             init: init,
+            onscroll: onscroll,
         }
     })();
 
     MYPAGE.init();
+
+    window.onscroll = function () {
+        MYPAGE.onscroll();
+    };
+
 </script>
 </body>
 </html>
+

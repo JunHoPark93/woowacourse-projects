@@ -89,4 +89,12 @@ public class FollowService {
         boolean isFollowing = followRepository.existsByFolloweeIdAndFollowerId(sessionMemberId, targetMemberId);
         return new MemberRelationResponse(isFollower, isFollowing);
     }
+
+    public long countFollowees(Long memberId) {
+        return followRepository.countByFolloweeId(memberId);
+    }
+
+    public long countFollowers(Long memberId) {
+        return followRepository.countByFollowerId(memberId);
+    }
 }

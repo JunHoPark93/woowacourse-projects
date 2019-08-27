@@ -12,4 +12,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findAllByOrderByIdDesc();
 
     Page<Article> findByIdLessThanAndAuthorInOrderByIdDesc(Long id, List<Member> authors, Pageable pageable);
+
+    Page<Article> findByIdLessThanAndAuthorIdEqualsOrderByIdDesc(Long id, Long authorId, Pageable pageable);
+
+    long countArticleByAuthorId(Long id);
 }

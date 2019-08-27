@@ -1,5 +1,6 @@
 package com.woowacourse.zzazanstagram.web.controller.article;
 
+import com.woowacourse.zzazanstagram.model.article.dto.ArticleMyPageResponse;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.article.service.ArticleFacadeService;
 import com.woowacourse.zzazanstagram.model.member.MemberSession;
@@ -24,4 +25,12 @@ public class ArticleRestController {
 
         return articleFacadeService.getArticlePages(lastArticleId, size, memberSession.getId());
     }
+
+    @GetMapping("/mypage/articles")
+    public List<ArticleMyPageResponse> getMyPageArticles(@RequestParam(value = "lastArticleId") Long lastArticleId
+            , @RequestParam(value = "size") int size, @RequestParam(value = "nickName") String nickName) {
+        return articleFacadeService.getMyPageArticles(lastArticleId, size, nickName);
+    }
+
+
 }

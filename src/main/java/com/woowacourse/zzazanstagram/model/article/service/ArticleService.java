@@ -1,6 +1,7 @@
 package com.woowacourse.zzazanstagram.model.article.service;
 
 import com.woowacourse.zzazanstagram.model.article.domain.Article;
+import com.woowacourse.zzazanstagram.model.article.dto.ArticleMyPageResponse;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.article.exception.ArticleException;
@@ -71,5 +72,16 @@ public class ArticleService {
         Member member = memberService.findByEmail(email);
         article.checkAuthentication(member);
         articleRepository.delete(article);
+    }
+
+    public List<ArticleMyPageResponse> getMyPageArticles(Long lastArticleId, int size, long id) {
+        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
+        Page<Article> articles = articleRepository.findByIdLessThanAndAuthorIdEqualsOrderByIdDesc(lastArticleId, id, pageRequest);
+
+        return articles.stream().map(ArticleAssembler::toMyPageDto).collect(Collectors.toList());
+    }
+
+    public long countByAuthorId(Long id) {
+        return articleRepository.countArticleByAuthorId(id);
     }
 }
