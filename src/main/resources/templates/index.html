@@ -79,5 +79,10 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="js/ArticleCardTemplate.js"></script>
 <script src="js/index.js"></script>
+<script th:inline="javascript">
+	window.onload = function() {
+		document.cookie="endpoint" + "=" + [[${endpoint}]];
+	}
+</script>
 </body>
 </html>
