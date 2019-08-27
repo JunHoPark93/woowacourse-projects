@@ -6,15 +6,24 @@ import com.woowacourse.zzazanstagram.model.article.exception.ArticleAuthenticati
 import com.woowacourse.zzazanstagram.model.comment.domain.Comment;
 import com.woowacourse.zzazanstagram.model.common.BaseEntity;
 import com.woowacourse.zzazanstagram.model.ddabong.domain.Ddabong;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.HashTag;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.TagKeyword;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Entity
 public class Article extends BaseEntity {
+    private static final Pattern WHTIE_SPACE_PATTERN = Pattern.compile("[ \\t\\r\\n\\v\\f]");
+    private static final String HASHTAG_PREFIX = "#";
+    private static final int NEXT_INDEX_OF_PREFIX = 1;
+
     private Image image;
     private Contents contents;
 
@@ -27,6 +36,9 @@ public class Article extends BaseEntity {
 
     @OneToMany(mappedBy = "article")
     private List<Ddabong> ddabongs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<HashTag> hashTags = new ArrayList<>();
 
     protected Article() {
     }
@@ -75,5 +87,16 @@ public class Article extends BaseEntity {
 
     public List<Ddabong> getDdabongs() {
         return Collections.unmodifiableList(ddabongs);
+    }
+
+    public List<HashTag> getHashTags() {
+        return Collections.unmodifiableList(hashTags);
+    }
+
+    public List<TagKeyword> extractTagKeywords() {
+        return Arrays.stream(getContentsValue().split(WHTIE_SPACE_PATTERN.pattern()))
+                .filter(x -> x.startsWith(HASHTAG_PREFIX))
+                .map(x -> new TagKeyword(x.substring(NEXT_INDEX_OF_PREFIX)))
+                .collect(Collectors.toList());
     }
 }
