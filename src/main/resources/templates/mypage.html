@@ -2,8 +2,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:replace="fragments/commonHeader"></th:block>
+	<link rel="stylesheet" href="/css/vanilla-notify.css"/>
 </head>
 <body>
+<!-- TODO 값을 어떻게 socket-notification.js로 보낼까? 일단은 input hidden으로 해보고 질문해보기-->
+<input id="session-name" type="hidden" th:value="${session.member.nickName}"/>
 <div>
 	<header id="header" class="header navbar">
 		<div class="header-container max-width-lg mx-auto">
@@ -80,7 +83,8 @@
 												<button type="button" class="btn btn-default">
 													정보 수정
 												</button>
-												<button id="profile-block-logout-btn" type="button" class="btn btn-default">
+												<button id="profile-block-logout-btn" type="button"
+												        class="btn btn-default">
 													로그 아웃
 												</button>
 											</div>
@@ -363,7 +367,12 @@
         integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
         crossorigin="anonymous"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/js/vanilla-notify.js"></script>
+<script src="/js/socket-notification.js"></script>
 <script th:inline="javascript">
+
     const MYPAGE = (function () {
         const profileBlockSettingsBtn = document.querySelector("#profile-block-settings-btn");
         const profileBlockFollowBtn = document.querySelector("#profile-block-follow-btn");
@@ -371,6 +380,7 @@
         const profileBlockUnFollowModalBtn = document.querySelector("#profile-block-unfollow-modal-btn");
         const profileBlockUnFollowBtn = document.querySelector("#profile-block-unfollow-btn");
         const profileBlockLogoutBtn = document.querySelector("#profile-block-logout-btn");
+        const sessionName = document.getElementById("session-name").value;
 
         const MyPageController = function () {
 
@@ -411,10 +421,14 @@
             const settings = function () {
                 profileBlockSettingsBtn.addEventListener("click", myPageService.settings);
             };
-            
-            const logout = function() {
-				profileBlockLogoutBtn.addEventListener("click", myPageService.logout);
-			};
+
+            const logout = function () {
+                profileBlockLogoutBtn.addEventListener("click", myPageService.logout);
+            };
+
+            const openSocketConnection = function () {
+                myPageService.openSocketConnection();
+            }
 
             const init = function () {
                 toggleSearchInput();
@@ -427,6 +441,7 @@
                 doubleFollowMember();
                 settings();
                 logout();
+                openSocketConnection();
             };
 
             return {
@@ -440,17 +455,17 @@
 
             let isFollower = false;
             let isFollowing = false;
-	
-			function showBtn(btn) {
-				btn.classList.remove('display-none');
-				btn.classList.add('display-inline-block');
-			}
-	
-			function hideBtn(btn) {
-				btn.classList.remove('display-inline-block');
-				btn.classList.add('display-none');
-			}
-	
+
+            function showBtn(btn) {
+                btn.classList.remove('display-none');
+                btn.classList.add('display-inline-block');
+            }
+
+            function hideBtn(btn) {
+                btn.classList.remove('display-inline-block');
+                btn.classList.add('display-none');
+            }
+
             const followMemberTemplate = function (json) {
                 return `<div class="pdd-vertical-10 pdd-horizon-20 mrg-vertical-5">
 							<img class="thumb-img img-circle"
@@ -464,14 +479,14 @@
 							</div>
 						</div>`
             };
-	
+
             const toggleSearchInput = function (event) {
                 event.preventDefault();
                 document.querySelector('.search-box').classList.toggle('active')
                 document.querySelector(".search-input").classList.toggle("active")
                 document.querySelector(".search-input input").focus()
             };
-	
+
             const showSearchedList = function (event) {
                 if (event.target.value.length > 0) {
                     document.querySelector(".advanced-search").classList.add("active")
@@ -479,7 +494,7 @@
                     document.querySelector(".advanced-search").classList.remove("active")
                 }
             };
-	
+
             const showFollowingMembers = function (event) {
                 event.preventDefault();
                 axios({
@@ -496,7 +511,7 @@
                     })
                 });
             };
-	
+
             const showFollowerMembers = function (event) {
                 event.preventDefault();
                 axios({
@@ -513,11 +528,11 @@
                     });
                 });
             };
-	
-			const getFollowRelation = function () {
+
+            const getFollowRelation = function () {
                 if ([[${session.member.nickName.equals(member.nickName)}]]) {
-					showBtn(profileBlockSettingsBtn);
-					return;
+                    showBtn(profileBlockSettingsBtn);
+                    return;
                 }
 
                 axios({
@@ -530,20 +545,23 @@
                     isFollowing = data.following;
 
                     if (isFollowing) {
-                    	showBtn(profileBlockUnFollowModalBtn);
+                        showBtn(profileBlockUnFollowModalBtn);
                         return;
                     }
 
                     if (isFollower) {
-                    	showBtn(profileBlockDoubleFollowBtn);
+                        showBtn(profileBlockDoubleFollowBtn);
                         return;
                     }
-	
+
                     showBtn(profileBlockFollowBtn);
                 });
             };
-			
+
             const followMember = function () {
+                // TODO follow 버튼을 누르면 socket 연결을한다 -> 이거 안돼, 처음 페이지 들어갈 때 해야함 서비스에 만들었다
+                console.log('mypage.html의 sessionName');
+                console.log(sessionName);
                 const followeeId = [[${session.member.id}]];
                 const followerId = [[${member.id}]];
                 const formData = new FormData();
@@ -556,11 +574,11 @@
                     url: '/follow',
                     data: formData
                 }).then(() => {
-                	hideBtn(profileBlockFollowBtn);
-                	showBtn(profileBlockUnFollowModalBtn);
+                    hideBtn(profileBlockFollowBtn);
+                    showBtn(profileBlockUnFollowModalBtn);
                 });
             };
-	
+
             const unfollowMember = function () {
                 const followeeId = [[${session.member.id}]];
                 const followerId = [[${member.id}]];
@@ -574,30 +592,30 @@
                     url: '/follow',
                     data: formData
                 }).then(() => {
-					refreshFollowBtn();
+                    refreshFollowBtn();
                 });
             };
-			
-			const refreshFollowBtn = function () {
-				axios({
-					method: 'get',
-					url: '/follow/relation/' + [[${member.id}]]
-				}).then(response => {
-					return response.data;
-				}).then(data => {
-					isFollower = data.follower;
-					isFollowing = data.following;
-				}).then(() => {
-					hideBtn(profileBlockUnFollowModalBtn);
-					document.querySelector('#modal-following-cancel').click();
-					
-					if (isFollower) {
-						showBtn(profileBlockDoubleFollowBtn);
-						return;
-					}
-					showBtn(profileBlockFollowBtn);
-				});
-			};
+
+            const refreshFollowBtn = function () {
+                axios({
+                    method: 'get',
+                    url: '/follow/relation/' + [[${member.id}]]
+                }).then(response => {
+                    return response.data;
+                }).then(data => {
+                    isFollower = data.follower;
+                    isFollowing = data.following;
+                }).then(() => {
+                    hideBtn(profileBlockUnFollowModalBtn);
+                    document.querySelector('#modal-following-cancel').click();
+
+                    if (isFollower) {
+                        showBtn(profileBlockDoubleFollowBtn);
+                        return;
+                    }
+                    showBtn(profileBlockFollowBtn);
+                });
+            };
 
             const doubleFollowMember = function () {
                 const followeeId = [[${session.member.id}]];
@@ -612,23 +630,27 @@
                     url: '/follow',
                     data: formData
                 }).then(() => {
-                	hideBtn(profileBlockDoubleFollowBtn);
-                	showBtn(profileBlockUnFollowModalBtn);
+                    hideBtn(profileBlockDoubleFollowBtn);
+                    showBtn(profileBlockUnFollowModalBtn);
                 });
             };
 
             const settings = function () {
                 // TODO setting
             };
-            
+
             const logout = function () {
-            	axios({
-					method: 'get',
-					url: '/logout'
-				}).then(data => {
-					window.location = '/login';
-				});
-			};
+                axios({
+                    method: 'get',
+                    url: '/logout'
+                }).then(data => {
+                    window.location = '/login';
+                });
+            };
+
+            const openSocketConnection = function () {
+                socketConnect(sessionName);
+            };
 
             return {
                 toggleSearchInput: toggleSearchInput,
@@ -640,7 +662,8 @@
                 unfollowMember: unfollowMember,
                 doubleFollowMember: doubleFollowMember,
                 settings: settings,
-				logout: logout,
+                logout: logout,
+                openSocketConnection: openSocketConnection,
             }
         };
 

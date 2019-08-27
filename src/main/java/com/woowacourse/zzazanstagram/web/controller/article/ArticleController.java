@@ -5,9 +5,12 @@ import com.woowacourse.zzazanstagram.model.article.service.ArticleService;
 import com.woowacourse.zzazanstagram.model.member.MemberSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -23,12 +26,6 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("articles", articleService.getArticleResponses());
-        return "index";
-    }
-
     @GetMapping("/articles/new")
     public String createArticle() {
         return "article-edit";
@@ -38,5 +35,11 @@ public class ArticleController {
     public String create(@Valid ArticleRequest dto, MemberSession memberSession) {
         articleService.save(dto, memberSession.getEmail());
         return "redirect:/";
+    }
+
+    @DeleteMapping("/articles/{articleId}")
+    public ResponseEntity<String> deleteArticle(@PathVariable Long articleId, MemberSession memberSession) {
+        articleService.delete(articleId, memberSession.getEmail());
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 }

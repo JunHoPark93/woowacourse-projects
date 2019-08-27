@@ -12,6 +12,8 @@ import com.woowacourse.zzazanstagram.util.S3Uploader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class ArticleService {
     private static final Logger log = LoggerFactory.getLogger(ArticleService.class);
     private static final String TAG = "[ArticleService]";
+    private static final int DEFAULT_PAGE_NUM = 0;
 
     private final ArticleRepository articleRepository;
     private final HashTagService hashTagService;
@@ -60,5 +63,19 @@ public class ArticleService {
 
     public Article findArticleById(Long articleId) {
         return articleRepository.findById(articleId).orElseThrow(() -> new ArticleException("해당 게시글을 찾을 수 없습니다."));
+    }
+
+    public List<ArticleResponse> getArticlePages(Long lastArticleId, List<Member> followers, int size) {
+        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
+        Page<Article> articles = articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest);
+
+        return articles.stream().map(ArticleAssembler::toDto).collect(Collectors.toList());
+    }
+
+    public void delete(Long articleId, String email) {
+        Article article = findArticleById(articleId);
+        Member member = memberService.findByEmail(email);
+        article.checkAuthentication(member);
+        articleRepository.delete(article);
     }
 }

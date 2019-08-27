@@ -10,6 +10,8 @@ import com.woowacourse.zzazanstagram.model.member.exception.MemberSaveException;
 import com.woowacourse.zzazanstagram.model.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MemberService {
     private MemberRepository memberRepository;
@@ -44,5 +46,9 @@ public class MemberService {
     public MemberResponse findByNickName(String nickName) {
         Member member = memberRepository.findByNickName(NickName.of(nickName)).orElseThrow(() -> new MemberNotFoundException("잘못된 접근입니다."));
         return MemberAssembler.assemble(member);
+    }
+
+    public List<Member> findByIds(List<Long> ids) {
+        return memberRepository.findAllByIds(ids);
     }
 }
