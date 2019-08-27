@@ -51,9 +51,4 @@ public class MemberService {
     public List<Member> findByIds(List<Long> ids) {
         return memberRepository.findAllByIds(ids);
     }
-
-//    public String generateRandomEndPoint() {
-//        Random random = new Random();
-//        return String.valueOf(random.nextInt(100));
-//    }
 }
