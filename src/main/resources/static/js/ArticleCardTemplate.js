@@ -52,7 +52,11 @@ const ArticleCardTemplate = function () {
             </ul>
             <div class="feedback-status-container pdd-horizon-15">
                 <p class="no-mrg pdd-left-5 d-inline-block">
-                    <span id="ddabong-message-${json.id}" class="ddabong-message text-bold"></span>명이 좋아합니다.
+                    <a id="ddabong-members-${json.id}" class="ddabong-members pointer" data-toggle="modal"
+                       data-target="#modal-ddabong-members">
+                        <span id="ddabong-message-${json.id}" class="ddabong-message text-bold">${json.ddabongCount}</span>
+                    </a>
+                    명이 좋아합니다.
                 </p>
             </div>
             <div class="feed-footer">

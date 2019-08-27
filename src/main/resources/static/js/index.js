@@ -57,6 +57,11 @@ const INDEX_PAGE = (function () {
                 .forEach(el => el.addEventListener('click', articleService.deleteArticle));
         };
 
+        const fetchDdabongMembers = function () {
+            document.querySelectorAll('.ddabong-members')
+                .forEach(el => el.addEventListener('click', ddabongService.fetchDdabongMembers));
+        };
+
         const getScrollTop = function () {
             return (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
         };
@@ -78,6 +83,7 @@ const INDEX_PAGE = (function () {
             addComment();
             toggleHeart();
             deleteArticle();
+            fetchDdabongMembers();
         };
 
         const onscroll = function () {
@@ -117,6 +123,9 @@ const INDEX_PAGE = (function () {
 
             document.querySelectorAll('.delete-article')
                 .forEach(el => el.addEventListener('click', deleteArticle));
+
+            document.querySelectorAll('.ddabong-members')
+                .forEach(el => el.addEventListener('click', ddabongService.fetchDdabongMembers));
         }
 
         const fetchArticlePages = function (lastArticleId, size) {
@@ -265,6 +274,7 @@ const INDEX_PAGE = (function () {
     };
 
     const DdabongService = function () {
+        const memberCardTemplate = new MemberCardTemplate();
         const request = new Api().request;
 
         function activeDdabong(el) {
@@ -302,9 +312,34 @@ const INDEX_PAGE = (function () {
                 });
         };
 
+        const fetchDdabongMembers = function (event) {
+            const message = event.target.closest("div").parentNode;
+            const articleIdSplits = message.id.split("-");
+            const articleId = articleIdSplits[articleIdSplits.length - 1];
+
+            const ddabongUlTag = document.querySelector('#ddabong-ul');
+
+            console.log(articleId);
+            request
+                .get('/ddabongs/members/' + articleId)
+                .then(response => {
+                    console.log(response);
+                    return response.data.memberResponses;
+                })
+                .then(memberResponses => {
+                    ddabongUlTag.innerHTML = "";
+                    memberResponses.forEach(member => {
+                        const memberNode = document.createElement("LI");
+                        memberNode.innerHTML = memberCardTemplate.memberTemplate(member);
+                        ddabongUlTag.appendChild(memberNode);
+                    })
+                })
+        };
+
         return {
             activeDdabong: activeDdabong,
             toggleHeart: toggleHeart,
+            fetchDdabongMembers: fetchDdabongMembers,
         }
     };
 

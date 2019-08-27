@@ -118,8 +118,13 @@
 							</ul>
 							<div class="feedback-status-container pdd-horizon-15">
 								<p class="no-mrg pdd-left-5 d-inline-block">
-									<span th:text="${article.ddabongCount}" class="ddabong-message text-bold"></span>명이
-									좋아합니다.
+									<a th:id="'ddabong-members-' + ${article.id}" class="ddabong-members pointer"
+									   data-toggle="modal"
+									   data-target="#modal-ddabong-members">
+										<span th:text="${article.ddabongCount}"
+										      class="ddabong-message text-bold"></span>
+									</a>
+									명이 좋아합니다.
 								</p>
 							</div>
 							<div class="feed-footer">
@@ -162,6 +167,18 @@
 								</div>
 							</div>
 						</div>
+						
+						<div class="modal fade" id="modal-ddabong-members">
+							<div class="modal-dialog modal-sm" role="document">
+								<div class="modal-content">
+									<div class="modal-header align-self-center">
+										<span class="text-bold">좋아요</span>
+									</div>
+									<ul id="ddabong-ul" class="list-unstyled list-info">
+									</ul>
+								</div>
+							</div>
+						</div>
 					
 					</div>
 				</div>
@@ -178,6 +195,7 @@
         crossorigin="anonymous"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/ArticleCardTemplate.js"></script>
+<script src="/js/MemberCardTemplate.js"></script>
 <script>
 
     const ARTICLE_PAGE = (function () {
@@ -234,12 +252,18 @@
                     .forEach(el => el.addEventListener('click', articleService.deleteArticle));
             };
 
+            const fetchDdabongMembers = function () {
+                document.querySelectorAll('.ddabong-members')
+                    .forEach(el => el.addEventListener('click', ddabongService.fetchDdabongMembers));
+            };
+
             const init = function () {
                 toggleSearchInput();
                 showSearchedList();
                 addComment();
                 toggleHeart();
                 deleteArticle();
+                fetchDdabongMembers();
             };
 
             return {
@@ -334,6 +358,7 @@
         };
 
         const DdabongService = function () {
+            const memberCardTemplate = new MemberCardTemplate();
             const request = new Api().request;
 
             function activeDdabong(el) {
@@ -371,9 +396,34 @@
                     });
             };
 
+            const fetchDdabongMembers = function (event) {
+                const message = event.target.closest("div").parentNode;
+                const articleIdSplits = message.id.split("-");
+                const articleId = articleIdSplits[articleIdSplits.length - 1];
+
+                const ddabongUlTag = document.querySelector('#ddabong-ul');
+
+                console.log(articleId);
+                request
+                    .get('/ddabongs/members/' + articleId)
+                    .then(response => {
+                        console.log(response);
+                        return response.data.memberResponses;
+                    })
+                    .then(memberResponses => {
+                        ddabongUlTag.innerHTML = "";
+                        memberResponses.forEach(member => {
+                            const memberNode = document.createElement("LI");
+                            memberNode.innerHTML = memberCardTemplate.memberTemplate(member);
+                            ddabongUlTag.appendChild(memberNode);
+                        })
+                    })
+            };
+
             return {
                 activeDdabong: activeDdabong,
                 toggleHeart: toggleHeart,
+                fetchDdabongMembers: fetchDdabongMembers,
             }
         };
 
