@@ -5,7 +5,7 @@ import com.woowacourse.zzazanstagram.model.article.domain.vo.Contents;
 import com.woowacourse.zzazanstagram.model.article.domain.vo.Image;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.Hashtag;
-import com.woowacourse.zzazanstagram.model.hashtag.exception.HashTagException;
+import com.woowacourse.zzazanstagram.model.hashtag.exception.HashtagException;
 import com.woowacourse.zzazanstagram.model.hashtag.repository.ArticleHashtagRepository;
 import com.woowacourse.zzazanstagram.model.hashtag.repository.HashtagRepository;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
@@ -87,6 +87,6 @@ class ArticleHashtagServiceTest {
         given(hashtagRepository.findByKeyword(keyword)).willReturn(Optional.empty());
 
         // then
-        assertThrows(HashTagException.class, () -> hashtagService.findAllByHashtag(keyword));
+        assertThrows(HashtagException.class, () -> hashtagService.findAllByHashtag(keyword));
     }
 }

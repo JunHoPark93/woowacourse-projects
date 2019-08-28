@@ -3,7 +3,7 @@ package com.woowacourse.zzazanstagram.model.hashtag.service;
 import com.woowacourse.zzazanstagram.model.article.domain.Article;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.Hashtag;
-import com.woowacourse.zzazanstagram.model.hashtag.exception.HashTagException;
+import com.woowacourse.zzazanstagram.model.hashtag.exception.HashtagException;
 import com.woowacourse.zzazanstagram.model.hashtag.repository.ArticleHashtagRepository;
 import com.woowacourse.zzazanstagram.model.hashtag.repository.HashtagRepository;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class HashtagService {
     @Transactional(readOnly = true)
     public List<ArticleHashtag> findAllByHashtag(String keyword) {
         Hashtag hashtag = hashtagRepository.findByKeyword(keyword)
-                .orElseThrow(() -> new HashTagException("해당 해시태그에 대한 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new HashtagException("해당 해시태그에 대한 게시글이 존재하지 않습니다."));
 
         return articleHashtagRepository.findAllByHashtagOrderByArticleCreatedDateDesc(hashtag);
     }
