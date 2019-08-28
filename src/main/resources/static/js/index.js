@@ -159,7 +159,7 @@ const INDEX_PAGE = (function () {
             }
 
             request
-                .get('/articles', {
+                .get('/api/articles', {
                     lastArticleId: lastArticleId,
                     size: size,
                 })

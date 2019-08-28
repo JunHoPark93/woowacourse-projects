@@ -38,7 +38,7 @@ public class ArticleController {
 
     @GetMapping("/articles/{articleId}")
     public String getArticle(@PathVariable Long articleId, MemberSession memberSession, Model model) {
-        ArticleResponse articleResponse = articleService.getArticle(articleId, memberSession.getEmail());
+        ArticleResponse articleResponse = articleService.findArticleResponseBy(articleId, memberSession.getEmail());
         model.addAttribute("article", articleResponse);
 
         return "article";
@@ -52,7 +52,7 @@ public class ArticleController {
 
     @DeleteMapping("/articles/{articleId}")
     public ResponseEntity<String> deleteArticle(@PathVariable Long articleId, MemberSession memberSession) {
-        articleService.delete(articleId, memberSession.getEmail());
+        articleService.deleteById(articleId, memberSession.getEmail());
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 

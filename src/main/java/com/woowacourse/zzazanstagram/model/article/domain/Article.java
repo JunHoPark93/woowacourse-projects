@@ -37,8 +37,7 @@ public class Article extends BaseEntity {
     @OneToMany(mappedBy = "article", orphanRemoval = true)
     private List<Ddabong> ddabongs = new ArrayList<>();
 
-    // TODO cascade 삭제, orphanRemoval걸기
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", orphanRemoval = true)
     private List<ArticleHashtag> articleHashtags = new ArrayList<>();
 
     protected Article() {
@@ -54,7 +53,7 @@ public class Article extends BaseEntity {
         return comments.size();
     }
 
-    public long getDdabongCount() {
+    public long countClickedDdabong() {
         return ddabongs.stream()
                 .filter(Ddabong::isClicked)
                 .count();
@@ -70,8 +69,7 @@ public class Article extends BaseEntity {
         return !this.author.isSame(member);
     }
 
-    // TODO naming 바꾸기 : is~
-    public boolean getDdabongClicked(Member member) {
+    public boolean isDdabongClicked(Member member) {
         return ddabongs.stream().filter(ddabong -> ddabong.matchMember(member))
                 .findFirst()
                 .map(Ddabong::isClicked)

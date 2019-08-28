@@ -556,7 +556,7 @@
                     lastArticleId: lastArticleId,
                     size: 6,
                 };
-                axios.get('/mypage/articles', {params: articleData})
+                axios.get('/api/articles/mypage', {params: articleData})
                     .then(res => res.data)
                     .then(res => addMyPageArticles(res));
             };
