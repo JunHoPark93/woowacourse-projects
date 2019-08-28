@@ -20,7 +20,7 @@ public class MemberAssembler {
                 .build();
     }
 
-    public static MemberMyPageResponse toMyMapgeResponse(Member member, long articleNumber, long followerNumber, long followeeNumber) {
+    public static MemberMyPageResponse toMyPageResponse(Member member, long articleNumber, long followerNumber, long followeeNumber) {
         return MemberMyPageResponse.builder.aMemberMyPageResponse()
                 .id(member.getId())
                 .profileImage(member.getProfileImageValue())

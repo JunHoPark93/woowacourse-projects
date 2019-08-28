@@ -40,7 +40,7 @@ public class LoginController {
     // TODO endpoint 생성부분 서비스로 옮기기
     @PostMapping("/login")
     public String login(MemberLoginRequest memberLoginRequest, HttpSession httpSession, RedirectAttributes redirectAttributes) {
-        MemberResponse memberResponse = loginService.find(memberLoginRequest);
+        MemberResponse memberResponse = loginService.findMemberResponse(memberLoginRequest);
         httpSession.setAttribute(MEMBER, new MemberSession(memberResponse.getId(), memberResponse.getName(), memberResponse.getEmail(), memberResponse.getNickName(), memberResponse.getProfileImage()));
         String randomEndPoint = setEndPoint(memberResponse);
         redirectAttributes.addFlashAttribute("endpoint", randomEndPoint);

@@ -62,7 +62,7 @@ public class ArticleService {
         log.info("{} create() >> {}", TAG, article);
     }
 
-    // TODO find~로 리네임, response 타입 명시, + 전치사 (findArticleResponseBy)
+    // TODO findMemberResponse~로 리네임, response 타입 명시, + 전치사 (findArticleResponseBy)
     public ArticleResponse getArticle(Long articleId, String email) {
         Member loginMember = memberService.findByEmail(email);
         Article article = findArticleById(articleId);
@@ -113,7 +113,7 @@ public class ArticleService {
         long followerNumber = followService.countFollowers(id);
         long followeeNumber = followService.countFollowees(id);
 
-        return MemberAssembler.toMyMapgeResponse(member, articleNumber, followerNumber, followeeNumber);
+        return MemberAssembler.toMyPageResponse(member, articleNumber, followerNumber, followeeNumber);
     }
 
     private long countByAuthorId(Long id) {
