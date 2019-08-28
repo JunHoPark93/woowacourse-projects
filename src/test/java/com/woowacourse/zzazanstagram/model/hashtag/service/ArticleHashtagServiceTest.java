@@ -3,10 +3,10 @@ package com.woowacourse.zzazanstagram.model.hashtag.service;
 import com.woowacourse.zzazanstagram.model.article.domain.Article;
 import com.woowacourse.zzazanstagram.model.article.domain.vo.Contents;
 import com.woowacourse.zzazanstagram.model.article.domain.vo.Image;
-import com.woowacourse.zzazanstagram.model.hashtag.domain.HashTag;
-import com.woowacourse.zzazanstagram.model.hashtag.domain.TagKeyword;
-import com.woowacourse.zzazanstagram.model.hashtag.repository.HashTagRepository;
-import com.woowacourse.zzazanstagram.model.hashtag.repository.TagKeywordRepository;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.Hashtag;
+import com.woowacourse.zzazanstagram.model.hashtag.repository.ArticleHashtagRepository;
+import com.woowacourse.zzazanstagram.model.hashtag.repository.HashtagRepository;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,32 +15,29 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.woowacourse.zzazanstagram.model.article.ArticleConstant.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
-class HashTagServiceTest {
+class ArticleHashtagServiceTest {
     private Article article;
     private String keyword;
 
     @InjectMocks
-    private HashTagService hashTagService;
+    private HashtagService hashtagService;
 
     @Mock
-    private HashTagRepository hashTagRepository;
+    private ArticleHashtagRepository articleHashtagRepository;
 
     @Mock
-    private TagKeywordRepository tagKeywordRepository;
+    private HashtagRepository hashtagRepository;
 
 
     @BeforeEach
@@ -60,22 +57,22 @@ class HashTagServiceTest {
     @Test
     void 해시태그를_제대로_검색하는지_테스트() {
         // given
-        TagKeyword tagKeyword = new TagKeyword(keyword);
-        List<HashTag> hashTags = Arrays.asList(new HashTag(article, tagKeyword));
+        Hashtag hashTag = new Hashtag(keyword);
+        List<ArticleHashtag> articleHashtags = Arrays.asList(new ArticleHashtag(article, hashTag));
 
-        given(tagKeywordRepository.findByTagKeyword(keyword)).willReturn(Optional.of(tagKeyword));
-        given(hashTagRepository.findAllByTagKeywordOrderByArticleCreatedDateDesc(tagKeyword)).willReturn(hashTags);
+        given(hashtagRepository.findByKeyword(keyword)).willReturn(Optional.of(hashTag));
+        given(articleHashtagRepository.findAllByHashtagOrderByArticleCreatedDateDesc(hashTag)).willReturn(articleHashtags);
 
         // then
-        assertThat(hashTagService.findAllByTagKeyword(keyword)).isEqualTo(hashTags);
+        assertThat(hashtagService.findAllByHashtag(keyword)).isEqualTo(articleHashtags);
     }
 
     @Test
     void 존재하지_않는_해시태그를_검색하는_경우_테스트() {
         // given
-        given(tagKeywordRepository.findByTagKeyword(keyword)).willReturn(Optional.empty());
+        given(hashtagRepository.findByKeyword(keyword)).willReturn(Optional.empty());
 
         // then
-        assertThrows(HashTagException.class, () -> hashTagService.findAllByTagKeyword(keyword));
+        assertThrows(HashTagException.class, () -> hashtagService.findAllByHashtag(keyword));
     }
 }

@@ -6,8 +6,8 @@ import com.woowacourse.zzazanstagram.model.article.exception.ArticleAuthenticati
 import com.woowacourse.zzazanstagram.model.comment.domain.Comment;
 import com.woowacourse.zzazanstagram.model.common.BaseEntity;
 import com.woowacourse.zzazanstagram.model.ddabong.domain.Ddabong;
-import com.woowacourse.zzazanstagram.model.hashtag.domain.HashTag;
-import com.woowacourse.zzazanstagram.model.hashtag.domain.TagKeyword;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.Hashtag;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 
 import javax.persistence.*;
@@ -39,7 +39,7 @@ public class Article extends BaseEntity {
 
     // TODO cascade 삭제, orphanRemoval걸기
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private List<HashTag> hashTags = new ArrayList<>();
+    private List<ArticleHashtag> articleHashtags = new ArrayList<>();
 
     protected Article() {
     }
@@ -75,10 +75,10 @@ public class Article extends BaseEntity {
                 .orElse(false);
     }
 
-    public List<TagKeyword> extractTagKeywords() {
+    public List<Hashtag> extractTagKeywords() {
         return Arrays.stream(getContentsValue().split(WHTIE_SPACE_PATTERN.pattern()))
                 .filter(x -> x.startsWith(HASHTAG_PREFIX))
-                .map(x -> new TagKeyword(x.substring(NEXT_INDEX_OF_PREFIX)))
+                .map(x -> new Hashtag(x.substring(NEXT_INDEX_OF_PREFIX)))
                 .collect(Collectors.toList());
     }
 
@@ -110,7 +110,7 @@ public class Article extends BaseEntity {
         return Collections.unmodifiableList(ddabongs);
     }
 
-    public List<HashTag> getHashTags() {
-        return Collections.unmodifiableList(hashTags);
+    public List<ArticleHashtag> getArticleHashtags() {
+        return Collections.unmodifiableList(articleHashtags);
     }
 }

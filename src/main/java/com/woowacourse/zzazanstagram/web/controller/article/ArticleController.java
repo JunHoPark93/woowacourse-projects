@@ -10,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -52,12 +55,12 @@ public class ArticleController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @GetMapping("/tags/{tagKeyword}")
-    public String getArticlesByTagKeyword(@PathVariable String tagKeyword, MemberSession memberSession, Model model) {
-        List<ArticleResponse> articleResponses = articleService.findArticleByTagKeyword(tagKeyword, memberSession.getId());
+    @GetMapping("/tags/{keyword}")
+    public String getArticlesByHashtag(@PathVariable String keyword, MemberSession memberSession, Model model) {
+        List<ArticleResponse> articleResponses = articleService.findArticleByHashtag(keyword, memberSession.getId());
         model.addAttribute("articles", articleResponses);
 
-        log.info("{} getArticlesByTagKeyword() >> {}", TAG, tagKeyword);
+        log.info("{} getArticlesByHashtag() >> {}", TAG, keyword);
 
         return "tags";
     }
