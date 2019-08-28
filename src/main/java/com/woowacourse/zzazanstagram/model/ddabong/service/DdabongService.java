@@ -23,6 +23,7 @@ public class DdabongService {
         this.memberService = memberService;
     }
 
+
     @Transactional
     public DdabongToggleResponse findDdabongToggleResponseBy(Long articleId, String memberEmail) {
         Article article = articleService.findArticleById(articleId);
