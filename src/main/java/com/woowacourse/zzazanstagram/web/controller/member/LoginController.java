@@ -1,5 +1,6 @@
 package com.woowacourse.zzazanstagram.web.controller.member;
 
+import com.woowacourse.zzazanstagram.config.SocketUrlMappingContext;
 import com.woowacourse.zzazanstagram.model.member.MemberSession;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberLoginRequest;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.util.Map;
-import java.util.UUID;
 
 import static com.woowacourse.zzazanstagram.web.SessionKeys.MEMBER;
 
@@ -24,12 +23,11 @@ public class LoginController {
     private static final String TAG = "[LoginController]";
 
     private final LoginService loginService;
-    // TODO map 포장
-    private final Map<String, MemberResponse> sessionMap;
+    private final SocketUrlMappingContext socketUrlMappingContext;
 
-    public LoginController(LoginService loginService, Map<String, MemberResponse> sessionMap) {
+    public LoginController(LoginService loginService, SocketUrlMappingContext socketUrlMappingContext) {
         this.loginService = loginService;
-        this.sessionMap = sessionMap;
+        this.socketUrlMappingContext = socketUrlMappingContext;
     }
 
     @GetMapping("/login")
@@ -37,35 +35,25 @@ public class LoginController {
         return "login";
     }
 
-    // TODO endpoint 생성부분 서비스로 옮기기
     @PostMapping("/login")
     public String login(MemberLoginRequest memberLoginRequest, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         MemberResponse memberResponse = loginService.findMemberResponse(memberLoginRequest);
-        httpSession.setAttribute(MEMBER, new MemberSession(memberResponse.getId(), memberResponse.getName(), memberResponse.getEmail(), memberResponse.getNickName(), memberResponse.getProfileImage()));
-        String randomEndPoint = setEndPoint(memberResponse);
-        redirectAttributes.addFlashAttribute("endpoint", randomEndPoint);
-
+        setSession(httpSession, memberResponse);
+        redirectAttributes.addFlashAttribute("endpoint", loginService.createEndPoint(memberResponse));
+        
         log.info("{} logged in member name : {}", TAG, memberResponse.getName());
+
         return "redirect:/";
     }
 
-    private String setEndPoint(MemberResponse memberResponse) {
-        String randomEndpoint = generateRandomEndPoint();
-        sessionMap.put(randomEndpoint, memberResponse);
-        return randomEndpoint;
-    }
-
-    private String generateRandomEndPoint() {
-        return UUID.randomUUID().toString();
+    private void setSession(HttpSession httpSession, MemberResponse memberResponse) {
+        httpSession.setAttribute(MEMBER, new MemberSession(memberResponse.getId(), memberResponse.getName(), memberResponse.getEmail(), memberResponse.getNickName(), memberResponse.getProfileImage()));
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
         MemberSession memberSession = (MemberSession) httpSession.getAttribute(SessionKeys.MEMBER);
-        sessionMap.entrySet().stream()
-                .filter(entry -> entry.getValue().getNickName().equals(memberSession.getNickName()))
-                .map(Map.Entry::getKey)
-                .forEach(sessionMap::remove);
+        socketUrlMappingContext.removeContext(memberSession);
         httpSession.removeAttribute(SessionKeys.MEMBER);
         return "redirect:/login";
     }
