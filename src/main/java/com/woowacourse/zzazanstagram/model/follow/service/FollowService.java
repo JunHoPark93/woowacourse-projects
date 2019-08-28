@@ -40,11 +40,11 @@ public class FollowService {
         return followRepository.findByFolloweeAndFollower(followee, follower)
                 .map(x -> {
                     followRepository.delete(x);
-                    return new FollowResult(MemberAssembler.assemble(followee), MemberAssembler.assemble(follower), false);
+                    return new FollowResult(MemberAssembler.toDto(followee), MemberAssembler.toDto(follower), false);
                 })
                 .orElseGet(() -> {
                     followRepository.save(new Follow(followee, follower));
-                    return new FollowResult(MemberAssembler.assemble(followee), MemberAssembler.assemble(follower), true);
+                    return new FollowResult(MemberAssembler.toDto(followee), MemberAssembler.toDto(follower), true);
                 });
     }
 
@@ -55,7 +55,7 @@ public class FollowService {
 
         return follows.stream()
                 .map(Follow::getFollowee)
-                .map(MemberAssembler::assemble)
+                .map(MemberAssembler::toDto)
                 .map(FollowResponse::new)
                 .collect(Collectors.toList());
     }
@@ -76,7 +76,7 @@ public class FollowService {
 
         return follows.stream()
                 .map(Follow::getFollower)
-                .map(MemberAssembler::assemble)
+                .map(MemberAssembler::toDto)
                 .map(FollowResponse::new)
                 .collect(Collectors.toList());
     }

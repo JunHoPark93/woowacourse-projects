@@ -20,6 +20,10 @@ public class Member extends BaseEntity {
         return this.password.isMatch(password);
     }
 
+    public boolean isSame(Member member) {
+        return this.email.equals(member.getEmail());
+    }
+
     public NickName getNickName() {
         return nickName;
     }

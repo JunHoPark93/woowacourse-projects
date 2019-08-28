@@ -22,7 +22,7 @@ public class LoginService {
 
     public MemberResponse find(MemberLoginRequest request) {
         Member member = checkEnrolledMember(request);
-        return MemberAssembler.assemble(member);
+        return MemberAssembler.toDto(member);
     }
 
     private Member checkEnrolledMember(MemberLoginRequest request) {

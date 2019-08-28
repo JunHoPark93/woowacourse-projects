@@ -61,10 +61,13 @@ public class Article extends BaseEntity {
     }
 
     public void checkAuthentication(Member member) {
-        // TODO member에 email 체킹 기능 구현 & if문안의 비교 메서드 추출
-        if (!this.author.getEmail().equals(member.getEmail())) {
+        if (isDifferentMember(member)) {
             throw new ArticleAuthenticationException("게시글에 대한 권한이 없습니다.");
         }
+    }
+
+    private boolean isDifferentMember(Member member) {
+        return !this.author.isSame(member);
     }
 
     // TODO naming 바꾸기 : is~

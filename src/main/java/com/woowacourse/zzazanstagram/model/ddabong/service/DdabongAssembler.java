@@ -17,7 +17,7 @@ public class DdabongAssembler {
     public static DdabongMemberResponse toDto(List<Ddabong> ddabongs) {
         List<MemberResponse> members = ddabongs.stream()
                 .map(Ddabong::getMember)
-                .map(MemberAssembler::assemble)
+                .map(MemberAssembler::toDto)
                 .collect(Collectors.toList());
         return new DdabongMemberResponse(members);
     }
