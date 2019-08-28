@@ -95,7 +95,7 @@ public class ArticleService {
         return articleRepository.countArticleByAuthorId(id);
     }
 
-    public List<ArticleResponse> findArticleByHashtag(String keyword, Long memberId) {
+    public List<ArticleResponse> findArticleResponsesBy(String keyword, Long memberId) {
         Member loginMember = memberService.findById(memberId);
         return hashtagService.findAllByHashtag(keyword)
                 .stream()

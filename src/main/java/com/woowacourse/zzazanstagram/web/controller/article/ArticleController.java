@@ -57,7 +57,7 @@ public class ArticleController {
 
     @GetMapping("/tags/{keyword}")
     public String getArticlesByHashtag(@PathVariable String keyword, MemberSession memberSession, Model model) {
-        List<ArticleResponse> articleResponses = articleService.findArticleByHashtag(keyword, memberSession.getId());
+        List<ArticleResponse> articleResponses = articleService.findArticleResponsesBy(keyword, memberSession.getId());
         model.addAttribute("articles", articleResponses);
 
         log.info("{} getArticlesByHashtag() >> {}", TAG, keyword);
