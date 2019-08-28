@@ -1,11 +1,11 @@
 insert into member(email, name, nick_name, password, profile_image_url)
-values('abc@naver.com','nick','isKing','$2a$10$IHDDc06yJr4v9JpXysrYceM0wc/Tgngi4qtWHDhgKWibMDi5uRhMe','https://media.gettyimages.com/photos/tree-in-park-picture-id164850397?s=612x612');
+values('abc@naver.com','nick','isKing','$2a$10$IHDDc06yJr4v9JpXysrYceM0wc/Tgngi4qtWHDhgKWibMDi5uRhMe','https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/56437513_2152254588223812_9025749523435094016_n.jpg?_nc_cat=106&_nc_oc=AQkL1IreXPSe7Ta2UNQo3qp1A0mGUEBiO7ltbpx_za_MeWQkEn4mCRcIhGiOjV_h6Jg&_nc_ht=scontent-icn1-1.xx&oh=88e06eb8fb47f10b96818092956f0db9&oe=5E0E27C6');
 
 insert into member(email, name, nick_name, password, profile_image_url)
-values('abc@gmail.com','king','isNick','$2a$10$IHDDc06yJr4v9JpXysrYceM0wc/Tgngi4qtWHDhgKWibMDi5uRhMe','https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
-
+values('abc@gmail.com','king','isNick','$2a$10$IHDDc06yJr4v9JpXysrYceM0wc/Tgngi4qtWHDhgKWibMDi5uRhMe','https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-1/67090805_2346854298761201_353533026015117312_n.jpg?_nc_cat=111&_nc_oc=AQkqHtaQXChydMX-9GZrS-swreVxE3lSb-2pW6SQbX8ecfZpRMzy1Y8DKGexsns8Uuo&_nc_ht=scontent-icn1-1.xx&oh=553ede86269ca90fafde4ffcd4a3d8ef&oe=5DD46F9B
+');
 insert into member(email, name, nick_name, password, profile_image_url)
-values('brown@gmail.com','sung_hyoen_ryu','brown','$2a$10$IHDDc06yJr4v9JpXysrYceM0wc/Tgngi4qtWHDhgKWibMDi5uRhMe','https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
+values('brown@gmail.com','sung_hyoen_ryu','brown','$2a$10$IHDDc06yJr4v9JpXysrYceM0wc/Tgngi4qtWHDhgKWibMDi5uRhMe','https://seouljobs.net/wp-content/uploads/2019/08/%EB%B0%95%EC%9E%AC%EC%84%B14.jpeg');
 
 insert into member(email, name, nick_name, password, profile_image_url)
 values('jason@gmail.com','park_jae_song','jason','$2a$10$IHDDc06yJr4v9JpXysrYceM0wc/Tgngi4qtWHDhgKWibMDi5uRhMe','https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
