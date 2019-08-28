@@ -1,7 +1,7 @@
-var stompClient = null;
+let stompClient = null;
 
 function socketConnect() {
-    var socket = new SockJS('/gs-guide-websocket');
+    const socket = new SockJS('/zzazan');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         const endpoint = readCookie('endpoint');
@@ -22,12 +22,12 @@ function socketConnect() {
 }
 
 function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
     return null;
 }
