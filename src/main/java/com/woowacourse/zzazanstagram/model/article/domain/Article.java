@@ -37,8 +37,7 @@ public class Article extends BaseEntity {
     @OneToMany(mappedBy = "article", orphanRemoval = true)
     private List<Ddabong> ddabongs = new ArrayList<>();
 
-    // TODO cascade 삭제, orphanRemoval걸기
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", orphanRemoval = true)
     private List<ArticleHashtag> articleHashtags = new ArrayList<>();
 
     protected Article() {
@@ -54,21 +53,23 @@ public class Article extends BaseEntity {
         return comments.size();
     }
 
-    public long getDdabongCount() {
+    public long countClickedDdabong() {
         return ddabongs.stream()
                 .filter(Ddabong::isClicked)
                 .count();
     }
 
     public void checkAuthentication(Member member) {
-        // TODO member에 email 체킹 기능 구현 & if문안의 비교 메서드 추출
-        if (!this.author.getEmail().equals(member.getEmail())) {
+        if (isDifferentMember(member)) {
             throw new ArticleAuthenticationException("게시글에 대한 권한이 없습니다.");
         }
     }
 
-    // TODO naming 바꾸기 : is~
-    public boolean getDdabongClicked(Member member) {
+    private boolean isDifferentMember(Member member) {
+        return !this.author.isSame(member);
+    }
+
+    public boolean isDdabongClicked(Member member) {
         return ddabongs.stream().filter(ddabong -> ddabong.matchMember(member))
                 .findFirst()
                 .map(Ddabong::isClicked)

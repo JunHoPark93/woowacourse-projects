@@ -1,6 +1,6 @@
-var vNotify = (function () {
+const vNotify = (function () {
 
-    var positionOption = {
+    const positionOption = {
         topLeft: 'topLeft',
         topRight: 'topRight',
         bottomLeft: 'bottomLeft',
@@ -8,7 +8,7 @@ var vNotify = (function () {
         center: 'center'
     };
 
-    var options = {
+    const options = {
         fadeInDuration: 1000,
         fadeOutDuration: 1000,
         fadeInterval: 50,
@@ -19,43 +19,43 @@ var vNotify = (function () {
         showClose: true
     };
 
-    var info = function (params) {
+    const info = function (params) {
         params.notifyClass = 'vnotify-info';
         return addNotify(params);
     };
 
-    var success = function (params) {
+    const success = function (params) {
         params.notifyClass = 'vnotify-success';
         return addNotify(params);
     };
 
-    var error = function (params) {
+    const error = function (params) {
         params.notifyClass = 'vnotify-error';
         return addNotify(params);
     };
 
-    var warning = function (params) {
+    const warning = function (params) {
         params.notifyClass = 'vnotify-warning';
         return addNotify(params);
     };
 
-    var notify = function (params) {
+    const notify = function (params) {
         params.notifyClass = 'vnotify-notify';
         return addNotify(params);
     };
 
-    var custom = function (params) {
+    const custom = function (params) {
         return addNotify(params);
     };
 
-    var addNotify = function (params) {
+    const addNotify = function (params) {
         if (!params.title && !params.text) {
             return null;
         }
 
-        var frag = document.createDocumentFragment();
+        const frag = document.createDocumentFragment();
 
-        var item = document.createElement('div');
+        const item = document.createElement('div');
         item.classList.add('vnotify-item');
         item.classList.add(params.notifyClass);
         item.style.opacity = 0;
@@ -74,23 +74,23 @@ var vNotify = (function () {
 
         item.visibleDuration = item.options.visibleDuration; //option
 
-        var hideNotify = function () {
+        const hideNotify = function () {
             item.fadeInterval = fade('out', item.options.fadeOutDuration, item);
         };
 
-        var resetInterval = function () {
+        const resetInterval = function () {
             clearTimeout(item.interval);
             clearTimeout(item.fadeInterval);
             item.style.opacity = null;
             item.visibleDuration = item.options.postHoverVisibleDuration;
         };
 
-        var hideTimeout = function () {
+        const hideTimeout = function () {
             item.interval = setTimeout(hideNotify, item.visibleDuration);
         };
 
         frag.appendChild(item);
-        var container = getNotifyContainer(item.options.position);
+        const container = getNotifyContainer(item.options.position);
         container.appendChild(frag);
 
         item.addEventListener("mouseover", resetInterval);
@@ -105,22 +105,22 @@ var vNotify = (function () {
         return item;
     };
 
-    var addText = function (text) {
-        var item = document.createElement('div');
+    const addText = function (text) {
+        const item = document.createElement('div');
         item.classList.add('vnotify-text');
         item.innerHTML = text;
         return item;
     };
 
-    var addTitle = function (title) {
-        var item = document.createElement('div');
+    const addTitle = function (title) {
+        const item = document.createElement('div');
         item.classList.add('vnotify-title');
         item.innerHTML = title;
         return item;
     };
 
-    var addClose = function (parent) {
-        var item = document.createElement('span');
+    const addClose = function (parent) {
+        const item = document.createElement('span');
         item.classList.add('vn-close');
         item.addEventListener('click', function () {
             remove(parent);
@@ -128,14 +128,14 @@ var vNotify = (function () {
         return item;
     };
 
-    var getNotifyContainer = function (position) {
-        var positionClass = getPositionClass(position);
-        var container = document.querySelector('.' + positionClass);
+    const getNotifyContainer = function (position) {
+        const positionClass = getPositionClass(position);
+        const container = document.querySelector('.' + positionClass);
         return container ? container : createNotifyContainer(positionClass);
     };
 
-    var createNotifyContainer = function (positionClass) {
-        var frag = document.createDocumentFragment();
+    const createNotifyContainer = function (positionClass) {
+        const frag = document.createDocumentFragment();
         container = document.createElement('div');
         container.classList.add('vnotify-container');
         container.classList.add(positionClass);
@@ -147,7 +147,7 @@ var vNotify = (function () {
         return container;
     };
 
-    var getPositionClass = function (option) {
+    const getPositionClass = function (option) {
         switch (option) {
             case positionOption.topLeft:
                 return 'vn-top-left';
@@ -162,7 +162,7 @@ var vNotify = (function () {
         }
     };
 
-    var getOptions = function (opts) {
+    const getOptions = function (opts) {
         return {
             fadeInDuration: opts.fadeInDuration || options.fadeInDuration,
             fadeOutDuration: opts.fadeOutDuration || options.fadeOutDuration,
@@ -175,15 +175,15 @@ var vNotify = (function () {
         };
     };
 
-    var remove = function (item) {
+    const remove = function (item) {
         item.style.display = 'none';
         item.outerHTML = '';
         item = null;
     };
 
     //New fade - based on http://toddmotto.com/raw-javascript-jquery-style-fadein-fadeout-functions-hugo-giraudel/
-    var fade = function (type, ms, el) {
-        var isIn = type === 'in',
+    const fade = function (type, ms, el) {
+        let isIn = type === 'in',
             opacity = isIn ? 0 : el.style.opacity || 1,
             goal = isIn ? 0.8 : 0,
             gap = options.fadeInterval / ms;
@@ -206,11 +206,11 @@ var vNotify = (function () {
             }
         }
 
-        var fading = window.setInterval(func, options.fadeInterval);
+        const fading = window.setInterval(func, options.fadeInterval);
         return fading;
     };
 
-    var checkRemoveContainer = function () {
+    const checkRemoveContainer = function () {
         var item = document.querySelector('.vnotify-item');
         if (!item) {
             var container = document.querySelectorAll('.vnotify-container');

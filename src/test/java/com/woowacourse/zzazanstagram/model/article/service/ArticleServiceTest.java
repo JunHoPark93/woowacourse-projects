@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.woowacourse.zzazanstagram.model.article.ArticleConstant.*;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -80,10 +79,7 @@ class ArticleServiceTest {
     @Test
     public void save() {
         // given
-        ArticleRequest articleRequest = new ArticleRequest();
-        articleRequest.setFile(file);
-        articleRequest.setContents(CONTENTS);
-        articleRequest.setHashtag(HASHTAG);
+        ArticleRequest articleRequest = new ArticleRequest(file, CONTENTS, HASHTAG);
 
         Article article = Deencapsulation.invoke(ArticleAssembler.class, "toEntity", articleRequest, IMAGE_URL, member);
         given(memberService.findByEmail(EMAIL)).willReturn(member);

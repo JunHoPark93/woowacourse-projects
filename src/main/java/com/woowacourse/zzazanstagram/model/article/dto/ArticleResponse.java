@@ -18,7 +18,7 @@ public class ArticleResponse {
     private long ddabongCount;
     private boolean isDdabongClicked;
 
-    public ArticleResponse() {
+    private ArticleResponse() {
     }
 
     public ArticleResponse(Long id, String image, String contents, String nickName, String profileImage, LocalDateTime createdDate, LocalDateTime lastModifiedDate, List<CommentResponse> commentResponses, long ddabongCount, boolean isDdabongClicked) {

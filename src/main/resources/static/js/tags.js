@@ -20,8 +20,9 @@ const HASHTAG_PAGE = (function () {
         };
     };
 
-    const IndexPageController = function () {
+    const HashTagPageController = function () {
         const searchService = new SearchService();
+        const articleService = new ArticleService();
         const commentService = new CommentService();
         const ddabongService = new DdabongService();
 
@@ -37,10 +38,25 @@ const HASHTAG_PAGE = (function () {
             document.querySelectorAll('.btn-add-comment')
                 .forEach(el => el.addEventListener('click', commentService.addComment));
         };
+
         const toggleHeart = function () {
-            document.querySelectorAll('.fa-heart-o').forEach((el) => {
-                el.addEventListener('click', ddabongService.toggleHeart);
-            })
+            document.querySelectorAll('.fa-heart-o')
+                .forEach((el) => {
+                    el.addEventListener('click', ddabongService.toggleHeart);
+                });
+
+            document.querySelectorAll('.fa-heart')
+                .forEach(el => el.addEventListener('click', ddabongService.toggleHeart));
+        };
+
+        const deleteArticle = function () {
+            document.querySelectorAll('.delete-article')
+                .forEach(el => el.addEventListener('click', articleService.deleteArticle));
+        };
+
+        const fetchDdabongMembers = function () {
+            document.querySelectorAll('.ddabong-members')
+                .forEach(el => el.addEventListener('click', ddabongService.fetchDdabongMembers));
         };
 
         const init = function () {
@@ -48,6 +64,8 @@ const HASHTAG_PAGE = (function () {
             showSearchedList();
             addComment();
             toggleHeart();
+            deleteArticle();
+            fetchDdabongMembers();
         };
 
         return {
@@ -77,6 +95,34 @@ const HASHTAG_PAGE = (function () {
         }
     };
 
+    const ArticleService = function () {
+        const request = new Api().request;
+
+        const deleteArticle = function (event) {
+            event.preventDefault();
+            const message = event.target.closest("div");
+            const articleId = message.parentElement.id;
+
+            request
+                .delete('/articles/' + articleId)
+                .then(response => {
+                    console.log(response);
+
+                    if (response.data === "SUCCESS") {
+                        alert("게시글이 삭제되었습니다.");
+                        window.location = '/';
+                    }
+                }).catch(response => {
+                console.log(response);
+                alert("게시글에 대한 권한이 없습니다.");
+            });
+        };
+
+        return {
+            deleteArticle: deleteArticle,
+        }
+    };
+
     const CommentService = function () {
         const request = new Api().request;
 
@@ -85,7 +131,7 @@ const HASHTAG_PAGE = (function () {
                         <p class="inline-block text-bold  no-mrg-btm mrg-left-15">${nickName}</p>
                         <p class="inline-block no-mrg-btm mrg-left-5">${commentContents}</p>
                    </li>`;
-        }
+        };
 
         const addComment = function (event) {
             const message = event.target.closest("div");
@@ -121,38 +167,78 @@ const HASHTAG_PAGE = (function () {
     };
 
     const DdabongService = function () {
+        const memberCardTemplate = new MemberCardTemplate();
         const request = new Api().request;
+
+        function activeDdabong(el) {
+            el.classList.remove('fa-heart-o');
+            el.classList.add('fa-heart', 'activated-heart');
+        }
+
+        function disableDdabong(el) {
+            el.classList.remove('fa-heart', 'activated-heart');
+            el.classList.add('fa-heart-o');
+        }
 
         const toggleHeart = function (event) {
             event.preventDefault();
             const message = event.target.closest("div");
-            const articleId = message.id;
-            const childNodes = message.childNodes;
-            const ddabongCountTag = childNodes[7].childNodes[3].childNodes[3];
+            let articleId = message.id;
+
+            const splits = articleId.split('-');
+            if (splits.length > 1) {
+                articleId = splits[splits.length - 1];
+            }
+            const ddabongCountTag = message.querySelector('.ddabong-message');
 
             request
-                .get('/articles/' + articleId + '/ddabongs')
+                .get('/ddabongs/articles/' + articleId)
                 .then(response => {
                     console.log(response);
                     ddabongCountTag.innerText = response.data.count;
 
                     if (response.data.clicked === true) {
-                        event.target.classList.remove('fa-heart-o');
-                        event.target.classList.add('fa-heart', 'activated-heart');
+                        activeDdabong(event.target);
                     } else {
-                        event.target.classList.remove('fa-heart', 'activated-heart');
-                        event.target.classList.add('fa-heart-o');
+                        disableDdabong(event.target);
                     }
                 });
         };
+
+        const fetchDdabongMembers = function (event) {
+            const message = event.target.closest("div").parentNode;
+            const articleIdSplits = message.id.split("-");
+            const articleId = articleIdSplits[articleIdSplits.length - 1];
+
+            const ddabongUlTag = document.querySelector('#ddabong-ul');
+
+            console.log(articleId);
+            request
+                .get('/ddabongs/members/' + articleId)
+                .then(response => {
+                    console.log(response);
+                    return response.data.memberResponses;
+                })
+                .then(memberResponses => {
+                    ddabongUlTag.innerHTML = "";
+                    memberResponses.forEach(member => {
+                        const memberNode = document.createElement("LI");
+                        memberNode.innerHTML = memberCardTemplate.memberTemplate(member);
+                        ddabongUlTag.appendChild(memberNode);
+                    })
+                })
+        };
+
         return {
+            activeDdabong: activeDdabong,
             toggleHeart: toggleHeart,
+            fetchDdabongMembers: fetchDdabongMembers,
         }
     };
 
     const init = function () {
-        const indexPageController = new IndexPageController();
-        indexPageController.init();
+        const hashTagPageController = new HashTagPageController();
+        hashTagPageController.init();
     };
 
     return {

@@ -37,12 +37,12 @@ public class ArticleAssembler {
                 .createdDate(article.getCreatedDate())
                 .lastModifiedDate(article.getLastModifiedDate())
                 .commentResponses(commentResponses)
-                .ddabongCount(article.getDdabongCount())
-                .isDdabongClicked(article.getDdabongClicked(loginMember))
+                .ddabongCount(article.countClickedDdabong())
+                .isDdabongClicked(article.isDdabongClicked(loginMember))
                 .build();
     }
 
     public static ArticleMyPageResponse toMyPageDto(Article article) {
-        return new ArticleMyPageResponse(article.getId(), article.getImageValue(), article.getDdabongCount(), article.getCommentsCount());
+        return new ArticleMyPageResponse(article.getId(), article.getImageValue(), article.countClickedDdabong(), article.getCommentsCount());
     }
 }

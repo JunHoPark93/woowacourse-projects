@@ -3,6 +3,7 @@ package com.woowacourse.zzazanstagram.config;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.woowacourse.zzazanstagram.web.interceptor.GuestInterceptor;
 import com.woowacourse.zzazanstagram.web.interceptor.LoginInterceptor;
 import com.woowacourse.zzazanstagram.web.resolver.SessionArgumentResolver;
 import org.springframework.context.annotation.Bean;
@@ -19,13 +20,18 @@ import java.util.List;
 @EnableJpaAuditing
 public class WebConfig implements WebMvcConfigurer {
 
-    private final List<String> excludePatterns = Arrays.asList("/signup", "/members", "/login", "/css/**", "/images/**");
+    private final List<String> guestPatterns = Arrays.asList("/signup", "/members", "/login");
+    private final List<String> excludeResourcesPatterns = Arrays.asList("/css/**", "/images/**");
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns(excludePatterns);
+                .excludePathPatterns(guestPatterns)
+                .excludePathPatterns(excludeResourcesPatterns);
+
+        registry.addInterceptor(new GuestInterceptor())
+                .addPathPatterns(guestPatterns);
     }
 
     @Override

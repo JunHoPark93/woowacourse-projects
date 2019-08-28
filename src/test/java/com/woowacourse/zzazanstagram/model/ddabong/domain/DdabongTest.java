@@ -30,7 +30,14 @@ class DdabongTest {
     }
 
     @Test
-    void 좋아요_생성_테스트() {
+    void create() {
         assertThat(ddabong).isEqualTo(new Ddabong(article, author));
+    }
+
+    @Test
+    void changeClicked() {
+        assertThat(ddabong.isClicked()).isTrue();
+        ddabong.changeClicked();
+        assertThat(ddabong.isClicked()).isFalse();
     }
 }

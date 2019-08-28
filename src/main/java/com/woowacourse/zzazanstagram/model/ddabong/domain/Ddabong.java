@@ -10,11 +10,11 @@ import javax.persistence.*;
 public class Ddabong extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "article_id", foreignKey = @ForeignKey(name = "fk_like_to_article"), nullable = false)
+    @JoinColumn(name = "article_id", nullable = false, foreignKey = @ForeignKey(name = "fk_like_to_article"))
     private Article article;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", foreignKey = @ForeignKey(name = "fk_like_to_member"), nullable = false)
+    @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_like_to_member"))
     private Member member;
 
     private boolean clicked = true;
@@ -35,15 +35,15 @@ public class Ddabong extends BaseEntity {
         return this.member.equals(member);
     }
 
+    public boolean isClicked() {
+        return clicked;
+    }
+
     public Article getArticle() {
         return article;
     }
 
     public Member getMember() {
         return member;
-    }
-
-    public boolean isClicked() {
-        return clicked;
     }
 }

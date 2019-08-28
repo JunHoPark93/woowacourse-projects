@@ -23,30 +23,30 @@ public class DdabongService {
         this.memberService = memberService;
     }
 
+
     @Transactional
-    public DdabongToggleResponse toggleDdabong(Long articleId, String memberEmail) {
-        Article article = articleService.findArticleById(articleId);
+    public DdabongToggleResponse findDdabongToggleResponseBy(Long articleId, String memberEmail) {
+        Article article = articleService.findById(articleId);
         Member member = memberService.findByEmail(memberEmail);
 
         return ddabongRepository.findByArticleAndMember(article, member)
                 .map(ddabong -> {
                     ddabong.changeClicked();
-                    return getDdabongResponse(article, ddabong);
+                    return assembleToDdabongToggleResponseBy(article, ddabong);
                 })
                 .orElseGet(() -> {
                     Ddabong createdDdabong = new Ddabong(article, member);
                     ddabongRepository.save(createdDdabong);
-                    return getDdabongResponse(article, createdDdabong);
+                    return assembleToDdabongToggleResponseBy(article, createdDdabong);
                 });
     }
 
-    private DdabongToggleResponse getDdabongResponse(Article article, Ddabong createdDdabong) {
-        return DdabongAssembler.toDto(article.getDdabongCount(), createdDdabong.isClicked());
+    private DdabongToggleResponse assembleToDdabongToggleResponseBy(Article article, Ddabong createdDdabong) {
+        return DdabongAssembler.toDto(article.countClickedDdabong(), createdDdabong.isClicked());
     }
 
-    // TODO naming
-    public DdabongMemberResponse fetchDdabongMembers(Long articleId) {
-        Article article = articleService.findArticleById(articleId);
+    public DdabongMemberResponse findDdabongMemberResponseBy(Long articleId) {
+        Article article = articleService.findById(articleId);
         return DdabongAssembler.toDto(article.getDdabongs());
     }
 }

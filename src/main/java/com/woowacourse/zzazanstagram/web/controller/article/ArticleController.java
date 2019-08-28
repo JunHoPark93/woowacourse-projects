@@ -4,6 +4,7 @@ import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.article.service.ArticleService;
 import com.woowacourse.zzazanstagram.model.member.MemberSession;
+import com.woowacourse.zzazanstagram.model.member.dto.MemberMyPageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class ArticleController {
 
     @GetMapping("/articles/{articleId}")
     public String getArticle(@PathVariable Long articleId, MemberSession memberSession, Model model) {
-        ArticleResponse articleResponse = articleService.getArticle(articleId, memberSession.getEmail());
+        ArticleResponse articleResponse = articleService.findArticleResponseBy(articleId, memberSession.getEmail());
         model.addAttribute("article", articleResponse);
 
         return "article";
@@ -51,7 +52,7 @@ public class ArticleController {
 
     @DeleteMapping("/articles/{articleId}")
     public ResponseEntity<String> deleteArticle(@PathVariable Long articleId, MemberSession memberSession) {
-        articleService.delete(articleId, memberSession.getEmail());
+        articleService.deleteById(articleId, memberSession.getEmail());
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
@@ -63,5 +64,12 @@ public class ArticleController {
         log.info("{} getArticlesByHashtag() >> {}", TAG, keyword);
 
         return "tags";
+    }
+
+    @GetMapping("/members/{nickname}")
+    public String myPage(@PathVariable("nickname") String nickName, Model model) {
+        MemberMyPageResponse memberMyPageResponse = articleService.myPage(nickName);
+        model.addAttribute("member", memberMyPageResponse);
+        return "mypage";
     }
 }
