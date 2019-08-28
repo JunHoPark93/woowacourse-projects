@@ -3,6 +3,7 @@ package com.woowacourse.zzazanstagram.model.hashtag.service;
 import com.woowacourse.zzazanstagram.model.article.domain.Article;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.Hashtag;
+import com.woowacourse.zzazanstagram.model.hashtag.exception.HashTagException;
 import com.woowacourse.zzazanstagram.model.hashtag.repository.ArticleHashtagRepository;
 import com.woowacourse.zzazanstagram.model.hashtag.repository.HashtagRepository;
 import org.springframework.stereotype.Service;

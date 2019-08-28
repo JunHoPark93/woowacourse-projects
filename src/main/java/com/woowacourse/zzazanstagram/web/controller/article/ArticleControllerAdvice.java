@@ -1,7 +1,7 @@
 package com.woowacourse.zzazanstagram.web.controller.article;
 
 import com.woowacourse.zzazanstagram.model.article.exception.ArticleAuthenticationException;
-import com.woowacourse.zzazanstagram.model.hashtag.service.HashTagException;
+import com.woowacourse.zzazanstagram.model.hashtag.exception.HashTagException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
