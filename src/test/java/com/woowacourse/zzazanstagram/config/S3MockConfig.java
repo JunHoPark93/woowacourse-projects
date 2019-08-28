@@ -6,7 +6,6 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import io.findify.s3mock.S3Mock;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -15,12 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @TestConfiguration
 public class S3MockConfig {
-
-    //@Value("${cloud.aws.s3.bucket}")
-    private String bucket = "zzazanstagram-zzazan";
-
-    //@Value("${cloud.aws.region}")
-    private String region = "ap-northeast-2";
+    private static final String BUCKET = "zzazanstagram-zzazan";
+    private static final String REGION = "ap-northeast-2";
 
     // S3Mock을 빌드할 때 포트나 메모리에 저장할 지, 실제로 저장할 지 같은 것들을 설정
     @Bean
@@ -32,14 +27,14 @@ public class S3MockConfig {
     @Primary
     public AmazonS3 amazonS3(S3Mock s3Mock) {
         s3Mock.start();
-        AwsClientBuilder.EndpointConfiguration endpoint = new AwsClientBuilder.EndpointConfiguration("http://localhost:8001", region);
+        AwsClientBuilder.EndpointConfiguration endpoint = new AwsClientBuilder.EndpointConfiguration("http://localhost:8001", REGION);
         AmazonS3 client = AmazonS3ClientBuilder
                 .standard()
                 .withPathStyleAccessEnabled(true)
                 .withEndpointConfiguration(endpoint)
                 .withCredentials(new AWSStaticCredentialsProvider(new AnonymousAWSCredentials()))
                 .build();
-        client.createBucket(bucket);
+        client.createBucket(BUCKET);
 
         return client;
     }

@@ -49,11 +49,11 @@ class LoginServiceTest {
         // given
         MemberLoginRequest request = new MemberLoginRequest(EMAIL, PASSWORD);
 
-        MemberResponse memberResponse = Deencapsulation.invoke(MemberAssembler.class, "assemble", member);
+        MemberResponse memberResponse = Deencapsulation.invoke(MemberAssembler.class, "toDto", member);
         given(memberRepository.findByEmail(email)).willReturn(Optional.of(member));
 
         // then
-        assertThat(loginService.find(request)).isEqualTo(memberResponse);
+        assertThat(loginService.findMemberResponse(request)).isEqualTo(memberResponse);
     }
 
     @Test
@@ -64,7 +64,7 @@ class LoginServiceTest {
         given(memberRepository.findByEmail(email)).willReturn(Optional.empty());
 
         // then
-        assertThrows(MemberLoginFailException.class, () -> loginService.find(request));
+        assertThrows(MemberLoginFailException.class, () -> loginService.findMemberResponse(request));
     }
 
     @Test
@@ -75,6 +75,6 @@ class LoginServiceTest {
         given(memberRepository.findByEmail(email)).willReturn(Optional.of(member));
 
         // then
-        assertThrows(MemberLoginFailException.class, () -> loginService.find(request));
+        assertThrows(MemberLoginFailException.class, () -> loginService.findMemberResponse(request));
     }
 }

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+// TODO responseentitiy
 @ControllerAdvice(assignableTypes = MemberController.class)
 public class MemberControllerAdvice {
     private static final Logger log = LoggerFactory.getLogger(MemberControllerAdvice.class);

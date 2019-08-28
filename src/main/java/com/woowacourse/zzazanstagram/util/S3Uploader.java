@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+// TODO log 설정
 @Component
 public class S3Uploader {
     private static final Logger log = LoggerFactory.getLogger(S3Uploader.class);

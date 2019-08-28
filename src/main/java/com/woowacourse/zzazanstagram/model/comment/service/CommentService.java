@@ -22,10 +22,12 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
+    // TODO 파라미터 순서 - 원시형 먼저
     public CommentResponse save(CommentContents commentContents, long articleId, String email) {
         Member member = memberService.findByEmail(email);
-        Article article = articleService.findArticleById(articleId);
+        Article article = articleService.findById(articleId);
 
+        // TODO 한줄로
         Comment comment = new Comment(commentContents, article, member);
         Comment saveComment = commentRepository.save(comment);
 

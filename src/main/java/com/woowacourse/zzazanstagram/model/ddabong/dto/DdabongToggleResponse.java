@@ -4,9 +4,6 @@ public class DdabongToggleResponse {
     private long count;
     private boolean isClicked;
 
-    public DdabongToggleResponse() {
-    }
-
     public DdabongToggleResponse(long count, boolean isClicked) {
         this.count = count;
         this.isClicked = isClicked;

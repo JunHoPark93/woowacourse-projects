@@ -4,6 +4,7 @@ import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.article.service.ArticleService;
 import com.woowacourse.zzazanstagram.model.member.MemberSession;
+import com.woowacourse.zzazanstagram.model.member.dto.MemberMyPageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 import java.util.List;
 
+// TODO requestmapping 분리
 @Controller
 public class ArticleController {
     private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
@@ -36,7 +38,7 @@ public class ArticleController {
 
     @GetMapping("/articles/{articleId}")
     public String getArticle(@PathVariable Long articleId, MemberSession memberSession, Model model) {
-        ArticleResponse articleResponse = articleService.getArticle(articleId, memberSession.getEmail());
+        ArticleResponse articleResponse = articleService.findArticleResponseBy(articleId, memberSession.getEmail());
         model.addAttribute("article", articleResponse);
 
         return "article";
@@ -50,17 +52,24 @@ public class ArticleController {
 
     @DeleteMapping("/articles/{articleId}")
     public ResponseEntity<String> deleteArticle(@PathVariable Long articleId, MemberSession memberSession) {
-        articleService.delete(articleId, memberSession.getEmail());
+        articleService.deleteById(articleId, memberSession.getEmail());
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @GetMapping("/tags/{tagKeyword}")
-    public String getArticlesByTagKeyword(@PathVariable String tagKeyword, Model model) {
-        List<ArticleResponse> articleResponses = articleService.findArticleByTagKeyword(tagKeyword);
+    @GetMapping("/tags/{keyword}")
+    public String getArticlesByHashtag(@PathVariable String keyword, MemberSession memberSession, Model model) {
+        List<ArticleResponse> articleResponses = articleService.findArticleResponsesBy(keyword, memberSession.getId());
         model.addAttribute("articles", articleResponses);
 
-        log.info("{} getArticlesByTagKeyword() >> {}", TAG, tagKeyword);
+        log.info("{} getArticlesByHashtag() >> {}", TAG, keyword);
 
         return "tags";
+    }
+
+    @GetMapping("/members/{nickname}")
+    public String myPage(@PathVariable("nickname") String nickName, Model model) {
+        MemberMyPageResponse memberMyPageResponse = articleService.myPage(nickName);
+        model.addAttribute("member", memberMyPageResponse);
+        return "mypage";
     }
 }

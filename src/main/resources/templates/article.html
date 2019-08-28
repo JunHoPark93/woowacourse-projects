@@ -132,15 +132,14 @@
 									<ul class="list-unstyled list-info pdd-horizon-5">
 										<li class=" no-pdd">
 											<div class="info pdd-left-15 pdd-vertical-5">
-												<a href="" th:text="${article.nickName}"
+												<a th:href="@{/members/{nickName}(nickName=${article.nickName})}"
+												   th:text="${article.nickName}"
 												   class="title no-pdd-vertical text-bold inline-block font-size-15"></a>
-												<p th:text="${article.contents}"></p>
-												<p>
-													<a href="" class="hashtag">#우테코1기</a>
-													<a href="" class="hashtag">#베스트커플상</a>
-												</p>
+												<p th:id="'article-contents-' + ${article.id}"
+												   th:text="${article.contents}"></p>
 												<time th:text="${article.lastModifiedDate}"
-												      class="font-size-8 text-gray d-block"></time>
+												      class="font-size-8 text-gray d-block">
+												</time>
 											</div>
 										</li>
 									</ul>
@@ -383,7 +382,7 @@
                 const ddabongCountTag = message.querySelector('.ddabong-message');
 
                 request
-                    .get('/articles/' + articleId + '/ddabongs')
+                    .get('/ddabongs/articles/' + articleId)
                     .then(response => {
                         console.log(response);
                         ddabongCountTag.innerText = response.data.count;

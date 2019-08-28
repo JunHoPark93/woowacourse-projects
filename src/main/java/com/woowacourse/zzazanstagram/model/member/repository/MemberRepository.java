@@ -17,6 +17,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsByNickNameOrEmail(NickName nickName, Email email);
 
-    @Query("SELECT m FROM Member m WHERE m.id IN :ids")
-    List<Member> findAllByIds(@Param("ids") List<Long> ids);
+    List<Member> findByIdIn(List<Long> ids);
 }
