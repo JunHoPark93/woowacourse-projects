@@ -37,9 +37,10 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(MemberLoginRequest memberLoginRequest, HttpSession httpSession, RedirectAttributes redirectAttributes) {
-        MemberResponse memberResponse = loginService.find(memberLoginRequest);
+        MemberResponse memberResponse = loginService.findMemberResponse(memberLoginRequest);
         setSession(httpSession, memberResponse);
         redirectAttributes.addFlashAttribute("endpoint", loginService.createEndPoint(memberResponse));
+        
         log.info("{} logged in member name : {}", TAG, memberResponse.getName());
 
         return "redirect:/";

@@ -24,12 +24,12 @@ public class LoginService {
         this.socketUrlMappingContext = socketUrlMappingContext;
     }
 
-    public MemberResponse find(MemberLoginRequest request) {
-        Member member = checkEnrolledMember(request);
+    public MemberResponse findMemberResponse(MemberLoginRequest request) {
+        Member member = findEnrolledMember(request);
         return MemberAssembler.assemble(member);
     }
 
-    private Member checkEnrolledMember(MemberLoginRequest request) {
+    private Member findEnrolledMember(MemberLoginRequest request) {
         return findByEmail(request.getEmail())
                 .filter(m -> m.isMatchPassword(request.getPassword()))
                 .orElseThrow(() -> new MemberLoginFailException(ERROR_ILLEGAL_LOGIN_MESSAGE));

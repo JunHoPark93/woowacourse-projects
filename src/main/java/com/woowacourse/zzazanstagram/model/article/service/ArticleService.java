@@ -6,9 +6,12 @@ import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.article.exception.ArticleException;
 import com.woowacourse.zzazanstagram.model.article.repository.ArticleRepository;
+import com.woowacourse.zzazanstagram.model.follow.service.FollowService;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.HashTag;
 import com.woowacourse.zzazanstagram.model.hashtag.service.HashTagService;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
+import com.woowacourse.zzazanstagram.model.member.dto.MemberMyPageResponse;
+import com.woowacourse.zzazanstagram.model.member.service.MemberAssembler;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
 import com.woowacourse.zzazanstagram.util.S3Uploader;
 import org.slf4j.Logger;
@@ -32,14 +35,16 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final HashTagService hashTagService;
     private final MemberService memberService;
+    private final FollowService followService;
     private final S3Uploader s3Uploader;
     private final String dirName;
 
     public ArticleService(ArticleRepository articleRepository, HashTagService hashTagService, MemberService memberService,
-                          S3Uploader s3Uploader, @Value("${cloud.aws.s3.dirName.article}") String dirName) {
+                          FollowService followService, S3Uploader s3Uploader, @Value("${cloud.aws.s3.dirName.article}") String dirName) {
         this.articleRepository = articleRepository;
         this.hashTagService = hashTagService;
         this.memberService = memberService;
+        this.followService = followService;
         this.s3Uploader = s3Uploader;
         this.dirName = dirName;
     }
@@ -57,7 +62,7 @@ public class ArticleService {
         log.info("{} create() >> {}", TAG, article);
     }
 
-    // TODO find~로 리네임, response 타입 명시, + 전치사 (findArticleResponseBy)
+    // TODO findMemberResponse~로 리네임, response 타입 명시, + 전치사 (findArticleResponseBy)
     public ArticleResponse getArticle(Long articleId, String email) {
         Member loginMember = memberService.findByEmail(email);
         Article article = findArticleById(articleId);
@@ -91,10 +96,6 @@ public class ArticleService {
         return articles.stream().map(ArticleAssembler::toMyPageDto).collect(Collectors.toList());
     }
 
-    public long countByAuthorId(Long id) {
-        return articleRepository.countArticleByAuthorId(id);
-    }
-  
     public List<ArticleResponse> findArticleByTagKeyword(String tagKeyword, Long memberId) {
         Member loginMember = memberService.findById(memberId);
         return hashTagService.findAllByTagKeyword(tagKeyword)
@@ -102,5 +103,20 @@ public class ArticleService {
                 .map(HashTag::getArticle)
                 .map(article -> ArticleAssembler.toDto(article, loginMember))
                 .collect(Collectors.toList());
+    }
+
+    public MemberMyPageResponse myPage(String nickName) {
+        Member member = memberService.findMemberByNickName(nickName);
+        Long id = member.getId();
+
+        long articleNumber = countByAuthorId(id);
+        long followerNumber = followService.countFollowers(id);
+        long followeeNumber = followService.countFollowees(id);
+
+        return MemberAssembler.toMyPageResponse(member, articleNumber, followerNumber, followeeNumber);
+    }
+
+    private long countByAuthorId(Long id) {
+        return articleRepository.countArticleByAuthorId(id);
     }
 }

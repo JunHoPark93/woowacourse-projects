@@ -2,11 +2,13 @@ package com.woowacourse.zzazanstagram.model.member.domain.vo;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Lob;
 import java.util.Objects;
 
 @Embeddable
 public class ProfileImage {
 
+    @Lob
     @Column(name = "profile_image_url")
     private String url;
 
