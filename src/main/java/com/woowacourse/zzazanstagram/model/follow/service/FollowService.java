@@ -1,5 +1,6 @@
 package com.woowacourse.zzazanstagram.model.follow.service;
 
+import com.woowacourse.zzazanstagram.config.SocketUrlMappingContext;
 import com.woowacourse.zzazanstagram.model.follow.domain.Follow;
 import com.woowacourse.zzazanstagram.model.follow.dto.FollowRequest;
 import com.woowacourse.zzazanstagram.model.follow.dto.FollowResponse;
@@ -10,27 +11,22 @@ import com.woowacourse.zzazanstagram.model.member.dto.MemberRelationResponse;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.service.MemberAssembler;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class FollowService {
     private MemberService memberService;
     private FollowRepository followRepository;
+    private SocketUrlMappingContext socketUrlMappingContext;
 
-    // TODO
-    @Autowired
-    private Map<String, MemberResponse> sessionMap;
-
-    public FollowService(MemberService memberService, FollowRepository followRepository) {
+    public FollowService(MemberService memberService, FollowRepository followRepository, SocketUrlMappingContext socketUrlMappingContext) {
         this.memberService = memberService;
         this.followRepository = followRepository;
+        this.socketUrlMappingContext = socketUrlMappingContext;
     }
 
     public FollowResult follow(FollowRequest followRequest) {
@@ -48,16 +44,15 @@ public class FollowService {
                 });
     }
 
-    // TODO Unmodifiable list
     public List<FollowResponse> findFollowers(Long id) {
         Member member = findMember(id);
         List<Follow> follows = followRepository.findByFollower(member);
 
-        return follows.stream()
+        return Collections.unmodifiableList(follows.stream()
                 .map(Follow::getFollowee)
                 .map(MemberAssembler::assemble)
                 .map(FollowResponse::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
     public List<Long> findFollowersIds(Long id) {
@@ -74,11 +69,11 @@ public class FollowService {
         Member member = findMember(id);
         List<Follow> follows = followRepository.findByFollowee(member);
 
-        return follows.stream()
+        return Collections.unmodifiableList(follows.stream()
                 .map(Follow::getFollower)
                 .map(MemberAssembler::assemble)
                 .map(FollowResponse::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
     public List<Long> findFollowingsIds(Long id) {
@@ -110,11 +105,6 @@ public class FollowService {
     }
 
     public List<String> findTargetEndpoint(MemberResponse target) {
-        List<String> targets = new ArrayList<>();
-        sessionMap.entrySet().stream()
-                .filter(entry -> entry.getValue().equals(target))
-                .map(Map.Entry::getKey)
-                .forEach(targets::add);
-        return targets;
+        return socketUrlMappingContext.findTargetEndPoints(target);
     }
 }

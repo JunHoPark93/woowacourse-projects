@@ -1,7 +1,7 @@
 var stompClient = null;
 
 function socketConnect() {
-    var socket = new SockJS('/gs-guide-websocket');
+    var socket = new SockJS('/zzazan');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         const endpoint = readCookie('endpoint');
