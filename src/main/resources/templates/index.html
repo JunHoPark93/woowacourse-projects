@@ -2,6 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:replace="fragments/commonHeader"></th:block>
+    <link rel="stylesheet" href="/css/vanilla-notify.css"/>
 </head>
 <body>
 <div>
@@ -91,9 +92,16 @@
 <script src="js/MemberCardTemplate.js"></script>
 <script src="js/ArticleCardTemplate.js"></script>
 <script src="js/index.js"></script>
+<script src="/js/vanilla-notify.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/js/socket-notification.js"></script>
 <script th:inline="javascript">
 	window.onload = function() {
-		document.cookie="endpoint" + "=" + [[${endpoint}]];
+	    if ([[${endpoint}]] !== null) {
+            document.cookie="endpoint" + "=" + [[${endpoint}]];
+        }
+		socketConnect();
 	}
 </script>
 </body>

@@ -82,7 +82,7 @@ class ArticleServiceTest {
         ArticleRequest articleRequest = new ArticleRequest();
         articleRequest.setFile(file);
         articleRequest.setContents(CONTENTS);
-        articleRequest.setHashTag(HASHTAG);
+        articleRequest.setHashtag(HASHTAG);
 
         Article article = Deencapsulation.invoke(ArticleAssembler.class, "toEntity", articleRequest, IMAGE_URL, member);
         given(memberService.findByEmail(EMAIL)).willReturn(member);

@@ -2,7 +2,7 @@ package com.woowacourse.zzazanstagram.model.article.domain;
 
 import com.woowacourse.zzazanstagram.model.article.domain.vo.Contents;
 import com.woowacourse.zzazanstagram.model.article.domain.vo.Image;
-import com.woowacourse.zzazanstagram.model.hashtag.domain.TagKeyword;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.Hashtag;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ class ArticleTest {
 
         assertThat(article.extractTagKeywords()
                 .stream()
-                .map(TagKeyword::getTagKeyword)
+                .map(Hashtag::getKeyword)
                 .collect(Collectors.toList()))
                 .isEqualTo(expected);
     }
