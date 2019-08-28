@@ -6,7 +6,7 @@ public class ArticleRequest {
 
     private MultipartFile file;
     private String contents;
-    private String hashTag;
+    private String hashtag;
 
     public ArticleRequest() {
     }
@@ -19,12 +19,12 @@ public class ArticleRequest {
         this.contents = contents;
     }
 
-    public String getHashTag() {
-        return hashTag;
+    public String getHashtag() {
+        return hashtag;
     }
 
-    public void setHashTag(String hashTag) {
-        this.hashTag = hashTag;
+    public void setHashtag(String hashtag) {
+        this.hashtag = hashtag;
     }
 
     public MultipartFile getFile() {

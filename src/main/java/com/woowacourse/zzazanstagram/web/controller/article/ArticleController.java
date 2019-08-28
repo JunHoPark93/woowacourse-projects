@@ -56,12 +56,12 @@ public class ArticleController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @GetMapping("/tags/{tagKeyword}")
-    public String getArticlesByTagKeyword(@PathVariable String tagKeyword, MemberSession memberSession, Model model) {
-        List<ArticleResponse> articleResponses = articleService.findArticleByTagKeyword(tagKeyword, memberSession.getId());
+    @GetMapping("/tags/{keyword}")
+    public String getArticlesByHashtag(@PathVariable String keyword, MemberSession memberSession, Model model) {
+        List<ArticleResponse> articleResponses = articleService.findArticleResponsesBy(keyword, memberSession.getId());
         model.addAttribute("articles", articleResponses);
 
-        log.info("{} getArticlesByTagKeyword() >> {}", TAG, tagKeyword);
+        log.info("{} getArticlesByHashtag() >> {}", TAG, keyword);
 
         return "tags";
     }
