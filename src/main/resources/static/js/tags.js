@@ -131,7 +131,7 @@ const HASHTAG_PAGE = (function () {
             const ddabongCountTag = childNodes[7].childNodes[3].childNodes[3];
 
             request
-                .get('/articles/' + articleId + '/ddabongs')
+                .get('/ddabongs/articles/' + articleId)
                 .then(response => {
                     console.log(response);
                     ddabongCountTag.innerText = response.data.count;

@@ -4,10 +4,6 @@ public class DdabongToggleResponse {
     private long count;
     private boolean isClicked;
 
-    // TODO dto private 생성자
-    public DdabongToggleResponse() {
-    }
-
     public DdabongToggleResponse(long count, boolean isClicked) {
         this.count = count;
         this.isClicked = isClicked;

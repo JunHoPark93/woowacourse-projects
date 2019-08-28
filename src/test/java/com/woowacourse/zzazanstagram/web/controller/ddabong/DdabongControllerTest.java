@@ -12,20 +12,35 @@ class DdabongControllerTest extends RequestTemplate {
 
     @Test
     void 좋아요_누르기() {
-        getDdabongCount("1")
+        toggleDdabong("5")
                 .jsonPath("$.count").isEqualTo(CLICKED);
     }
 
     @Test
     void 좋아요_취소() {
-        getDdabongCount("2")
+        toggleDdabong("6")
                 .jsonPath("$.count").isEqualTo(CLICKED);
-        getDdabongCount("2")
+        toggleDdabong("6")
                 .jsonPath("$.count").isEqualTo(UNCLICKED);
     }
 
-    private WebTestClient.BodyContentSpec getDdabongCount(String articleId) {
-        return getHeaderWithLogin("/articles/" + articleId + "/ddabongs")
+    @Test
+    void 좋아요한_사람_조회() {
+        toggleDdabong("7");
+        fetchDdabongMembers("7")
+                .jsonPath(".memberResponses").isNotEmpty();
+    }
+
+    private WebTestClient.BodyContentSpec toggleDdabong(String articleId) {
+        return getHeaderWithLogin("/ddabongs/articles/" + articleId)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody();
+    }
+
+    private WebTestClient.BodyContentSpec fetchDdabongMembers(String articleId) {
+        return getHeaderWithLogin("/ddabongs/members/" + articleId)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)

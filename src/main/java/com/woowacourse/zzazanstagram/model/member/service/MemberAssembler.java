@@ -6,8 +6,7 @@ import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberSignUpRequest;
 
 public class MemberAssembler {
-    // TODO ike
-    public static MemberResponse assemble(Member member) {
+    public static MemberResponse toDto(Member member) {
         return new MemberResponse(member.getId(), member.getNickNameValue(), member.getNameValue(), member.getEmailValue(), member.getProfileImageValue());
     }
 

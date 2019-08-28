@@ -26,7 +26,7 @@ public class LoginService {
 
     public MemberResponse findMemberResponse(MemberLoginRequest request) {
         Member member = findEnrolledMember(request);
-        return MemberAssembler.assemble(member);
+        return MemberAssembler.toDto(member);
     }
 
     private Member findEnrolledMember(MemberLoginRequest request) {

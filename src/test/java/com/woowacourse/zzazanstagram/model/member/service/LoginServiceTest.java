@@ -49,7 +49,7 @@ class LoginServiceTest {
         // given
         MemberLoginRequest request = new MemberLoginRequest(EMAIL, PASSWORD);
 
-        MemberResponse memberResponse = Deencapsulation.invoke(MemberAssembler.class, "assemble", member);
+        MemberResponse memberResponse = Deencapsulation.invoke(MemberAssembler.class, "toDto", member);
         given(memberRepository.findByEmail(email)).willReturn(Optional.of(member));
 
         // then
