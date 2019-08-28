@@ -1,5 +1,6 @@
 package com.woowacourse.zzazanstagram.model.article.dto;
 
+// TODO dto setter다 지우기
 public class ArticleMyPageResponse {
     private Long id;
     private String image;

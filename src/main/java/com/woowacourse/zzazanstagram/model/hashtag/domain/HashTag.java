@@ -5,10 +5,7 @@ import com.woowacourse.zzazanstagram.model.common.BaseEntity;
 
 import javax.persistence.*;
 
-/**
- * HashTagRelationship는 가명임
- */
-
+// TODO 클래스 이름 rename
 @Entity
 public class HashTag extends BaseEntity {
 

@@ -13,6 +13,7 @@ import java.util.Optional;
 @Service
 public class LoginService {
     private static final String ERROR_ILLEGAL_LOGIN_MESSAGE = "로그인 정보가 올바르지 않습니다.";
+
     private final MemberRepository memberRepository;
 
     public LoginService(MemberRepository memberRepository) {

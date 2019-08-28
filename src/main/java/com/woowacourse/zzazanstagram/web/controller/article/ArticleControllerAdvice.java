@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+// TODO Error class 만들기
 @ControllerAdvice(assignableTypes = ArticleController.class)
 public class ArticleControllerAdvice {
     private static final Logger log = LoggerFactory.getLogger(ArticleController.class);

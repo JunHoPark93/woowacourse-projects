@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+// TODO 포장
 @Configuration
 public class MemberContextHolder {
     private Map<String, MemberResponse> sessionMap = new ConcurrentHashMap<>();

@@ -4,6 +4,7 @@ public class DdabongToggleResponse {
     private long count;
     private boolean isClicked;
 
+    // TODO dto private 생성자
     public DdabongToggleResponse() {
     }
 

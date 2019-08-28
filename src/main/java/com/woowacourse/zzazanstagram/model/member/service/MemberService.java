@@ -26,16 +26,17 @@ public class MemberService {
     }
 
     public void save(MemberSignUpRequest memberSignupRequest) {
-        if (checkEnrolledEmailOrNickName(memberSignupRequest)) {
+        if (isEnrolledNickNameOrEmail(memberSignupRequest)) {
             throw new MemberSaveException("이미 존재하는 이메일 또는 닉네임 입니다.");
         }
         Member member = MemberAssembler.toEntity(memberSignupRequest);
         memberRepository.save(member);
     }
 
-    private boolean checkEnrolledEmailOrNickName(MemberSignUpRequest memberSignupRequest) {
-        NickName nickName = NickName.of(memberSignupRequest.getNickName());
+    private boolean isEnrolledNickNameOrEmail(MemberSignUpRequest memberSignupRequest) {
         Email email = Email.of(memberSignupRequest.getEmail());
+        NickName nickName = NickName.of(memberSignupRequest.getNickName());
+
         return memberRepository.existsByNickNameOrEmail(nickName, email);
     }
 
@@ -48,7 +49,7 @@ public class MemberService {
         return MemberAssembler.assemble(member);
     }
 
-    public List<Member> findByIds(List<Long> ids) {
+    public List<Member> findAllByIds(List<Long> ids) {
         return memberRepository.findAllByIds(ids);
     }
 }

@@ -19,7 +19,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
@@ -55,8 +57,9 @@ public class ArticleService {
         log.info("{} create() >> {}", TAG, article);
     }
 
-    public ArticleResponse getArticle(Long articleId, String memberEmail) {
-        Member loginMember = memberService.findByEmail(memberEmail);
+    // TODO find~로 리네임, response 타입 명시, + 전치사 (findArticleResponseBy)
+    public ArticleResponse getArticle(Long articleId, String email) {
+        Member loginMember = memberService.findByEmail(email);
         Article article = findArticleById(articleId);
 
         return ArticleAssembler.toDto(article, loginMember);
@@ -66,6 +69,7 @@ public class ArticleService {
         return articleRepository.findById(articleId).orElseThrow(() -> new ArticleException("해당 게시글을 찾을 수 없습니다."));
     }
 
+    // TODO page 시에만 fetch naming
     public Page<Article> getArticlePages(Long lastArticleId, List<Member> followers, int size) {
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
 
@@ -91,11 +95,12 @@ public class ArticleService {
         return articleRepository.countArticleByAuthorId(id);
     }
   
-    public List<ArticleResponse> findArticleByTagKeyword(String tagKeyword) {
+    public List<ArticleResponse> findArticleByTagKeyword(String tagKeyword, Long memberId) {
+        Member loginMember = memberService.findById(memberId);
         return hashTagService.findAllByTagKeyword(tagKeyword)
                 .stream()
                 .map(HashTag::getArticle)
-                .map(ArticleAssembler::toDto)
+                .map(article -> ArticleAssembler.toDto(article, loginMember))
                 .collect(Collectors.toList());
     }
 }

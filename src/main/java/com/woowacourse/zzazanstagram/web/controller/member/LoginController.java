@@ -25,6 +25,7 @@ public class LoginController {
     private static final String TAG = "[LoginController]";
 
     private final LoginService loginService;
+    // TODO map 포장
     private final Map<String, MemberResponse> sessionMap;
 
     public LoginController(LoginService loginService, Map<String, MemberResponse> sessionMap) {
@@ -37,6 +38,7 @@ public class LoginController {
         return "login";
     }
 
+    // TODO endpoint 생성부분 서비스로 옮기기
     @PostMapping
     public String login(MemberLoginRequest memberLoginRequest, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         MemberResponse memberResponse = loginService.find(memberLoginRequest);

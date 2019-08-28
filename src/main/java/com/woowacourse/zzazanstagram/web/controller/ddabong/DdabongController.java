@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+// TODO requestmapping 분리
 @RestController
 public class DdabongController {
     private final DdabongService ddabongService;
@@ -18,13 +19,13 @@ public class DdabongController {
         this.ddabongService = ddabongService;
     }
 
+    // todo url path 수정
     @GetMapping("/articles/{articleId}/ddabongs")
     public ResponseEntity<DdabongToggleResponse> clickDdabong(@PathVariable Long articleId, MemberSession memberSession) {
         DdabongToggleResponse ddabongToggleResponse = ddabongService.toggleDdabong(articleId, memberSession.getEmail());
         return new ResponseEntity<>(ddabongToggleResponse, HttpStatus.OK);
     }
 
-    // todo url path 수정
     @GetMapping("/ddabongs/members/{articleId}")
     public ResponseEntity<DdabongMemberResponse> fetchDdabongMembers(@PathVariable Long articleId) {
         DdabongMemberResponse ddabongMemberResponse = ddabongService.fetchDdabongMembers(articleId);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 
+// TODO 뚱이가 날리기
 @ControllerAdvice(assignableTypes = CommentController.class)
 public class CommentControllerAdvice {
     private static final Logger log = LoggerFactory.getLogger(CommentControllerAdvice.class);

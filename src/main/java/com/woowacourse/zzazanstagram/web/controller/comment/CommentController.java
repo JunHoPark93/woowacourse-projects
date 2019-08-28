@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+// TODO naming 바꾸기
 @RestController
 public class CommentController {
-
     private final CommentService commentService;
 
     public CommentController(CommentService commentService) {

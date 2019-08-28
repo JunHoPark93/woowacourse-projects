@@ -1,4 +1,4 @@
-package com.woowacourse.zzazanstagram.model.follow.controller;
+package com.woowacourse.zzazanstagram.web.controller.follow;
 
 import com.woowacourse.zzazanstagram.model.RequestTemplate;
 import com.woowacourse.zzazanstagram.model.support.WebTestHelper;

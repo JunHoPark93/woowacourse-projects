@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// TODO 지우기
 @Service
 public class ArticleFacadeService {
 
@@ -42,7 +43,7 @@ public class ArticleFacadeService {
 
     private List<Member> findFollowersByMemberId(Long memberId) {
         List<Long> followingsIds = followService.findFollowingsIds(memberId);
-        return memberService.findByIds(followingsIds);
+        return memberService.findAllByIds(followingsIds);
     }
 
     private void addLoginMemberTo(List<Member> followers, Long loginMemberId) {

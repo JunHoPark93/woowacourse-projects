@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
 
+// TODO facade 제거
 @Controller
 public class MemberController {
     private MemberFacadeService memberFacadeService;
@@ -48,6 +49,7 @@ public class MemberController {
         return "redirect:/login";
     }
 
+    // TODO logincontroller 로 옮기기
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
         MemberSession memberSession = (MemberSession) httpSession.getAttribute(SessionKeys.MEMBER);

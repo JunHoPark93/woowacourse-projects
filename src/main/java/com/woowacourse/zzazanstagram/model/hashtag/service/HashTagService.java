@@ -6,6 +6,7 @@ import com.woowacourse.zzazanstagram.model.hashtag.domain.TagKeyword;
 import com.woowacourse.zzazanstagram.model.hashtag.repository.HashTagRepository;
 import com.woowacourse.zzazanstagram.model.hashtag.repository.TagKeywordRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +23,6 @@ public class HashTagService {
 
     public List<HashTag> save(Article article) {
         List<HashTag> hashTags = extractHashTagsFrom(article);
-
         return hashTagRepository.saveAll(hashTags);
     }
 
@@ -38,7 +38,8 @@ public class HashTagService {
                 )
                 .collect(Collectors.toList());
     }
-  
+
+    @Transactional(readOnly = true)
     public List<HashTag> findAllByTagKeyword(String keyword) {
         TagKeyword tagKeyword = tagKeywordRepository.findByTagKeyword(keyword)
                 .orElseThrow(() -> new HashTagException("해당 해시태그에 대한 게시글이 존재하지 않습니다."));

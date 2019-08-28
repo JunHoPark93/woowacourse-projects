@@ -9,6 +9,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+    // TODO endpoint 이름 수정
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/gs-guide-websocket").withSockJS();
@@ -16,7 +17,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic");                  // 보내는 곳
-        registry.setApplicationDestinationPrefixes("/app");     // 받는 곳
+        registry.enableSimpleBroker("/topic");             // 보내는 곳
+        registry.setApplicationDestinationPrefixes("/app");                 // 받는 곳
     }
 }

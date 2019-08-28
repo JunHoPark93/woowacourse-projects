@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+// TODO responseENtitiy로 error 내리기
 @ControllerAdvice(assignableTypes = LoginController.class)
 public class LoginControllerAdvice {
     private static final Logger log = LoggerFactory.getLogger(LoginControllerAdvice.class);

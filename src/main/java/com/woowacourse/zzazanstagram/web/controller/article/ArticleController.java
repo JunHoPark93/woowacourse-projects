@@ -10,14 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
+// TODO requestmapping 분리
 @Controller
 public class ArticleController {
     private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
@@ -55,8 +53,8 @@ public class ArticleController {
     }
 
     @GetMapping("/tags/{tagKeyword}")
-    public String getArticlesByTagKeyword(@PathVariable String tagKeyword, Model model) {
-        List<ArticleResponse> articleResponses = articleService.findArticleByTagKeyword(tagKeyword);
+    public String getArticlesByTagKeyword(@PathVariable String tagKeyword, MemberSession memberSession, Model model) {
+        List<ArticleResponse> articleResponses = articleService.findArticleByTagKeyword(tagKeyword, memberSession.getId());
         model.addAttribute("articles", articleResponses);
 
         log.info("{} getArticlesByTagKeyword() >> {}", TAG, tagKeyword);

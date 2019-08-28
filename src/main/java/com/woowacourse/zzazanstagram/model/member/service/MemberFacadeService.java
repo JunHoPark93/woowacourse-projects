@@ -6,6 +6,7 @@ import com.woowacourse.zzazanstagram.model.member.dto.MemberMyPageResponse;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import org.springframework.stereotype.Service;
 
+// TODO 제거
 @Service
 public class MemberFacadeService {
     private final MemberService memberService;

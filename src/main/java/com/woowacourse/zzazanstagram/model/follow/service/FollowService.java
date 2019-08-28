@@ -24,6 +24,7 @@ public class FollowService {
     private MemberService memberService;
     private FollowRepository followRepository;
 
+    // TODO
     @Autowired
     private Map<String, MemberResponse> sessionMap;
 
@@ -35,16 +36,19 @@ public class FollowService {
     public FollowResult follow(FollowRequest followRequest) {
         Member followee = findMember(followRequest.getFolloweeId());
         Member follower = findMember(followRequest.getFollowerId());
+
         return followRepository.findByFolloweeAndFollower(followee, follower)
                 .map(x -> {
                     followRepository.delete(x);
                     return new FollowResult(MemberAssembler.assemble(followee), MemberAssembler.assemble(follower), false);
-                }).orElseGet(() -> {
+                })
+                .orElseGet(() -> {
                     followRepository.save(new Follow(followee, follower));
                     return new FollowResult(MemberAssembler.assemble(followee), MemberAssembler.assemble(follower), true);
                 });
     }
 
+    // TODO Unmodifiable list
     public List<FollowResponse> findFollowers(Long id) {
         Member member = findMember(id);
         List<Follow> follows = followRepository.findByFollower(member);
@@ -104,7 +108,7 @@ public class FollowService {
     public long countFollowers(Long memberId) {
         return followRepository.countByFollowerId(memberId);
     }
-  
+
     public List<String> findTargetEndpoint(MemberResponse target) {
         List<String> targets = new ArrayList<>();
         sessionMap.entrySet().stream()

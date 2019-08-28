@@ -28,23 +28,25 @@ public class DdabongService {
         Article article = articleService.findArticleById(articleId);
         Member member = memberService.findByEmail(memberEmail);
 
-        return ddabongRepository.findByArticleAndMember(article, member).map(ddabong -> {
-            ddabong.changeClicked();
-            return getDdabongResponse(article, ddabong);
-        }).orElseGet(() -> {
-            Ddabong createdDdabong = new Ddabong(article, member);
-            ddabongRepository.save(createdDdabong);
-            return getDdabongResponse(article, createdDdabong);
-        });
+        return ddabongRepository.findByArticleAndMember(article, member)
+                .map(ddabong -> {
+                    ddabong.changeClicked();
+                    return getDdabongResponse(article, ddabong);
+                })
+                .orElseGet(() -> {
+                    Ddabong createdDdabong = new Ddabong(article, member);
+                    ddabongRepository.save(createdDdabong);
+                    return getDdabongResponse(article, createdDdabong);
+                });
     }
 
     private DdabongToggleResponse getDdabongResponse(Article article, Ddabong createdDdabong) {
         return DdabongAssembler.toDto(article.getDdabongCount(), createdDdabong.isClicked());
     }
 
+    // TODO naming
     public DdabongMemberResponse fetchDdabongMembers(Long articleId) {
         Article article = articleService.findArticleById(articleId);
-
         return DdabongAssembler.toDto(article.getDdabongs());
     }
 }
