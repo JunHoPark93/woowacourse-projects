@@ -8,30 +8,24 @@ public class ArticleRequest {
     private String contents;
     private String hashTag;
 
-    public ArticleRequest() {
+    private ArticleRequest() {
+    }
+
+    public ArticleRequest(MultipartFile file, String contents, String hashTag) {
+        this.file = file;
+        this.contents = contents;
+        this.hashTag = hashTag;
     }
 
     public String getContents() {
         return contents;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
     public String getHashTag() {
         return hashTag;
     }
 
-    public void setHashTag(String hashTag) {
-        this.hashTag = hashTag;
-    }
-
     public MultipartFile getFile() {
         return file;
-    }
-
-    public void setFile(MultipartFile file) {
-        this.file = file;
     }
 }

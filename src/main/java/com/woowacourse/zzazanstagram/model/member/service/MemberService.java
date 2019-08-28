@@ -50,6 +50,6 @@ public class MemberService {
     }
 
     public List<Member> findAllByIds(List<Long> ids) {
-        return memberRepository.findAllByIds(ids);
+        return memberRepository.findByIdIn(ids);
     }
 }
