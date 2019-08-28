@@ -76,10 +76,11 @@ public class Article extends BaseEntity {
     }
 
     public List<Hashtag> extractTagKeywords() {
-        return Arrays.stream(getContentsValue().split(WHTIE_SPACE_PATTERN.pattern()))
-                .filter(x -> x.startsWith(HASHTAG_PREFIX))
-                .map(x -> new Hashtag(x.substring(NEXT_INDEX_OF_PREFIX)))
-                .collect(Collectors.toList());
+        return Collections.unmodifiableList(
+                Arrays.stream(getContentsValue().split(WHTIE_SPACE_PATTERN.pattern()))
+                        .filter(x -> x.startsWith(HASHTAG_PREFIX))
+                        .map(x -> new Hashtag(x.substring(NEXT_INDEX_OF_PREFIX)))
+                        .collect(Collectors.toList()));
     }
 
     public Image getImage() {

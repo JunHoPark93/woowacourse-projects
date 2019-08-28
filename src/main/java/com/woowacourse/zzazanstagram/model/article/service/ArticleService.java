@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,10 +98,11 @@ public class ArticleService {
 
     public List<ArticleResponse> findArticleResponsesBy(String keyword, Long memberId) {
         Member loginMember = memberService.findById(memberId);
-        return hashtagService.findAllByHashtag(keyword)
-                .stream()
-                .map(ArticleHashtag::getArticle)
-                .map(article -> ArticleAssembler.toDto(article, loginMember))
-                .collect(Collectors.toList());
+        return Collections.unmodifiableList(
+                hashtagService.findAllByHashtag(keyword)
+                        .stream()
+                        .map(ArticleHashtag::getArticle)
+                        .map(article -> ArticleAssembler.toDto(article, loginMember))
+                        .collect(Collectors.toList()));
     }
 }

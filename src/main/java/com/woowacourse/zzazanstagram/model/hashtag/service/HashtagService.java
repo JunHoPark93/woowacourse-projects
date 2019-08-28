@@ -8,6 +8,7 @@ import com.woowacourse.zzazanstagram.model.hashtag.repository.HashtagRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,16 +28,17 @@ public class HashtagService {
     }
 
     private List<ArticleHashtag> extractHashTagsFrom(Article article) {
-        return article.extractTagKeywords()
-                .stream()
-                .map(h -> hashtagRepository.findByKeyword(h.getKeyword())
-                        .map(hashtag -> new ArticleHashtag(article, hashtag))
-                        .orElseGet(() -> {
-                            Hashtag hashtag = hashtagRepository.save(h);
-                            return new ArticleHashtag(article, hashtag);
-                        })
-                )
-                .collect(Collectors.toList());
+        return Collections.unmodifiableList(
+                article.extractTagKeywords()
+                        .stream()
+                        .map(h -> hashtagRepository.findByKeyword(h.getKeyword())
+                                .map(hashtag -> new ArticleHashtag(article, hashtag))
+                                .orElseGet(() -> {
+                                    Hashtag hashtag = hashtagRepository.save(h);
+                                    return new ArticleHashtag(article, hashtag);
+                                })
+                        )
+                        .collect(Collectors.toList()));
     }
 
     @Transactional(readOnly = true)
