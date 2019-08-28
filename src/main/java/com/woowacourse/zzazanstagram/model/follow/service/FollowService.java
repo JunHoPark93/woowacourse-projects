@@ -44,7 +44,7 @@ public class FollowService {
                 });
     }
 
-    public List<FollowResponse> findFollowers(Long id) {
+    public List<FollowResponse> findFollowerResponses(Long id) {
         Member member = findMember(id);
         List<Follow> follows = followRepository.findByFollower(member);
 
@@ -65,7 +65,7 @@ public class FollowService {
                 .collect(Collectors.toList()));
     }
 
-    public List<FollowResponse> findFollowings(Long id) {
+    public List<FollowResponse> findFollowingResponses(Long id) {
         Member member = findMember(id);
         List<Follow> follows = followRepository.findByFollowee(member);
 
@@ -90,7 +90,7 @@ public class FollowService {
         return memberService.findById(id);
     }
 
-    public MemberRelationResponse findRelation(Long targetMemberId, Long sessionMemberId) {
+    public MemberRelationResponse findMemberRelationResponse(Long targetMemberId, Long sessionMemberId) {
         boolean isFollower = followRepository.existsByFolloweeIdAndFollowerId(targetMemberId, sessionMemberId);
         boolean isFollowing = followRepository.existsByFolloweeIdAndFollowerId(sessionMemberId, targetMemberId);
         return new MemberRelationResponse(isFollower, isFollowing);

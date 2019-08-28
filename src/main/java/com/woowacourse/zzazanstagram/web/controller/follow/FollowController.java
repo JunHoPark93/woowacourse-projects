@@ -43,19 +43,19 @@ public class FollowController {
 
     @GetMapping("/follow/follower/{memberId}")
     public ResponseEntity<List<FollowResponse>> followers(@PathVariable("memberId") Long id) {
-        List<FollowResponse> followResponses = followService.findFollowers(id);
+        List<FollowResponse> followResponses = followService.findFollowerResponses(id);
         return new ResponseEntity<>(followResponses, HttpStatus.OK);
     }
 
     @GetMapping("/follow/following/{memberId}")
     public ResponseEntity<List<FollowResponse>> followings(@PathVariable("memberId") Long id) {
-        List<FollowResponse> followResponses = followService.findFollowings(id);
+        List<FollowResponse> followResponses = followService.findFollowingResponses(id);
         return new ResponseEntity<>(followResponses, HttpStatus.OK);
     }
 
     @GetMapping("/follow/relation/{memberId}")
     public ResponseEntity<MemberRelationResponse> isFollow(@PathVariable("memberId") Long memberId, MemberSession memberSession) {
-        MemberRelationResponse memberRelationResponse = followService.findRelation(memberId, memberSession.getId());
+        MemberRelationResponse memberRelationResponse = followService.findMemberRelationResponse(memberId, memberSession.getId());
         return new ResponseEntity<>(memberRelationResponse, HttpStatus.OK);
     }
 }
