@@ -299,7 +299,7 @@ const INDEX_PAGE = (function () {
             const ddabongCountTag = message.querySelector('.ddabong-message');
 
             request
-                .get('/articles/' + articleId + '/ddabongs')
+                .get('/ddabongs/articles/' + articleId)
                 .then(response => {
                     console.log(response);
                     ddabongCountTag.innerText = response.data.count;
