@@ -6,8 +6,8 @@ import com.woowacourse.zzazanstagram.model.article.exception.ArticleAuthenticati
 import com.woowacourse.zzazanstagram.model.comment.domain.Comment;
 import com.woowacourse.zzazanstagram.model.common.BaseEntity;
 import com.woowacourse.zzazanstagram.model.ddabong.domain.Ddabong;
-import com.woowacourse.zzazanstagram.model.hashtag.domain.HashTag;
-import com.woowacourse.zzazanstagram.model.hashtag.domain.TagKeyword;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.Hashtag;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 
 import javax.persistence.*;
@@ -38,7 +38,7 @@ public class Article extends BaseEntity {
     private List<Ddabong> ddabongs = new ArrayList<>();
 
     @OneToMany(mappedBy = "article", orphanRemoval = true)
-    private List<HashTag> hashTags = new ArrayList<>();
+    private List<ArticleHashtag> articleHashtags = new ArrayList<>();
 
     protected Article() {
     }
@@ -60,10 +60,13 @@ public class Article extends BaseEntity {
     }
 
     public void checkAuthentication(Member member) {
-        // TODO member에 email 체킹 기능 구현 & if문안의 비교 메서드 추출
-        if (!this.author.getEmail().equals(member.getEmail())) {
+        if (isDifferentMember(member)) {
             throw new ArticleAuthenticationException("게시글에 대한 권한이 없습니다.");
         }
+    }
+
+    private boolean isDifferentMember(Member member) {
+        return !this.author.isSame(member);
     }
 
     public boolean isDdabongClicked(Member member) {
@@ -73,11 +76,12 @@ public class Article extends BaseEntity {
                 .orElse(false);
     }
 
-    public List<TagKeyword> extractTagKeywords() {
-        return Arrays.stream(getContentsValue().split(WHTIE_SPACE_PATTERN.pattern()))
-                .filter(x -> x.startsWith(HASHTAG_PREFIX))
-                .map(x -> new TagKeyword(x.substring(NEXT_INDEX_OF_PREFIX)))
-                .collect(Collectors.toList());
+    public List<Hashtag> extractTagKeywords() {
+        return Collections.unmodifiableList(
+                Arrays.stream(getContentsValue().split(WHTIE_SPACE_PATTERN.pattern()))
+                        .filter(x -> x.startsWith(HASHTAG_PREFIX))
+                        .map(x -> new Hashtag(x.substring(NEXT_INDEX_OF_PREFIX)))
+                        .collect(Collectors.toList()));
     }
 
     public Image getImage() {
@@ -108,7 +112,7 @@ public class Article extends BaseEntity {
         return Collections.unmodifiableList(ddabongs);
     }
 
-    public List<HashTag> getHashTags() {
-        return Collections.unmodifiableList(hashTags);
+    public List<ArticleHashtag> getArticleHashtags() {
+        return Collections.unmodifiableList(articleHashtags);
     }
 }

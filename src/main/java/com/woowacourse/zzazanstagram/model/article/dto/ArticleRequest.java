@@ -6,11 +6,12 @@ public class ArticleRequest {
 
     private MultipartFile file;
     private String contents;
-    private String hashTag;
+    private String hashtag;
 
     private ArticleRequest() {
     }
 
+    // TODO : hashtag field 삭제
     public ArticleRequest(MultipartFile file, String contents, String hashTag) {
         this.file = file;
         this.contents = contents;
@@ -21,8 +22,8 @@ public class ArticleRequest {
         return contents;
     }
 
-    public String getHashTag() {
-        return hashTag;
+    public String getHashtag() {
+        return hashtag;
     }
 
     public MultipartFile getFile() {

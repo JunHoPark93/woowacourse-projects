@@ -46,7 +46,12 @@ public class MemberService {
 
     public MemberResponse findByNickName(String nickName) {
         Member member = memberRepository.findByNickName(NickName.of(nickName)).orElseThrow(() -> new MemberNotFoundException("잘못된 접근입니다."));
-        return MemberAssembler.assemble(member);
+        return MemberAssembler.toDto(member);
+    }
+
+    //TODO 위에 메서드랑 겹쳐서 일단 어떻게 해야 될 지 모르겠다.
+    public Member findMemberByNickName(String nickName) {
+        return memberRepository.findByNickName(NickName.of(nickName)).orElseThrow(() -> new MemberNotFoundException("잘못된 접근입니다."));
     }
 
     public List<Member> findAllByIds(List<Long> ids) {

@@ -330,7 +330,7 @@
             const myPageArticleTemplate = myPageArticle =>
                 `<div id="mypage-article-${myPageArticle.id}" class="my-page-card col-lg-4 col-md-4">
                         <div class="card">
-                            <a class="pointer" data-toggle="modal" data-target="#modal-article-id1">
+                            <a class="pointer" href="/articles/${myPageArticle.id}">
                                 <div class="bg article-bg-img"
                                      style="background-image: url(${myPageArticle.image});">
                                     <div class="card-block pdd-btm-15">

@@ -4,6 +4,7 @@ import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.article.service.ArticleService;
 import com.woowacourse.zzazanstagram.model.member.MemberSession;
+import com.woowacourse.zzazanstagram.model.member.dto.MemberMyPageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -55,13 +56,20 @@ public class ArticleController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @GetMapping("/tags/{tagKeyword}")
-    public String getArticlesByTagKeyword(@PathVariable String tagKeyword, MemberSession memberSession, Model model) {
-        List<ArticleResponse> articleResponses = articleService.findArticleResponsesByTagKeyword(tagKeyword, memberSession.getId());
+    @GetMapping("/tags/{keyword}")
+    public String getArticlesByHashtag(@PathVariable String keyword, MemberSession memberSession, Model model) {
+        List<ArticleResponse> articleResponses = articleService.findArticleResponsesBy(keyword, memberSession.getId());
         model.addAttribute("articles", articleResponses);
 
-        log.info("{} getArticlesByTagKeyword() >> {}", TAG, tagKeyword);
+        log.info("{} getArticlesByHashtag() >> {}", TAG, keyword);
 
         return "tags";
+    }
+
+    @GetMapping("/members/{nickname}")
+    public String myPage(@PathVariable("nickname") String nickName, Model model) {
+        MemberMyPageResponse memberMyPageResponse = articleService.myPage(nickName);
+        model.addAttribute("member", memberMyPageResponse);
+        return "mypage";
     }
 }
