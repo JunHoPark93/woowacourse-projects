@@ -40,4 +40,8 @@ public class FollowResult {
     public String getFollowerNickName() {
         return this.follower.getNickName();
     }
+
+    public String getFolloweeNickName() {
+        return this.followee.getNickName();
+    }
 }
