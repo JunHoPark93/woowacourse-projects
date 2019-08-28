@@ -9,11 +9,11 @@ import javax.persistence.*;
 public class ArticleHashtag extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "article_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articletag_to_article"))
+    @JoinColumn(name = "article_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articlehashtag_to_article"))
     private Article article;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hashtag_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articletag_to_hashtag"))
+    @JoinColumn(name = "hashtag_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articlehashtag_to_hashtag"))
     private Hashtag hashtag;
 
     protected ArticleHashtag() {
