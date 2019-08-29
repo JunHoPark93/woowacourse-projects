@@ -42,8 +42,8 @@ class ArticleControllerTest extends RequestTemplate {
     @Test
     void 게시글_등록이_되는지_테스트() {
         createArticle()
-                .expectStatus().is3xxRedirection()
-                .expectHeader().valueMatches("Location", "http://[\\w\\d\\.]+:[0-9]+/");
+                .expectStatus().isOk();
+        // TODO : jsonPath 검사하기
     }
 
     @Test
@@ -92,7 +92,7 @@ class ArticleControllerTest extends RequestTemplate {
     }
 
     private WebTestClient.ResponseSpec createArticle() {
-        return postHeaderWithLogin("/articles")
+        return postHeaderWithLogin("/api/articles")
                 .syncBody(createArticleBody().build())
                 .exchange();
     }

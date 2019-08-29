@@ -164,7 +164,7 @@ class ArticleServiceTest {
         Page<Article> articles = new PageImpl<>(Collections.singletonList(article));
 
         MemberResponse memberResponse = mock(MemberResponse.class);
-        given(memberService.findByNickName(NICKNAME)).willReturn(memberResponse);
+        given(memberService.findMemberResponseByNickName(NICKNAME)).willReturn(memberResponse);
         given(memberResponse.getId()).willReturn(MEMBER_ID);
 
         given(articleRepository.findByIdLessThanAndAuthorIdEqualsOrderByIdDesc(lastArticleId, MEMBER_ID, pageRequest))
@@ -178,7 +178,7 @@ class ArticleServiceTest {
     void findArticleResponsesBy() {
         given(memberService.findById(MEMBER_ID)).willReturn(member);
         ArticleHashtag articleHashtag = mock(ArticleHashtag.class);
-        given(hashtagService.findAllByHashtag(KEYWORD_1)).willReturn(Collections.singletonList(articleHashtag));
+        given(articleHashtagService.findAllByHashtag(KEYWORD_1)).willReturn(Collections.singletonList(articleHashtag));
 
         Article article = new Article(image, contents, member);
         given(articleHashtag.getArticle()).willReturn(article);
@@ -189,7 +189,7 @@ class ArticleServiceTest {
 
     @Test
     void myPage() {
-        given(memberService.findMemberByNickName(NICKNAME)).willReturn(member);
+        given(memberService.findByNickName(NICKNAME)).willReturn(member);
         ReflectionTestUtils.setField(member, "id", MEMBER_ID);
 
         long articleNumber = 1L;
