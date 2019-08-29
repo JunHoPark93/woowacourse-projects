@@ -6,12 +6,12 @@ import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.article.exception.ArticleException;
 import com.woowacourse.zzazanstagram.model.article.repository.ArticleRepository;
-import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
-import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
-import com.woowacourse.zzazanstagram.model.hashtag.service.HashtagService;
 import com.woowacourse.zzazanstagram.model.follow.service.FollowService;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
+import com.woowacourse.zzazanstagram.model.hashtag.service.ArticleHashtagService;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberMyPageResponse;
+import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.service.MemberAssembler;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
 import com.woowacourse.zzazanstagram.util.S3Uploader;
@@ -35,16 +35,16 @@ public class ArticleService {
     private static final int DEFAULT_PAGE_NUM = 0;
 
     private final ArticleRepository articleRepository;
-    private final HashtagService hashtagService;
+    private final ArticleHashtagService articleHashtagService;
     private final MemberService memberService;
     private final FollowService followService;
     private final S3Uploader s3Uploader;
     private final String dirName;
 
-    public ArticleService(ArticleRepository articleRepository, HashtagService hashtagService, MemberService memberService,
+    public ArticleService(ArticleRepository articleRepository, ArticleHashtagService articleHashtagService, MemberService memberService,
                           FollowService followService, S3Uploader s3Uploader, @Value("${cloud.aws.s3.dirName.article}") String dirName) {
         this.articleRepository = articleRepository;
-        this.hashtagService = hashtagService;
+        this.articleHashtagService = articleHashtagService;
         this.memberService = memberService;
         this.followService = followService;
         this.s3Uploader = s3Uploader;
@@ -58,7 +58,7 @@ public class ArticleService {
         String imageUrl = s3Uploader.upload(file, dirName);
         Article article = ArticleAssembler.toEntity(dto, imageUrl, author);
         articleRepository.save(article);
-        hashtagService.save(article);
+        articleHashtagService.save(article);
 
         log.info("{} imageUrl : {}", TAG, imageUrl);
         log.info("{} create() >> {}", TAG, article);
@@ -106,7 +106,7 @@ public class ArticleService {
     }
 
     public List<ArticleMyPageResponse> findArticleMyPageResponsesBy(Long lastArticleId, int size, String nickName) {
-        MemberResponse memberResponse = memberService.findByNickName(nickName);
+        MemberResponse memberResponse = memberService.findMemberResponseByNickName(nickName);
 
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
         Page<Article> articles = articleRepository.findByIdLessThanAndAuthorIdEqualsOrderByIdDesc(lastArticleId
@@ -118,7 +118,7 @@ public class ArticleService {
     public List<ArticleResponse> findArticleResponsesBy(String keyword, Long memberId) {
         Member loginMember = memberService.findById(memberId);
         return Collections.unmodifiableList(
-                hashtagService.findAllByHashtag(keyword)
+                articleHashtagService.findAllByHashtag(keyword)
                         .stream()
                         .map(ArticleHashtag::getArticle)
                         .map(article -> ArticleAssembler.toDto(article, loginMember))
@@ -126,7 +126,7 @@ public class ArticleService {
     }
 
     public MemberMyPageResponse myPage(String nickName) {
-        Member member = memberService.findMemberByNickName(nickName);
+        Member member = memberService.findByNickName(nickName);
         Long id = member.getId();
 
         long articleNumber = countByAuthorId(id);
