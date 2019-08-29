@@ -4,8 +4,9 @@ import com.woowacourse.zzazanstagram.model.article.domain.Article;
 import com.woowacourse.zzazanstagram.model.article.domain.vo.Contents;
 import com.woowacourse.zzazanstagram.model.article.domain.vo.Image;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
-import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.article.repository.ArticleRepository;
+import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
+import com.woowacourse.zzazanstagram.model.hashtag.service.HashtagService;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
 import com.woowacourse.zzazanstagram.util.S3Uploader;
@@ -19,7 +20,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.woowacourse.zzazanstagram.model.article.ArticleConstant.*;
@@ -33,12 +34,16 @@ class ArticleServiceTest {
     private Image image;
     private Contents contents;
     private Member member;
+    private List<ArticleHashtag> articleHashtags = new ArrayList<>();
 
     @InjectMocks // @Mock, @Spy가 붙은 목 객체를 자신의 멤버 클래스와 일치하면 주입시킨다
     private ArticleService articleService;
 
     @Mock
     private MemberService memberService;
+
+    @Mock
+    private HashtagService hashtagService;
 
     @Mock
     private ArticleRepository articleRepository;
@@ -61,30 +66,15 @@ class ArticleServiceTest {
     }
 
     @Test
-    public void 모든_게시글들이_select되는지_테스트() { // TODO 나중에 팔로우 중인 게시글만 뽑아내도록 바꿔야 함
-        // given
-        Article article = new Article(image, contents, member);
-        ArticleResponse response = Deencapsulation.invoke(ArticleAssembler.class, "toDto", article);
-        List<Article> articles = Arrays.asList(article, article, article);
-
-        given(articleRepository.findAllByOrderByIdDesc()).willReturn(articles);
-
-        // when
-//        List<ArticleResponse> articleResponses = articleService.getArticleResponses();
-
-        // then
-//        assertThat(articleResponses).isEqualTo(Arrays.asList(response, response, response));
-    }
-
-    @Test
     public void save() {
         // given
-        ArticleRequest articleRequest = new ArticleRequest(file, CONTENTS, HASHTAG);
+        ArticleRequest articleRequest = new ArticleRequest(file, CONTENTS);
 
         Article article = Deencapsulation.invoke(ArticleAssembler.class, "toEntity", articleRequest, IMAGE_URL, member);
         given(memberService.findByEmail(EMAIL)).willReturn(member);
         given(articleRepository.save(article)).willReturn(article);
         given(s3Uploader.upload(file, "dirName")).willReturn("dirName/blahblah");
+        given(hashtagService.save(article)).willReturn(articleHashtags);
 
         // when
         articleService.save(articleRequest, EMAIL);
@@ -92,5 +82,4 @@ class ArticleServiceTest {
         // then
         verify(articleRepository, times(1)).save(article);
     }
-
 }

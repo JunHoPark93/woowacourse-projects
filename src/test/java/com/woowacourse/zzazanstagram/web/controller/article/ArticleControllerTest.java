@@ -1,9 +1,11 @@
 package com.woowacourse.zzazanstagram.web.controller.article;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.woowacourse.zzazanstagram.config.S3MockConfig;
 import com.woowacourse.zzazanstagram.model.RequestTemplate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
@@ -11,12 +13,14 @@ import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static com.woowacourse.zzazanstagram.model.article.ArticleConstant.CONTENTS;
-import static com.woowacourse.zzazanstagram.model.article.ArticleConstant.HASHTAG;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Import(S3MockConfig.class)
 class ArticleControllerTest extends RequestTemplate {
     private ByteArrayResource file;
+
+    @Autowired
+    AmazonS3 amazonS3;
 
     @BeforeEach
     public void setUp2() {
@@ -45,17 +49,6 @@ class ArticleControllerTest extends RequestTemplate {
     @Test
     void 게시글_조회_페이지_이동_테스트() {
         showArticles();
-    }
-
-    @Test
-    void 게시글_조회가_잘되는지_테스트() {
-        createArticle();
-
-        showArticles().expectBody()
-                .consumeWith(res -> {
-                    String body = new String(res.getResponseBody());
-                    assertThat(body.contains(CONTENTS)).isTrue();
-                });
     }
 
     @Test
@@ -108,7 +101,6 @@ class ArticleControllerTest extends RequestTemplate {
         MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
         bodyBuilder.part("file", file, MediaType.parseMediaType("image/jpeg"));
         bodyBuilder.part("contents", CONTENTS);
-        bodyBuilder.part("hashTag", HASHTAG);
 
         return bodyBuilder;
     }

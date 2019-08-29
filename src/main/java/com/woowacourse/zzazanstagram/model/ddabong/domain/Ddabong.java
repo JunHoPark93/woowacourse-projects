@@ -32,7 +32,7 @@ public class Ddabong extends BaseEntity {
     }
 
     public boolean matchMember(Member member) {
-        return this.member.equals(member);
+        return this.member.isSame(member);
     }
 
     public boolean isClicked() {
