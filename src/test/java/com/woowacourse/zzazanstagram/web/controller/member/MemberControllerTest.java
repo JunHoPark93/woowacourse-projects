@@ -31,7 +31,7 @@ class MemberControllerTest extends RequestTemplate {
                         "JayJay",
                         "Password!1"))
                 .exchange()
-                .expectHeader().valueMatches("location", URL_REGEX + "/login")
+                .expectHeader().valueMatches("location", URL_REGEX + "/login" + JSESSIONID_URL)
                 .expectStatus().is3xxRedirection();
     }
 
@@ -44,7 +44,7 @@ class MemberControllerTest extends RequestTemplate {
                         "myNick",
                         "aa1231!!"))
                 .exchange()
-                .expectHeader().valueMatches("location", URL_REGEX + "/signup")
+                .expectHeader().valueMatches("location", URL_REGEX + "/signup" + JSESSIONID_URL)
                 .expectStatus().is3xxRedirection();
     }
 
@@ -57,7 +57,7 @@ class MemberControllerTest extends RequestTemplate {
                         "myNick",
                         "Password!1"))
                 .exchange()
-                .expectHeader().valueMatches("location", URL_REGEX + "/signup")
+                .expectHeader().valueMatches("location", URL_REGEX + "/signup" + JSESSIONID_URL)
                 .expectStatus().is3xxRedirection();
     }
 
