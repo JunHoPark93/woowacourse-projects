@@ -10,7 +10,7 @@ import com.woowacourse.zzazanstagram.model.article.exception.ArticleException;
 import com.woowacourse.zzazanstagram.model.article.repository.ArticleRepository;
 import com.woowacourse.zzazanstagram.model.follow.service.FollowService;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
-import com.woowacourse.zzazanstagram.model.hashtag.service.HashtagService;
+import com.woowacourse.zzazanstagram.model.hashtag.service.ArticleHashtagService;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberMyPageResponse;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
@@ -60,7 +60,7 @@ class ArticleServiceTest {
     private MemberService memberService;
 
     @Mock
-    private HashtagService hashtagService;
+    private ArticleHashtagService articleHashtagService;
 
     @Mock
     private FollowService followService;
@@ -94,7 +94,7 @@ class ArticleServiceTest {
         given(memberService.findByEmail(EMAIL)).willReturn(member);
         given(articleRepository.save(article)).willReturn(article);
         given(s3Uploader.upload(file, "dirName")).willReturn("dirName/blahblah");
-        given(hashtagService.save(article)).willReturn(articleHashtags);
+        given(articleHashtagService.save(article)).willReturn(articleHashtags);
 
         // when
         articleService.save(articleRequest, EMAIL);
