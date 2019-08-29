@@ -46,16 +46,16 @@ public class LoginController {
         return "redirect:/";
     }
 
-    private void setSession(HttpSession httpSession, MemberResponse memberResponse) {
-        httpSession.setAttribute(MEMBER, new MemberSession(memberResponse.getId(), memberResponse.getName(), memberResponse.getEmail(),
-                memberResponse.getNickName(), memberResponse.getProfileImage()));
-    }
-
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
         MemberSession memberSession = (MemberSession) httpSession.getAttribute(SessionKeys.MEMBER);
         socketEndPointManager.removeMember(memberSession);
         httpSession.removeAttribute(SessionKeys.MEMBER);
         return "redirect:/login";
+    }
+
+    private void setSession(HttpSession httpSession, MemberResponse memberResponse) {
+        httpSession.setAttribute(MEMBER, new MemberSession(memberResponse.getId(), memberResponse.getName(), memberResponse.getEmail(),
+                memberResponse.getNickName(), memberResponse.getProfileImage()));
     }
 }
