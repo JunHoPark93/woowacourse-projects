@@ -6,7 +6,6 @@ import com.woowacourse.zzazanstagram.model.follow.dto.FollowResult;
 import com.woowacourse.zzazanstagram.model.follow.service.FollowService;
 import com.woowacourse.zzazanstagram.model.member.MemberSession;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberRelationResponse;
-import com.woowacourse.zzazanstagram.web.controller.member.LoginController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

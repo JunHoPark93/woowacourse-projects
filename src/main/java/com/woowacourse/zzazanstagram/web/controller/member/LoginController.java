@@ -40,7 +40,7 @@ public class LoginController {
         MemberResponse memberResponse = loginService.findMemberResponse(memberLoginRequest);
         setSession(httpSession, memberResponse);
         redirectAttributes.addFlashAttribute("endpoint", loginService.createEndPoint(memberResponse));
-        
+
         log.info("{} logged in member name : {}", TAG, memberResponse.getName());
 
         return "redirect:/";
