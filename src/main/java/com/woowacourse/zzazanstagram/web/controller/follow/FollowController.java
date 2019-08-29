@@ -6,7 +6,7 @@ import com.woowacourse.zzazanstagram.model.follow.dto.FollowResult;
 import com.woowacourse.zzazanstagram.model.follow.service.FollowService;
 import com.woowacourse.zzazanstagram.model.member.MemberSession;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberRelationResponse;
-import com.woowacourse.zzazanstagram.web.controller.member.LoginController;
+import com.woowacourse.zzazanstagram.util.SocketEndPointManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,17 +23,19 @@ public class FollowController {
     private static final String TAG = "[FollowController]";
 
     private FollowService followService;
+    private SocketEndPointManager socketEndPointManager;
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    public FollowController(FollowService followService, SimpMessagingTemplate simpMessagingTemplate) {
+    public FollowController(FollowService followService, SimpMessagingTemplate simpMessagingTemplate, SocketEndPointManager socketEndPointManager) {
         this.followService = followService;
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.socketEndPointManager = socketEndPointManager;
     }
 
     @PostMapping
     public ResponseEntity follow(FollowRequest followRequest) {
         FollowResult followResult = followService.follow(followRequest);
-        List<String> targetUrls = followService.findTargetEndpoint(followResult.getFollower());
+        List<String> targetUrls = socketEndPointManager.findTargetEndpoint(followResult.getFollower());
         sendNotificationToLoggedInMember(followResult, targetUrls);
 
         log.info("{} {}가 {} 에게 follow : {}", TAG, followResult.getFolloweeNickName(), followResult.getFollowerNickName(), followResult.isFollow());

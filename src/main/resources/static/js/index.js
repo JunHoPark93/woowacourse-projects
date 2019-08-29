@@ -203,10 +203,13 @@ const INDEX_PAGE = (function () {
                         parentNode.removeChild(childNode);
                         alert("게시글이 삭제되었습니다.");
                     }
-                }).catch(response => {
-                console.log(response);
-                alert("게시글에 대한 권한이 없습니다.");
-            });
+                }).catch(error => {
+                    console.log(error.response);
+                    const errRes = error.response;
+                    if (error.response.status === 401) {
+                        alert(errRes.data.errorMsg);
+                    }
+                });
         };
 
         return {
