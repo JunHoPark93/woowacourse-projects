@@ -31,7 +31,7 @@ class ArticleHashtagServiceTest {
     private String keyword;
 
     @InjectMocks
-    private HashtagService hashtagService;
+    private ArticleHashtagService articleHashtagService;
 
     @Mock
     private ArticleHashtagRepository articleHashtagRepository;
@@ -64,7 +64,7 @@ class ArticleHashtagServiceTest {
         given(articleHashtagRepository.findAllByHashtagOrderByArticleCreatedDateDesc(hashTag)).willReturn(articleHashtags);
 
         // then
-        assertThat(hashtagService.findAllByHashtag(keyword)).isEqualTo(articleHashtags);
+        assertThat(articleHashtagService.findAllByHashtag(keyword)).isEqualTo(articleHashtags);
     }
 
     @Test
@@ -77,7 +77,7 @@ class ArticleHashtagServiceTest {
         given(articleHashtagRepository.findAllByHashtagOrderByArticleCreatedDateDesc(hashTag)).willReturn(articleHashtags);
 
         // then
-        assertThat(hashtagService.findAllByHashtag(keyword)).isEqualTo(articleHashtags);
+        assertThat(articleHashtagService.findAllByHashtag(keyword)).isEqualTo(articleHashtags);
     }
 
     @Test
@@ -86,6 +86,6 @@ class ArticleHashtagServiceTest {
         given(hashtagRepository.findByKeyword(keyword)).willReturn(Optional.empty());
 
         // then
-        assertThrows(HashtagException.class, () -> hashtagService.findAllByHashtag(keyword));
+        assertThrows(HashtagException.class, () -> articleHashtagService.findAllByHashtag(keyword));
     }
 }

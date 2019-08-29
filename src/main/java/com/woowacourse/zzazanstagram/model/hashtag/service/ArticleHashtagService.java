@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class HashtagService {
+public class ArticleHashtagService {
     private final ArticleHashtagRepository articleHashtagRepository;
     private final HashtagRepository hashtagRepository;
 
-    public HashtagService(final ArticleHashtagRepository articleHashtagRepository, final HashtagRepository hashtagRepository) {
+    public ArticleHashtagService(final ArticleHashtagRepository articleHashtagRepository, final HashtagRepository hashtagRepository) {
         this.articleHashtagRepository = articleHashtagRepository;
         this.hashtagRepository = hashtagRepository;
     }

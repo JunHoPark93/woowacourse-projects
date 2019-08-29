@@ -6,7 +6,7 @@ import com.woowacourse.zzazanstagram.model.article.domain.vo.Image;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
 import com.woowacourse.zzazanstagram.model.article.repository.ArticleRepository;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
-import com.woowacourse.zzazanstagram.model.hashtag.service.HashtagService;
+import com.woowacourse.zzazanstagram.model.hashtag.service.ArticleHashtagService;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
 import com.woowacourse.zzazanstagram.util.S3Uploader;
@@ -43,7 +43,7 @@ class ArticleServiceTest {
     private MemberService memberService;
 
     @Mock
-    private HashtagService hashtagService;
+    private ArticleHashtagService articleHashtagService;
 
     @Mock
     private ArticleRepository articleRepository;
@@ -74,7 +74,7 @@ class ArticleServiceTest {
         given(memberService.findByEmail(EMAIL)).willReturn(member);
         given(articleRepository.save(article)).willReturn(article);
         given(s3Uploader.upload(file, "dirName")).willReturn("dirName/blahblah");
-        given(hashtagService.save(article)).willReturn(articleHashtags);
+        given(articleHashtagService.save(article)).willReturn(articleHashtags);
 
         // when
         articleService.save(articleRequest, EMAIL);
