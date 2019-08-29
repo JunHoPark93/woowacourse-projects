@@ -106,7 +106,7 @@ public class ArticleService {
     }
 
     public List<ArticleMyPageResponse> findArticleMyPageResponsesBy(Long lastArticleId, int size, String nickName) {
-        MemberResponse memberResponse = memberService.findByNickName(nickName);
+        MemberResponse memberResponse = memberService.findMemberResponseByNickName(nickName);
 
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
         Page<Article> articles = articleRepository.findByIdLessThanAndAuthorIdEqualsOrderByIdDesc(lastArticleId
@@ -126,7 +126,7 @@ public class ArticleService {
     }
 
     public MemberMyPageResponse myPage(String nickName) {
-        Member member = memberService.findMemberByNickName(nickName);
+        Member member = memberService.findByNickName(nickName);
         Long id = member.getId();
 
         long articleNumber = countByAuthorId(id);

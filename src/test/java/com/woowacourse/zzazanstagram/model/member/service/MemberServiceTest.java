@@ -3,6 +3,7 @@ package com.woowacourse.zzazanstagram.model.member.service;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
 import com.woowacourse.zzazanstagram.model.member.domain.vo.Email;
 import com.woowacourse.zzazanstagram.model.member.domain.vo.NickName;
+import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberSignUpRequest;
 import com.woowacourse.zzazanstagram.model.member.exception.MemberNotFoundException;
 import com.woowacourse.zzazanstagram.model.member.exception.MemberSaveException;
@@ -14,7 +15,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static com.woowacourse.zzazanstagram.model.article.ArticleConstant.*;
@@ -47,6 +51,7 @@ class MemberServiceTest {
                 .password(PASSWORD)
                 .profile(IMAGE_URL)
                 .build();
+        ReflectionTestUtils.setField(member, "id", 1L);
     }
 
     @Test
@@ -92,6 +97,61 @@ class MemberServiceTest {
 
         // then
         assertThrows(MemberSaveException.class, () -> memberService.save(request));
+    }
+
+    @Test
+    void id로_사용자_검색하는_경우_테스트() {
+        // given
+        given(memberRepository.findById(1L)).willReturn(Optional.of(member));
+
+        // when
+        Member result = memberService.findById(1L);
+
+        // then
+        assertThat(result).isEqualTo(this.member);
+    }
+
+    @Test
+    void 존재하지_않는_id로_사용자를_검색하는_경우_예외처리() {
+        // given
+        given(memberRepository.findById(1L)).willReturn(Optional.empty());
+
+        // then
+        assertThrows(MemberNotFoundException.class, () -> memberService.findById(1L));
+    }
+
+    @Test
+    void 닉네임으로_사용자를_검색하는_경우_테스트() {
+        // given
+        given(memberRepository.findByNickName(nickName)).willReturn(Optional.of(member));
+        MemberResponse memberResponse = Deencapsulation.invoke(MemberAssembler.class, "toDto", member);
+
+        // when
+        MemberResponse result = memberService.findMemberResponseByNickName(NICKNAME);
+
+        // then
+        assertThat(result).isEqualTo(memberResponse);
+    }
+
+    @Test
+    void 존재하지_않는_닉네임으로_사용자를_검색하는_경우_예외처리() {
+        // given
+        given(memberRepository.findByNickName(nickName)).willReturn(Optional.empty());
+
+        // then
+        assertThrows(MemberNotFoundException.class, () -> memberService.findMemberResponseByNickName(NICKNAME));
+    }
+
+    @Test
+    void id리스트로_모든_사용자_조회하는_테스트() {
+        // given
+        List<Long> ids = Arrays.asList(1L, 2L, 3L);
+
+        // when
+        memberService.findAllByIds(ids);
+
+        // then
+        verify(memberRepository, times(1)).findByIdIn(ids);
     }
 
     private MemberSignUpRequest getMemberSignUpRequest() {
