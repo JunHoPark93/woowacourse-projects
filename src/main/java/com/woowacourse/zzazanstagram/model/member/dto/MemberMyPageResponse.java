@@ -1,5 +1,7 @@
 package com.woowacourse.zzazanstagram.model.member.dto;
 
+import java.util.Objects;
+
 public class MemberMyPageResponse {
     private Long id;
     private String profileImage;
@@ -130,5 +132,24 @@ public class MemberMyPageResponse {
         public MemberMyPageResponse build() {
             return new MemberMyPageResponse(id, profileImage, nickName, name, articleNumber, followeeNumber, followerNumber);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final MemberMyPageResponse that = (MemberMyPageResponse) o;
+        return articleNumber == that.articleNumber &&
+                followeeNumber == that.followeeNumber &&
+                followerNumber == that.followerNumber &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(profileImage, that.profileImage) &&
+                Objects.equals(nickName, that.nickName) &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, profileImage, nickName, name, articleNumber, followeeNumber, followerNumber);
     }
 }
