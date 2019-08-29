@@ -19,14 +19,7 @@ class ArticleHashtagTest {
 
     @BeforeEach
     void setUp() {
-        article = new Article(Image.of(IMAGE_URL), Contents.of(CONTENTS),
-                Member.MemberBuilder.aMember()
-                        .nickName("nickName")
-                        .name("name")
-                        .email("test@test.com")
-                        .password("password1!")
-                        .profile("https://image.shutterstock.com/image-photo/600w-1029171697.jpg")
-                        .build());
+        article = new Article(Image.of(IMAGE_URL), Contents.of(CONTENTS), Member.MemberBuilder.aMember().build());
         hashtag = new Hashtag(KEYWORD_1);
 
         articleHashtag = new ArticleHashtag(article, hashtag);
