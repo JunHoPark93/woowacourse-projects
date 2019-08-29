@@ -5,6 +5,9 @@
 </head>
 <body>
 <div>
+	<div class="spinner-border m-5" role="status">
+		<span class="sr-only">Loading...</span>
+	</div>
 	<header id="header" class="header navbar">
 		<div class="header-container max-width-lg mx-auto">
 			<ul class="nav-left mrg-left-0 padding-15">
@@ -59,10 +62,10 @@
                                                 <i class="ti-image font-size-22"></i>
                                             </span>
 										</div>
-										<input type="file" class="form-control" name="file">
+										<input type="file" class="form-control" name="file" id="file">
 									</div>
 									<div class="info pdd-vertical-5">
-										<textarea rows="1" name="contents" class="form-control text-dark padding-15"
+										<textarea id="contents" rows="1" name="contents" class="form-control text-dark padding-15"
 										          placeholder="사진에 대해 친구들에게 알려주세요 :)"></textarea>
 									</div>
 								</div>
@@ -90,6 +93,7 @@
 	</div>
 </div>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
 <script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
@@ -114,8 +118,27 @@
 
     function submitArticle(event) {
         event.preventDefault();
-
-        articleForm.submit();
+	
+        const file = document.getElementById("file").files[0];
+        const contents = document.getElementById("contents").value;
+		const formData = new FormData();
+	
+		formData.append('file', file);
+		formData.append('contents', contents);
+		
+		axios({
+			method: 'post',
+			url: '/api/articles',
+			data: formData,
+		}).then((response) => {
+			console.log(response);
+			window.location = '/';
+		}).catch((error) => {
+			const errRes = error.response;
+			if (error.response.status === 413) {
+				alert(errRes.data.msg);
+			}
+		});
     }
 </script>
 </body>

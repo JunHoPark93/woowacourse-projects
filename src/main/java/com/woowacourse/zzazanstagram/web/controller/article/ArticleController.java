@@ -1,6 +1,5 @@
 package com.woowacourse.zzazanstagram.web.controller.article;
 
-import com.woowacourse.zzazanstagram.model.article.dto.ArticleRequest;
 import com.woowacourse.zzazanstagram.model.article.dto.ArticleResponse;
 import com.woowacourse.zzazanstagram.model.article.service.ArticleService;
 import com.woowacourse.zzazanstagram.model.member.MemberSession;
@@ -14,9 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
 import java.util.List;
 
 // TODO requestmapping 분리
@@ -42,12 +39,6 @@ public class ArticleController {
         model.addAttribute("article", articleResponse);
 
         return "article";
-    }
-
-    @PostMapping("/articles")
-    public String create(@Valid ArticleRequest dto, MemberSession memberSession) {
-        articleService.save(dto, memberSession.getEmail());
-        return "redirect:/";
     }
 
     @DeleteMapping("/articles/{articleId}")
