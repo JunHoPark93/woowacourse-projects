@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/ddabongs")
-public class DdabongController {
+@RequestMapping("/api/ddabongs")
+public class DdabongApiController {
     private final DdabongService ddabongService;
 
-    public DdabongController(DdabongService ddabongService) {
+    public DdabongApiController(DdabongService ddabongService) {
         this.ddabongService = ddabongService;
     }
 
