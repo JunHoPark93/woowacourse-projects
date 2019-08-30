@@ -199,11 +199,12 @@ const HASHTAG_PAGE = (function () {
                 .then(response => {
                     console.log(response);
                     ddabongCountTag.innerText = response.data.count;
+                    const heartTag = event.target.childNodes[1];
 
                     if (response.data.clicked === true) {
-                        activeDdabong(event.target);
+                        activeDdabong(heartTag);
                     } else {
-                        disableDdabong(event.target);
+                        disableDdabong(heartTag);
                     }
                 });
         };

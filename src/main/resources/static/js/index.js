@@ -118,7 +118,7 @@ const INDEX_PAGE = (function () {
             document.querySelectorAll('.btn-add-comment')
                 .forEach(el => el.addEventListener('click', commentService.addComment));
 
-            document.querySelectorAll('.ddabong-heart')
+            document.querySelectorAll('.ddabong-area')
                 .forEach(el => el.addEventListener('click', ddabongService.toggleHeart));
 
             document.querySelectorAll('.delete-article')
@@ -306,11 +306,12 @@ const INDEX_PAGE = (function () {
                 .then(response => {
                     console.log(response);
                     ddabongCountTag.innerText = response.data.count;
+                    const heartTag = event.target.childNodes[1];
 
                     if (response.data.clicked === true) {
-                        activeDdabong(event.target);
+                        activeDdabong(heartTag);
                     } else {
-                        disableDdabong(event.target);
+                        disableDdabong(heartTag);
                     }
                 });
         };
