@@ -106,14 +106,11 @@ const HASHTAG_PAGE = (function () {
             request
                 .delete('/articles/' + articleId)
                 .then(response => {
-                    console.log(response);
-
                     if (response.data === "SUCCESS") {
                         alert("게시글이 삭제되었습니다.");
                         window.location = '/';
                     }
                 }).catch(error => {
-                console.log(error.response);
                 const errRes = error.response;
                 if (error.response.status === 401) {
                     alert(errRes.data.msg);
@@ -151,7 +148,6 @@ const HASHTAG_PAGE = (function () {
             request
                 .post('/' + articleId + '/comments/new', {contents: inputValue})
                 .then(res => {
-                    console.log(res);
                     const nickName = res.data.commenterNickName;
                     const commentContents = res.data.commentContents;
 
@@ -197,7 +193,6 @@ const HASHTAG_PAGE = (function () {
             request
                 .get('/api/ddabongs/articles/' + articleId)
                 .then(response => {
-                    console.log(response);
                     ddabongCountTag.innerText = response.data.count;
                     const heartTag = event.target.childNodes[1];
 
@@ -216,11 +211,9 @@ const HASHTAG_PAGE = (function () {
 
             const ddabongUlTag = document.querySelector('#ddabong-ul');
 
-            console.log(articleId);
             request
                 .get('/api/ddabongs/members/' + articleId)
                 .then(response => {
-                    console.log(response);
                     return response.data.memberResponses;
                 })
                 .then(memberResponses => {
