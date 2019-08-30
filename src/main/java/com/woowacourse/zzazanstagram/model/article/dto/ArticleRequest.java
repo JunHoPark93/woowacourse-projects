@@ -1,10 +1,12 @@
 package com.woowacourse.zzazanstagram.model.article.dto;
 
+import com.sun.istack.internal.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ArticleRequest {
-
+    @NotNull
     private MultipartFile file;
+
     private String contents;
 
     private ArticleRequest() {
