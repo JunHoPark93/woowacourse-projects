@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-class DdabongControllerTest extends RequestTemplate {
+class DdabongApiControllerTest extends RequestTemplate {
 
     private static final String CLICKED = "1";
     private static final String UNCLICKED = "0";
@@ -32,7 +32,7 @@ class DdabongControllerTest extends RequestTemplate {
     }
 
     private WebTestClient.BodyContentSpec toggleDdabong(String articleId) {
-        return getHeaderWithLogin("/ddabongs/articles/" + articleId)
+        return getHeaderWithLogin("/api/ddabongs/articles/" + articleId)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -40,7 +40,7 @@ class DdabongControllerTest extends RequestTemplate {
     }
 
     private WebTestClient.BodyContentSpec fetchDdabongMembers(String articleId) {
-        return getHeaderWithLogin("/ddabongs/members/" + articleId)
+        return getHeaderWithLogin("/api/ddabongs/members/" + articleId)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)

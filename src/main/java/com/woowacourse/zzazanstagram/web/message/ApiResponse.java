@@ -15,15 +15,7 @@ public class ApiResponse {
         return httpStatus;
     }
 
-    public void setHttpStatus(HttpStatus httpStatus) {
-        this.httpStatus = httpStatus;
-    }
-
     public String getMsg() {
         return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 }

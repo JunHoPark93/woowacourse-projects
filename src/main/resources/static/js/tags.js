@@ -192,7 +192,7 @@ const HASHTAG_PAGE = (function () {
             const ddabongCountTag = message.querySelector('.ddabong-message');
 
             request
-                .get('/ddabongs/articles/' + articleId)
+                .get('/api/ddabongs/articles/' + articleId)
                 .then(response => {
                     console.log(response);
                     ddabongCountTag.innerText = response.data.count;
@@ -214,7 +214,7 @@ const HASHTAG_PAGE = (function () {
 
             console.log(articleId);
             request
-                .get('/ddabongs/members/' + articleId)
+                .get('/api/ddabongs/members/' + articleId)
                 .then(response => {
                     console.log(response);
                     return response.data.memberResponses;

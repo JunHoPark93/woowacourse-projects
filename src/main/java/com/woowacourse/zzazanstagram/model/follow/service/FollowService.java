@@ -1,6 +1,5 @@
 package com.woowacourse.zzazanstagram.model.follow.service;
 
-import com.woowacourse.zzazanstagram.config.SocketUrlMappingContext;
 import com.woowacourse.zzazanstagram.model.follow.domain.Follow;
 import com.woowacourse.zzazanstagram.model.follow.dto.FollowRequest;
 import com.woowacourse.zzazanstagram.model.follow.dto.FollowResponse;

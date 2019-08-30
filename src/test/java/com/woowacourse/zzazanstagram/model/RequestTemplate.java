@@ -7,8 +7,11 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.util.UriBuilder;
 
+import java.net.URI;
 import java.time.Duration;
+import java.util.function.Function;
 
 import static com.woowacourse.zzazanstagram.model.support.WebTestHelper.loginForm;
 
@@ -31,6 +34,12 @@ public abstract class RequestTemplate {
     public WebTestClient.RequestHeadersSpec getHeaderWithLogin(String uri) {
         return webTestClient.get()
                 .uri(uri)
+                .header("Cookie", getCookie());
+    }
+
+    public WebTestClient.RequestHeadersSpec getHeaderWithLogin(Function<UriBuilder, URI> uriFunction) {
+        return webTestClient.get()
+                .uri(uriFunction)
                 .header("Cookie", getCookie());
     }
 

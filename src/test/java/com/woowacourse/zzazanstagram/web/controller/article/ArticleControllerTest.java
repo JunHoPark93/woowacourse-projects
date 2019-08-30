@@ -13,7 +13,6 @@ import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static com.woowacourse.zzazanstagram.model.article.ArticleConstant.CONTENTS;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Import(S3MockConfig.class)
 class ArticleControllerTest extends RequestTemplate {
@@ -71,11 +70,7 @@ class ArticleControllerTest extends RequestTemplate {
 
         getHeaderWithLogin("/tags/닉")
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody().consumeWith(res -> {
-            String body = new String(res.getResponseBody());
-            assertThat(body.contains(CONTENTS));
-        });
+                .expectStatus().isOk();
     }
 
     @Test
