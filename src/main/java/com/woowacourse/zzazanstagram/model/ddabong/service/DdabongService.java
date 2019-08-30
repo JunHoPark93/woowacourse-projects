@@ -25,24 +25,20 @@ public class DdabongService {
 
 
     @Transactional
-    public DdabongToggleResponse findDdabongToggleResponseBy(Long articleId, String memberEmail) {
+    public DdabongToggleResponse findDdabongToggleResponseBy(Long articleId, String email) {
         Article article = articleService.findById(articleId);
-        Member member = memberService.findByEmail(memberEmail);
+        Member member = memberService.findByEmail(email);
 
         return ddabongRepository.findByArticleAndMember(article, member)
                 .map(ddabong -> {
                     ddabong.changeClicked();
-                    return assembleToDdabongToggleResponseBy(article, ddabong);
+                    return DdabongAssembler.toDto(article.countClickedDdabong(), ddabong.isClicked());
                 })
                 .orElseGet(() -> {
                     Ddabong createdDdabong = new Ddabong(article, member);
                     ddabongRepository.save(createdDdabong);
-                    return assembleToDdabongToggleResponseBy(article, createdDdabong);
+                    return DdabongAssembler.toDto(article.countClickedDdabong(), createdDdabong.isClicked());
                 });
-    }
-
-    private DdabongToggleResponse assembleToDdabongToggleResponseBy(Article article, Ddabong createdDdabong) {
-        return DdabongAssembler.toDto(article.countClickedDdabong(), createdDdabong.isClicked());
     }
 
     public DdabongMemberResponse findDdabongMemberResponseBy(Long articleId) {
