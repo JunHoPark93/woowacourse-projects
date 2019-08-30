@@ -1,5 +1,7 @@
 package com.woowacourse.zzazanstagram.model.comment.dto;
 
+import java.util.Objects;
+
 public class CommentResponse {
     private String commentContents;
     private Long commentId;
@@ -36,5 +38,20 @@ public class CommentResponse {
 
     public void setCommenterNickName(String commenterNickName) {
         this.commenterNickName = commenterNickName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommentResponse that = (CommentResponse) o;
+        return Objects.equals(commentContents, that.commentContents) &&
+                Objects.equals(commentId, that.commentId) &&
+                Objects.equals(commenterNickName, that.commenterNickName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(commentContents, commentId, commenterNickName);
     }
 }
