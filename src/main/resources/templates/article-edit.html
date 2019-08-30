@@ -135,10 +135,7 @@
 			window.location = '/';
 		}).catch((error) => {
 			const errRes = error.response;
-			if (error.response.status === 413) {
-				alert(errRes.data.msg);
-			}
-			if (error.response.status === 400) {
+			if (error.response.status === 413 || error.response.status === 400) {
 				alert(errRes.data.msg);
 			}
 		});
