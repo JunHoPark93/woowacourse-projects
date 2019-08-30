@@ -2,6 +2,8 @@ package com.woowacourse.zzazanstagram.model.follow.dto;
 
 import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 
+import java.util.Objects;
+
 public class FollowResult {
     private MemberResponse followee;
     private MemberResponse follower;
@@ -43,5 +45,20 @@ public class FollowResult {
 
     public String getFolloweeNickName() {
         return this.followee.getNickName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FollowResult that = (FollowResult) o;
+        return isFollow == that.isFollow &&
+                Objects.equals(followee, that.followee) &&
+                Objects.equals(follower, that.follower);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(followee, follower, isFollow);
     }
 }
