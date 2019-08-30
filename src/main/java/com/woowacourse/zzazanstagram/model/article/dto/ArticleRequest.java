@@ -1,7 +1,8 @@
 package com.woowacourse.zzazanstagram.model.article.dto;
 
-import com.sun.istack.internal.NotNull;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.NotNull;
 
 public class ArticleRequest {
     @NotNull
