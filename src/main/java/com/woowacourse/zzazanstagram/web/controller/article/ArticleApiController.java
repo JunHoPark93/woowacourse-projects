@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-// TODO restcontroller는 responseentity로 리턴 하자고 하지 않았나?
 @RequestMapping("/api/articles")
 @RestController
 public class ArticleApiController {
@@ -24,13 +23,17 @@ public class ArticleApiController {
     }
 
     @GetMapping
-    public List<ArticleResponse> getArticlePages(@RequestParam Long lastArticleId, @RequestParam int size, MemberSession memberSession) {
-        return articleService.fetchArticlePages(lastArticleId, size, memberSession.getId());
+    public ResponseEntity<List<ArticleResponse>> getArticlePages(@RequestParam Long lastArticleId, @RequestParam int size
+            , MemberSession memberSession) {
+        List<ArticleResponse> articleResponses = articleService.fetchArticlePages(lastArticleId, size, memberSession.getId());
+        return new ResponseEntity<>(articleResponses, HttpStatus.OK);
     }
 
     @GetMapping("/mypage")
-    public List<ArticleMyPageResponse> getMyPageArticles(@RequestParam Long lastArticleId, @RequestParam int size, @RequestParam String nickName) {
-        return articleService.findArticleMyPageResponsesBy(lastArticleId, size, nickName);
+    public ResponseEntity<List<ArticleMyPageResponse>> getMyPageArticles(@RequestParam Long lastArticleId, @RequestParam int size
+            , @RequestParam String nickName) {
+        List<ArticleMyPageResponse> articleMyPageResponses = articleService.findArticleMyPageResponsesBy(lastArticleId, size, nickName);
+        return new ResponseEntity<>(articleMyPageResponses, HttpStatus.OK);
     }
 
     @PostMapping
