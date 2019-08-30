@@ -207,7 +207,7 @@ const INDEX_PAGE = (function () {
                     console.log(error.response);
                     const errRes = error.response;
                     if (error.response.status === 401) {
-                        alert(errRes.data.errorMsg);
+                        alert(errRes.data.msg);
                     }
                 });
         };
