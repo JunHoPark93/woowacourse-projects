@@ -14,7 +14,7 @@ import com.woowacourse.zzazanstagram.model.member.dto.MemberMyPageResponse;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.service.MemberAssembler;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
-import com.woowacourse.zzazanstagram.util.S3Uploader;
+import com.woowacourse.zzazanstagram.util.FileUploader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,16 +38,15 @@ public class ArticleService {
     private final ArticleHashtagService articleHashtagService;
     private final MemberService memberService;
     private final FollowService followService;
-    private final S3Uploader s3Uploader;
+    private final FileUploader fileUploader;
     private final String dirName;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleHashtagService articleHashtagService, MemberService memberService,
-                          FollowService followService, S3Uploader s3Uploader, @Value("${cloud.aws.s3.dirName.article}") String dirName) {
+    public ArticleService(ArticleRepository articleRepository, ArticleHashtagService articleHashtagService, MemberService memberService, FollowService followService, FileUploader fileUploader, @Value("${cloud.aws.s3.dirName.article}") String dirName) {
         this.articleRepository = articleRepository;
         this.articleHashtagService = articleHashtagService;
         this.memberService = memberService;
         this.followService = followService;
-        this.s3Uploader = s3Uploader;
+        this.fileUploader = fileUploader;
         this.dirName = dirName;
     }
 
@@ -55,7 +54,7 @@ public class ArticleService {
     public void save(ArticleRequest dto, String email) {
         Member author = memberService.findByEmail(email);
         MultipartFile file = dto.getFile();
-        String imageUrl = s3Uploader.upload(file, dirName);
+        String imageUrl = fileUploader.uploadImage(file, dirName);
         Article article = ArticleAssembler.toEntity(dto, imageUrl, author);
         articleRepository.save(article);
         articleHashtagService.save(article);

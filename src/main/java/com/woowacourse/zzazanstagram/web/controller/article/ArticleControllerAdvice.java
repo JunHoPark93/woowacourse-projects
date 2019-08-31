@@ -38,4 +38,11 @@ public class ArticleControllerAdvice extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(new ApiResponse(HttpStatus.PAYLOAD_TOO_LARGE, "file size too large"), HttpStatus.PAYLOAD_TOO_LARGE);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse> handleImageException(IllegalArgumentException e) {
+        log.error("{} 업로드 할 파일이 이미지 파일이 아닙니다. >> {} ", TAG, e.getMessage());
+
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }
