@@ -8,12 +8,16 @@ import com.woowacourse.zzazanstagram.model.member.dto.MemberSignUpRequest;
 import com.woowacourse.zzazanstagram.model.member.exception.MemberNotFoundException;
 import com.woowacourse.zzazanstagram.model.member.exception.MemberSaveException;
 import com.woowacourse.zzazanstagram.model.member.repository.MemberRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
+    private static final int DEFAULT_PAGE_NUM = 0;
     private MemberRepository memberRepository;
 
     public MemberService(MemberRepository memberRepository) {
@@ -55,5 +59,15 @@ public class MemberService {
 
     public List<Member> findAllByIds(List<Long> ids) {
         return memberRepository.findByIdIn(ids);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MemberResponse> findMemberResponsesByNickName(String keyword, int maxSizeOfNickName) {
+        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, maxSizeOfNickName);
+        List<Member> members = memberRepository.findByNickNameContaining(keyword, pageRequest);
+
+        return members.stream()
+                .map(MemberAssembler::toDto)
+                .collect(Collectors.toList());
     }
 }

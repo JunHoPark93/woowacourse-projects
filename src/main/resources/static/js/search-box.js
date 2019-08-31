@@ -42,15 +42,32 @@ const SEARCH_BOX = (function () {
     };
 
     const SearchService = function () {
+        const request = new Api().request;
+
         const toggleSearchInput = function (event) {
             event.preventDefault();
-            document.querySelector('.search-box').classList.toggle('active')
-            document.querySelector(".search-input").classList.toggle("active")
+            document.querySelector('.search-box').classList.toggle('active');
+            document.querySelector(".search-input").classList.toggle("active");
             document.querySelector(".search-input input").focus()
         };
 
         const showSearchedList = function (event) {
-            if (event.target.value.length > 0) {
+            const keyword = event.target.value;
+
+            if (keyword.length > 0) {
+                request
+                    .get("/api/search/" + keyword, {
+                        "maxSizeOfNickName": 5,
+                        "maxSizeOfHashtag": 5,
+                    })
+                    .then(response => {
+                        return response.data;
+                    })
+                    .then(data => {
+                        console.log(data);
+                    });
+
+
                 document.querySelector(".advanced-search").classList.add("active")
             } else {
                 document.querySelector(".advanced-search").classList.remove("active")
