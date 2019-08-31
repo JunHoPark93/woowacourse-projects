@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice(assignableTypes = {ArticleController.class, ArticleApiController.class})
 public class ArticleControllerAdvice extends ResponseEntityExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
     private static final String TAG = "[ArticleControllerAdvice]";
