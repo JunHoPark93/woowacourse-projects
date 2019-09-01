@@ -38,10 +38,6 @@ const INDEX_PAGE = (function () {
             document.querySelector(".search-input input").addEventListener('keyup', searchService.showSearchedList);
         };
 
-        const fetchArticles = function () {
-            articleService.fetchArticlePages(Number.MAX_SAFE_INTEGER, defaultArticlePaginationSize);
-        };
-
         const addComment = function () {
             document.querySelectorAll('.btn-add-comment')
                 .forEach(el => el.addEventListener('click', commentService.addComment));
@@ -60,6 +56,10 @@ const INDEX_PAGE = (function () {
         const fetchDdabongMembers = function () {
             document.querySelectorAll('.ddabong-members')
                 .forEach(el => el.addEventListener('click', ddabongService.fetchDdabongMembers));
+        };
+
+        const fetchArticles = function () {
+            articleService.fetchArticlePages(Number.MAX_SAFE_INTEGER, defaultArticlePaginationSize);
         };
 
         const getScrollTop = function () {
@@ -129,8 +129,8 @@ const INDEX_PAGE = (function () {
         }
 
         const fetchArticlePages = function (lastArticleId, size) {
-            function createNewNode(innerHTML) {
-                const node = document.createElement("span");
+            function createNewNode(tagName, innerHTML) {
+                const node = document.createElement(tagName);
                 node.innerHTML = innerHTML;
                 return node;
             }
@@ -142,13 +142,13 @@ const INDEX_PAGE = (function () {
 
                 function appendComments(commentList, size) {
                     for (let i = 0; i < size; i++) {
-                        commentList.appendChild(createNewNode(articleCardTemplate.comment(commentResponses[i])))
+                        commentList.insertAdjacentHTML('afterbegin', articleCardTemplate.comment(commentResponses[i]));
                     }
                 }
 
                 if (commentSize > defaultCommentPreviewSize) {
                     const commentPreviewMessage = document.querySelector('#comment-preview-message-' + json.id);
-                    const commentPreviewMessageNode = createNewNode(articleCardTemplate.commentPreviewMessage(commentSize, json.id));
+                    const commentPreviewMessageNode = createNewNode('li', articleCardTemplate.commentPreviewMessage(commentSize, json.id));
                     commentPreviewMessage.appendChild(commentPreviewMessageNode);
 
                     appendComments(commentList, defaultCommentPreviewSize);
@@ -169,7 +169,7 @@ const INDEX_PAGE = (function () {
                 .then(data => {
                     data.forEach(function (json) {
                         console.log(json);
-                        const articleNode = createNewNode(articleCardTemplate.articleCard(json));
+                        const articleNode = createNewNode('span', articleCardTemplate.articleCard(json));
                         indexArticles.appendChild(articleNode);
 
                         if (json.ddabongClicked) {
