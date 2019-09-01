@@ -66,7 +66,7 @@ const ArticleCardTemplate = function () {
                             <div class="info pdd-left-15 pdd-vertical-5">
                                 <a href="" class="title no-pdd-vertical text-bold inline-block font-size-15">${json.nickName}</a>
                                 <p>` + articleContents(json.contents) + `</p>
-                                <time class="font-size-8 text-gray d-block">${json.lastModifiedDate}</time>
+                                <time class="font-size-8 text-gray d-block">` + postedTime(json.lastModifiedDate) + `</time>
                                 <span id="comment-preview-message-${json.id}"></span>
                             </div>
                         </li>
@@ -91,6 +91,21 @@ const ArticleCardTemplate = function () {
         return contents.split(/[ \t\r\n\v\f]/g)
             .map(w => (w.startsWith('#') ? `<a href="/tags/${w.substring(1)}" class="hashtag">${w}</a>` : w))
             .join(' ');
+    };
+
+    const postedTime = function (date) {
+        const currentDate = new Date();
+        const postedDate = new Date(date);
+        const elapsed = Math.floor((currentDate.getTime() - postedDate.getTime()) / 1000);
+
+        if (elapsed >= 24 * 60 * 60) {
+            return String(postedDate.getUTCFullYear() + '년 ' + (postedDate.getMonth() + 1) + '월 ' + postedDate.getDate() + '일');
+        }
+        else if (elapsed <= 60 * 60) {
+            return String(Math.floor(elapsed / 60) + '분 전');
+        }
+
+        return String(Math.floor(elapsed / (60 * 60)) + '시간 전');
     };
 
     const comment = function (json) {

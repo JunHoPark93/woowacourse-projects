@@ -137,8 +137,8 @@
 												   th:text="${article.nickName}"
 												   class="title no-pdd-vertical text-bold inline-block font-size-15"></a>
 												<p th:id="'article-contents-' + ${article.id}"></p>
-												<time th:text="${article.lastModifiedDate}"
-												      class="font-size-8 text-gray d-block">
+												<time class="font-size-8 text-gray d-block"
+													  th:id="'article-lastModifiedDate-' + ${article.id}">
 												</time>
 												<a class="text-gray text-bold no-mrg"
 												   th:if="${#lists.size(article.commentResponses)} > 2"
@@ -211,8 +211,26 @@
                 .join(' ');
 
             articleContents.insertAdjacentHTML('afterbegin', contentsTag);
+
+			const lastModifiedDate = document.getElementById('article-lastModifiedDate-' + article.id);
+			lastModifiedDate.insertAdjacentText('afterbegin', postedTime(article.lastModifiedDate));
         });
-    }
+    };
+
+	const postedTime = function (date) {
+		const currentDate = new Date();
+		const postedDate = new Date(date);
+		const elapsed = Math.floor((currentDate.getTime() - postedDate.getTime()) / 1000);
+
+		if (elapsed >= 24 * 60 * 60) {
+			return String(postedDate.getUTCFullYear() + '년 ' + (postedDate.getMonth() + 1) + '월 ' + postedDate.getDate() + '일');
+		}
+		else if (elapsed <= 60 * 60) {
+			return String(Math.floor(elapsed / 60) + '분 전');
+		}
+
+		return String(Math.floor(elapsed / (60 * 60)) + '시간 전');
+	};
 </script>
 </body>
 </html>
