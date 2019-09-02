@@ -156,15 +156,12 @@
 					formData.append('nickName', nickName);
 					formData.append('password', password);
 					formData.append('profile', profile);
-					
-					console.log(formData);
-					
+				
 					axios({
 						method: 'post',
 						url: '/members',
 						data: formData,
-					}).then((response) => {
-						console.log(response);
+					}).then(() => {
 						window.location = '/login';
 					}).catch((error) => {
 						const errRes = error.response;
