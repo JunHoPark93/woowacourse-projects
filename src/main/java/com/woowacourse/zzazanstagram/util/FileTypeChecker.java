@@ -19,7 +19,7 @@ public class FileTypeChecker {
         try {
             return tika.detect(multipartFile.getInputStream());
         } catch (IOException e) {
-            throw new IllegalArgumentException("허용 되지 않는 파일입니다.");
+            throw new FileUploadException("허용 되지 않는 파일입니다.");
         }
     }
 }

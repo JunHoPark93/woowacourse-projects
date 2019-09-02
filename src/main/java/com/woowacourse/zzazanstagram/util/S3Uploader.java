@@ -39,7 +39,7 @@ public class S3Uploader {
             amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile.getInputStream(), objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (IOException e) {
             log.error("{} uploading image... filename>> {}", TAG, fileName);
-            throw new IllegalArgumentException("파일 업로드 실패");
+            throw new FileUploadException("파일 업로드 실패");
         }
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }

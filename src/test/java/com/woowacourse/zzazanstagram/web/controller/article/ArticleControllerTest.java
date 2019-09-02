@@ -37,7 +37,6 @@ class ArticleControllerTest extends RequestTemplate {
                 .expectStatus().isOk();
     }
 
-    //TODO 터짐
     @Test
     void 게시글_등록이_되는지_테스트() {
         createArticle()
@@ -64,7 +63,6 @@ class ArticleControllerTest extends RequestTemplate {
                 .expectStatus().is4xxClientError();
     }
 
-    //TODO 터짐
     @Test
     void 특정_해시태그가_달린_게시글_조회_테스트() {
         createArticle();
