@@ -18,6 +18,6 @@ public class FileUploader {
             String imageUrl = s3Uploader.upload(multipartFile, dirName);
             return imageUrl;
         }
-        throw new IllegalArgumentException("이미지 파일이 아닙니다.");
+        throw new FileUploadException("이미지 파일이 아닙니다.");
     }
 }
