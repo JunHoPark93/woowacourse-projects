@@ -232,7 +232,7 @@ const INDEX_PAGE = (function () {
                     commentList.insertAdjacentHTML('beforeend', comment);
                     input.value = '';
                 }).catch(err => {
-                alert(err.response.data);
+                alert(err.response.data.msg);
             });
         };
 
