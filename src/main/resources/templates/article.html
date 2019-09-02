@@ -309,11 +309,12 @@
                 request
                     .post('/' + articleId + '/comments/new', {contents: inputValue})
                     .then(res => {
+                        console.log(res);
                         const comment = articleCardTemplate.comment(res.data);
                         commentList.insertAdjacentHTML('beforeend', comment);
                         input.value = '';
                     }).catch(err => {
-                    alert(err.response.data);
+                    alert(err.response.data.msg);
                 });
             };
 

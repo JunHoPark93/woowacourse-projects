@@ -126,7 +126,7 @@ const HASHTAG_PAGE = (function () {
                     commentList.insertAdjacentHTML('beforeend', comment);
                     document.getElementById('comment-input').value = '';
                 }).catch(err => {
-                alert(err.response.data);
+                alert(err.response.data.msg);
             });
 
         };
