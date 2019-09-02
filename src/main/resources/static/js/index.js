@@ -127,7 +127,7 @@ const INDEX_PAGE = (function () {
             function appendCommentsOnArticleCard(json) {
                 const commentResponses = json.commentResponses;
                 const commentSize = Object.keys(commentResponses).length;
-                const commentList = document.querySelector('#comment-list-' + json.id);
+                const commentList = document.querySelector(`#comment-list-${json.id}`);
 
                 function appendComments(commentList, size) {
                     for (let i = 0; i < size; i++) {
@@ -136,7 +136,7 @@ const INDEX_PAGE = (function () {
                 }
 
                 if (commentSize > defaultCommentPreviewSize) {
-                    const commentPreviewMessage = document.querySelector('#comment-preview-message-' + json.id);
+                    const commentPreviewMessage = document.querySelector(`#comment-preview-message-${json.id}`);
                     const commentPreviewMessageNode = createNewNode('li', articleCardTemplate.commentPreviewMessage(commentSize, json.id));
                     commentPreviewMessage.appendChild(commentPreviewMessageNode);
 
@@ -161,11 +161,11 @@ const INDEX_PAGE = (function () {
                         indexArticles.appendChild(articleNode);
 
                         if (json.ddabongClicked) {
-                            const ddabongHeart = document.querySelector('#ddabong-' + json.id);
+                            const ddabongHeart = document.querySelector(`#ddabong-${json.id}`);
                             ddabongService.activeDdabong(ddabongHeart);
                         }
 
-                        const ddabongMessage = document.querySelector('#ddabong-message-' + json.id);
+                        const ddabongMessage = document.querySelector(`#ddabong-message-${json.id}`);
                         ddabongMessage.innerText = json.ddabongCount;
 
                         appendCommentsOnArticleCard(json);
@@ -181,7 +181,7 @@ const INDEX_PAGE = (function () {
             const articleId = message.parentElement.id;
 
             request
-                .delete('/articles/' + articleId)
+                .delete(`/articles/${articleId}`)
                 .then(response => {
                     if (response.data === "SUCCESS") {
                         const childNode = message.parentNode;
@@ -190,11 +190,11 @@ const INDEX_PAGE = (function () {
                         alert("게시글이 삭제되었습니다.");
                     }
                 }).catch(error => {
-                    const errRes = error.response;
-                    if (error.response.status === 401) {
-                        alert(errRes.data.msg);
-                    }
-                });
+                const errRes = error.response;
+                if (error.response.status === 401) {
+                    alert(errRes.data.msg);
+                }
+            });
         };
 
         return {
@@ -226,7 +226,7 @@ const INDEX_PAGE = (function () {
             inputValue = inputValue.replace(/>/gi, "&gt;");
 
             request
-                .post('/' + articleId + '/comments/new', {contents: inputValue})
+                .post(`/${articleId}/comments/new`, {contents: inputValue})
                 .then(res => {
                     const comment = articleCardTemplate.comment(res.data);
                     commentList.insertAdjacentHTML('beforeend', comment);
@@ -267,7 +267,7 @@ const INDEX_PAGE = (function () {
             const ddabongCountTag = message.querySelector('.ddabong-message');
 
             request
-                .get('/api/ddabongs/articles/' + articleId)
+                .get(`/api/ddabongs/articles/${articleId}`)
                 .then(response => {
                     ddabongCountTag.innerText = response.data.count;
                     const heartTag = event.target.childNodes[1];
@@ -288,7 +288,7 @@ const INDEX_PAGE = (function () {
             const ddabongUlTag = document.querySelector('#ddabong-ul');
 
             request
-                .get('/api/ddabongs/members/' + articleId)
+                .get(`/api/ddabongs/members/${articleId}`)
                 .then(response => {
                     return response.data.memberResponses;
                 })

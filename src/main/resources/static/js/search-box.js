@@ -117,7 +117,7 @@ const SEARCH_BOX = (function () {
 
             if (keyword.length > 0) {
                 request
-                    .get("/api/search/" + keyword, {
+                    .get(`/api/search/${keyword}`, {
                         "maxSizeOfNickName": maxSizeOfNickName,
                         "maxSizeOfHashtag": maxSizeOfHashtag,
                     })

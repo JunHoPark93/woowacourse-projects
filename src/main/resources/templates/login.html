@@ -39,14 +39,14 @@
 								<form id="login-form" action="/login" method="post" class="form-horizontal mrg-top-40">
 									<div class="form-group row">
 										<div class="col-md-12">
-											<input type="email" name="email" class="form-control" id="login-form-email"
+											<input id="login-form-email" type="email" name="email" class="form-control"
 											       placeholder="이메일" required>
 										</div>
 									</div>
 									<div class="form-group row">
 										<div class="col-md-12">
-											<input type="password" name="password" class="form-control"
-											       id="login-form-password" placeholder="비밀번호" required>
+											<input id="login-form-password" type="password" name="password" class="form-control"
+											        placeholder="비밀번호" required>
 										</div>
 									</div>
 									<button id="login-card-submit-btn" type="submit"
@@ -74,5 +74,29 @@
 </div>
 
 <th:block th:replace="fragments/cdnScript"></th:block>
+<script>
+	const loginBtn = document.getElementById("login-card-submit-btn");
+
+	loginBtn.addEventListener('click', function() {
+		const email = document.getElementById("login-form-email").value;
+		const password = document.getElementById("login-form-password").value;
+		const formData = new FormData();
+		formData.append('email', email);
+		formData.append('password', password);
+
+		axios({
+			method: 'post',
+			url: '/login',
+			data: formData,
+		}).then(() => {
+		}).catch((error) => {
+			const errRes = error.response;
+			if (error.response.status === 400) {
+				alert(errRes.data.msg);
+			}
+			window.location = "/login";
+		});
+	});
+</script>
 </body>
 </html>

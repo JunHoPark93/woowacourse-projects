@@ -2,11 +2,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:replace="fragments/commonHeader"></th:block>
-    <link rel="stylesheet" href="/css/vanilla-notify.css"/>
+	<link href="/css/vanilla-notify.css" rel="stylesheet"/>
 </head>
 <body>
 <div>
-	<header id="header" class="header navbar">
+	<header class="header navbar" id="header">
 		<div class="header-container max-width-lg mx-auto">
 			<ul class="nav-left mrg-left-0 padding-15">
 				<li>
@@ -21,7 +21,7 @@
 					</a>
 				</li>
 				<li class="search-input desktop-view">
-					<input class="form-control mrg-top-0" type="text" placeholder="Search...">
+					<input class="form-control mrg-top-0" placeholder="Search..." type="text">
 					<div class="advanced-search">
 						<div class="search-wrapper">
 							<div class="pdd-vertical-10">
@@ -57,7 +57,7 @@
 		<div class="main-content">
 			<div class="container-fluid max-width-lg mx-auto">
 				<div class="row">
-					<div id="index-articles" class="col-lg-7 mx-auto">
+					<div class="col-lg-7 mx-auto" id="index-articles">
 					
 					</div>
 				</div>
@@ -71,7 +71,7 @@
 				<div class="modal-header align-self-center">
 					<span class="text-bold">좋아요</span>
 				</div>
-				<ul id="ddabong-ul" class="list-unstyled list-info">
+				<ul class="list-unstyled list-info" id="ddabong-ul">
 				</ul>
 			</div>
 		</div>
@@ -90,9 +90,6 @@
 <script src="/js/socket-notification.js"></script>
 <script th:inline="javascript">
 	window.onload = function() {
-	    if ([[${endpoint}]] !== null) {
-            document.cookie="endpoint" + "=" + [[${endpoint}]];
-        }
 		socketConnect();
 	}
 </script>

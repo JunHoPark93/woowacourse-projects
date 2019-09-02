@@ -5,7 +5,7 @@ function socketConnect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         const endpoint = readCookie('endpoint');
-        stompClient.subscribe('/topics/follow-notification/' + endpoint, function (notification) {
+        stompClient.subscribe(`/topics/follow-notification/${endpoint}`, function (notification) {
             const data = JSON.parse(notification.body);
             const followerName = data.followee.nickName;
             const isFollow = data.follow;

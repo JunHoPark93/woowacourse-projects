@@ -37,7 +37,7 @@
 								<h5 id="signup-greeting-message">친구들의 사진을 보려면 가입하세요 :)</h5>
 							</div>
 							<div class="card-body pdd-top-0">
-								<form id="signup-form" action="/members" method="post"
+								<form id="signup-form"
 								      class="form-horizontal mrg-top-40">
 									<div class="form-group row">
 										<div class="col-md-12">
@@ -102,10 +102,9 @@
 
 <th:block th:replace="fragments/cdnScript"></th:block>
 <script>
-
     const SIGNUP = (function () {
-        const form = document.querySelector("#signup-form");
-        const email = document.querySelector("#signup-form-email");
+		const form = document.querySelector("#signup-form");
+		const email = document.querySelector("#signup-form-email");
         const password = document.querySelector("#signup-form-password");
         const passwordConfirm = document.querySelector("#signup-form-password-confirm");
         const nickName = document.querySelector("#signup-form-nick-name");
@@ -131,12 +130,40 @@
             };
 
             const setFormValidityMessage = function () {
-                form.addEventListener("submit", function () {
-                    signUpService.setEmailValidityMessage();
-                    signUpService.setPasswordValidityMessage();
-                    signUpService.setNickNameValidityMessage();
-                    signUpService.setNameValidityMessage();
-                });
+				form.addEventListener("submit", function (event) {
+					event.preventDefault();
+					signUpService.setEmailValidityMessage();
+					signUpService.setPasswordValidityMessage();
+					signUpService.setNickNameValidityMessage();
+					signUpService.setNameValidityMessage();
+					
+					const email = document.getElementById("signup-form-email").value;
+					const password = document.getElementById("signup-form-password").value;
+					const nickName = document.getElementById("signup-form-nick-name").value;
+					const name = document.getElementById("signup-form-nick-name").value;
+					const profile = document.getElementById("signup-form-profile").value;
+					
+					const formData = new FormData();
+					
+					formData.append('name', name);
+					formData.append('email', email);
+					formData.append('nickName', nickName);
+					formData.append('password', password);
+					formData.append('profile', profile);
+				
+					axios({
+						method: 'post',
+						url: '/members',
+						data: formData,
+					}).then(() => {
+						window.location = '/login';
+					}).catch((error) => {
+						const errRes = error.response;
+						if (error.response.status === 400) {
+							alert(errRes.data.msg);
+						}
+					});
+				});
             };
 
             const checkPasswordWithPasswordConfirm = function () {
@@ -211,7 +238,6 @@
     })();
 
     SIGNUP.init();
-
 </script>
 </body>
 </html>
