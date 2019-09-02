@@ -95,11 +95,12 @@ class ArticleHashtagServiceTest {
     void findHashtagResponsesBy() {
         Hashtag hashTag = new Hashtag(keyword);
 
+        int defaultPageNum = 0;
         int maxSizeOfHashtag = 1;
-        PageRequest pageRequest = PageRequest.of(0, maxSizeOfHashtag);
+        PageRequest pageRequest = PageRequest.of(defaultPageNum, maxSizeOfHashtag);
         given(hashtagRepository.findByKeywordContaining(keyword, pageRequest)).willReturn(Collections.singletonList(hashTag));
 
         HashtagResponse hashtagResponse = HashtagAssembler.toDto(hashTag);
-        assertThat(articleHashtagService.findHashtagResponsesByKeyword(keyword, maxSizeOfHashtag)).isEqualTo(Collections.singletonList(hashtagResponse));
+        assertThat(articleHashtagService.findHashtagResponsesByKeyword(keyword, defaultPageNum, maxSizeOfHashtag)).isEqualTo(Collections.singletonList(hashtagResponse));
     }
 }

@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
-    private static final int DEFAULT_PAGE_NUM = 0;
     private MemberRepository memberRepository;
 
     public MemberService(MemberRepository memberRepository) {
@@ -62,8 +61,8 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public List<MemberResponse> findMemberResponsesByNickName(String keyword, int maxSizeOfNickName) {
-        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, maxSizeOfNickName);
+    public List<MemberResponse> findMemberResponsesByNickName(String keyword, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
         List<Member> members = memberRepository.findByNickNameContaining(keyword, pageRequest);
 
         return members.stream()

@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class ArticleHashtagService {
-    private static final int DEFAULT_PAGE_NUM = 0;
     private final ArticleHashtagRepository articleHashtagRepository;
     private final HashtagRepository hashtagRepository;
 
@@ -54,8 +53,8 @@ public class ArticleHashtagService {
     }
 
     @Transactional(readOnly = true)
-    public List<HashtagResponse> findHashtagResponsesByKeyword(String keyword, int maxSizeOfHashtag) {
-        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, maxSizeOfHashtag);
+    public List<HashtagResponse> findHashtagResponsesByKeyword(String keyword, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
         List<Hashtag> hashtags = hashtagRepository.findByKeywordContaining(keyword, pageRequest);
 
         return hashtags.stream()

@@ -158,12 +158,14 @@ class MemberServiceTest {
 
     @Test
     void findMemberResponsesByNickName() {
+        int defaultPageNum = 0;
         int maxSizeOfNickName = 1;
-        PageRequest pageRequest = PageRequest.of(0, maxSizeOfNickName);
+        PageRequest pageRequest = PageRequest.of(defaultPageNum, maxSizeOfNickName);
         given(memberRepository.findByNickNameContaining(NICKNAME, pageRequest)).willReturn(Collections.singletonList(member));
 
         MemberResponse memberResponse = MemberAssembler.toDto(member);
-        assertThat(memberService.findMemberResponsesByNickName(NICKNAME, maxSizeOfNickName)).isEqualTo(Collections.singletonList(memberResponse));
+        assertThat(memberService.findMemberResponsesByNickName(NICKNAME, defaultPageNum, maxSizeOfNickName))
+                .isEqualTo(Collections.singletonList(memberResponse));
     }
 
     private MemberSignUpRequest getMemberSignUpRequest() {

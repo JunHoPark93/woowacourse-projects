@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,16 +56,43 @@ class SearchServiceTest {
     @Test
     void searchByKeyword() {
         String keyword = "key";
+        int defaultPageNum = 0;
         int maxSizeOfNickName = 1;
         int maxSizeOfHashtag = 1;
 
         MemberResponse memberResponse = MemberAssembler.toDto(member);
         List<MemberResponse> memberResponses = Collections.singletonList(memberResponse);
-        given(memberService.findMemberResponsesByNickName(keyword, maxSizeOfNickName)).willReturn(memberResponses);
+        given(memberService.findMemberResponsesByNickName(keyword, defaultPageNum, maxSizeOfNickName)).willReturn(memberResponses);
 
         HashtagResponse hashtagResponse = HashtagAssembler.toDto(hashtag);
         List<HashtagResponse> hashtagResponses = Collections.singletonList(hashtagResponse);
-        given(articleHashtagService.findHashtagResponsesByKeyword(keyword, maxSizeOfHashtag)).willReturn(hashtagResponses);
+        given(articleHashtagService.findHashtagResponsesByKeyword(keyword, defaultPageNum, maxSizeOfHashtag)).willReturn(hashtagResponses);
+
+        SearchResponse searchResponse = new SearchResponse(memberResponses, hashtagResponses);
+        assertThat(searchService.searchByKeyword(keyword, maxSizeOfNickName, maxSizeOfHashtag)).isEqualTo(searchResponse);
+    }
+
+    @Test
+    void searchByKeyword_default_max_size보다_큰_경우() {
+        String keyword = "key";
+        int defaultPageNum = 0;
+
+        int defaultMaxSize = 5;
+        int maxSizeOfNickName = defaultMaxSize + 1;
+        int maxSizeOfHashtag = defaultMaxSize + 1;
+
+        MemberResponse memberResponse = MemberAssembler.toDto(member);
+        List<MemberResponse> memberResponses = new ArrayList<>();
+        HashtagResponse hashtagResponse = HashtagAssembler.toDto(hashtag);
+        List<HashtagResponse> hashtagResponses = new ArrayList<>();
+
+        for (int i = 0; i < defaultMaxSize; i++) {
+            memberResponses.add(memberResponse);
+            hashtagResponses.add(hashtagResponse);
+        }
+
+        given(memberService.findMemberResponsesByNickName(keyword, defaultPageNum, defaultMaxSize)).willReturn(memberResponses);
+        given(articleHashtagService.findHashtagResponsesByKeyword(keyword, defaultPageNum, defaultMaxSize)).willReturn(hashtagResponses);
 
         SearchResponse searchResponse = new SearchResponse(memberResponses, hashtagResponses);
         assertThat(searchService.searchByKeyword(keyword, maxSizeOfNickName, maxSizeOfHashtag)).isEqualTo(searchResponse);
