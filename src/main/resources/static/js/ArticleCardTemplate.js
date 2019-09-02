@@ -30,7 +30,7 @@ const ArticleCardTemplate = function () {
             </div>
             <ul class="feed-action pdd-horizon-15 pdd-top-5">
                 <li>
-                    <a href="">
+                    <a href="" class="ddabong-area">
                         <i id="ddabong-${json.id}" class="ddabong-heart fa fa-heart-o font-size-25"></i>
                     </a>
                 </li>
