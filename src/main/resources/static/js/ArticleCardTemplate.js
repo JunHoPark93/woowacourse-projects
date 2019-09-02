@@ -64,7 +64,7 @@ const ArticleCardTemplate = function () {
                     <ul class="list-unstyled list-info pdd-horizon-5">
                         <li class=" no-pdd">
                             <div class="info pdd-left-15 pdd-vertical-5">
-                                <a href="" class="title no-pdd-vertical text-bold inline-block font-size-15">${json.nickName}</a>
+                                <a href="/members/${json.nickName}" class="title no-pdd-vertical text-bold inline-block font-size-15">${json.nickName}</a>
                                 <p>` + articleContents(json.contents) + `</p>
                                 <time class="font-size-8 text-gray d-block">` + postedTime(json.lastModifiedDate) + `</time>
                                 <span id="comment-preview-message-${json.id}"></span>
