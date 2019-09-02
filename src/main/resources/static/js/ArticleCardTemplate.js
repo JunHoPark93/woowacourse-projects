@@ -30,7 +30,7 @@ const ArticleCardTemplate = function () {
             </div>
             <ul class="feed-action pdd-horizon-15 pdd-top-5">
                 <li>
-                    <a href="">
+                    <a href="" class="ddabong-area">
                         <i id="ddabong-${json.id}" class="ddabong-heart fa fa-heart-o font-size-25"></i>
                     </a>
                 </li>
@@ -64,9 +64,9 @@ const ArticleCardTemplate = function () {
                     <ul class="list-unstyled list-info pdd-horizon-5">
                         <li class=" no-pdd">
                             <div class="info pdd-left-15 pdd-vertical-5">
-                                <a href="" class="title no-pdd-vertical text-bold inline-block font-size-15">${json.nickName}</a>
+                                <a href="/members/${json.nickName}" class="title no-pdd-vertical text-bold inline-block font-size-15">${json.nickName}</a>
                                 <p>` + articleContents(json.contents) + `</p>
-                                <time class="font-size-8 text-gray d-block">${json.lastModifiedDate}</time>
+                                <time class="font-size-8 text-gray d-block">` + postedTime(json.lastModifiedDate) + `</time>
                                 <span id="comment-preview-message-${json.id}"></span>
                             </div>
                         </li>
@@ -91,6 +91,20 @@ const ArticleCardTemplate = function () {
         return contents.split(/[ \t\r\n\v\f]/g)
             .map(w => (w.startsWith('#') ? `<a href="/tags/${w.substring(1)}" class="hashtag">${w}</a>` : w))
             .join(' ');
+    };
+
+    const postedTime = function (date) {
+        const currentDate = new Date();
+        const postedDate = new Date(date);
+        const elapsed = Math.floor((currentDate.getTime() - postedDate.getTime()) / 1000);
+
+        if (elapsed >= 24 * 60 * 60) {
+            return `${postedDate.getUTCFullYear()}년${postedDate.getMonth() + 1}월${postedDate.getDate()}일`;
+        } else if (elapsed <= 60 * 60) {
+            return `${Math.floor(elapsed / 60)}분 전`;
+        }
+
+        return `${Math.floor(elapsed / (60 * 60))}시간 전`;
     };
 
     const comment = function (json) {

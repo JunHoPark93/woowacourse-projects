@@ -25,22 +25,9 @@ const INDEX_PAGE = (function () {
     const IndexPageController = function () {
         const defaultArticlePaginationSize = 5;
 
-        const searchService = new SearchService();
         const articleService = new ArticleService();
         const commentService = new CommentService();
         const ddabongService = new DdabongService();
-
-        const toggleSearchInput = function () {
-            document.querySelector('.search-toggle').addEventListener('click', searchService.toggleSearchInput);
-        };
-
-        const showSearchedList = function () {
-            document.querySelector(".search-input input").addEventListener('keyup', searchService.showSearchedList);
-        };
-
-        const fetchArticles = function () {
-            articleService.fetchArticlePages(Number.MAX_SAFE_INTEGER, defaultArticlePaginationSize);
-        };
 
         const addComment = function () {
             document.querySelectorAll('.btn-add-comment')
@@ -62,6 +49,10 @@ const INDEX_PAGE = (function () {
                 .forEach(el => el.addEventListener('click', ddabongService.fetchDdabongMembers));
         };
 
+        const fetchArticles = function () {
+            articleService.fetchArticlePages(Number.MAX_SAFE_INTEGER, defaultArticlePaginationSize);
+        };
+
         const getScrollTop = function () {
             return (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
         };
@@ -77,8 +68,6 @@ const INDEX_PAGE = (function () {
         };
 
         const init = function () {
-            toggleSearchInput();
-            showSearchedList();
             fetchArticles();
             addComment();
             toggleHeart();
@@ -118,7 +107,7 @@ const INDEX_PAGE = (function () {
             document.querySelectorAll('.btn-add-comment')
                 .forEach(el => el.addEventListener('click', commentService.addComment));
 
-            document.querySelectorAll('.ddabong-heart')
+            document.querySelectorAll('.ddabong-area')
                 .forEach(el => el.addEventListener('click', ddabongService.toggleHeart));
 
             document.querySelectorAll('.delete-article')
@@ -129,8 +118,8 @@ const INDEX_PAGE = (function () {
         }
 
         const fetchArticlePages = function (lastArticleId, size) {
-            function createNewNode(innerHTML) {
-                const node = document.createElement("span");
+            function createNewNode(tagName, innerHTML) {
+                const node = document.createElement(tagName);
                 node.innerHTML = innerHTML;
                 return node;
             }
@@ -138,17 +127,17 @@ const INDEX_PAGE = (function () {
             function appendCommentsOnArticleCard(json) {
                 const commentResponses = json.commentResponses;
                 const commentSize = Object.keys(commentResponses).length;
-                const commentList = document.querySelector('#comment-list-' + json.id);
+                const commentList = document.querySelector(`#comment-list-${json.id}`);
 
                 function appendComments(commentList, size) {
                     for (let i = 0; i < size; i++) {
-                        commentList.appendChild(createNewNode(articleCardTemplate.comment(commentResponses[i])))
+                        commentList.insertAdjacentHTML('afterbegin', articleCardTemplate.comment(commentResponses[i]));
                     }
                 }
 
                 if (commentSize > defaultCommentPreviewSize) {
-                    const commentPreviewMessage = document.querySelector('#comment-preview-message-' + json.id);
-                    const commentPreviewMessageNode = createNewNode(articleCardTemplate.commentPreviewMessage(commentSize, json.id));
+                    const commentPreviewMessage = document.querySelector(`#comment-preview-message-${json.id}`);
+                    const commentPreviewMessageNode = createNewNode('li', articleCardTemplate.commentPreviewMessage(commentSize, json.id));
                     commentPreviewMessage.appendChild(commentPreviewMessageNode);
 
                     appendComments(commentList, defaultCommentPreviewSize);
@@ -168,16 +157,15 @@ const INDEX_PAGE = (function () {
                 })
                 .then(data => {
                     data.forEach(function (json) {
-                        console.log(json);
-                        const articleNode = createNewNode(articleCardTemplate.articleCard(json));
+                        const articleNode = createNewNode('span', articleCardTemplate.articleCard(json));
                         indexArticles.appendChild(articleNode);
 
                         if (json.ddabongClicked) {
-                            const ddabongHeart = document.querySelector('#ddabong-' + json.id);
+                            const ddabongHeart = document.querySelector(`#ddabong-${json.id}`);
                             ddabongService.activeDdabong(ddabongHeart);
                         }
 
-                        const ddabongMessage = document.querySelector('#ddabong-message-' + json.id);
+                        const ddabongMessage = document.querySelector(`#ddabong-message-${json.id}`);
                         ddabongMessage.innerText = json.ddabongCount;
 
                         appendCommentsOnArticleCard(json);
@@ -193,10 +181,8 @@ const INDEX_PAGE = (function () {
             const articleId = message.parentElement.id;
 
             request
-                .delete('/articles/' + articleId)
+                .delete(`/articles/${articleId}`)
                 .then(response => {
-                    console.log(response);
-
                     if (response.data === "SUCCESS") {
                         const childNode = message.parentNode;
                         const parentNode = childNode.parentNode;
@@ -204,39 +190,16 @@ const INDEX_PAGE = (function () {
                         alert("게시글이 삭제되었습니다.");
                     }
                 }).catch(error => {
-                    console.log(error.response);
-                    const errRes = error.response;
-                    if (error.response.status === 401) {
-                        alert(errRes.data.errorMsg);
-                    }
-                });
+                const errRes = error.response;
+                if (error.response.status === 401) {
+                    alert(errRes.data.msg);
+                }
+            });
         };
 
         return {
             fetchArticlePages: fetchArticlePages,
             deleteArticle: deleteArticle,
-        }
-    };
-
-    const SearchService = function () {
-        const toggleSearchInput = function (event) {
-            event.preventDefault();
-            document.querySelector('.search-box').classList.toggle('active')
-            document.querySelector(".search-input").classList.toggle("active")
-            document.querySelector(".search-input input").focus()
-        };
-
-        const showSearchedList = function (event) {
-            if (event.target.value.length > 0) {
-                document.querySelector(".advanced-search").classList.add("active")
-            } else {
-                document.querySelector(".advanced-search").classList.remove("active")
-            }
-        };
-
-        return {
-            toggleSearchInput: toggleSearchInput,
-            showSearchedList: showSearchedList,
         }
     };
 
@@ -250,7 +213,7 @@ const INDEX_PAGE = (function () {
             const articleId = articleIdSplits[articleIdSplits.length - 1];
 
             const input = message.querySelector("input");
-            const inputValue = input.value;
+            let inputValue = input.value;
             const commentList = message.parentElement.querySelector(".comment-list");
 
             if (inputValue.length < 1 || inputValue.length > 500) {
@@ -258,11 +221,13 @@ const INDEX_PAGE = (function () {
                 return;
             }
 
-            request
-                .post('/' + articleId + '/comments/new', {contents: inputValue})
-                .then(res => {
-                    console.log(res);
+            inputValue = inputValue.replace(/&/gi, "&amp;");
+            inputValue = inputValue.replace(/</gi, "&lt;");
+            inputValue = inputValue.replace(/>/gi, "&gt;");
 
+            request
+                .post(`/${articleId}/comments/new`, {contents: inputValue})
+                .then(res => {
                     const comment = articleCardTemplate.comment(res.data);
                     commentList.insertAdjacentHTML('beforeend', comment);
                     input.value = '';
@@ -302,15 +267,15 @@ const INDEX_PAGE = (function () {
             const ddabongCountTag = message.querySelector('.ddabong-message');
 
             request
-                .get('/api/ddabongs/articles/' + articleId)
+                .get(`/api/ddabongs/articles/${articleId}`)
                 .then(response => {
-                    console.log(response);
                     ddabongCountTag.innerText = response.data.count;
+                    const heartTag = event.target.childNodes[1];
 
                     if (response.data.clicked === true) {
-                        activeDdabong(event.target);
+                        activeDdabong(heartTag);
                     } else {
-                        disableDdabong(event.target);
+                        disableDdabong(heartTag);
                     }
                 });
         };
@@ -322,11 +287,9 @@ const INDEX_PAGE = (function () {
 
             const ddabongUlTag = document.querySelector('#ddabong-ul');
 
-            console.log(articleId);
             request
-                .get('/api/ddabongs/members/' + articleId)
+                .get(`/api/ddabongs/members/${articleId}`)
                 .then(response => {
-                    console.log(response);
                     return response.data.memberResponses;
                 })
                 .then(memberResponses => {

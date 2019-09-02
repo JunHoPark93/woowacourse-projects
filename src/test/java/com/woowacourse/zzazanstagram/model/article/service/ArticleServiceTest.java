@@ -16,7 +16,7 @@ import com.woowacourse.zzazanstagram.model.member.dto.MemberMyPageResponse;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.service.MemberAssembler;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
-import com.woowacourse.zzazanstagram.util.S3Uploader;
+import com.woowacourse.zzazanstagram.util.FileUploader;
 import mockit.Deencapsulation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,7 +69,7 @@ class ArticleServiceTest {
     private ArticleRepository articleRepository;
 
     @Mock
-    private S3Uploader s3Uploader;
+    private FileUploader fileUploader;
 
     @BeforeEach
     void setUp() {
@@ -93,7 +93,7 @@ class ArticleServiceTest {
         Article article = Deencapsulation.invoke(ArticleAssembler.class, "toEntity", articleRequest, IMAGE_URL, member);
         given(memberService.findByEmail(EMAIL)).willReturn(member);
         given(articleRepository.save(article)).willReturn(article);
-        given(s3Uploader.upload(file, "dirName")).willReturn("dirName/blahblah");
+        given(fileUploader.uploadImage(file, "dirName")).willReturn("dirName/blahblah");
         given(articleHashtagService.save(article)).willReturn(articleHashtags);
 
         // when

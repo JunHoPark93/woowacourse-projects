@@ -5,7 +5,7 @@
 </head>
 <body>
 <div>
-	<header id="header" class="header navbar">
+	<header class="header navbar" id="header">
 		<div class="header-container max-width-lg mx-auto">
 			<ul class="nav-left mrg-left-0 padding-15">
 				<li>
@@ -20,14 +20,11 @@
 					</a>
 				</li>
 				<li class="search-input desktop-view">
-					<input class="form-control mrg-top-0" type="text" placeholder="Search...">
+					<input class="form-control mrg-top-0" placeholder="Search..." type="text">
 					<div class="advanced-search">
 						<div class="search-wrapper">
 							<div class="pdd-vertical-10">
 								<ul class="list-unstyled list-info">
-									<li class="search-result-item">
-										<a href="" class="text-dark">#우테코 1기</a>
-									</li>
 								</ul>
 							</div>
 						</div>
@@ -61,20 +58,20 @@
 				<div class="row">
 					<div class="col-lg-7 mx-auto">
 						
-						<div th:each="article : ${articles}" class="card widget-feed no-pdd mrg-btm-30"
+						<div class="card widget-feed no-pdd mrg-btm-30" th:each="article : ${articles}"
 						     th:id="${article.id}">
 							<div class="feed-header padding-15">
 								<ul class="list-unstyled list-info">
 									<li>
-										<img class="thumb-img img-circle" th:src="${article.profileImage}" alt="">
+										<img alt="" class="thumb-img img-circle" th:src="${article.profileImage}">
 										<div class="info">
-											<a th:href="@{/members/{nickName}(nickName=${article.nickName})}"
-											   th:text="${article.nickName}"
-											   class="title no-pdd-vertical text-bold inline-block font-size-15"></a>
+											<a class="title no-pdd-vertical text-bold inline-block font-size-15"
+											   th:href="@{/members/{nickName}(nickName=${article.nickName})}"
+											   th:text="${article.nickName}"></a>
 										</div>
 									</li>
-									<a class="pointer absolute top-10 right-0" data-toggle="dropdown"
-									   aria-expanded="false">
+									<a aria-expanded="false" class="pointer absolute top-10 right-0"
+									   data-toggle="dropdown">
                                         <span class="btn-icon text-dark">
                                             <i class="ti-more font-size-16"></i>
                                         </span>
@@ -90,15 +87,15 @@
 								</ul>
 							</div>
 							<div class="feed-body no-pdd">
-								<img class="img-fluid" th:src="${article.image}" alt="">
+								<img alt="" class="img-fluid" th:src="${article.image}">
 							</div>
 							<ul class="feed-action pdd-horizon-15 pdd-top-5">
 								<li>
-									<a href="">
-										<i th:if="${article.ddabongClicked}"
-										   class="ddabong-heart fa fa-heart activated-heart font-size-25"></i>
-										<i th:unless="${article.ddabongClicked}"
-										   class="ddabong-heart fa fa-heart-o font-size-25"></i>
+									<a class="ddabong-area" href="">
+										<i class="ddabong-heart fa fa-heart activated-heart font-size-25"
+										   th:if="${article.ddabongClicked}"></i>
+										<i class="ddabong-heart fa fa-heart-o font-size-25"
+										   th:unless="${article.ddabongClicked}"></i>
 									</a>
 								</li>
 								<li>
@@ -112,18 +109,18 @@
 									</a>
 								</li>
 								<li class="float-right">
-									<a href="" class="pdd-right-0">
+									<a class="pdd-right-0" href="">
 										<i class="fa fa-bookmark-o font-size-25"></i>
 									</a>
 								</li>
 							</ul>
 							<div class="feedback-status-container pdd-horizon-15">
 								<p class="no-mrg pdd-left-5 d-inline-block">
-									<a th:id="'ddabong-members-' + ${article.id}" class="ddabong-members pointer"
+									<a class="ddabong-members pointer" data-target="#modal-ddabong-members"
 									   data-toggle="modal"
-									   data-target="#modal-ddabong-members">
-										<span th:text="${article.ddabongCount}"
-										      class="ddabong-message text-bold"></span>
+									   th:id="'ddabong-members-' + ${article.id}">
+										<span class="ddabong-message text-bold"
+										      th:text="${article.ddabongCount}"></span>
 									</a>
 									명이 좋아합니다.
 								</p>
@@ -133,35 +130,36 @@
 									<ul class="list-unstyled list-info pdd-horizon-5">
 										<li class=" no-pdd">
 											<div class="info pdd-left-15 pdd-vertical-5">
-												<a th:href="@{/members/{nickName}(nickName=${article.nickName})}"
-												   th:text="${article.nickName}"
-												   class="title no-pdd-vertical text-bold inline-block font-size-15"></a>
+												<a class="title no-pdd-vertical text-bold inline-block font-size-15"
+												   th:href="@{/members/{nickName}(nickName=${article.nickName})}"
+												   th:text="${article.nickName}"></a>
 												<p th:id="'article-contents-' + ${article.id}"></p>
-												<time th:text="${article.lastModifiedDate}"
-												      class="font-size-8 text-gray d-block">
+												<time class="font-size-8 text-gray d-block"
+												      th:id="'article-lastModifiedDate-' + ${article.id}">
 												</time>
 												<a class="text-gray text-bold no-mrg"
+												   th:href="@{/articles/{articleId}(articleId=${article.id})}"
 												   th:if="${#lists.size(article.commentResponses)} > 2"
-												   th:text="'댓글 ' + ${#lists.size(article.commentResponses)} + '개 모두보기'"
-												   th:href="@{/articles/{articleId}(articleId=${article.id})}">
+												   th:text="'댓글 ' + ${#lists.size(article.commentResponses)} + '개 모두보기'">
 												</a>
 											</div>
 										</li>
 									</ul>
-									<ul id="comment-list" class="list-unstyled list-info pdd-horizon-5">
+									<ul class="list-unstyled list-info pdd-horizon-5" id="comment-list">
 										<li th:each="comment, iter : ${article.getCommentResponses()}">
 											<p class="inline-block text-bold  no-mrg-btm mrg-left-15"
 											   th:if="${iter.index < 2}"
 											   th:text="${comment.getCommenterNickName()}"></p>
 											<p class="inline-block no-mrg-btm mrg-left-5"
 											   th:if="${iter.index < 2}"
-											   th:text="${comment.getCommentContents()}"></p>
+											   th:utext="${comment.getCommentContents()}"></p>
 										</li>
 									</ul>
 									<p class="mrg-btm-5"></p>
-									<div th:id="article-id-+${article.id}" class="add-comment relative">
-										<input id="comment-input" rows="1" class="form-control text-dark padding-15"
-										       placeholder="댓글 달기...">
+									<div class="add-comment relative" th:id="article-id-+${article.id}">
+										<input class="form-control text-dark padding-15" id="comment-input"
+										       placeholder="댓글 달기..."
+										       rows="1">
 										<p class="absolute top-2 right-0">
 											<button class="btn btn-default no-border text-gray btn-add-comment">게시
 											</button>
@@ -177,7 +175,7 @@
 									<div class="modal-header align-self-center">
 										<span class="text-bold">좋아요</span>
 									</div>
-									<ul id="ddabong-ul" class="list-unstyled list-info">
+									<ul class="list-unstyled list-info" id="ddabong-ul">
 									</ul>
 								</div>
 							</div>
@@ -193,10 +191,11 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
 <script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
+<script crossorigin="anonymous"
         integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
-        crossorigin="anonymous"></script>
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/js/search-box.js"></script>
 <script src="/js/MemberCardTemplate.js"></script>
 <script src="/js/tags.js"></script>
 <script th:inline="javascript">
@@ -204,15 +203,32 @@
         const articles = [[${articles}]];
 
         articles.forEach(article => {
-            const articleContents = document.getElementById('article-contents-' + article.id);
+            const articleContents = document.getElementById(`article-contents-${article.id}`);
             const contentsTag = article.contents
                 .split(/[ \t\r\n\v\f]/g)
                 .map(w => (w.startsWith('#') ? `<a href="/tags/${w.substring(1)}" class="hashtag">${w}</a>` : w))
                 .join(' ');
 
             articleContents.insertAdjacentHTML('afterbegin', contentsTag);
+
+            const lastModifiedDate = document.getElementById(`article-lastModifiedDate-${article.id}`);
+            lastModifiedDate.insertAdjacentText('afterbegin', postedTime(article.lastModifiedDate));
         });
-    }
+    };
+
+    const postedTime = function (date) {
+        const currentDate = new Date();
+        const postedDate = new Date(date);
+        const elapsed = Math.floor((currentDate.getTime() - postedDate.getTime()) / 1000);
+
+        if (elapsed >= 24 * 60 * 60) {
+            return `${postedDate.getUTCFullYear()}년${postedDate.getMonth() + 1}월${postedDate.getDate()}일`;
+        } else if (elapsed <= 60 * 60) {
+            return `${Math.floor(elapsed / 60)}분 전`;
+        }
+
+        return `${Math.floor(elapsed / (60 * 60))}시간 전`;
+    };
 </script>
 </body>
 </html>

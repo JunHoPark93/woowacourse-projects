@@ -14,10 +14,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -152,6 +154,18 @@ class MemberServiceTest {
 
         // then
         verify(memberRepository, times(1)).findByIdIn(ids);
+    }
+
+    @Test
+    void findMemberResponsesByNickName() {
+        int defaultPageNum = 0;
+        int maxSizeOfNickName = 1;
+        PageRequest pageRequest = PageRequest.of(defaultPageNum, maxSizeOfNickName);
+        given(memberRepository.findByNickNameContaining(NICKNAME, pageRequest)).willReturn(Collections.singletonList(member));
+
+        MemberResponse memberResponse = MemberAssembler.toDto(member);
+        assertThat(memberService.findMemberResponsesByNickName(NICKNAME, defaultPageNum, maxSizeOfNickName))
+                .isEqualTo(Collections.singletonList(memberResponse));
     }
 
     private MemberSignUpRequest getMemberSignUpRequest() {

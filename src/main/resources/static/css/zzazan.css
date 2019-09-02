@@ -93,3 +93,11 @@
 .display-inline-block {
     display: inline-block;
 }
+
+.search-input .advanced-search .search-wrapper .search-result-member-item {
+    height: 53px;
+}
+
+.search-input .advanced-search .search-wrapper .search-result-hashtag-item {
+    height: 40px;
+}

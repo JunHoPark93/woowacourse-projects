@@ -7,7 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -16,19 +17,17 @@ import static com.woowacourse.zzazanstagram.model.article.ArticleConstant.CONTEN
 
 @Import(S3MockConfig.class)
 class ArticleControllerTest extends RequestTemplate {
-    private ByteArrayResource file;
+    private Resource file;
 
     @Autowired
     AmazonS3 amazonS3;
 
+    @Autowired
+    ResourceLoader resourceLoader;
+
     @BeforeEach
     public void setUp2() {
-        file = new ByteArrayResource(new byte[]{1, 2, 3, 4}) {
-            @Override
-            public String getFilename() {
-                return "test_file.jpg";
-            }
-        };
+        file = resourceLoader.getResource("classpath:test.jpg");
     }
 
     @Test

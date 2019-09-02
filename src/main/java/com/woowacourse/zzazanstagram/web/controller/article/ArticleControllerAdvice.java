@@ -4,6 +4,7 @@ import com.woowacourse.zzazanstagram.model.article.exception.ArticleAuthenticati
 import com.woowacourse.zzazanstagram.model.hashtag.exception.HashtagException;
 import com.woowacourse.zzazanstagram.web.message.ApiResponse;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,12 @@ public class ArticleControllerAdvice extends ResponseEntityExceptionHandler {
         log.error("{} file size가 너무 큽니다 >> {},", TAG, e.getMessage());
 
         return new ResponseEntity<>(new ApiResponse(HttpStatus.PAYLOAD_TOO_LARGE, "file size too large"), HttpStatus.PAYLOAD_TOO_LARGE);
+    }
+
+    @ExceptionHandler(FileUploadException.class)
+    public ResponseEntity<ApiResponse> handleImageException(FileUploadException e) {
+        log.error("{} 업로드 할 파일이 이미지 파일이 아닙니다. >> {} ", TAG, e.getMessage());
+
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

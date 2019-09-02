@@ -56,8 +56,7 @@ const vNotify = (function () {
         const frag = document.createDocumentFragment();
 
         const item = document.createElement('div');
-        item.classList.add('vnotify-item');
-        item.classList.add(params.notifyClass);
+        item.classList.add('vnotify-item', params.notifyClass);
         item.style.opacity = 0;
 
         item.options = getOptions(params);
@@ -137,8 +136,7 @@ const vNotify = (function () {
     const createNotifyContainer = function (positionClass) {
         const frag = document.createDocumentFragment();
         container = document.createElement('div');
-        container.classList.add('vnotify-container');
-        container.classList.add(positionClass);
+        container.classList.add('vnotify-container', positionClass);
         container.setAttribute('role', 'alert');
 
         frag.appendChild(container);
