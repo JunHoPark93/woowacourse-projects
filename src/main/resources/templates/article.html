@@ -352,7 +352,7 @@
                     .then(response => {
                         ddabongCountTag.innerText = response.data.count;
 
-                        if (response.data.clicked === true) {
+                        if (response.data.clicked) {
                             activeDdabong(event.target);
                         } else {
                             disableDdabong(event.target);
