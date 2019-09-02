@@ -201,32 +201,12 @@
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script src="/js/search-box.js"></script>
 <script src="/js/MemberCardTemplate.js"></script>
+<script src="/js/api.js"></script>
 <script src="/js/vanilla-notify.js"></script>
 <script src="/js/socket-notification.js"></script>
 <script th:inline="javascript">
 
     const MYPAGE = (function () {
-        const Api = function () {
-            const request = {
-                get(path, params) {
-                    return axios.get(`${path}`, {params: params});
-                },
-                post(path, data) {
-                    return axios.post(`${path}`, data);
-                },
-                put(path, data) {
-                    return axios.put(`${path}`, data);
-                },
-                delete(path) {
-                    return axios.delete(`${path}`);
-                }
-            };
-
-            return {
-                request: request
-            };
-        };
-
         const request = new Api().request;
 
         const profileBlockSettingsBtn = document.querySelector("#profile-block-settings-btn");
@@ -546,7 +526,7 @@
                 };
 
                 request
-                    .get('/api/articles/mypage', {params: articleData})
+                    .get('/api/articles/mypage', articleData)
                     .then(res => res.data)
                     .then(res => addMyPageArticles(res));
             };

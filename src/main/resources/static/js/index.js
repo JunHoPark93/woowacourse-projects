@@ -1,26 +1,5 @@
-// import { ArticleCardTemplate } from 'ArticleCardTemplate.js';
-
 const INDEX_PAGE = (function () {
-    const Api = function () {
-        const request = {
-            get(path, params) {
-                return axios.get(`${path}`, {params: params});
-            },
-            post(path, data) {
-                return axios.post(`${path}`, data);
-            },
-            put(path, data) {
-                return axios.put(`${path}`, data);
-            },
-            delete(path) {
-                return axios.delete(`${path}`);
-            }
-        };
-
-        return {
-            request: request
-        };
-    };
+    const request = new Api().request;
 
     const IndexPageController = function () {
         const defaultArticlePaginationSize = 5;
@@ -99,7 +78,6 @@ const INDEX_PAGE = (function () {
         const defaultCommentPreviewSize = 2;
         const commentService = new CommentService();
         const ddabongService = new DdabongService();
-        const request = new Api().request;
         const indexArticles = document.querySelector("#index-articles");
         const articleCardTemplate = new ArticleCardTemplate();
 
@@ -204,7 +182,6 @@ const INDEX_PAGE = (function () {
     };
 
     const CommentService = function () {
-        const request = new Api().request;
         const articleCardTemplate = new ArticleCardTemplate();
 
         const addComment = function (event) {
@@ -243,7 +220,6 @@ const INDEX_PAGE = (function () {
 
     const DdabongService = function () {
         const memberCardTemplate = new MemberCardTemplate();
-        const request = new Api().request;
 
         function activeDdabong(el) {
             el.classList.remove('fa-heart-o');

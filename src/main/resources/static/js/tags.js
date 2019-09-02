@@ -1,24 +1,5 @@
 const HASHTAG_PAGE = (function () {
-    const Api = function () {
-        const request = {
-            get(path) {
-                return axios.get(`${path}`);
-            },
-            post(path, data) {
-                return axios.post(`${path}`, data);
-            },
-            put(path, data) {
-                return axios.put(`${path}`, data);
-            },
-            delete(path) {
-                return axios.delete(`${path}`);
-            }
-        };
-
-        return {
-            request: request
-        };
-    };
+    const request = new Api().request;
 
     const HashTagPageController = function () {
         const articleService = new ArticleService();
@@ -63,8 +44,6 @@ const HASHTAG_PAGE = (function () {
     };
 
     const ArticleService = function () {
-        const request = new Api().request;
-
         const deleteArticle = function (event) {
             event.preventDefault();
             const message = event.target.closest("div");
@@ -91,8 +70,6 @@ const HASHTAG_PAGE = (function () {
     };
 
     const CommentService = function () {
-        const request = new Api().request;
-
         const getCommentTemplate = function (nickName, commentContents) {
             return `<li>
                         <p class="inline-block text-bold  no-mrg-btm mrg-left-15">${nickName}</p>
@@ -138,7 +115,6 @@ const HASHTAG_PAGE = (function () {
 
     const DdabongService = function () {
         const memberCardTemplate = new MemberCardTemplate();
-        const request = new Api().request;
 
         function activeDdabong(el) {
             el.classList.remove('fa-heart-o');
