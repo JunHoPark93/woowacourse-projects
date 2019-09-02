@@ -23,14 +23,14 @@ public class ArticleControllerAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiResponse> handleArticleAuthenticationException(ArticleAuthenticationException e) {
         log.error("{} ArticleAuthenticationException >> {}", TAG, e.getMessage());
 
-        return new ResponseEntity<>(new ApiResponse(HttpStatus.UNAUTHORIZED, "게시글에 대한 권한이 없습니다"), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.UNAUTHORIZED, e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(HashtagException.class)
-    public ResponseEntity<String> handleHashTagException(HashtagException e) {
+    public ResponseEntity<ApiResponse> handleHashTagException(HashtagException e) {
         log.error("{} HashtagException >> {}", TAG, e.getMessage());
 
-        return new ResponseEntity<>("ERROR", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.UNAUTHORIZED, e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({MultipartException.class, FileUploadBase.FileSizeLimitExceededException.class})

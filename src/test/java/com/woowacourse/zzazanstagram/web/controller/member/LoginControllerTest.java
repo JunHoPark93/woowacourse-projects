@@ -8,7 +8,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 class LoginControllerTest extends RequestTemplate {
     private static final String URL_REGEX = "https?://[.\\d\\w]+:?\\d*";
-    private static final String JSESSIONID_URL = ";jsessionid=([\\d\\w]+)";
 
     @Autowired
     public WebTestClient webTestClient;
@@ -26,7 +25,7 @@ class LoginControllerTest extends RequestTemplate {
                 .body(WebTestHelper.loginForm("abc@naver.com",
                         "aa1231!!"))
                 .exchange()
-                .expectHeader().valueMatches("location", URL_REGEX + "/" + JSESSIONID_URL)
+                .expectHeader().valueMatches("location", "/")
                 .expectStatus().is3xxRedirection();
     }
 
@@ -36,8 +35,7 @@ class LoginControllerTest extends RequestTemplate {
                 .body(WebTestHelper.loginForm("test10@gmail.com",
                         "Password!1"))
                 .exchange()
-                .expectHeader().valueMatches("location", URL_REGEX + "/login" + JSESSIONID_URL)
-                .expectStatus().is3xxRedirection();
+                .expectStatus().is4xxClientError();
     }
 
     @Test
@@ -46,8 +44,7 @@ class LoginControllerTest extends RequestTemplate {
                 .body(WebTestHelper.loginForm("test@gmail.com",
                         "Password@2"))
                 .exchange()
-                .expectHeader().valueMatches("location", URL_REGEX + "/login" + JSESSIONID_URL)
-                .expectStatus().is3xxRedirection();
+                .expectStatus().is4xxClientError();
     }
 
     @Test

@@ -5,8 +5,6 @@ import com.woowacourse.zzazanstagram.model.support.WebTestHelper;
 import org.junit.jupiter.api.Test;
 
 class MemberControllerTest extends RequestTemplate {
-    private static final String URL_REGEX = "https?://[.\\d\\w]+:?\\d*";
-    private static final String JSESSIONID_URL = ";jsessionid=([\\d\\w]+)";
 
     @Test
     void 회원가입_페이지_이동() {
@@ -24,8 +22,7 @@ class MemberControllerTest extends RequestTemplate {
                         "JayJay",
                         "Password!1"))
                 .exchange()
-                .expectHeader().valueMatches("location", URL_REGEX + "/login" + JSESSIONID_URL)
-                .expectStatus().is3xxRedirection();
+                .expectStatus().isOk();
     }
 
     @Test
@@ -37,8 +34,7 @@ class MemberControllerTest extends RequestTemplate {
                         "myNick",
                         "aa1231!!"))
                 .exchange()
-                .expectStatus().is3xxRedirection()
-                .expectHeader().valueMatches("location", URL_REGEX + "/signup" + JSESSIONID_URL);
+                .expectStatus().is4xxClientError();
     }
 
     @Test
@@ -50,8 +46,7 @@ class MemberControllerTest extends RequestTemplate {
                         "myNick",
                         "aa1231!!"))
                 .exchange()
-                .expectStatus().is3xxRedirection()
-                .expectHeader().valueMatches("location", URL_REGEX + "/signup" + JSESSIONID_URL);
+                .expectStatus().is4xxClientError();
     }
 
     @Test
@@ -63,8 +58,7 @@ class MemberControllerTest extends RequestTemplate {
                         "myNick!@#",
                         "aa1231!!"))
                 .exchange()
-                .expectStatus().is3xxRedirection()
-                .expectHeader().valueMatches("location", URL_REGEX + "/signup" + JSESSIONID_URL);
+                .expectStatus().is4xxClientError();
     }
 
     @Test
@@ -76,8 +70,7 @@ class MemberControllerTest extends RequestTemplate {
                         "myNick",
                         "aaasdgasadg"))
                 .exchange()
-                .expectStatus().is3xxRedirection()
-                .expectHeader().valueMatches("location", URL_REGEX + "/signup" + JSESSIONID_URL);
+                .expectStatus().is4xxClientError();
     }
 
     @Test
@@ -89,8 +82,7 @@ class MemberControllerTest extends RequestTemplate {
                         "myNick",
                         "aa1231!!"))
                 .exchange()
-                .expectStatus().is3xxRedirection()
-                .expectHeader().valueMatches("location", URL_REGEX + "/signup" + JSESSIONID_URL);
+                .expectStatus().is4xxClientError();
     }
 
     @Test
@@ -102,12 +94,19 @@ class MemberControllerTest extends RequestTemplate {
                         "myNick",
                         "aa1231!!"))
                 .exchange()
-                .expectHeader().valueMatches("location", URL_REGEX + "/signup" + JSESSIONID_URL)
-                .expectStatus().is3xxRedirection();
+                .expectStatus().is4xxClientError();
     }
 
     @Test
     void 회원가입_실패_닉네임_중복() {
+        postRequest("/members")
+                .body(WebTestHelper.userSignUpForm("test4@gmail.com",
+                        "myName",
+                        "https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-600w-1048185397.jpg",
+                        "myNick",
+                        "Password!1"))
+                .exchange();
+
         postRequest("/members")
                 .body(WebTestHelper.userSignUpForm("test3@gmail.com",
                         "myName",
@@ -115,7 +114,6 @@ class MemberControllerTest extends RequestTemplate {
                         "myNick",
                         "Password!1"))
                 .exchange()
-                .expectHeader().valueMatches("location", URL_REGEX + "/signup" + JSESSIONID_URL)
-                .expectStatus().is3xxRedirection();
+                .expectStatus().is4xxClientError();
     }
 }
