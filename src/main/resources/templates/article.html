@@ -93,7 +93,7 @@
 							</div>
 							<ul class="feed-action pdd-horizon-15 pdd-top-5">
 								<li>
-									<a href="">
+									<a href="" class="ddabong-area">
 										<i th:if="${article.ddabongClicked}"
 										   class="ddabong-heart fa fa-heart activated-heart font-size-25"></i>
 										<i th:unless="${article.ddabongClicked}"
@@ -280,16 +280,14 @@
                 request
                     .delete('/articles/' + articleId)
                     .then(response => {
-                        console.log(response);
                         if (response.data === "SUCCESS") {
                             alert("게시글이 삭제되었습니다.");
                             window.location = '/';
                         }
                     }).catch(error => {
-						console.log(error.response);
 						const errRes = error.response;
 						if (error.response.status === 401) {
-							alert(errRes.data.errorMsg);
+							alert(errRes.data.msg);
 						}
                 	});
             };
@@ -342,8 +340,6 @@
                 request
                     .post('/' + articleId + '/comments/new', {contents: inputValue})
                     .then(res => {
-                        console.log(res);
-
                         const comment = articleCardTemplate.comment(res.data);
                         commentList.insertAdjacentHTML('beforeend', comment);
                         input.value = '';
@@ -385,7 +381,6 @@
                 request
                     .get('/api/ddabongs/articles/' + articleId)
                     .then(response => {
-                        console.log(response);
                         ddabongCountTag.innerText = response.data.count;
 
                         if (response.data.clicked === true) {
@@ -403,11 +398,9 @@
 
                 const ddabongUlTag = document.querySelector('#ddabong-ul');
 
-                console.log(articleId);
                 request
                     .get('/api/ddabongs/members/' + articleId)
                     .then(response => {
-                        console.log(response);
                         return response.data.memberResponses;
                     })
                     .then(memberResponses => {
