@@ -13,20 +13,18 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-// TODO log 설정
 @Component
 public class S3Uploader {
     private static final Logger log = LoggerFactory.getLogger(S3Uploader.class);
     private static final String TAG = "[S3Uploader]";
 
     private final AmazonS3 amazonS3Client;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     public S3Uploader(AmazonS3 amazonS3Client) {
         this.amazonS3Client = amazonS3Client;
     }
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
 
     public String upload(MultipartFile uploadFile, String dirName) {
         String fileName = dirName + "/" + LocalDateTime.now() + uploadFile.getName();

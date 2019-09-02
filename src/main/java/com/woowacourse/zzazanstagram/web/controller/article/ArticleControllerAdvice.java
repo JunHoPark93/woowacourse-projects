@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice(assignableTypes = {ArticleController.class, ArticleApiController.class})
 public class ArticleControllerAdvice extends ResponseEntityExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
     private static final String TAG = "[ArticleControllerAdvice]";
@@ -37,5 +37,12 @@ public class ArticleControllerAdvice extends ResponseEntityExceptionHandler {
         log.error("{} file size가 너무 큽니다 >> {},", TAG, e.getMessage());
 
         return new ResponseEntity<>(new ApiResponse(HttpStatus.PAYLOAD_TOO_LARGE, "file size too large"), HttpStatus.PAYLOAD_TOO_LARGE);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse> handleImageException(IllegalArgumentException e) {
+        log.error("{} 업로드 할 파일이 이미지 파일이 아닙니다. >> {} ", TAG, e.getMessage());
+
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }
