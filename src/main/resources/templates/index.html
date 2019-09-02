@@ -98,9 +98,6 @@
 <script src="/js/socket-notification.js"></script>
 <script th:inline="javascript">
 	window.onload = function() {
-	    if ([[${endpoint}]] !== null) {
-            document.cookie="endpoint" + "=" + [[${endpoint}]];
-        }
 		socketConnect();
 	}
 </script>
