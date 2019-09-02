@@ -28,9 +28,6 @@
 						<div class="search-wrapper">
 							<div class="pdd-vertical-10">
 								<ul class="list-unstyled list-info">
-									<li class="search-result-item">
-										<a href="" class="text-dark">#우테코 1기</a>
-									</li>
 								</ul>
 							</div>
 						</div>
@@ -202,6 +199,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/js/search-box.js"></script>
 <script src="/js/MemberCardTemplate.js"></script>
 <script src="/js/vanilla-notify.js"></script>
 <script src="/js/socket-notification.js"></script>
@@ -214,19 +212,9 @@
         const profileBlockUnFollowModalBtn = document.querySelector("#profile-block-unfollow-modal-btn");
         const profileBlockUnFollowBtn = document.querySelector("#profile-block-unfollow-btn");
         const profileBlockLogoutBtn = document.querySelector("#profile-block-logout-btn");
-        const sessionName = document.getElementById("session-name").value;
 
         const MyPageController = function () {
-
             const myPageService = new MyPageService();
-
-            const toggleSearchInput = function () {
-                document.querySelector('.search-toggle').addEventListener('click', myPageService.toggleSearchInput);
-            };
-
-            const showSearchedList = function () {
-                document.querySelector(".search-input input").addEventListener("keyup", myPageService.showSearchedList);
-            };
 
             const showFollowingMembers = function () {
                 document.querySelector("#following-btn").addEventListener("click", myPageService.showFollowingMembers);
@@ -289,8 +277,6 @@
             };
 
             const init = function () {
-                toggleSearchInput();
-                showSearchedList();
                 showFollowingMembers();
                 showFollowerMembers();
                 getFollowRelation();
@@ -367,21 +353,6 @@
 								</span>
 							</div>
 						</div>`
-            };
-
-            const toggleSearchInput = function (event) {
-                event.preventDefault();
-                document.querySelector('.search-box').classList.toggle('active')
-                document.querySelector(".search-input").classList.toggle("active")
-                document.querySelector(".search-input input").focus()
-            };
-
-            const showSearchedList = function (event) {
-                if (event.target.value.length > 0) {
-                    document.querySelector(".advanced-search").classList.add("active")
-                } else {
-                    document.querySelector(".advanced-search").classList.remove("active")
-                }
             };
 
             const showFollowingMembers = function (event) {
@@ -567,13 +538,10 @@
 
             const addMyPageArticle = myPageArticle => {
                 const articleTemplate = myPageArticleTemplate(myPageArticle);
-                console.log('id : ', myPageArticle.id);
                 document.querySelector(".row").insertAdjacentHTML("beforeend", articleTemplate);
             };
 
             return {
-                toggleSearchInput: toggleSearchInput,
-                showSearchedList: showSearchedList,
                 showFollowingMembers: showFollowingMembers,
                 showFollowerMembers: showFollowerMembers,
                 getFollowRelation: getFollowRelation,

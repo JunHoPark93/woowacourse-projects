@@ -38,7 +38,7 @@ insert into member(email, name, nick_name, password, profile_image_url)
 values('a8@gmail.com','king','aweSome5','$2a$10$IHDDc06yJr4v9JpXysrYceM0wc/Tgngi4qtWHDhgKWibMDi5uRhMe','https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
 
 
-insert into article(contents, image_url, author) values('닉은 왕이다.', 'https://cdn.pixabay.com/photo/2014/02/27/16/10/spring-276014__480.jpg', '1');
+insert into article(contents, image_url, author) values('닉은 왕이다. #isKing', 'https://cdn.pixabay.com/photo/2014/02/27/16/10/spring-276014__480.jpg', '1');
 insert into article(contents, image_url, author) values('왕은 닉이다.', 'https://cdn.pixabay.com/photo/2017/05/08/13/15/spring-bird-2295431__480.jpg', '1');
 insert into article(contents, image_url, author) values('닉은 악마다.', 'https://cdn.pixabay.com/photo/2014/12/04/14/46/magnolia-trees-556718__480.jpg', '1');
 insert into article(contents, image_url, author) values('악마는 닉이다.', 'https://cdn.pixabay.com/photo/2014/04/14/20/11/japanese-cherry-trees-324175__480.jpg', '1');
@@ -472,3 +472,5 @@ insert into comment(contents, article_id, commenter_id) values('제이는 못가
 insert into comment(contents, article_id, commenter_id) values('제이는... 나를 못가졌다', '29', '10');
 insert into comment(contents, article_id, commenter_id) values('평생 못가진다.', '29', '11');
 insert into comment(contents, article_id, commenter_id) values('굿 굿', '29', '12');
+
+insert into hashtag(keyword) values('isKing');

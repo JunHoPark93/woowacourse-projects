@@ -21,18 +21,9 @@ const HASHTAG_PAGE = (function () {
     };
 
     const HashTagPageController = function () {
-        const searchService = new SearchService();
         const articleService = new ArticleService();
         const commentService = new CommentService();
         const ddabongService = new DdabongService();
-
-        const toggleSearchInput = function () {
-            document.querySelector('.search-toggle').addEventListener('click', searchService.toggleSearchInput);
-        };
-
-        const showSearchedList = function () {
-            document.querySelector(".search-input input").addEventListener('keyup', searchService.showSearchedList);
-        };
 
         const addComment = function () {
             document.querySelectorAll('.btn-add-comment')
@@ -60,8 +51,6 @@ const HASHTAG_PAGE = (function () {
         };
 
         const init = function () {
-            toggleSearchInput();
-            showSearchedList();
             addComment();
             toggleHeart();
             deleteArticle();
@@ -71,28 +60,6 @@ const HASHTAG_PAGE = (function () {
         return {
             init: init,
         };
-    };
-
-    const SearchService = function () {
-        const toggleSearchInput = function (event) {
-            event.preventDefault();
-            document.querySelector('.search-box').classList.toggle('active')
-            document.querySelector(".search-input").classList.toggle("active")
-            document.querySelector(".search-input input").focus()
-        };
-
-        const showSearchedList = function (event) {
-            if (event.target.value.length > 0) {
-                document.querySelector(".advanced-search").classList.add("active")
-            } else {
-                document.querySelector(".advanced-search").classList.remove("active")
-            }
-        };
-
-        return {
-            toggleSearchInput: toggleSearchInput,
-            showSearchedList: showSearchedList,
-        }
     };
 
     const ArticleService = function () {
@@ -106,15 +73,15 @@ const HASHTAG_PAGE = (function () {
             request
                 .delete('/articles/' + articleId)
                 .then(response => {
-                    console.log(response);
-
                     if (response.data === "SUCCESS") {
                         alert("게시글이 삭제되었습니다.");
                         window.location = '/';
                     }
-                }).catch(response => {
-                console.log(response);
-                alert("게시글에 대한 권한이 없습니다.");
+                }).catch(error => {
+                const errRes = error.response;
+                if (error.response.status === 401) {
+                    alert(errRes.data.msg);
+                }
             });
         };
 
@@ -148,7 +115,6 @@ const HASHTAG_PAGE = (function () {
             request
                 .post('/' + articleId + '/comments/new', {contents: inputValue})
                 .then(res => {
-                    console.log(res);
                     const nickName = res.data.commenterNickName;
                     const commentContents = res.data.commentContents;
 
@@ -194,13 +160,13 @@ const HASHTAG_PAGE = (function () {
             request
                 .get('/api/ddabongs/articles/' + articleId)
                 .then(response => {
-                    console.log(response);
                     ddabongCountTag.innerText = response.data.count;
+                    const heartTag = event.target.childNodes[1];
 
                     if (response.data.clicked === true) {
-                        activeDdabong(event.target);
+                        activeDdabong(heartTag);
                     } else {
-                        disableDdabong(event.target);
+                        disableDdabong(heartTag);
                     }
                 });
         };
@@ -212,11 +178,9 @@ const HASHTAG_PAGE = (function () {
 
             const ddabongUlTag = document.querySelector('#ddabong-ul');
 
-            console.log(articleId);
             request
                 .get('/api/ddabongs/members/' + articleId)
                 .then(response => {
-                    console.log(response);
                     return response.data.memberResponses;
                 })
                 .then(memberResponses => {
