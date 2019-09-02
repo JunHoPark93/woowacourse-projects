@@ -155,7 +155,7 @@
 											   th:text="${comment.getCommenterNickName()}"></p>
 											<p class="inline-block no-mrg-btm mrg-left-5"
 											   th:if="${iter.index < 2}"
-											   th:text="${comment.getCommentContents()}"></p>
+											   th:utext="${comment.getCommentContents()}"></p>
 										</li>
 									</ul>
 									<p class="mrg-btm-5"></p>
