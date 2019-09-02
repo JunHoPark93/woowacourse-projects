@@ -1,81 +1,81 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="fragments/commonHeader"></th:block>
-    <link href="/css/vanilla-notify.css" rel="stylesheet"/>
+	<th:block th:replace="fragments/commonHeader"></th:block>
+	<link href="/css/vanilla-notify.css" rel="stylesheet"/>
 </head>
 <body>
 <div>
-    <header class="header navbar" id="header">
-        <div class="header-container max-width-lg mx-auto">
-            <ul class="nav-left mrg-left-0 padding-15">
-                <li>
-                    <a href="/">
-                        <img class="logo desktop-view mrg-top-5" src="/images/logo/zzazanstagram.png">
-                    </a>
-                </li>
-                <li class="search-box mrg-left-20 desktop-view">
-                    <a class="search-toggle no-pdd-right" href="">
-                        <i class="search-icon ti-search pdd-right-10 font-size-25"></i>
-                        <i class="search-icon-close ti-close pdd-right-10 font-size-25"></i>
-                    </a>
-                </li>
-                <li class="search-input desktop-view">
-                    <input class="form-control mrg-top-0" placeholder="Search..." type="text">
-                    <div class="advanced-search">
-                        <div class="search-wrapper">
-                            <div class="pdd-vertical-10">
-                                <ul class="list-unstyled list-info">
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <ul class="nav-right padding-15">
-
-                <li class="">
-                    <a class="pointer" href="/articles/new">
-                        <i class="ti-pencil-alt"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pointer">
-                        <i class="ti-heart"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pointer" th:href="@{/members/{nickName}(nickName=${session.member.nickName})}">
-                        <i class="ti-user"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </header>
-
-    <div class="page-container mrg-top-120">
-        <div class="main-content">
-            <div class="container-fluid max-width-lg mx-auto">
-                <div class="row">
-                    <div class="col-lg-7 mx-auto" id="index-articles">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modal-ddabong-members">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header align-self-center">
-                    <span class="text-bold">좋아요</span>
-                </div>
-                <ul class="list-unstyled list-info" id="ddabong-ul">
-                </ul>
-            </div>
-        </div>
-    </div>
+	<header class="header navbar" id="header">
+		<div class="header-container max-width-lg mx-auto">
+			<ul class="nav-left mrg-left-0 padding-15">
+				<li>
+					<a href="/">
+						<img class="logo desktop-view mrg-top-5" src="/images/logo/zzazanstagram.png">
+					</a>
+				</li>
+				<li class="search-box mrg-left-20 desktop-view">
+					<a class="search-toggle no-pdd-right" href="">
+						<i class="search-icon ti-search pdd-right-10 font-size-25"></i>
+						<i class="search-icon-close ti-close pdd-right-10 font-size-25"></i>
+					</a>
+				</li>
+				<li class="search-input desktop-view">
+					<input class="form-control mrg-top-0" placeholder="Search..." type="text">
+					<div class="advanced-search">
+						<div class="search-wrapper">
+							<div class="pdd-vertical-10">
+								<ul class="list-unstyled list-info">
+								</ul>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<ul class="nav-right padding-15">
+				
+				<li class="">
+					<a class="pointer" href="/articles/new">
+						<i class="ti-pencil-alt"></i>
+					</a>
+				</li>
+				<li>
+					<a class="pointer">
+						<i class="ti-heart"></i>
+					</a>
+				</li>
+				<li>
+					<a class="pointer" th:href="@{/members/{nickName}(nickName=${session.member.nickName})}">
+						<i class="ti-user"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</header>
+	
+	<div class="page-container mrg-top-120">
+		<div class="main-content">
+			<div class="container-fluid max-width-lg mx-auto">
+				<div class="row">
+					<div class="col-lg-7 mx-auto" id="index-articles">
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal-ddabong-members">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header align-self-center">
+					<span class="text-bold">좋아요</span>
+				</div>
+				<ul class="list-unstyled list-info" id="ddabong-ul">
+				</ul>
+			</div>
+		</div>
+	</div>
 
 </div>
 

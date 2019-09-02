@@ -1,191 +1,191 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="/fragments/commonHeader"></th:block>
+	<th:block th:replace="/fragments/commonHeader"></th:block>
 </head>
 <body>
 <div>
-    <header class="header navbar" id="header">
-        <div class="header-container max-width-lg mx-auto">
-            <ul class="nav-left mrg-left-0 padding-15">
-                <li>
-                    <a href="/">
-                        <img class="logo desktop-view mrg-top-5" src="/images/logo/zzazanstagram.png">
-                    </a>
-                </li>
-                <li class="search-box mrg-left-20 desktop-view">
-                    <a class="search-toggle no-pdd-right" href="">
-                        <i class="search-icon ti-search pdd-right-10 font-size-25"></i>
-                        <i class="search-icon-close ti-close pdd-right-10 font-size-25"></i>
-                    </a>
-                </li>
-                <li class="search-input desktop-view">
-                    <input class="form-control mrg-top-0" placeholder="Search..." type="text">
-                    <div class="advanced-search">
-                        <div class="search-wrapper">
-                            <div class="pdd-vertical-10">
-                                <ul class="list-unstyled list-info">
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <ul class="nav-right padding-15">
-
-                <li class="">
-                    <a class="pointer" href="/articles/new">
-                        <i class="ti-pencil-alt"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pointer">
-                        <i class="ti-heart"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pointer" th:href="@{/members/{nickName}(nickName=${session.member.nickName})}">
-                        <i class="ti-user"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </header>
-
-    <div class="page-container mrg-top-120">
-        <div class="main-content">
-            <div class="container-fluid max-width-lg mx-auto">
-                <div class="row">
-                    <div class="col-lg-7 mx-auto">
-
-                        <div class="card widget-feed no-pdd mrg-btm-30" th:each="article : ${articles}"
-                             th:id="${article.id}">
-                            <div class="feed-header padding-15">
-                                <ul class="list-unstyled list-info">
-                                    <li>
-                                        <img alt="" class="thumb-img img-circle" th:src="${article.profileImage}">
-                                        <div class="info">
-                                            <a class="title no-pdd-vertical text-bold inline-block font-size-15"
-                                               th:href="@{/members/{nickName}(nickName=${article.nickName})}"
-                                               th:text="${article.nickName}"></a>
-                                        </div>
-                                    </li>
-                                    <a aria-expanded="false" class="pointer absolute top-10 right-0"
-                                       data-toggle="dropdown">
+	<header class="header navbar" id="header">
+		<div class="header-container max-width-lg mx-auto">
+			<ul class="nav-left mrg-left-0 padding-15">
+				<li>
+					<a href="/">
+						<img class="logo desktop-view mrg-top-5" src="/images/logo/zzazanstagram.png">
+					</a>
+				</li>
+				<li class="search-box mrg-left-20 desktop-view">
+					<a class="search-toggle no-pdd-right" href="">
+						<i class="search-icon ti-search pdd-right-10 font-size-25"></i>
+						<i class="search-icon-close ti-close pdd-right-10 font-size-25"></i>
+					</a>
+				</li>
+				<li class="search-input desktop-view">
+					<input class="form-control mrg-top-0" placeholder="Search..." type="text">
+					<div class="advanced-search">
+						<div class="search-wrapper">
+							<div class="pdd-vertical-10">
+								<ul class="list-unstyled list-info">
+								</ul>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<ul class="nav-right padding-15">
+				
+				<li class="">
+					<a class="pointer" href="/articles/new">
+						<i class="ti-pencil-alt"></i>
+					</a>
+				</li>
+				<li>
+					<a class="pointer">
+						<i class="ti-heart"></i>
+					</a>
+				</li>
+				<li>
+					<a class="pointer" th:href="@{/members/{nickName}(nickName=${session.member.nickName})}">
+						<i class="ti-user"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</header>
+	
+	<div class="page-container mrg-top-120">
+		<div class="main-content">
+			<div class="container-fluid max-width-lg mx-auto">
+				<div class="row">
+					<div class="col-lg-7 mx-auto">
+						
+						<div class="card widget-feed no-pdd mrg-btm-30" th:each="article : ${articles}"
+						     th:id="${article.id}">
+							<div class="feed-header padding-15">
+								<ul class="list-unstyled list-info">
+									<li>
+										<img alt="" class="thumb-img img-circle" th:src="${article.profileImage}">
+										<div class="info">
+											<a class="title no-pdd-vertical text-bold inline-block font-size-15"
+											   th:href="@{/members/{nickName}(nickName=${article.nickName})}"
+											   th:text="${article.nickName}"></a>
+										</div>
+									</li>
+									<a aria-expanded="false" class="pointer absolute top-10 right-0"
+									   data-toggle="dropdown">
                                         <span class="btn-icon text-dark">
                                             <i class="ti-more font-size-16"></i>
                                         </span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="delete-article">
-                                            <a class="pointer">
-                                                <i class="ti-trash pdd-right-10 text-dark"></i>
-                                                <span class="">게시글 삭제</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </ul>
-                            </div>
-                            <div class="feed-body no-pdd">
-                                <img alt="" class="img-fluid" th:src="${article.image}">
-                            </div>
-                            <ul class="feed-action pdd-horizon-15 pdd-top-5">
-                                <li>
-                                    <a class="ddabong-area" href="">
-                                        <i class="ddabong-heart fa fa-heart activated-heart font-size-25"
-                                           th:if="${article.ddabongClicked}"></i>
-                                        <i class="ddabong-heart fa fa-heart-o font-size-25"
-                                           th:unless="${article.ddabongClicked}"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="ti-comment font-size-22"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="ti-export font-size-22"></i>
-                                    </a>
-                                </li>
-                                <li class="float-right">
-                                    <a class="pdd-right-0" href="">
-                                        <i class="fa fa-bookmark-o font-size-25"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="feedback-status-container pdd-horizon-15">
-                                <p class="no-mrg pdd-left-5 d-inline-block">
-                                    <a class="ddabong-members pointer" data-target="#modal-ddabong-members"
-                                       data-toggle="modal"
-                                       th:id="'ddabong-members-' + ${article.id}">
+									</a>
+									<ul class="dropdown-menu">
+										<li class="delete-article">
+											<a class="pointer">
+												<i class="ti-trash pdd-right-10 text-dark"></i>
+												<span class="">게시글 삭제</span>
+											</a>
+										</li>
+									</ul>
+								</ul>
+							</div>
+							<div class="feed-body no-pdd">
+								<img alt="" class="img-fluid" th:src="${article.image}">
+							</div>
+							<ul class="feed-action pdd-horizon-15 pdd-top-5">
+								<li>
+									<a class="ddabong-area" href="">
+										<i class="ddabong-heart fa fa-heart activated-heart font-size-25"
+										   th:if="${article.ddabongClicked}"></i>
+										<i class="ddabong-heart fa fa-heart-o font-size-25"
+										   th:unless="${article.ddabongClicked}"></i>
+									</a>
+								</li>
+								<li>
+									<a href="">
+										<i class="ti-comment font-size-22"></i>
+									</a>
+								</li>
+								<li>
+									<a href="">
+										<i class="ti-export font-size-22"></i>
+									</a>
+								</li>
+								<li class="float-right">
+									<a class="pdd-right-0" href="">
+										<i class="fa fa-bookmark-o font-size-25"></i>
+									</a>
+								</li>
+							</ul>
+							<div class="feedback-status-container pdd-horizon-15">
+								<p class="no-mrg pdd-left-5 d-inline-block">
+									<a class="ddabong-members pointer" data-target="#modal-ddabong-members"
+									   data-toggle="modal"
+									   th:id="'ddabong-members-' + ${article.id}">
 										<span class="ddabong-message text-bold"
-                                              th:text="${article.ddabongCount}"></span>
-                                    </a>
-                                    명이 좋아합니다.
-                                </p>
-                            </div>
-                            <div class="feed-footer">
-                                <div class="comment">
-                                    <ul class="list-unstyled list-info pdd-horizon-5">
-                                        <li class=" no-pdd">
-                                            <div class="info pdd-left-15 pdd-vertical-5">
-                                                <a class="title no-pdd-vertical text-bold inline-block font-size-15"
-                                                   th:href="@{/members/{nickName}(nickName=${article.nickName})}"
-                                                   th:text="${article.nickName}"></a>
-                                                <p th:id="'article-contents-' + ${article.id}"></p>
-                                                <time class="font-size-8 text-gray d-block"
-                                                      th:id="'article-lastModifiedDate-' + ${article.id}">
-                                                </time>
-                                                <a class="text-gray text-bold no-mrg"
-                                                   th:href="@{/articles/{articleId}(articleId=${article.id})}"
-                                                   th:if="${#lists.size(article.commentResponses)} > 2"
-                                                   th:text="'댓글 ' + ${#lists.size(article.commentResponses)} + '개 모두보기'">
-                                                </a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <ul class="list-unstyled list-info pdd-horizon-5" id="comment-list">
-                                        <li th:each="comment, iter : ${article.getCommentResponses()}">
-                                            <p class="inline-block text-bold  no-mrg-btm mrg-left-15"
-                                               th:if="${iter.index < 2}"
-                                               th:text="${comment.getCommenterNickName()}"></p>
-                                            <p class="inline-block no-mrg-btm mrg-left-5"
-                                               th:if="${iter.index < 2}"
-                                               th:utext="${comment.getCommentContents()}"></p>
-                                        </li>
-                                    </ul>
-                                    <p class="mrg-btm-5"></p>
-                                    <div class="add-comment relative" th:id="article-id-+${article.id}">
-                                        <input class="form-control text-dark padding-15" id="comment-input"
-                                               placeholder="댓글 달기..."
-                                               rows="1">
-                                        <p class="absolute top-2 right-0">
-                                            <button class="btn btn-default no-border text-gray btn-add-comment">게시
-                                            </button>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal fade" id="modal-ddabong-members">
-                            <div class="modal-dialog modal-sm" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header align-self-center">
-                                        <span class="text-bold">좋아요</span>
-                                    </div>
-                                    <ul class="list-unstyled list-info" id="ddabong-ul">
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+										      th:text="${article.ddabongCount}"></span>
+									</a>
+									명이 좋아합니다.
+								</p>
+							</div>
+							<div class="feed-footer">
+								<div class="comment">
+									<ul class="list-unstyled list-info pdd-horizon-5">
+										<li class=" no-pdd">
+											<div class="info pdd-left-15 pdd-vertical-5">
+												<a class="title no-pdd-vertical text-bold inline-block font-size-15"
+												   th:href="@{/members/{nickName}(nickName=${article.nickName})}"
+												   th:text="${article.nickName}"></a>
+												<p th:id="'article-contents-' + ${article.id}"></p>
+												<time class="font-size-8 text-gray d-block"
+												      th:id="'article-lastModifiedDate-' + ${article.id}">
+												</time>
+												<a class="text-gray text-bold no-mrg"
+												   th:href="@{/articles/{articleId}(articleId=${article.id})}"
+												   th:if="${#lists.size(article.commentResponses)} > 2"
+												   th:text="'댓글 ' + ${#lists.size(article.commentResponses)} + '개 모두보기'">
+												</a>
+											</div>
+										</li>
+									</ul>
+									<ul class="list-unstyled list-info pdd-horizon-5" id="comment-list">
+										<li th:each="comment, iter : ${article.getCommentResponses()}">
+											<p class="inline-block text-bold  no-mrg-btm mrg-left-15"
+											   th:if="${iter.index < 2}"
+											   th:text="${comment.getCommenterNickName()}"></p>
+											<p class="inline-block no-mrg-btm mrg-left-5"
+											   th:if="${iter.index < 2}"
+											   th:utext="${comment.getCommentContents()}"></p>
+										</li>
+									</ul>
+									<p class="mrg-btm-5"></p>
+									<div class="add-comment relative" th:id="article-id-+${article.id}">
+										<input class="form-control text-dark padding-15" id="comment-input"
+										       placeholder="댓글 달기..."
+										       rows="1">
+										<p class="absolute top-2 right-0">
+											<button class="btn btn-default no-border text-gray btn-add-comment">게시
+											</button>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="modal fade" id="modal-ddabong-members">
+							<div class="modal-dialog modal-sm" role="document">
+								<div class="modal-content">
+									<div class="modal-header align-self-center">
+										<span class="text-bold">좋아요</span>
+									</div>
+									<ul class="list-unstyled list-info" id="ddabong-ul">
+									</ul>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
