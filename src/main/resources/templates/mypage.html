@@ -516,12 +516,14 @@
             };
 
             const getMyPageArticles = function () {
-                let cardList = document.querySelectorAll('.my-page-card');
-                let cardListLength = cardList.length;
+                const cardList = document.querySelectorAll('.my-page-card');
+                const cardListLength = cardList.length;
+                
                 let lastArticleId = Number.MAX_SAFE_INTEGER;
                 if (cardListLength !== 0) {
                     lastArticleId = parseId(cardList[cardListLength - 1].id, "-");
                 }
+                
                 const articleData = {
                     nickName: [[${member.nickName}]],
                     lastArticleId: lastArticleId,
