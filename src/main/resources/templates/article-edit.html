@@ -122,25 +122,29 @@
         const target = event.target;
         target.disabled = true;
         const file = document.getElementById("file").files[0];
-        const contents = document.getElementById("contents").value;
-        const formData = new FormData();
+        let contents = document.getElementById("contents").value;
+		const formData = new FormData();
 
-        formData.append('file', file);
-        formData.append('contents', contents);
-
-        axios({
-            method: 'post',
-            url: '/api/articles',
-            data: formData,
-        }).then((response) => {
-            window.location = '/';
-        }).catch((error) => {
-            const errRes = error.response;
-            if (error.response.status === 400 || error.response.status === 413) {
-                target.disabled = false;
-                alert(errRes.data.msg);
-            }
-        });
+		contents = contents.replace(/&/gi, "&amp;");
+		contents = contents.replace(/</gi, "&lt;");
+		contents = contents.replace(/>/gi, "&gt;");
+		
+		formData.append('file', file);
+		formData.append('contents', contents);
+		
+		axios({
+			method: 'post',
+			url: '/api/articles',
+			data: formData,
+		}).then((response) => {
+			window.location = '/';
+		}).catch((error) => {
+			const errRes = error.response;
+			if (error.response.status === 413 || error.response.status === 400) {
+				target.disabled = false;
+			    alert(errRes.data.msg);
+			}
+		});
     }
 </script>
 </body>

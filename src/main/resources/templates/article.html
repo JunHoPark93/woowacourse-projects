@@ -133,8 +133,8 @@
 												   th:text="${article.nickName}"
 												   class="title no-pdd-vertical text-bold inline-block font-size-15"></a>
 												<p th:id="'article-contents-' + ${article.id}"></p>
-												<time th:text="${article.lastModifiedDate}"
-												      class="font-size-8 text-gray d-block">
+												<time class="font-size-8 text-gray d-block"
+													  th:id="'article-lastModifiedDate-' + ${article.id}">
 												</time>
 											</div>
 										</li>
@@ -144,7 +144,7 @@
 											<p th:text="${comment.commenterNickName}"
 											   class="inline-block text-bold no-mrg-btm mrg-left-15">
 											</p>
-											<p th:text="${comment.commentContents}"
+											<p th:utext="${comment.commentContents}"
 											   class="inline-block no-mrg-btm mrg-left-5">
 											</p>
 										</li>
@@ -294,13 +294,17 @@
                 const articleId = articleIdSplits[articleIdSplits.length - 1];
 
                 const input = message.querySelector("input");
-                const inputValue = input.value;
+                let inputValue = input.value;
                 const commentList = message.parentElement.querySelector(".comment-list");
 
                 if (inputValue.length < 1 || inputValue.length > 500) {
                     alert('댓글은 1글자 이상 500글자 이하로 입력해 주세요');
                     return;
                 }
+
+				inputValue = inputValue.replace(/&/gi, "&amp;");
+				inputValue = inputValue.replace(/</gi, "&lt;");
+				inputValue = inputValue.replace(/>/gi, "&gt;");
 
                 request
                     .post('/' + articleId + '/comments/new', {contents: inputValue})
@@ -408,7 +412,25 @@
             .join(' ');
 
         articleContents.insertAdjacentHTML('afterbegin', contentsTag);
-    }
+
+		const lastModifiedDate = document.getElementById('article-lastModifiedDate-' + article.id);
+		lastModifiedDate.insertAdjacentText('afterbegin', postedTime(article.lastModifiedDate));
+    };
+
+	const postedTime = function (date) {
+		const currentDate = new Date();
+		const postedDate = new Date(date);
+		const elapsed = Math.floor((currentDate.getTime() - postedDate.getTime()) / 1000);
+
+		if (elapsed >= 24 * 60 * 60) {
+			return String(postedDate.getUTCFullYear() + '년 ' + (postedDate.getMonth() + 1) + '월 ' + postedDate.getDate() + '일');
+		}
+		else if (elapsed <= 60 * 60) {
+			return String(Math.floor(elapsed / 60) + '분 전');
+		}
+
+		return String(Math.floor(elapsed / (60 * 60)) + '시간 전');
+	};
     
 </script>
 </body>
