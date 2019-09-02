@@ -25,9 +25,6 @@
 						<div class="search-wrapper">
 							<div class="pdd-vertical-10">
 								<ul class="list-unstyled list-info">
-									<li class="search-result-item">
-										<a href="" class="text-dark">#우테코 1기</a>
-									</li>
 								</ul>
 							</div>
 						</div>
@@ -192,6 +189,7 @@
         integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
         crossorigin="anonymous"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/js/search-box.js"></script>
 <script src="/js/ArticleCardTemplate.js"></script>
 <script src="/js/MemberCardTemplate.js"></script>
 <script th:inline="javascript">
@@ -219,18 +217,9 @@
         };
 
         const ArticlePageController = function () {
-            const searchService = new SearchService();
             const articleService = new ArticleService();
             const commentService = new CommentService();
             const ddabongService = new DdabongService();
-
-            const toggleSearchInput = function () {
-                document.querySelector('.search-toggle').addEventListener('click', searchService.toggleSearchInput);
-            };
-
-            const showSearchedList = function () {
-                document.querySelector(".search-input input").addEventListener('keyup', searchService.showSearchedList);
-            };
 
             const addComment = function () {
                 document.querySelectorAll('.btn-add-comment')
@@ -256,8 +245,6 @@
             };
 
             const init = function () {
-                toggleSearchInput();
-                showSearchedList();
                 addComment();
                 toggleHeart();
                 deleteArticle();
@@ -294,28 +281,6 @@
 
             return {
                 deleteArticle: deleteArticle,
-            }
-        };
-
-        const SearchService = function () {
-            const toggleSearchInput = function (event) {
-                event.preventDefault();
-                document.querySelector('.search-box').classList.toggle('active')
-                document.querySelector(".search-input").classList.toggle("active")
-                document.querySelector(".search-input input").focus()
-            };
-
-            const showSearchedList = function (event) {
-                if (event.target.value.length > 0) {
-                    document.querySelector(".advanced-search").classList.add("active")
-                } else {
-                    document.querySelector(".advanced-search").classList.remove("active")
-                }
-            };
-
-            return {
-                toggleSearchInput: toggleSearchInput,
-                showSearchedList: showSearchedList,
             }
         };
 

@@ -25,18 +25,9 @@ const INDEX_PAGE = (function () {
     const IndexPageController = function () {
         const defaultArticlePaginationSize = 5;
 
-        const searchService = new SearchService();
         const articleService = new ArticleService();
         const commentService = new CommentService();
         const ddabongService = new DdabongService();
-
-        const toggleSearchInput = function () {
-            document.querySelector('.search-toggle').addEventListener('click', searchService.toggleSearchInput);
-        };
-
-        const showSearchedList = function () {
-            document.querySelector(".search-input input").addEventListener('keyup', searchService.showSearchedList);
-        };
 
         const fetchArticles = function () {
             articleService.fetchArticlePages(Number.MAX_SAFE_INTEGER, defaultArticlePaginationSize);
@@ -77,8 +68,6 @@ const INDEX_PAGE = (function () {
         };
 
         const init = function () {
-            toggleSearchInput();
-            showSearchedList();
             fetchArticles();
             addComment();
             toggleHeart();
@@ -211,28 +200,6 @@ const INDEX_PAGE = (function () {
         return {
             fetchArticlePages: fetchArticlePages,
             deleteArticle: deleteArticle,
-        }
-    };
-
-    const SearchService = function () {
-        const toggleSearchInput = function (event) {
-            event.preventDefault();
-            document.querySelector('.search-box').classList.toggle('active')
-            document.querySelector(".search-input").classList.toggle("active")
-            document.querySelector(".search-input input").focus()
-        };
-
-        const showSearchedList = function (event) {
-            if (event.target.value.length > 0) {
-                document.querySelector(".advanced-search").classList.add("active")
-            } else {
-                document.querySelector(".advanced-search").classList.remove("active")
-            }
-        };
-
-        return {
-            toggleSearchInput: toggleSearchInput,
-            showSearchedList: showSearchedList,
         }
     };
 

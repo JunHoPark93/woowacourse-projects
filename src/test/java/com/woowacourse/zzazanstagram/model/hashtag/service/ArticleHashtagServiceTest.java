@@ -5,6 +5,7 @@ import com.woowacourse.zzazanstagram.model.article.domain.vo.Contents;
 import com.woowacourse.zzazanstagram.model.article.domain.vo.Image;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.ArticleHashtag;
 import com.woowacourse.zzazanstagram.model.hashtag.domain.Hashtag;
+import com.woowacourse.zzazanstagram.model.hashtag.dto.HashtagResponse;
 import com.woowacourse.zzazanstagram.model.hashtag.exception.HashtagException;
 import com.woowacourse.zzazanstagram.model.hashtag.repository.ArticleHashtagRepository;
 import com.woowacourse.zzazanstagram.model.hashtag.repository.HashtagRepository;
@@ -14,9 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +41,6 @@ class ArticleHashtagServiceTest {
 
     @Mock
     private HashtagRepository hashtagRepository;
-
 
     @BeforeEach
     void setUp() {
@@ -87,5 +89,18 @@ class ArticleHashtagServiceTest {
 
         // then
         assertThrows(HashtagException.class, () -> articleHashtagService.findAllByHashtag(keyword));
+    }
+
+    @Test
+    void findHashtagResponsesBy() {
+        Hashtag hashTag = new Hashtag(keyword);
+
+        int defaultPageNum = 0;
+        int maxSizeOfHashtag = 1;
+        PageRequest pageRequest = PageRequest.of(defaultPageNum, maxSizeOfHashtag);
+        given(hashtagRepository.findByKeywordContaining(keyword, pageRequest)).willReturn(Collections.singletonList(hashTag));
+
+        HashtagResponse hashtagResponse = HashtagAssembler.toDto(hashTag);
+        assertThat(articleHashtagService.findHashtagResponsesByKeyword(keyword, defaultPageNum, maxSizeOfHashtag)).isEqualTo(Collections.singletonList(hashtagResponse));
     }
 }
