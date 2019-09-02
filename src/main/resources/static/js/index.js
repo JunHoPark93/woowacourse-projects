@@ -226,8 +226,7 @@ const INDEX_PAGE = (function () {
             inputValue = inputValue.replace(/>/gi, "&gt;");
 
             request
-                .post(`/${articleId}/comments/new`, {contents: inputValue}
-                )
+                .post(`/${articleId}/comments/new`, {contents: inputValue})
                 .then(res => {
                     const comment = articleCardTemplate.comment(res.data);
                     commentList.insertAdjacentHTML('beforeend', comment);
