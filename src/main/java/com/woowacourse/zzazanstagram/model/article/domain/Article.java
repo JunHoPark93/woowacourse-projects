@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Entity
 public class Article extends BaseEntity {
-    private static final Pattern WHTIE_SPACE_PATTERN = Pattern.compile("[ \\t\\r\\n\\v\\f]");
+    private static final Pattern WHITE_SPACE_PATTERN = Pattern.compile("[ \\t\\r\\n\\v\\f]");
     private static final String HASHTAG_PREFIX = "#";
     private static final int NEXT_INDEX_OF_PREFIX = 1;
 
@@ -78,7 +78,7 @@ public class Article extends BaseEntity {
 
     public List<Hashtag> extractTagKeywords() {
         return Collections.unmodifiableList(
-                Arrays.stream(getContentsValue().split(WHTIE_SPACE_PATTERN.pattern()))
+                Arrays.stream(getContentsValue().split(WHITE_SPACE_PATTERN.pattern()))
                         .filter(x -> x.startsWith(HASHTAG_PREFIX))
                         .map(x -> new Hashtag(x.substring(NEXT_INDEX_OF_PREFIX)))
                         .collect(Collectors.toList()));

@@ -104,13 +104,17 @@ const HASHTAG_PAGE = (function () {
             const message = event.target.closest("div");
             const articleId = message.id.split("-")[2];
 
-            const inputValue = message.querySelector("input").value;
+            let inputValue = message.querySelector("input").value;
             const commentList = message.parentElement.querySelector("#comment-list");
 
             if (inputValue.length < 1 || inputValue.length > 500) {
                 alert('댓글은 1글자 이상 500글자 이하로 입력해 주세요');
                 return;
             }
+
+            inputValue = inputValue.replace(/&/gi, "&amp;");
+            inputValue = inputValue.replace(/</gi, "&lt;");
+            inputValue = inputValue.replace(/>/gi, "&gt;");
 
             request
                 .post('/' + articleId + '/comments/new', {contents: inputValue})
@@ -186,7 +190,7 @@ const HASHTAG_PAGE = (function () {
                 .then(memberResponses => {
                     ddabongUlTag.innerHTML = "";
                     memberResponses.forEach(member => {
-                        const memberNode = document.createElement("LI");
+                        const memberNode = document.createElement("li");
                         memberNode.innerHTML = memberCardTemplate.memberTemplate(member);
                         ddabongUlTag.appendChild(memberNode);
                     })
