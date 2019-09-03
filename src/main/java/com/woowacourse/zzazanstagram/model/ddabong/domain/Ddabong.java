@@ -27,8 +27,9 @@ public class Ddabong extends BaseEntity {
         this.member = member;
     }
 
-    public void changeClicked() {
+    public Ddabong changeClicked() {
         clicked = !clicked;
+        return this;
     }
 
     public boolean matchMember(Member member) {
