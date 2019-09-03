@@ -79,7 +79,7 @@ public class ArticleService {
         List<Member> followers = findFollowersWithLoggedInMember(loginMemberId, loginMember);
         Page<Article> articles = fetchPages(lastArticleId, size, followers);
 
-        return ArticleAssembler.toDtos(articles, loginMember);
+        return ArticleAssembler.toDtos(articles.getContent(), loginMember);
     }
 
     private List<Member> findFollowersWithLoggedInMember(Long memberId, Member loginMember) {
