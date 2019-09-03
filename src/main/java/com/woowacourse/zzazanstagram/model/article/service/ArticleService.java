@@ -121,7 +121,7 @@ public class ArticleService {
                         .collect(Collectors.toList()));
     }
 
-    public MemberMyPageResponse myPage(String nickName) {
+    public MemberMyPageResponse findMemberMyPageResponseByNickName(String nickName) {
         Member member = memberService.findByNickName(nickName);
         Long id = member.getId();
 

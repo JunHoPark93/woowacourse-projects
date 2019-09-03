@@ -31,17 +31,19 @@ public class ArticleHashtagService {
     }
 
     private List<ArticleHashtag> extractHashTagsFrom(Article article) {
-        return Collections.unmodifiableList(
-                article.extractTagKeywords()
-                        .stream()
-                        .map(h -> hashtagRepository.findByKeyword(h.getKeyword())
-                                .map(hashtag -> new ArticleHashtag(article, hashtag))
-                                .orElseGet(() -> {
-                                    Hashtag hashtag = hashtagRepository.save(h);
-                                    return new ArticleHashtag(article, hashtag);
-                                })
-                        )
-                        .collect(Collectors.toList()));
+        List<Hashtag> hashtags = article.extractTagKeywords();
+        List<ArticleHashtag> articleHashtags = createArticleHashtags(article, hashtags);
+        return Collections.unmodifiableList(articleHashtags);
+    }
+
+    private List<ArticleHashtag> createArticleHashtags(Article article, List<Hashtag> hashtags) {
+        return hashtags.stream().map(h -> hashtagRepository.findByKeyword(h.getKeyword())
+                .map(hashtag -> new ArticleHashtag(article, hashtag))
+                .orElseGet(() -> {
+                    Hashtag hashtag = hashtagRepository.save(h);
+                    return new ArticleHashtag(article, hashtag);
+                })
+        ).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
