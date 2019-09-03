@@ -1,0 +1,60 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir file("webapp/WEB-INF/classes")
+    }
+}
+
+version = '1.0.0'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springVersion = '5.1.8.RELEASE'
+    tomcatVersion = '8.5.42'
+}
+
+dependencies {
+    // servlet
+    implementation 'javax.servlet:jstl:1.2'
+    implementation 'javax.servlet:javax.servlet-api:3.1.0'
+
+    // apache commons
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation 'org.apache.commons:commons-dbcp2:2.6.0'
+
+    // spring
+    implementation 'org.springframework:spring-jdbc:' + springVersion
+    implementation 'org.springframework:spring-web:' + springVersion
+
+    // aop
+    implementation 'org.aspectj:aspectjweaver:1.9.4'
+    implementation 'cglib:cglib:3.2.12'
+
+    // etc
+    implementation 'org.reflections:reflections:0.9.11'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9.1'
+    implementation 'com.github.jknack:handlebars:4.1.2'
+    implementation 'com.google.guava:guava:28.0-jre'
+    implementation 'org.apache.ant:ant:1.10.6'
+
+    // tomcat
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:' + tomcatVersion
+    implementation 'org.apache.tomcat.embed:tomcat-embed-logging-juli:8.5.2'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:' + tomcatVersion
+
+    runtimeOnly 'com.h2database:h2:1.4.199'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
+    testImplementation 'org.assertj:assertj-core:3.12.2'
+    testImplementation 'org.springframework:spring-test:' + springVersion
+    testImplementation 'io.projectreactor.netty:reactor-netty:0.8.10.RELEASE'
+    testImplementation 'org.springframework:spring-webflux:' + springVersion
+}
