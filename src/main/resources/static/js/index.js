@@ -130,9 +130,7 @@ const INDEX_PAGE = (function () {
                     lastArticleId: lastArticleId,
                     size: size,
                 })
-                .then(response => {
-                    return response.data;
-                })
+                .then(response => response.data)
                 .then(data => {
                     data.forEach(function (json) {
                         const articleNode = createNewNode('span', articleCardTemplate.articleCard(json));
@@ -167,12 +165,13 @@ const INDEX_PAGE = (function () {
                         parentNode.removeChild(childNode);
                         alert("게시글이 삭제되었습니다.");
                     }
-                }).catch(error => {
-                const errRes = error.response;
-                if (error.response.status === 401) {
-                    alert(errRes.data.msg);
-                }
-            });
+                })
+                .catch(error => {
+                    const errRes = error.response;
+                    if (error.response.status === 401) {
+                        alert(errRes.data.msg);
+                    }
+                });
         };
 
         return {

@@ -114,5 +114,3 @@ const ArticleCardTemplate = function () {
         commentPreviewMessage: commentPreviewMessage,
     }
 };
-
-// export { ArticleCardTemplate }

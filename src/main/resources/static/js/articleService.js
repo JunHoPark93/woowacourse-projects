@@ -13,12 +13,13 @@ const ArticleService = function () {
                     alert("게시글이 삭제되었습니다.");
                     window.location = '/';
                 }
-            }).catch(error => {
-            const errRes = error.response;
-            if (error.response.status === 401) {
-                alert(errRes.data.msg);
-            }
-        });
+            })
+            .catch(error => {
+                const errRes = error.response;
+                if (error.response.status === 401) {
+                    alert(errRes.data.msg);
+                }
+            });
     };
 
     return {

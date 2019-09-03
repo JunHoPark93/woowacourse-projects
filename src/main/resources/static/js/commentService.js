@@ -27,9 +27,7 @@ const CommentService = function () {
                 commentList.insertAdjacentHTML('beforeend', comment);
                 message.querySelector("input").value = '';
             })
-            .catch(err => {
-                alert(err.response.data);
-            });
+            .catch(err => alert(err.response.data));
     };
 
     return {

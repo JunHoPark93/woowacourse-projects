@@ -46,9 +46,7 @@ const DdabongService = function () {
 
         request
             .get('/api/ddabongs/members/' + articleId)
-            .then(response => {
-                return response.data.memberResponses;
-            })
+            .then(response => response.data.memberResponses)
             .then(memberResponses => {
                 ddabongUlTag.innerHTML = "";
                 memberResponses.forEach(member => {
