@@ -111,12 +111,8 @@ const ArticleCardTemplate = function () {
     const comment = function (json) {
         return `
         <li>
-            <p class="inline-block text-bold no-mrg-btm mrg-left-15">
-                ${json.commenterNickName}
-            </p>
-            <p class="inline-block no-mrg-btm mrg-left-5">
-                ${json.commentContents}
-            </p>
+            <p class="inline-block text-bold no-mrg-btm mrg-left-15">${json.commenterNickName}</p>
+            <p class="inline-block no-mrg-btm mrg-left-5">${json.commentContents}</p>
         </li>`
     };
 

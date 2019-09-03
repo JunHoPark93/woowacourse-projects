@@ -168,120 +168,16 @@ const INDEX_PAGE = (function () {
                         alert("게시글이 삭제되었습니다.");
                     }
                 }).catch(error => {
-                    const errRes = error.response;
-                    if (error.response.status === 401) {
-                        alert(errRes.data.msg);
-                    }
-                });
+                const errRes = error.response;
+                if (error.response.status === 401) {
+                    alert(errRes.data.msg);
+                }
+            });
         };
 
         return {
             fetchArticlePages: fetchArticlePages,
             deleteArticle: deleteArticle,
-        }
-    };
-
-    const CommentService = function () {
-        const articleCardTemplate = new ArticleCardTemplate();
-
-        const addComment = function (event) {
-            const message = event.target.closest("div");
-            const articleIdSplits = message.id.split("-");
-            const articleId = articleIdSplits[articleIdSplits.length - 1];
-
-            const input = message.querySelector("input");
-            let inputValue = input.value;
-            const commentList = message.parentElement.querySelector(".comment-list");
-
-            if (inputValue.length < 1 || inputValue.length > 500) {
-                alert('댓글은 1글자 이상 500글자 이하로 입력해 주세요');
-                return;
-            }
-
-            inputValue = inputValue.replace(/&/gi, "&amp;");
-            inputValue = inputValue.replace(/</gi, "&lt;");
-            inputValue = inputValue.replace(/>/gi, "&gt;");
-
-            request
-                .post('/' + articleId + '/comments/new', {contents: inputValue})
-                .then(res => {
-                    const comment = articleCardTemplate.comment(res.data);
-                    commentList.insertAdjacentHTML('beforeend', comment);
-                    input.value = '';
-                }).catch(err => {
-                alert(err.response.data);
-            });
-        };
-
-        return {
-            addComment: addComment,
-        }
-    };
-
-    const DdabongService = function () {
-        const memberCardTemplate = new MemberCardTemplate();
-
-        function activeDdabong(el) {
-            el.classList.remove('fa-heart-o');
-            el.classList.add('fa-heart', 'activated-heart');
-        }
-
-        function disableDdabong(el) {
-            el.classList.remove('fa-heart', 'activated-heart');
-            el.classList.add('fa-heart-o');
-        }
-
-        const toggleHeart = function (event) {
-            event.preventDefault();
-            const message = event.target.closest("div");
-            let articleId = message.id;
-
-            const splits = articleId.split('-');
-            if (splits.length > 1) {
-                articleId = splits[splits.length - 1];
-            }
-            const ddabongCountTag = message.querySelector('.ddabong-message');
-
-            request
-                .get('/api/ddabongs/articles/' + articleId)
-                .then(response => {
-                    ddabongCountTag.innerText = response.data.count;
-                    const heartTag = event.target.childNodes[1];
-
-                    if (response.data.clicked === true) {
-                        activeDdabong(heartTag);
-                    } else {
-                        disableDdabong(heartTag);
-                    }
-                });
-        };
-
-        const fetchDdabongMembers = function (event) {
-            const message = event.target.closest("div").parentNode;
-            const articleIdSplits = message.id.split("-");
-            const articleId = articleIdSplits[articleIdSplits.length - 1];
-
-            const ddabongUlTag = document.querySelector('#ddabong-ul');
-
-            request
-                .get('/api/ddabongs/members/' + articleId)
-                .then(response => {
-                    return response.data.memberResponses;
-                })
-                .then(memberResponses => {
-                    ddabongUlTag.innerHTML = "";
-                    memberResponses.forEach(member => {
-                        const memberNode = document.createElement("LI");
-                        memberNode.innerHTML = memberCardTemplate.memberTemplate(member);
-                        ddabongUlTag.appendChild(memberNode);
-                    })
-                })
-        };
-
-        return {
-            activeDdabong: activeDdabong,
-            toggleHeart: toggleHeart,
-            fetchDdabongMembers: fetchDdabongMembers,
         }
     };
 

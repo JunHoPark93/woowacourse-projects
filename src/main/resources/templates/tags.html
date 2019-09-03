@@ -117,8 +117,7 @@
 							<div class="feedback-status-container pdd-horizon-15">
 								<p class="no-mrg pdd-left-5 d-inline-block">
 									<a th:id="'ddabong-members-' + ${article.id}" class="ddabong-members pointer"
-									   data-toggle="modal"
-									   data-target="#modal-ddabong-members">
+									   data-toggle="modal" data-target="#modal-ddabong-members">
 										<span th:text="${article.ddabongCount}"
 										      class="ddabong-message text-bold"></span>
 									</a>
@@ -195,8 +194,12 @@
         crossorigin="anonymous"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/search-box.js"></script>
+<script src="/js/ArticleCardTemplate.js"></script>
 <script src="/js/MemberCardTemplate.js"></script>
 <script src="/js/api.js"></script>
+<script src="/js/commentService.js"></script>
+<script src="/js/ddabongService.js"></script>
+<script src="/js/articleService.js"></script>
 <script src="/js/tags.js"></script>
 <script th:inline="javascript">
     window.onload = function () {
