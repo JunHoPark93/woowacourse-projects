@@ -140,7 +140,7 @@ class ArticleServiceTest {
         given(articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest)).willReturn(articles);
 
         ArticleResponse articleResponse = Deencapsulation.invoke(ArticleAssembler.class, "toDto", article, member);
-        assertThat(articleService.fetchArticlePages(lastArticleId, size, MEMBER_ID)).isEqualTo(Collections.singletonList(articleResponse));
+        assertThat(articleService.fetchArticlePagesBy(lastArticleId, size, MEMBER_ID)).isEqualTo(Collections.singletonList(articleResponse));
     }
 
     @Test

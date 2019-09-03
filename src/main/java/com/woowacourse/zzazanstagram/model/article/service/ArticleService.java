@@ -74,7 +74,7 @@ public class ArticleService {
         return articleRepository.findById(articleId).orElseThrow(() -> new ArticleException("해당 게시글을 찾을 수 없습니다."));
     }
 
-    public List<ArticleResponse> fetchArticlePages(Long lastArticleId, int size, Long loginMemberId) {
+    public List<ArticleResponse> fetchArticlePagesBy(Long lastArticleId, int size, Long loginMemberId) {
         Member loginMember = memberService.findById(loginMemberId);
         List<Member> followers = findFollowersWithLoggedInMember(loginMemberId, loginMember);
         Page<Article> articles = fetchPages(lastArticleId, size, followers);
@@ -113,12 +113,12 @@ public class ArticleService {
 
     public List<ArticleResponse> findArticleResponsesBy(String keyword, Long memberId) {
         Member loginMember = memberService.findById(memberId);
-        return Collections.unmodifiableList(
-                articleHashtagService.findAllByHashtag(keyword)
-                        .stream()
-                        .map(ArticleHashtag::getArticle)
-                        .map(article -> ArticleAssembler.toDto(article, loginMember))
-                        .collect(Collectors.toList()));
+        List<Article> articles = articleHashtagService.findAllByHashtag(keyword)
+                .stream()
+                .map(ArticleHashtag::getArticle)
+                .collect(Collectors.toList());
+
+        return Collections.unmodifiableList(ArticleAssembler.toDtos(articles, loginMember));
     }
 
     public MemberMyPageResponse findMemberMyPageResponseByNickName(String nickName) {
