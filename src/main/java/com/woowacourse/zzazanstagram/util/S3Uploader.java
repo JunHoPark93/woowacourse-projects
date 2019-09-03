@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Component
-public class S3Uploader {
+public class S3Uploader implements FileUploader {
     private static final Logger log = LoggerFactory.getLogger(S3Uploader.class);
     private static final String TAG = "[S3Uploader]";
 
