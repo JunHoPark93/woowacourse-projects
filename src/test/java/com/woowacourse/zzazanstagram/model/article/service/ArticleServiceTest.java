@@ -201,6 +201,6 @@ class ArticleServiceTest {
 
         MemberMyPageResponse memberMyPageResponse = Deencapsulation.invoke(MemberAssembler.class, "toMyPageResponse"
                 , member, articleNumber, followerNumber, followeeNumber);
-        assertThat(articleService.myPage(NICKNAME)).isEqualTo(memberMyPageResponse);
+        assertThat(articleService.findMemberMyPageResponseByNickName(NICKNAME)).isEqualTo(memberMyPageResponse);
     }
 }
