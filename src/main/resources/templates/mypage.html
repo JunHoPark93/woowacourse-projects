@@ -5,129 +5,131 @@
     <link rel="stylesheet" href="/css/vanilla-notify.css"/>
 </head>
 <body>
-<input id="session-name" type="hidden" th:value="${session.member.nickName}"/>
-<input id="endpoint" type="hidden" th:value="${endpoint}"/>
+<input id="session-name" th:value="${session.member.nickName}" type="hidden"/>
+<input id="endpoint" th:value="${endpoint}" type="hidden"/>
 <div>
-    <header id="header" class="header navbar">
-        <div class="header-container max-width-lg mx-auto">
-            <ul class="nav-left mrg-left-0 padding-15">
-                <li>
-                    <a href="/">
-                        <img class="logo desktop-view mrg-top-5" src="/images/logo/zzazanstagram.png">
-                    </a>
-                </li>
-                <li class="search-box mrg-left-20 desktop-view">
-                    <a class="search-toggle no-pdd-right" href="">
-                        <i class="search-icon ti-search pdd-right-10 font-size-25"></i>
-                        <i class="search-icon-close ti-close pdd-right-10 font-size-25"></i>
-                    </a>
-                </li>
-                <li class="search-input desktop-view">
-                    <input class="form-control mrg-top-0" type="text" placeholder="Search...">
-                    <div class="advanced-search">
-                        <div class="search-wrapper">
-                            <div class="pdd-vertical-10">
-                                <ul class="list-unstyled list-info">
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <ul class="nav-right padding-15">
+	<header class="header navbar" id="header">
+		<div class="header-container max-width-lg mx-auto">
+			<ul class="nav-left mrg-left-0 padding-15">
+				<li>
+					<a href="/">
+						<img class="logo desktop-view mrg-top-5" src="/images/logo/zzazanstagram.png">
+					</a>
+				</li>
+				<li class="search-box mrg-left-20 desktop-view">
+					<a class="search-toggle no-pdd-right" href="">
+						<i class="search-icon ti-search pdd-right-10 font-size-25"></i>
+						<i class="search-icon-close ti-close pdd-right-10 font-size-25"></i>
+					</a>
+				</li>
+				<li class="search-input desktop-view">
+					<input class="form-control mrg-top-0" placeholder="Search..." type="text">
+					<div class="advanced-search">
+						<div class="search-wrapper">
+							<div class="pdd-vertical-10">
+								<ul class="list-unstyled list-info">
+								</ul>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<ul class="nav-right padding-15">
 
-                <li class="">
-                    <a class="pointer" href="/articles/new">
-                        <i class="ti-pencil-alt"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pointer">
-                        <i class="ti-heart"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pointer" th:href="@{/members/{nickName}(nickName=${session.member.nickName})}">
-                        <i class="ti-user"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </header>
+				<li class="">
+					<a class="pointer" href="/articles/new">
+						<i class="ti-pencil-alt"></i>
+					</a>
+				</li>
+				<li>
+					<a class="pointer">
+						<i class="ti-heart"></i>
+					</a>
+				</li>
+				<li>
+					<a class="pointer" th:href="@{/members/{nickName}(nickName=${session.member.nickName})}">
+						<i class="ti-user"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</header>
 
-    <div class="page-container mrg-top-120">
-        <div class="main-content">
-            <div class="container-fluid max-width-lg mx-auto">
-                <div class="row">
+	<div class="page-container mrg-top-120">
+		<div class="main-content">
+			<div class="container-fluid max-width-lg mx-auto">
+				<div class="row">
 
-                    <div id="profile" class="col-lg-12 max-width-lg pdd-btm-30 mrg-top-20 mrg-btm-30 border bottom">
-                        <div id="profile-img" class="inline-block mrg-horizon-70 mrg-vertical-20 mrg-top-0">
-                            <img class="thumb-img img-circle my-page-profile-img"
-                                 th:src="${member.profileImage}" alt="">
-                        </div>
-                        <div id="profile-block" class="inline-block mrg-horizon-30 mrg-vertical-20 mrg-top-0">
-                            <div class="mrg-btm-15">
-                                <span class="text-center text-bold font-size-25" th:text="${member.nickName}"></span>
+					<div class="col-lg-12 max-width-lg pdd-btm-30 mrg-top-20 mrg-btm-30 border bottom" id="profile">
+						<div class="inline-block mrg-horizon-70 mrg-vertical-20 mrg-top-0" id="profile-img">
+							<img alt=""
+							     class="thumb-img img-circle my-page-profile-img" th:src="${member.profileImage}">
+						</div>
+						<div class="inline-block mrg-horizon-30 mrg-vertical-20 mrg-top-0" id="profile-block">
+							<div class="mrg-btm-15">
+								<span class="text-center text-bold font-size-25" th:text="${member.nickName}"></span>
 
-                                <a id="profile-block-settings-btn" class="pointer mrg-left-10 display-none"
-                                   data-toggle="modal" data-target="#modal-settings">
-                                    <i class="ti-settings font-size-18"></i>
-                                </a>
-                                <div class="modal fade" id="modal-settings">
-                                    <div class="modal-dialog modal-sm" role="document">
-                                        <div class="modal-content">
-                                            <div class="btn-group btn-group-vertical width-100">
-                                                <button type="button" class="btn btn-default">
-                                                    정보 수정
-                                                </button>
-                                                <button id="profile-block-logout-btn" type="button"
-                                                        class="btn btn-default">
-                                                    로그 아웃
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+								<a class="pointer mrg-left-10 display-none" data-target="#modal-settings"
+								   data-toggle="modal" id="profile-block-settings-btn">
+									<i class="ti-settings font-size-18"></i>
+								</a>
+								<div class="modal fade" id="modal-settings">
+									<div class="modal-dialog modal-sm" role="document">
+										<div class="modal-content">
+											<div class="btn-group btn-group-vertical width-100">
+												<button class="btn btn-default" type="button">
+													정보 수정
+												</button>
+												<button class="btn btn-default" id="profile-block-logout-btn"
+												        type="button">
+													로그 아웃
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
 
-                                <a id="profile-block-follow-btn"
-                                   class="btn btn-info mrg-left-10 font-size-10 pdd-vertical-5 pdd-horizon-10 display-none">
-                                    팔로우 하기
-                                </a>
+								<a class="btn btn-info mrg-left-10 font-size-10 pdd-vertical-5 pdd-horizon-10 display-none"
+								   id="profile-block-follow-btn">
+									팔로우 하기
+								</a>
 
-                                <a id="profile-block-double-follow-btn"
-                                   class="btn btn-info mrg-left-10 font-size-10 pdd-vertical-5 pdd-horizon-10 display-none">
-                                    맞팔로우 하기
-                                </a>
+								<a class="btn btn-info mrg-left-10 font-size-10 pdd-vertical-5 pdd-horizon-10 display-none"
+								   id="profile-block-double-follow-btn">
+									맞팔로우 하기
+								</a>
 
-                                <a id="profile-block-unfollow-modal-btn"
-                                   class="btn btn-default mrg-left-10 font-size-10 pdd-vertical-5 pdd-horizon-10 display-none"
-                                   data-toggle="modal" data-target="#modal-following-cancel">
-                                    팔로잉
-                                </a>
-                                <div class="modal fade" id="modal-following-cancel">
-                                    <div class="modal-dialog modal-sm" role="document">
-                                        <div class="modal-content">
-                                            <div class="text-center margin-10">
-                                                <img class="thumb-img img-circle my-page-profile-img"
-                                                     th:src="${member.profileImage}" alt="">
-                                            </div>
-                                            <div class="margin-10">
-                                                <span th:text="${member.nickName}"></span>
-                                                <span>님의 팔로우를 취소하시겠어요?</span>
-                                            </div>
-                                            <div class="btn-group btn-group-vertical width-100">
-                                                <button id="profile-block-unfollow-btn" type="button"
-                                                        class="btn btn-default text-color-red">
-                                                    팔로우 취소
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="mrg-btm-15 font-size-15">
+								<a class="btn btn-default mrg-left-10 font-size-10 pdd-vertical-5 pdd-horizon-10 display-none"
+								   data-target="#modal-following-cancel"
+								   data-toggle="modal" id="profile-block-unfollow-modal-btn">
+									팔로잉
+								</a>
+								<div class="modal fade" id="modal-following-cancel">
+									<div class="modal-dialog modal-sm" role="document">
+										<div class="modal-content">
+											<div class="text-center margin-10">
+												<img alt=""
+												     class="thumb-img img-circle my-page-profile-img"
+												     th:src="${member.profileImage}">
+											</div>
+											<div class="margin-10">
+												<span th:text="${member.nickName}"></span>
+												<span>님의 팔로우를 취소하시겠어요?</span>
+											</div>
+											<div class="btn-group btn-group-vertical width-100">
+												<button class="btn btn-default text-color-red"
+												        id="profile-block-unfollow-btn"
+												        type="button">
+													팔로우 취소
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							
+							</div>
+							
+							<div class="mrg-btm-15 font-size-15">
 								<span class="mrg-right-30">
 									<span>게시물</span>
 									<span class="text-bold" th:text="${member.articleNumber}"></span>
@@ -144,15 +146,15 @@
 												<div class="modal-header align-self-center">
 													<span class="text-bold">팔로워</span>
 												</div>
-												<ul id="follower-ul" class="list-unstyled list-info">
+												<ul class="list-unstyled list-info" id="follower-ul">
                                                 </ul>
 											</div>
 										</div>
 									</div>
 								</span>
-                                <span>
-									<a id="following-btn" class="pointer" data-toggle="modal"
-                                       data-target="#modal-following">
+								<span>
+									<a class="pointer" data-target="#modal-following" data-toggle="modal"
+									   id="following-btn">
 										<span>팔로잉</span>
 										<span class="text-bold" th:text="${member.followeeNumber}"></span>
 									</a>
@@ -162,7 +164,7 @@
 												<div class="modal-header align-self-center">
 													<span class="text-bold">팔로잉</span>
 												</div>
-												<ul id="following-ul" class="list-unstyled list-info">
+												<ul class="list-unstyled list-info" id="following-ul">
                                                 </ul>
 											</div>
 										</div>
@@ -190,13 +192,7 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
-<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
-        integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
-        crossorigin="anonymous"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<th:block th:replace="fragments/cdnScript"></th:block>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script src="/js/search-box.js"></script>
@@ -361,10 +357,8 @@
             const showFollowingMembers = function (event) {
                 event.preventDefault();
                 request
-                    .get('/follow/following/' + [[${member.id}]])
-                    .then(response => {
-                        return response.data;
-                    })
+                    .get(`/follow/following/${[[${member.id}]]}`)
+                    .then(response => response.data)
                     .then(members => {
                         followingUlTag.innerHTML = "";
                         members.forEach((member) => {
@@ -378,10 +372,8 @@
             const showFollowerMembers = function (event) {
                 event.preventDefault();
                 request
-                    .get('/follow/follower/' + [[${member.id}]])
-                    .then(response => {
-                        return response.data;
-                    })
+                    .get(`/follow/follower/${[[${member.id}]]}`)
+                    .then(response => response.data)
                     .then(members => {
                         followerUlTag.innerHTML = "";
                         members.forEach((member) => {
@@ -399,10 +391,8 @@
                 }
 
                 request
-                    .get('/follow/relation/' + [[${member.id}]])
-                    .then(response => {
-                        return response.data;
-                    })
+                    .get(`/follow/relation/${[[${member.id}]]}`)
+                    .then(response => response.data)
                     .then(data => {
                         isFollower = data.follower;
                         isFollowing = data.following;
@@ -448,17 +438,13 @@
 
                 request
                     .post('/follow', formData)
-                    .then(() => {
-                        refreshFollowBtn();
-                    });
+                    .then(() => refreshFollowBtn());
             };
 
             const refreshFollowBtn = function () {
                 request
-                    .get('/follow/relation/' + [[${member.id}]])
-                    .then(response => {
-                        return response.data;
-                    })
+                    .get(`/follow/relation/${[[${member.id}]]}`)
+                    .then(response => response.data)
                     .then(data => {
                         isFollower = data.follower;
                         isFollowing = data.following;
@@ -498,9 +484,7 @@
             const logout = function () {
                 request
                     .get('/logout')
-                    .then(data => {
-                        window.location = '/login';
-                    });
+                    .then(data => window.location = '/login');
             };
 
             const openSocketConnection = function () {
@@ -513,12 +497,14 @@
             };
 
             const getMyPageArticles = function () {
-                let cardList = document.querySelectorAll('.my-page-card');
-                let cardListLength = cardList.length;
+                const cardList = document.querySelectorAll('.my-page-card');
+                const cardListLength = cardList.length;
+
                 let lastArticleId = Number.MAX_SAFE_INTEGER;
                 if (cardListLength !== 0) {
                     lastArticleId = parseId(cardList[cardListLength - 1].id, "-");
                 }
+
                 const articleData = {
                     nickName: [[${member.nickName}]],
                     lastArticleId: lastArticleId,

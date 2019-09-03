@@ -14,7 +14,7 @@ import com.woowacourse.zzazanstagram.model.member.dto.MemberMyPageResponse;
 import com.woowacourse.zzazanstagram.model.member.dto.MemberResponse;
 import com.woowacourse.zzazanstagram.model.member.service.MemberAssembler;
 import com.woowacourse.zzazanstagram.model.member.service.MemberService;
-import com.woowacourse.zzazanstagram.util.FileUploader;
+import com.woowacourse.zzazanstagram.util.FileUploaderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,15 +38,15 @@ public class ArticleService {
     private final ArticleHashtagService articleHashtagService;
     private final MemberService memberService;
     private final FollowService followService;
-    private final FileUploader fileUploader;
+    private final FileUploaderService fileUploaderService;
     private final String dirName;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleHashtagService articleHashtagService, MemberService memberService, FollowService followService, FileUploader fileUploader, @Value("${cloud.aws.s3.dirName.article}") String dirName) {
+    public ArticleService(ArticleRepository articleRepository, ArticleHashtagService articleHashtagService, MemberService memberService, FollowService followService, FileUploaderService fileUploaderService, @Value("${cloud.aws.s3.dirName.article}") String dirName) {
         this.articleRepository = articleRepository;
         this.articleHashtagService = articleHashtagService;
         this.memberService = memberService;
         this.followService = followService;
-        this.fileUploader = fileUploader;
+        this.fileUploaderService = fileUploaderService;
         this.dirName = dirName;
     }
 
@@ -54,7 +54,7 @@ public class ArticleService {
     public void save(ArticleRequest dto, String email) {
         Member author = memberService.findByEmail(email);
         MultipartFile file = dto.getFile();
-        String imageUrl = fileUploader.uploadImage(file, dirName);
+        String imageUrl = fileUploaderService.uploadImage(file, dirName);
         Article article = ArticleAssembler.toEntity(dto, imageUrl, author);
         articleRepository.save(article);
         articleHashtagService.save(article);
@@ -75,38 +75,35 @@ public class ArticleService {
     }
 
     public List<ArticleResponse> fetchArticlePages(Long lastArticleId, int size, Long loginMemberId) {
-        List<Member> followers = findFollowersByMemberId(loginMemberId);
-        addLoginMemberTo(followers, loginMemberId);
-
-        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
-        Page<Article> articles = articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest);
-
         Member loginMember = memberService.findById(loginMemberId);
-        return articles.stream().map(article -> ArticleAssembler.toDto(article, loginMember))
-                .collect(Collectors.toList());
+        List<Member> followers = findFollowersWithLoggedInMember(loginMemberId, loginMember);
+        Page<Article> articles = fetchPages(lastArticleId, size, followers);
+
+        return ArticleAssembler.toDtos(articles, loginMember);
     }
 
-    private List<Member> findFollowersByMemberId(Long memberId) {
+    private List<Member> findFollowersWithLoggedInMember(Long memberId, Member loginMember) {
         List<Long> followingsIds = followService.findFollowingsIds(memberId);
-        return memberService.findAllByIds(followingsIds);
+        List<Member> allMembers = memberService.findAllByIds(followingsIds);
+        allMembers.add(loginMember);
+
+        return allMembers;
     }
 
-    private void addLoginMemberTo(List<Member> followers, Long loginMemberId) {
-        Member loginMember = memberService.findById(loginMemberId);
-        followers.add(loginMember);
+    private Page<Article> fetchPages(Long lastArticleId, int size, List<Member> followers) {
+        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
+        return articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest);
     }
 
     public void deleteById(Long articleId, String email) {
         Article article = findById(articleId);
         Member member = memberService.findByEmail(email);
-
         article.checkAuthentication(member);
         articleRepository.delete(article);
     }
 
     public List<ArticleMyPageResponse> findArticleMyPageResponsesBy(Long lastArticleId, int size, String nickName) {
         MemberResponse memberResponse = memberService.findMemberResponseByNickName(nickName);
-
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
         Page<Article> articles = articleRepository.findByIdLessThanAndAuthorIdEqualsOrderByIdDesc(lastArticleId
                 , memberResponse.getId(), pageRequest);
@@ -124,7 +121,7 @@ public class ArticleService {
                         .collect(Collectors.toList()));
     }
 
-    public MemberMyPageResponse myPage(String nickName) {
+    public MemberMyPageResponse findMemberMyPageResponseByNickName(String nickName) {
         Member member = memberService.findByNickName(nickName);
         Long id = member.getId();
 

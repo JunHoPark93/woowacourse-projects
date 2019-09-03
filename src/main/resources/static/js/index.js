@@ -105,7 +105,7 @@ const INDEX_PAGE = (function () {
             function appendCommentsOnArticleCard(json) {
                 const commentResponses = json.commentResponses;
                 const commentSize = Object.keys(commentResponses).length;
-                const commentList = document.querySelector('#comment-list-' + json.id);
+                const commentList = document.querySelector(`#comment-list-${json.id}`);
 
                 function appendComments(commentList, size) {
                     for (let i = 0; i < size; i++) {
@@ -114,7 +114,7 @@ const INDEX_PAGE = (function () {
                 }
 
                 if (commentSize > defaultCommentPreviewSize) {
-                    const commentPreviewMessage = document.querySelector('#comment-preview-message-' + json.id);
+                    const commentPreviewMessage = document.querySelector(`#comment-preview-message-${json.id}`);
                     const commentPreviewMessageNode = createNewNode('li', articleCardTemplate.commentPreviewMessage(commentSize, json.id));
                     commentPreviewMessage.appendChild(commentPreviewMessageNode);
 
@@ -137,11 +137,11 @@ const INDEX_PAGE = (function () {
                         indexArticles.appendChild(articleNode);
 
                         if (json.ddabongClicked) {
-                            const ddabongHeart = document.querySelector('#ddabong-' + json.id);
+                            const ddabongHeart = document.querySelector(`#ddabong-${json.id}`);
                             ddabongService.activeDdabong(ddabongHeart);
                         }
 
-                        const ddabongMessage = document.querySelector('#ddabong-message-' + json.id);
+                        const ddabongMessage = document.querySelector(`#ddabong-message-${json.id}`);
                         ddabongMessage.innerText = json.ddabongCount;
 
                         appendCommentsOnArticleCard(json);
@@ -157,7 +157,7 @@ const INDEX_PAGE = (function () {
             const articleId = message.parentElement.id;
 
             request
-                .delete('/articles/' + articleId)
+                .delete(`/articles/${articleId}`)
                 .then(response => {
                     if (response.data === "SUCCESS") {
                         const childNode = message.parentNode;

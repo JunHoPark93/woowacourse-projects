@@ -12,12 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
-class FileUploaderTest {
+class FileUploaderServiceTest {
     @InjectMocks
-    FileUploader fileUploader;
+    FileUploaderService fileUploaderService;
 
     @Mock
-    S3Uploader s3Uploader;
+    FileUploader fileUploader;
 
     @Mock
     FileTypeChecker fileTypeChecker;
@@ -29,8 +29,8 @@ class FileUploaderTest {
         MultipartFile multipartFile = new MockMultipartFile("file", "imageTets".getBytes());
 
         given(fileTypeChecker.validateImageFile(multipartFile)).willReturn(true);
-        given(s3Uploader.upload(multipartFile, dirName)).willReturn(imageUrl);
+        given(fileUploader.upload(multipartFile, dirName)).willReturn(imageUrl);
 
-        assertThat(fileUploader.uploadImage(multipartFile, dirName)).isEqualTo(imageUrl);
+        assertThat(fileUploaderService.uploadImage(multipartFile, dirName)).isEqualTo(imageUrl);
     }
 }

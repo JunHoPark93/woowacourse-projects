@@ -182,13 +182,7 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
-<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
-        integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
-        crossorigin="anonymous"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<th:block th:replace="fragments/cdnScript"></th:block>
 <script src="/js/search-box.js"></script>
 <script src="/js/ArticleCardTemplate.js"></script>
 <script src="/js/MemberCardTemplate.js"></script>
@@ -256,7 +250,7 @@
     window.onload = function () {
         const article = [[${article}]];
 
-        const articleContents = document.getElementById('article-contents-' + article.id);
+        const articleContents = document.getElementById(`article-contents-${article.id}`);
         const contentsTag = article.contents
             .split(/[ \t\r\n\v\f]/g)
             .map(w => (w.startsWith('#') ? `<a href="/tags/${w.substring(1)}" class="hashtag">${w}</a>` : w))
@@ -264,7 +258,7 @@
 
         articleContents.insertAdjacentHTML('afterbegin', contentsTag);
 
-        const lastModifiedDate = document.getElementById('article-lastModifiedDate-' + article.id);
+        const lastModifiedDate = document.getElementById(`article-lastModifiedDate-${article.id}`);
         lastModifiedDate.insertAdjacentText('afterbegin', new Time().postedTime(article.lastModifiedDate));
     };
 

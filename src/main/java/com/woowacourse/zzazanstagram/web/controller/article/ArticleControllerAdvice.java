@@ -1,6 +1,7 @@
 package com.woowacourse.zzazanstagram.web.controller.article;
 
 import com.woowacourse.zzazanstagram.model.article.exception.ArticleAuthenticationException;
+import com.woowacourse.zzazanstagram.model.article.exception.ArticleException;
 import com.woowacourse.zzazanstagram.model.hashtag.exception.HashtagException;
 import com.woowacourse.zzazanstagram.web.message.ApiResponse;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase;
@@ -23,14 +24,21 @@ public class ArticleControllerAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiResponse> handleArticleAuthenticationException(ArticleAuthenticationException e) {
         log.error("{} ArticleAuthenticationException >> {}", TAG, e.getMessage());
 
-        return new ResponseEntity<>(new ApiResponse(HttpStatus.UNAUTHORIZED, "게시글에 대한 권한이 없습니다"), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.UNAUTHORIZED, e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(HashtagException.class)
-    public ResponseEntity<String> handleHashTagException(HashtagException e) {
+    public ResponseEntity<ApiResponse> handleHashTagException(HashtagException e) {
         log.error("{} HashtagException >> {}", TAG, e.getMessage());
 
-        return new ResponseEntity<>("ERROR", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.UNAUTHORIZED, e.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ArticleException.class)
+    public ResponseEntity<ApiResponse> handleArticleException(ArticleException e) {
+        log.error("{} ArticleException >> {}", TAG, e.getMessage());
+
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, "해당 게시글이 없습니다."), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({MultipartException.class, FileUploadBase.FileSizeLimitExceededException.class})

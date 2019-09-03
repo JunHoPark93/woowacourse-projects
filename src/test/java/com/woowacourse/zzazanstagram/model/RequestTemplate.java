@@ -74,7 +74,7 @@ public abstract class RequestTemplate {
                 .body(loginForm("abc@naver.com", "aa1231!!"))
                 .exchange()
                 .expectStatus()
-                .isFound()
+                .is3xxRedirection()
                 .returnResult(String.class)
                 .getResponseHeaders()
                 .getFirst("Set-Cookie");
@@ -96,7 +96,7 @@ public abstract class RequestTemplate {
                 .body(loginForm(email, password))
                 .exchange()
                 .expectStatus()
-                .isFound()
+                .is3xxRedirection()
                 .returnResult(String.class)
                 .getResponseHeaders()
                 .getFirst("Set-Cookie");

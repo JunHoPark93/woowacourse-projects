@@ -59,7 +59,7 @@ public class ArticleController {
 
     @GetMapping("/members/{nickname}")
     public String myPage(@PathVariable("nickname") String nickName, Model model) {
-        MemberMyPageResponse memberMyPageResponse = articleService.myPage(nickName);
+        MemberMyPageResponse memberMyPageResponse = articleService.findMemberMyPageResponseByNickName(nickName);
         model.addAttribute("member", memberMyPageResponse);
         return "mypage";
     }

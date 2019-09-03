@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:replace="fragments/commonHeader"></th:block>
 </head>
@@ -37,7 +37,7 @@
 								<h5 id="signup-greeting-message">친구들의 사진을 보려면 가입하세요 :)</h5>
 							</div>
 							<div class="card-body pdd-top-0">
-								<form id="signup-form" action="/members" method="post"
+								<form id="signup-form"
 								      class="form-horizontal mrg-top-40">
 									<div class="form-group row">
 										<div class="col-md-12">
@@ -100,17 +100,11 @@
 	</div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
-<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
-        integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
-        crossorigin="anonymous"></script>
+<th:block th:replace="fragments/cdnScript"></th:block>
 <script>
-
     const SIGNUP = (function () {
-        const form = document.querySelector("#signup-form");
-        const email = document.querySelector("#signup-form-email");
+		const form = document.querySelector("#signup-form");
+		const email = document.querySelector("#signup-form-email");
         const password = document.querySelector("#signup-form-password");
         const passwordConfirm = document.querySelector("#signup-form-password-confirm");
         const nickName = document.querySelector("#signup-form-nick-name");
@@ -136,12 +130,40 @@
             };
 
             const setFormValidityMessage = function () {
-                form.addEventListener("submit", function () {
-                    signUpService.setEmailValidityMessage();
-                    signUpService.setPasswordValidityMessage();
-                    signUpService.setNickNameValidityMessage();
-                    signUpService.setNameValidityMessage();
-                });
+				form.addEventListener("submit", function (event) {
+					event.preventDefault();
+					signUpService.setEmailValidityMessage();
+					signUpService.setPasswordValidityMessage();
+					signUpService.setNickNameValidityMessage();
+					signUpService.setNameValidityMessage();
+					
+					const email = document.getElementById("signup-form-email").value;
+					const password = document.getElementById("signup-form-password").value;
+					const nickName = document.getElementById("signup-form-nick-name").value;
+					const name = document.getElementById("signup-form-nick-name").value;
+					const profile = document.getElementById("signup-form-profile").value;
+					
+					const formData = new FormData();
+					
+					formData.append('name', name);
+					formData.append('email', email);
+					formData.append('nickName', nickName);
+					formData.append('password', password);
+					formData.append('profile', profile);
+				
+					axios({
+						method: 'post',
+						url: '/members',
+						data: formData,
+					}).then(() => {
+						window.location = '/login';
+					}).catch((error) => {
+						const errRes = error.response;
+						if (error.response.status === 400) {
+							alert(errRes.data.msg);
+						}
+					});
+				});
             };
 
             const checkPasswordWithPasswordConfirm = function () {
@@ -216,7 +238,6 @@
     })();
 
     SIGNUP.init();
-
 </script>
 </body>
 </html>
