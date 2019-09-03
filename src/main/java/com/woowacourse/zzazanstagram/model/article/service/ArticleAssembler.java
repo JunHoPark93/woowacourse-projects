@@ -10,6 +10,7 @@ import com.woowacourse.zzazanstagram.model.comment.domain.Comment;
 import com.woowacourse.zzazanstagram.model.comment.dto.CommentResponse;
 import com.woowacourse.zzazanstagram.model.comment.service.CommentAssembler;
 import com.woowacourse.zzazanstagram.model.member.domain.Member;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +41,11 @@ public class ArticleAssembler {
                 .ddabongCount(article.countClickedDdabong())
                 .isDdabongClicked(article.isDdabongClicked(loginMember))
                 .build();
+    }
+
+    public static List<ArticleResponse> toDtos(Page<Article> articles, Member loginMember) {
+        return articles.stream().map(article -> ArticleAssembler.toDto(article, loginMember))
+                .collect(Collectors.toList());
     }
 
     public static ArticleMyPageResponse toMyPageDto(Article article) {

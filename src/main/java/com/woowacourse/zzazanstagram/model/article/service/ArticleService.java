@@ -75,38 +75,35 @@ public class ArticleService {
     }
 
     public List<ArticleResponse> fetchArticlePages(Long lastArticleId, int size, Long loginMemberId) {
-        List<Member> followers = findFollowersByMemberId(loginMemberId);
-        addLoginMemberTo(followers, loginMemberId);
-
-        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
-        Page<Article> articles = articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest);
-
         Member loginMember = memberService.findById(loginMemberId);
-        return articles.stream().map(article -> ArticleAssembler.toDto(article, loginMember))
-                .collect(Collectors.toList());
+        List<Member> followers = findFollowersWithLoggedInMember(loginMemberId, loginMember);
+        Page<Article> articles = fetchPages(lastArticleId, size, followers);
+
+        return ArticleAssembler.toDtos(articles, loginMember);
     }
 
-    private List<Member> findFollowersByMemberId(Long memberId) {
+    private List<Member> findFollowersWithLoggedInMember(Long memberId, Member loginMember) {
         List<Long> followingsIds = followService.findFollowingsIds(memberId);
-        return memberService.findAllByIds(followingsIds);
+        List<Member> allMembers = memberService.findAllByIds(followingsIds);
+        allMembers.add(loginMember);
+
+        return allMembers;
     }
 
-    private void addLoginMemberTo(List<Member> followers, Long loginMemberId) {
-        Member loginMember = memberService.findById(loginMemberId);
-        followers.add(loginMember);
+    private Page<Article> fetchPages(Long lastArticleId, int size, List<Member> followers) {
+        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
+        return articleRepository.findByIdLessThanAndAuthorInOrderByIdDesc(lastArticleId, followers, pageRequest);
     }
 
     public void deleteById(Long articleId, String email) {
         Article article = findById(articleId);
         Member member = memberService.findByEmail(email);
-
         article.checkAuthentication(member);
         articleRepository.delete(article);
     }
 
     public List<ArticleMyPageResponse> findArticleMyPageResponsesBy(Long lastArticleId, int size, String nickName) {
         MemberResponse memberResponse = memberService.findMemberResponseByNickName(nickName);
-
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUM, size);
         Page<Article> articles = articleRepository.findByIdLessThanAndAuthorIdEqualsOrderByIdDesc(lastArticleId
                 , memberResponse.getId(), pageRequest);
