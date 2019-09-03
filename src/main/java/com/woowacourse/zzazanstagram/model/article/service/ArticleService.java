@@ -74,7 +74,7 @@ public class ArticleService {
         return articleRepository.findById(articleId).orElseThrow(() -> new ArticleException("해당 게시글을 찾을 수 없습니다."));
     }
 
-    public List<ArticleResponse> fetchArticlePages(Long lastArticleId, int size, Long loginMemberId) {
+    public List<ArticleResponse> fetchArticlePagesBy(Long lastArticleId, int size, Long loginMemberId) {
         List<Member> followers = findFollowersByMemberId(loginMemberId);
         addLoginMemberTo(followers, loginMemberId);
 

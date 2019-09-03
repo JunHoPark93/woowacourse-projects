@@ -26,7 +26,7 @@ public class ArticleApiController {
     @GetMapping
     public ResponseEntity<List<ArticleResponse>> getArticlePages(@RequestParam Long lastArticleId, @RequestParam int size
             , MemberSession memberSession) {
-        List<ArticleResponse> articleResponses = articleService.fetchArticlePages(lastArticleId, size, memberSession.getId());
+        List<ArticleResponse> articleResponses = articleService.fetchArticlePagesBy(lastArticleId, size, memberSession.getId());
         return new ResponseEntity<>(articleResponses, HttpStatus.OK);
     }
 
