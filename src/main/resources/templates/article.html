@@ -193,6 +193,7 @@
 <script src="/js/ArticleCardTemplate.js"></script>
 <script src="/js/MemberCardTemplate.js"></script>
 <script src="/js/api.js"></script>
+<script src="/js/time.js"></script>
 <script src="/js/commentService.js"></script>
 <script src="/js/ddabongService.js"></script>
 <script src="/js/articleService.js"></script>
@@ -264,21 +265,7 @@
         articleContents.insertAdjacentHTML('afterbegin', contentsTag);
 
         const lastModifiedDate = document.getElementById('article-lastModifiedDate-' + article.id);
-        lastModifiedDate.insertAdjacentText('afterbegin', postedTime(article.lastModifiedDate));
-    };
-
-    const postedTime = function (date) {
-        const currentDate = new Date();
-        const postedDate = new Date(date);
-        const elapsed = Math.floor((currentDate.getTime() - postedDate.getTime()) / 1000);
-
-        if (elapsed >= 24 * 60 * 60) {
-            return String(postedDate.getUTCFullYear() + '년 ' + (postedDate.getMonth() + 1) + '월 ' + postedDate.getDate() + '일');
-        } else if (elapsed <= 60 * 60) {
-            return String(Math.floor(elapsed / 60) + '분 전');
-        }
-
-        return String(Math.floor(elapsed / (60 * 60)) + '시간 전');
+        lastModifiedDate.insertAdjacentText('afterbegin', new Time().postedTime(article.lastModifiedDate));
     };
 
 </script>
