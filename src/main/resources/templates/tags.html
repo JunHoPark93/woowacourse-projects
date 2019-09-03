@@ -211,8 +211,8 @@
 
             articleContents.insertAdjacentHTML('afterbegin', contentsTag);
 
-			const lastModifiedDate = document.getElementById('article-lastModifiedDate-' + article.id);
-			lastModifiedDate.insertAdjacentText('afterbegin', new Time().postedTime(article.lastModifiedDate));
+            const lastModifiedDate = document.getElementById('article-lastModifiedDate-' + article.id);
+            lastModifiedDate.insertAdjacentText('afterbegin', new Time().postedTime(article.lastModifiedDate));
         });
     };
 </script>

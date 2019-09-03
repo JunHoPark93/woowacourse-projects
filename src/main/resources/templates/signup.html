@@ -103,8 +103,8 @@
 <th:block th:replace="fragments/cdnScript"></th:block>
 <script>
     const SIGNUP = (function () {
-		const form = document.querySelector("#signup-form");
-		const email = document.querySelector("#signup-form-email");
+        const form = document.querySelector("#signup-form");
+        const email = document.querySelector("#signup-form-email");
         const password = document.querySelector("#signup-form-password");
         const passwordConfirm = document.querySelector("#signup-form-password-confirm");
         const nickName = document.querySelector("#signup-form-nick-name");
@@ -130,40 +130,40 @@
             };
 
             const setFormValidityMessage = function () {
-				form.addEventListener("submit", function (event) {
-					event.preventDefault();
-					signUpService.setEmailValidityMessage();
-					signUpService.setPasswordValidityMessage();
-					signUpService.setNickNameValidityMessage();
-					signUpService.setNameValidityMessage();
-					
-					const email = document.getElementById("signup-form-email").value;
-					const password = document.getElementById("signup-form-password").value;
-					const nickName = document.getElementById("signup-form-nick-name").value;
-					const name = document.getElementById("signup-form-nick-name").value;
-					const profile = document.getElementById("signup-form-profile").value;
-					
-					const formData = new FormData();
-					
-					formData.append('name', name);
-					formData.append('email', email);
-					formData.append('nickName', nickName);
-					formData.append('password', password);
-					formData.append('profile', profile);
-				
-					axios({
-						method: 'post',
-						url: '/members',
-						data: formData,
-					}).then(() => {
-						window.location = '/login';
-					}).catch((error) => {
-						const errRes = error.response;
-						if (error.response.status === 400) {
-							alert(errRes.data.msg);
-						}
-					});
-				});
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    signUpService.setEmailValidityMessage();
+                    signUpService.setPasswordValidityMessage();
+                    signUpService.setNickNameValidityMessage();
+                    signUpService.setNameValidityMessage();
+
+                    const email = document.getElementById("signup-form-email").value;
+                    const password = document.getElementById("signup-form-password").value;
+                    const nickName = document.getElementById("signup-form-nick-name").value;
+                    const name = document.getElementById("signup-form-nick-name").value;
+                    const profile = document.getElementById("signup-form-profile").value;
+
+                    const formData = new FormData();
+
+                    formData.append('name', name);
+                    formData.append('email', email);
+                    formData.append('nickName', nickName);
+                    formData.append('password', password);
+                    formData.append('profile', profile);
+
+                    axios({
+                        method: 'post',
+                        url: '/members',
+                        data: formData,
+                    }).then(() => {
+                        window.location = '/login';
+                    }).catch((error) => {
+                        const errRes = error.response;
+                        if (error.response.status === 400) {
+                            alert(errRes.data.msg);
+                        }
+                    });
+                });
             };
 
             const checkPasswordWithPasswordConfirm = function () {
