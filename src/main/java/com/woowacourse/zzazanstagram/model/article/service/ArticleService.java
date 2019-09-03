@@ -116,12 +116,12 @@ public class ArticleService {
 
     public List<ArticleResponse> findArticleResponsesBy(String keyword, Long memberId) {
         Member loginMember = memberService.findById(memberId);
-        return Collections.unmodifiableList(
-                articleHashtagService.findAllByHashtag(keyword)
-                        .stream()
-                        .map(ArticleHashtag::getArticle)
-                        .map(article -> ArticleAssembler.toDto(article, loginMember))
-                        .collect(Collectors.toList()));
+        List<Article> articles = articleHashtagService.findAllByHashtag(keyword)
+                .stream()
+                .map(ArticleHashtag::getArticle)
+                .collect(Collectors.toList());
+
+        return Collections.unmodifiableList(ArticleAssembler.toDtos(articles, loginMember));
     }
 
     public MemberMyPageResponse myPage(String nickName) {

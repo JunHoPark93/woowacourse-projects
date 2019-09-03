@@ -42,6 +42,12 @@ public class ArticleAssembler {
                 .build();
     }
 
+    public static List<ArticleResponse> toDtos(List<Article> articles, Member loginMember) {
+        return articles.stream()
+                .map(article -> ArticleAssembler.toDto(article, loginMember))
+                .collect(Collectors.toList());
+    }
+
     public static ArticleMyPageResponse toMyPageDto(Article article) {
         return new ArticleMyPageResponse(article.getId(), article.getImageValue(), article.countClickedDdabong(), article.getCommentsCount());
     }
