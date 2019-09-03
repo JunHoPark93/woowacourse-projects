@@ -66,7 +66,7 @@ const ArticleCardTemplate = function () {
                             <div class="info pdd-left-15 pdd-vertical-5">
                                 <a href="/members/${json.nickName}" class="title no-pdd-vertical text-bold inline-block font-size-15">${json.nickName}</a>
                                 <p>` + articleContents(json.contents) + `</p>
-                                <time class="font-size-8 text-gray d-block">` + postedTime(json.lastModifiedDate) + `</time>
+                                <time class="font-size-8 text-gray d-block">` + new Time().postedTime(json.lastModifiedDate) + `</time>
                                 <span id="comment-preview-message-${json.id}"></span>
                             </div>
                         </li>
@@ -93,29 +93,11 @@ const ArticleCardTemplate = function () {
             .join(' ');
     };
 
-    const postedTime = function (date) {
-        const currentDate = new Date();
-        const postedDate = new Date(date);
-        const elapsed = Math.floor((currentDate.getTime() - postedDate.getTime()) / 1000);
-
-        if (elapsed >= 24 * 60 * 60) {
-            return `${postedDate.getUTCFullYear()}년${postedDate.getMonth() + 1}월${postedDate.getDate()}일`;
-        } else if (elapsed <= 60 * 60) {
-            return `${Math.floor(elapsed / 60)}분 전`;
-        }
-
-        return `${Math.floor(elapsed / (60 * 60))}시간 전`;
-    };
-
     const comment = function (json) {
         return `
         <li>
-            <p class="inline-block text-bold no-mrg-btm mrg-left-15">
-                ${json.commenterNickName}
-            </p>
-            <p class="inline-block no-mrg-btm mrg-left-5">
-                ${json.commentContents}
-            </p>
+            <p class="inline-block text-bold no-mrg-btm mrg-left-15">${json.commenterNickName}</p>
+            <p class="inline-block no-mrg-btm mrg-left-5">${json.commentContents}</p>
         </li>`
     };
 
@@ -132,5 +114,3 @@ const ArticleCardTemplate = function () {
         commentPreviewMessage: commentPreviewMessage,
     }
 };
-
-// export { ArticleCardTemplate }

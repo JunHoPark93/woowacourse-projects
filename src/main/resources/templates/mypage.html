@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<th:block th:replace="fragments/commonHeader"></th:block>
-	<link href="/css/vanilla-notify.css" rel="stylesheet"/>
+    <th:block th:replace="fragments/commonHeader"></th:block>
+    <link rel="stylesheet" href="/css/vanilla-notify.css"/>
 </head>
 <body>
 <input id="session-name" th:value="${session.member.nickName}" type="hidden"/>
@@ -35,7 +35,7 @@
 				</li>
 			</ul>
 			<ul class="nav-right padding-15">
-				
+
 				<li class="">
 					<a class="pointer" href="/articles/new">
 						<i class="ti-pencil-alt"></i>
@@ -54,12 +54,12 @@
 			</ul>
 		</div>
 	</header>
-	
+
 	<div class="page-container mrg-top-120">
 		<div class="main-content">
 			<div class="container-fluid max-width-lg mx-auto">
 				<div class="row">
-					
+
 					<div class="col-lg-12 max-width-lg pdd-btm-30 mrg-top-20 mrg-btm-30 border bottom" id="profile">
 						<div class="inline-block mrg-horizon-70 mrg-vertical-20 mrg-top-0" id="profile-img">
 							<img alt=""
@@ -68,7 +68,7 @@
 						<div class="inline-block mrg-horizon-30 mrg-vertical-20 mrg-top-0" id="profile-block">
 							<div class="mrg-btm-15">
 								<span class="text-center text-bold font-size-25" th:text="${member.nickName}"></span>
-								
+
 								<a class="pointer mrg-left-10 display-none" data-target="#modal-settings"
 								   data-toggle="modal" id="profile-block-settings-btn">
 									<i class="ti-settings font-size-18"></i>
@@ -88,17 +88,17 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<a class="btn btn-info mrg-left-10 font-size-10 pdd-vertical-5 pdd-horizon-10 display-none"
 								   id="profile-block-follow-btn">
 									팔로우 하기
 								</a>
-								
+
 								<a class="btn btn-info mrg-left-10 font-size-10 pdd-vertical-5 pdd-horizon-10 display-none"
 								   id="profile-block-double-follow-btn">
 									맞팔로우 하기
 								</a>
-								
+
 								<a class="btn btn-default mrg-left-10 font-size-10 pdd-vertical-5 pdd-horizon-10 display-none"
 								   data-target="#modal-following-cancel"
 								   data-toggle="modal" id="profile-block-unfollow-modal-btn">
@@ -134,9 +134,9 @@
 									<span>게시물</span>
 									<span class="text-bold" th:text="${member.articleNumber}"></span>
 								</span>
-								<span class="mrg-right-30">
-									<a class="pointer" data-target="#modal-follower" data-toggle="modal"
-									   id="follower-btn">
+                                <span class="mrg-right-30">
+									<a id="follower-btn" class="pointer" data-toggle="modal"
+                                       data-target="#modal-follower">
 										<span>팔로워</span>
 										<span class="text-bold" th:text="${member.followerNumber}"></span>
 									</a>
@@ -170,26 +170,26 @@
 										</div>
 									</div>
 								</span>
-							</div>
-							
-							<div class="mrg-btm-15 font-size-15">
-								<div class="mrg-btm-5">
-									<span class="text-bold" th:text="${member.name}"></span>
-								</div>
-								<div class="font-size-13">
+                            </div>
+
+                            <div class="mrg-btm-15 font-size-15">
+                                <div class="mrg-btm-5">
+                                    <span class="text-bold" th:text="${member.name}"></span>
+                                </div>
+                                <div class="font-size-13">
 									<span>
 										우아한테크코스의 계정에 오신 것을 환영합니당<br>
 										좋아요 댓글 팔로우 눌러주세용<br>
 										선팔하면 맞팔<br>
 									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <th:block th:replace="fragments/cdnScript"></th:block>
@@ -197,11 +197,14 @@
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script src="/js/search-box.js"></script>
 <script src="/js/MemberCardTemplate.js"></script>
+<script src="/js/api.js"></script>
 <script src="/js/vanilla-notify.js"></script>
 <script src="/js/socket-notification.js"></script>
 <script th:inline="javascript">
 
     const MYPAGE = (function () {
+        const request = new Api().request;
+
         const profileBlockSettingsBtn = document.querySelector("#profile-block-settings-btn");
         const profileBlockFollowBtn = document.querySelector("#profile-block-follow-btn");
         const profileBlockDoubleFollowBtn = document.querySelector("#profile-block-double-follow-btn");
@@ -353,36 +356,32 @@
 
             const showFollowingMembers = function (event) {
                 event.preventDefault();
-                axios({
-                    method: 'get',
-                    url: `/follow/following/${[[${member.id}]]}`
-                }).then(response => {
-                    return response.data;
-                }).then(members => {
-                    followingUlTag.innerHTML = "";
-                    members.forEach((member) => {
-                        const liNode = document.createElement("LI");
-                        liNode.innerHTML = memberCardTemplate.memberTemplate(member.memberResponse);
-                        followingUlTag.appendChild(liNode);
-                    })
-                });
+                request
+                    .get(`/follow/following/${[[${member.id}]]}`)
+                    .then(response => response.data)
+                    .then(members => {
+                        followingUlTag.innerHTML = "";
+                        members.forEach((member) => {
+                            const liNode = document.createElement("li");
+                            liNode.innerHTML = memberCardTemplate.memberTemplate(member.memberResponse);
+                            followingUlTag.appendChild(liNode);
+                        })
+                    });
             };
 
             const showFollowerMembers = function (event) {
                 event.preventDefault();
-                axios({
-                    method: 'get',
-                    url: `/follow/follower/${[[${member.id}]]}`
-                }).then(response => {
-                    return response.data;
-                }).then(members => {
-                    followerUlTag.innerHTML = "";
-                    members.forEach((member) => {
-                        const liNode = document.createElement("LI");
-                        liNode.innerHTML = memberCardTemplate.memberTemplate(member.memberResponse);
-                        followerUlTag.appendChild(liNode);
+                request
+                    .get(`/follow/follower/${[[${member.id}]]}`)
+                    .then(response => response.data)
+                    .then(members => {
+                        followerUlTag.innerHTML = "";
+                        members.forEach((member) => {
+                            const liNode = document.createElement("LI");
+                            liNode.innerHTML = memberCardTemplate.memberTemplate(member.memberResponse);
+                            followerUlTag.appendChild(liNode);
+                        });
                     });
-                });
             };
 
             const getFollowRelation = function () {
@@ -391,27 +390,25 @@
                     return;
                 }
 
-                axios({
-                    method: 'get',
-                    url: `/follow/relation/${[[${member.id}]]}`
-                }).then(response => {
-                    return response.data;
-                }).then(data => {
-                    isFollower = data.follower;
-                    isFollowing = data.following;
+                request
+                    .get(`/follow/relation/${[[${member.id}]]}`)
+                    .then(response => response.data)
+                    .then(data => {
+                        isFollower = data.follower;
+                        isFollowing = data.following;
 
-                    if (isFollowing) {
-                        showBtn(profileBlockUnFollowModalBtn);
-                        return;
-                    }
+                        if (isFollowing) {
+                            showBtn(profileBlockUnFollowModalBtn);
+                            return;
+                        }
 
-                    if (isFollower) {
-                        showBtn(profileBlockDoubleFollowBtn);
-                        return;
-                    }
+                        if (isFollower) {
+                            showBtn(profileBlockDoubleFollowBtn);
+                            return;
+                        }
 
-                    showBtn(profileBlockFollowBtn);
-                });
+                        showBtn(profileBlockFollowBtn);
+                    });
             };
 
             const followMember = function () {
@@ -423,14 +420,12 @@
                 formData.append('followeeId', followeeId);
                 formData.append('followerId', followerId);
 
-                axios({
-                    method: 'post',
-                    url: '/follow',
-                    data: formData
-                }).then(() => {
-                    hideBtn(profileBlockFollowBtn);
-                    showBtn(profileBlockUnFollowModalBtn);
-                });
+                request
+                    .post('/follow', formData)
+                    .then(() => {
+                        hideBtn(profileBlockFollowBtn);
+                        showBtn(profileBlockUnFollowModalBtn);
+                    });
             };
 
             const unfollowMember = function () {
@@ -441,34 +436,29 @@
                 formData.append('followeeId', followeeId);
                 formData.append('followerId', followerId);
 
-                axios({
-                    method: 'post',
-                    url: '/follow',
-                    data: formData
-                }).then(() => {
-                    refreshFollowBtn();
-                });
+                request
+                    .post('/follow', formData)
+                    .then(() => refreshFollowBtn());
             };
 
             const refreshFollowBtn = function () {
-                axios({
-                    method: 'get',
-                    url: `/follow/relation/${[[${member.id}]]}`
-                }).then(response => {
-                    return response.data;
-                }).then(data => {
-                    isFollower = data.follower;
-                    isFollowing = data.following;
-                }).then(() => {
-                    hideBtn(profileBlockUnFollowModalBtn);
-                    document.querySelector('#modal-following-cancel').click();
+                request
+                    .get(`/follow/relation/${[[${member.id}]]}`)
+                    .then(response => response.data)
+                    .then(data => {
+                        isFollower = data.follower;
+                        isFollowing = data.following;
+                    })
+                    .then(() => {
+                        hideBtn(profileBlockUnFollowModalBtn);
+                        document.querySelector('#modal-following-cancel').click();
 
-                    if (isFollower) {
-                        showBtn(profileBlockDoubleFollowBtn);
-                        return;
-                    }
-                    showBtn(profileBlockFollowBtn);
-                });
+                        if (isFollower) {
+                            showBtn(profileBlockDoubleFollowBtn);
+                            return;
+                        }
+                        showBtn(profileBlockFollowBtn);
+                    });
             };
 
             const doubleFollowMember = function () {
@@ -479,14 +469,12 @@
                 formData.append('followeeId', followeeId);
                 formData.append('followerId', followerId);
 
-                axios({
-                    method: 'post',
-                    url: '/follow',
-                    data: formData
-                }).then(() => {
-                    hideBtn(profileBlockDoubleFollowBtn);
-                    showBtn(profileBlockUnFollowModalBtn);
-                });
+                request
+                    .post('/follow', formData)
+                    .then(() => {
+                        hideBtn(profileBlockDoubleFollowBtn);
+                        showBtn(profileBlockUnFollowModalBtn);
+                    });
             };
 
             const settings = function () {
@@ -494,12 +482,9 @@
             };
 
             const logout = function () {
-                axios({
-                    method: 'get',
-                    url: '/logout'
-                }).then(data => {
-                    window.location = '/login';
-                });
+                request
+                    .get('/logout')
+                    .then(data => window.location = '/login');
             };
 
             const openSocketConnection = function () {
@@ -514,18 +499,20 @@
             const getMyPageArticles = function () {
                 const cardList = document.querySelectorAll('.my-page-card');
                 const cardListLength = cardList.length;
-                
+
                 let lastArticleId = Number.MAX_SAFE_INTEGER;
                 if (cardListLength !== 0) {
                     lastArticleId = parseId(cardList[cardListLength - 1].id, "-");
                 }
-                
+
                 const articleData = {
                     nickName: [[${member.nickName}]],
                     lastArticleId: lastArticleId,
                     size: 6,
                 };
-                axios.get('/api/articles/mypage', {params: articleData})
+
+                request
+                    .get('/api/articles/mypage', articleData)
                     .then(res => res.data)
                     .then(res => addMyPageArticles(res));
             };
