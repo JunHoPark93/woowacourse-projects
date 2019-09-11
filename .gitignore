@@ -2,6 +2,8 @@
 /target/
 /tomcat.8080/
 
+.DS_Store
+
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
