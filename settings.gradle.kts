@@ -1,3 +1,3 @@
 rootProject.name = "jwp-mvc"
 
-include("nextstep-mvc", "slipp")
+include("nextstep-mvc", "slipp", "study")
