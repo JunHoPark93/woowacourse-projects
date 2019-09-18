@@ -1,4 +1,4 @@
-package model;
+package model.http;
 
 public class RequestBody {
 

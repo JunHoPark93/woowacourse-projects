@@ -1,6 +1,6 @@
 package utils;
 
-import model.HttpRequest;
+import model.http.HttpRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +28,7 @@ class RequestHeaderParserTest {
 
     @Test
     void target_검사() {
-        assertThat(httpRequest.getRequestTarget()).isEqualTo("index.html");
+        assertThat(httpRequest.getResource()).isEqualTo("index.html");
     }
 
     @Test

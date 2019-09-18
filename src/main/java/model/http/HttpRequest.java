@@ -1,4 +1,4 @@
-package model;
+package model.http;
 
 import utils.HttpMethod;
 
@@ -22,8 +22,20 @@ public class HttpRequest {
         return requestLine.isSameHttpMethod(httpMethod);
     }
 
-    public String getRequestTarget() {
-        return requestLine.getTarget();
+    public String getResource() {
+        return requestLine.getResource();
+    }
+
+    public String getPath() {
+        return requestLine.getPath();
+    }
+
+    public String getDirectory() {
+        return requestLine.getDirectory();
+    }
+
+    public HttpMethod getHttpMethod() {
+        return requestLine.getMethod();
     }
 
     public String getHeader(String header) {

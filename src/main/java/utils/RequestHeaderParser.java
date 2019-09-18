@@ -1,9 +1,9 @@
 package utils;
 
-import model.HttpRequest;
-import model.RequestBody;
-import model.RequestHeader;
-import model.RequestLine;
+import model.http.HttpRequest;
+import model.http.RequestBody;
+import model.http.RequestHeader;
+import model.http.RequestLine;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -57,6 +57,6 @@ public class RequestHeaderParser {
     private static RequestLine extractRequestLine(BufferedReader br) throws IOException {
         String line = br.readLine();
         String[] startLines = line.split(BLANK);
-        return new RequestLine(startLines[METHOD_INDEX], startLines[TARGET_INDEX].substring(1), startLines[VERSION_INDEX]);
+        return new RequestLine(startLines[METHOD_INDEX], startLines[TARGET_INDEX], startLines[VERSION_INDEX]);
     }
 }
