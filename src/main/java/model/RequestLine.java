@@ -2,13 +2,13 @@ package model;
 
 import utils.HttpMethod;
 
-public class StartLine {
+public class RequestLine {
 
     private HttpMethod method;
     private String target;
     private String version;
 
-    public StartLine(String method, String target, String version) {
+    public RequestLine(String method, String target, String version) {
         this.method = HttpMethod.valueOf(method);
         this.target = target;
         this.version = version;
