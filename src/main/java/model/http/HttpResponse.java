@@ -1,6 +1,7 @@
 package model.http;
 
 import utils.HttpStatus;
+import utils.MediaType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +11,7 @@ public class HttpResponse {
     private String resource;
     private String location;
     private HttpStatus httpStatus;
+    private MediaType mediaType;
 
     public HttpResponse() {
     }
@@ -17,10 +19,13 @@ public class HttpResponse {
     public void sendRedirect(String location, HttpStatus httpStatus) {
         this.location = location;
         this.httpStatus = httpStatus;
+        this.mediaType = MediaType.find(location.substring(location.lastIndexOf(".") + 1).toUpperCase());
     }
 
-    public void forward(String resource) {
+    public void forward(String resource, HttpStatus httpStatus) {
         this.resource = resource;
+        this.httpStatus = httpStatus;
+        this.mediaType = MediaType.find(resource.substring(resource.lastIndexOf(".") + 1).toUpperCase());
     }
 
     public String getForward() {
@@ -40,11 +45,23 @@ public class HttpResponse {
         return httpStatus.equals(HttpStatus.FORBIDDEN) || httpStatus.equals(HttpStatus.NOT_ALLOWED);
     }
 
-    public void setHttpStatus(HttpStatus httpStatus) {
-        this.httpStatus = httpStatus;
-    }
-
     public String getLocation() {
         return location;
+    }
+
+    public int getHttpStatusCode() {
+        return httpStatus.getValue();
+    }
+
+    public String getHttpReasonPhrase() {
+        return httpStatus.getReasonPhrase();
+    }
+
+    public String getMediaType() {
+        return mediaType.getContentType();
+    }
+
+    public boolean isRedirect() {
+        return httpStatus.equals(HttpStatus.REDIRECT);
     }
 }

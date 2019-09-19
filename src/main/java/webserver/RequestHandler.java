@@ -44,17 +44,16 @@ public class RequestHandler implements Runnable {
 
             // TODO ViewResolver
             if (httpResponse.hasError()) {
-                handleOutputStream(out, "error.html", TEMPLATE_PATH);
+                handleOutputStream(out, "error.html", httpResponse, TEMPLATE_PATH);
                 return;
             }
 
             if (mav.isStaticFolderResource()) {
-                handleOutputStream(out, mav.getViewName(), STATIC_PATH);
+                handleOutputStream(out, mav.getViewName(), httpResponse, STATIC_PATH);
                 return;
             }
-            handleOutputStream(out, mav.getViewName(), TEMPLATE_PATH);
 
-            //handleOutputStream(out, requestTarget);
+            handleOutputStream(out, mav.getViewName(), httpResponse, TEMPLATE_PATH);
         } catch (IOException e) {
             logger.error(e.getMessage());
         } catch (URISyntaxException e) {
@@ -74,39 +73,21 @@ public class RequestHandler implements Runnable {
         return null;
     }
 
-    private void handleOutputStream(OutputStream out, String requestTarget, String dirPath) throws IOException, URISyntaxException {
+    private void handleOutputStream(OutputStream out, String requestTarget, HttpResponse httpResponse, String dirPath) throws IOException, URISyntaxException {
         DataOutputStream dos = new DataOutputStream(out);
         byte[] body = FileIoUtils.loadFileFromClasspath("./" + dirPath + "/" + requestTarget);
 
-        // TODO 너무 졸려
-        if (requestTarget.contains("css")) {
-            response200HeaderCSS(dos, body.length);
-        } else {
-            response200Header(dos, body.length);
-        }
+        responseHeader(dos, body.length, httpResponse);
         responseBody(dos, body);
     }
 
-    private String getRequestedTarget(InputStream in) throws IOException {
-        HttpRequest httpRequest = RequestHeaderParser.parseRequest(new InputStreamReader(in, StandardCharsets.UTF_8));
-        return httpRequest.getResource();
-    }
-
-    private void response200Header(DataOutputStream dos, int lengthOfBodyContent) {
+    private void responseHeader(DataOutputStream dos, int lengthOfBodyContent, HttpResponse response) {
         try {
-            dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
-            dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
-            dos.writeBytes("\r\n");
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    private void response200HeaderCSS(DataOutputStream dos, int lengthOfBodyContent) {
-        try {
-            dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: text/css;charset=utf-8\r\n");
+            dos.writeBytes("HTTP/1.1 " + response.getHttpStatusCode() + " " + response.getHttpReasonPhrase() + " \r\n");
+            if (response.isRedirect()) {
+                dos.writeBytes("Location: " + response.getLocation() + " \r\n");
+            }
+            dos.writeBytes("Content-Type: " + response.getMediaType() + ";charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {

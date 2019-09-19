@@ -2,6 +2,8 @@ package model.http;
 
 import utils.HttpMethod;
 
+import java.util.Map;
+
 public class HttpRequest {
     private RequestLine requestLine;
     private RequestHeader requestHeader;
@@ -32,6 +34,10 @@ public class HttpRequest {
 
     public String getDirectory() {
         return requestLine.getDirectory();
+    }
+
+    public Map<String, String> getQueryParams() {
+        return requestLine.getQueryParams();
     }
 
     public HttpMethod getHttpMethod() {

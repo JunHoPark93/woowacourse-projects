@@ -2,9 +2,10 @@ package utils;
 
 public enum HttpStatus {
 
-    OK(200, "ok"),
-    NOT_ALLOWED(405, "not allowed"),
-    FORBIDDEN(403, "forbidden");
+    OK(200, "OK"),
+    REDIRECT(302, "FOUND"),
+    NOT_ALLOWED(405, "NOT ALLOWED"),
+    FORBIDDEN(403, "FORBIDDEN");
 
     private final int value;
     private final String reasonPhrase;
@@ -12,5 +13,13 @@ public enum HttpStatus {
     HttpStatus(int value, String reasonPhrase) {
         this.value = value;
         this.reasonPhrase = reasonPhrase;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public String getReasonPhrase() {
+        return reasonPhrase;
     }
 }

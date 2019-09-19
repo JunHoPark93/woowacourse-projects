@@ -2,6 +2,7 @@ package model.http;
 
 import utils.HttpMethod;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +19,8 @@ public class RequestLine {
     }
 
     private void initPath(String path) {
-        if (path.contains("\\?")) {
-            String query = path.substring(path.indexOf("\\?"));
+        if (path.contains("?")) {
+            String query = path.substring(path.indexOf("?") + 1);
             String[] queries = query.split("&");
 
             for (String eachQuery : queries) {
@@ -27,7 +28,7 @@ public class RequestLine {
                 queryParams.put(splitedQuery[0], splitedQuery[1]);
             }
 
-            path = path.substring(0, path.indexOf("\\?"));
+            path = path.substring(0, path.indexOf("?"));
         }
 
         this.path = path;
@@ -46,6 +47,9 @@ public class RequestLine {
     }
 
     public String getDirectory() {
+        if (path.substring(0, path.lastIndexOf("/")).length() == 0) {
+            return "/"; // root
+        }
         return path.substring(0, path.lastIndexOf("/"));
     }
 
@@ -72,5 +76,9 @@ public class RequestLine {
 
     public HttpMethod getMethod() {
         return method;
+    }
+
+    public Map<String, String> getQueryParams() {
+        return Collections.unmodifiableMap(queryParams);
     }
 }

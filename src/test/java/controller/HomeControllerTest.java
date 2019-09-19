@@ -24,6 +24,6 @@ public class HomeControllerTest {
 //        Controller controller = new HomeController();
 //        controller.service(httpRequest, httpResponse);
 //
-//        assertThat(httpResponse.getHttpStatus()).isEqualTo(HttpStatus.OK);
+//        assertThat(httpResponse.getHttpStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }

@@ -1,9 +1,10 @@
 package handler;
 
 public enum StaticResourcePath {
-    CSS("/css/"),
-    JS("/js/"),
-    FONT("/fonts/");
+    CSS("/css"),
+    JS("/js"),
+    FONT("/fonts");
+
 
     StaticResourcePath(String folderName) {
         this.folderName = folderName;
