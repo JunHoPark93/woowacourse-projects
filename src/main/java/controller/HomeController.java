@@ -9,9 +9,4 @@ public class HomeController extends AbstractController {
         request.getResource();
         response.sendRedirect(request.getResource());
     }
-
-    @Override
-    protected void doPost(HttpRequest request, HttpResponse response) {
-
-    }
 }

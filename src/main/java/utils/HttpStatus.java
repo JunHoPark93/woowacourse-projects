@@ -2,7 +2,9 @@ package utils;
 
 public enum HttpStatus {
 
-    OK(200, "ok");
+    OK(200, "ok"),
+    NOT_ALLOWED(405, "not allowed"),
+    FORBIDDEN(403, "forbidden");
 
     private final int value;
     private final String reasonPhrase;

@@ -1,12 +1,13 @@
 package webserver;
 
-import controller.Controller;
+import handler.Handler;
+import handler.HandlerList;
 import model.http.HttpRequest;
 import model.http.HttpResponse;
+import model.http.ModelAndView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.FileIoUtils;
-import utils.HandlerMapper;
 import utils.RequestHeaderParser;
 
 import java.io.*;
@@ -29,29 +30,29 @@ public class RequestHandler implements Runnable {
         logger.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
                 connection.getPort());
 
-        // TODO mapping handler에서 url을 못찾으면, static url인지 검사
-
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-
-            // method를 구분
-
-            // method에 따른 처리 get / post
-
-            // HttpRequest , HttpResponse 빈 객체 호 new HttpResponse(out);
             HttpRequest httpRequest = RequestHeaderParser.parseRequest(new InputStreamReader(in, StandardCharsets.UTF_8));
             HttpResponse httpResponse = new HttpResponse();
 
-            Controller controller = HandlerMapper.findController(httpRequest.getDirectory());
-            if (controller == null) {
-                // TODO css 리턴 handleStaticResources
-                httpResponse.forward(httpRequest.getPath());
-                handleOutputStream(out, httpResponse.getForward(), STATIC_PATH);
+            Handler mappingHandler = getHandler(httpRequest);
+            if (mappingHandler == null) {
+                // TODO httpResponse.sendError("no handler found");
+                throw new RuntimeException();
+            }
+
+            ModelAndView mav = mappingHandler.handle(httpRequest, httpResponse);
+
+            // TODO ViewResolver
+            if (httpResponse.hasError()) {
+                handleOutputStream(out, "error.html", TEMPLATE_PATH);
                 return;
             }
 
-            controller.service(httpRequest, httpResponse);
-
-            handleOutputStream(out, httpResponse.getSendRedirect(), TEMPLATE_PATH);
+            if (mav.isStaticFolderResource()) {
+                handleOutputStream(out, mav.getViewName(), STATIC_PATH);
+                return;
+            }
+            handleOutputStream(out, mav.getViewName(), TEMPLATE_PATH);
 
             //handleOutputStream(out, requestTarget);
         } catch (IOException e) {
@@ -61,10 +62,27 @@ public class RequestHandler implements Runnable {
         }
     }
 
+    private Handler getHandler(HttpRequest httpRequest) {
+        for (Handler handler : HandlerList.LIST) {
+            // TODO optional
+            Handler targetHandler = handler.getHandler(httpRequest.getDirectory());
+            if (targetHandler != null) {
+                return targetHandler;
+            }
+        }
+        return null;
+    }
+
     private void handleOutputStream(OutputStream out, String requestTarget, String dirPath) throws IOException, URISyntaxException {
         DataOutputStream dos = new DataOutputStream(out);
         byte[] body = FileIoUtils.loadFileFromClasspath("./" + dirPath + "/" + requestTarget);
-        response200Header(dos, body.length);
+
+        // TODO 너무 졸려
+        if (requestTarget.contains("css")) {
+            response200HeaderCSS(dos, body.length);
+        } else {
+            response200Header(dos, body.length);
+        }
         responseBody(dos, body);
     }
 
@@ -77,6 +95,17 @@ public class RequestHandler implements Runnable {
         try {
             dos.writeBytes("HTTP/1.1 200 OK \r\n");
             dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+            dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
+            dos.writeBytes("\r\n");
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    private void response200HeaderCSS(DataOutputStream dos, int lengthOfBodyContent) {
+        try {
+            dos.writeBytes("HTTP/1.1 200 OK \r\n");
+            dos.writeBytes("Content-Type: text/css;charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
