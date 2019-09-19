@@ -2,15 +2,35 @@ package model.http;
 
 import utils.HttpMethod;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RequestLine {
     private HttpMethod method;
     private String path;
+    private Map<String, String> queryParams = new HashMap<>();
     private String version;
 
     public RequestLine(String method, String path, String version) {
         this.method = HttpMethod.valueOf(method);
-        this.path = path;
+        initPath(path);
         this.version = version;
+    }
+
+    private void initPath(String path) {
+        if (path.contains("\\?")) {
+            String query = path.substring(path.indexOf("\\?"));
+            String[] queries = query.split("&");
+
+            for (String eachQuery : queries) {
+                String[] splitedQuery = eachQuery.split("=");
+                queryParams.put(splitedQuery[0], splitedQuery[1]);
+            }
+
+            path = path.substring(0, path.indexOf("\\?"));
+        }
+
+        this.path = path;
     }
 
     public boolean isBodyExists() {

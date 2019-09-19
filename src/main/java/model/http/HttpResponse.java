@@ -14,8 +14,9 @@ public class HttpResponse {
     public HttpResponse() {
     }
 
-    public void sendRedirect(String location) {
+    public void sendRedirect(String location, HttpStatus httpStatus) {
         this.location = location;
+        this.httpStatus = httpStatus;
     }
 
     public void forward(String resource) {
@@ -37,5 +38,9 @@ public class HttpResponse {
     public boolean hasError() {
         // TODO enum error 메시지 확인
         return httpStatus.equals(HttpStatus.FORBIDDEN) || httpStatus.equals(HttpStatus.NOT_ALLOWED);
+    }
+
+    public void setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
     }
 }

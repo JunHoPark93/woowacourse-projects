@@ -8,19 +8,29 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class ControllerMappingHandlerTest {
     private Map<String, Controller> mapper = new HashMap<>();
 
     @BeforeEach
     void setUp() {
+        // Handler 초기화 과정
         mapper.put("/user", new UserController());
     }
 
     @Test
-    void 요청에_맞는_컨트롤러_찾기() {
-        Handler handler = new ControllerMappingHandler();
-        handler.getHandler("/user");
+    void 요청에_맞는_컨트롤러가_존재할때() {
+        Object expectedHandler = mapper.get("/user");
 
-        // TODO
+        assertTrue(expectedHandler instanceof UserController);
+    }
+
+    @Test
+    void 요청에_맞는_컨트롤러가_없을때() {
+        Object expectedHandler = mapper.get("/unknown");
+
+        assertNull(expectedHandler);
     }
 }
