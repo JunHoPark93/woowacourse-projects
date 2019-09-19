@@ -12,6 +12,7 @@ public class StaticResourceMappingHandler implements Handler {
     public ModelAndView handle(HttpRequest httpRequest, HttpResponse httpResponse) {
         View view = new View(httpRequest.getPath().substring(1));
         httpResponse.forward(httpRequest.getResource(), HttpStatus.OK);
+
         return new ModelAndView(view, true);
     }
 

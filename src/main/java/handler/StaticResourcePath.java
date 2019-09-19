@@ -1,10 +1,11 @@
 package handler;
 
+import java.util.Arrays;
+
 public enum StaticResourcePath {
     CSS("/css"),
     JS("/js"),
     FONT("/fonts");
-
 
     StaticResourcePath(String folderName) {
         this.folderName = folderName;
@@ -17,11 +18,7 @@ public enum StaticResourcePath {
     }
 
     public static boolean contains(String path) {
-        for (StaticResourcePath value : values()) {
-            if (value.isMatch(path)) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(values())
+                .anyMatch(staticResourcePath -> staticResourcePath.isMatch(path));
     }
 }

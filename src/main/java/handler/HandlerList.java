@@ -1,18 +1,14 @@
 package handler;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class HandlerList {
-    // TODO unmodifiable list로의 싱글턴
-    public static List<Handler> LIST = new ArrayList<>();
+    private static final Handler[] HANDLERS = {
+            new ControllerMappingHandler(),
+            new StaticResourceMappingHandler()
+    };
 
-    static {
-        LIST.add(new ControllerMappingHandler());
-        LIST.add(new StaticResourceMappingHandler());
-    }
-
-//    public Handler find(String dir) {
-//        return
-//    }
+    public static List<Handler> LIST = Collections.unmodifiableList(Arrays.asList(HANDLERS));
 }

@@ -9,10 +9,8 @@ import utils.HttpStatus;
 import java.util.Map;
 
 public class UserController extends AbstractController {
-
     @Override
     protected void doGet(HttpRequest request, HttpResponse response) {
-
         if ("/user/form.html".equals(request.getPath())) {
             request.getResource();
             response.sendRedirect("user/" + request.getResource(), HttpStatus.OK);

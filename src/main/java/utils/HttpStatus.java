@@ -1,7 +1,6 @@
 package utils;
 
 public enum HttpStatus {
-
     OK(200, "OK"),
     REDIRECT(302, "FOUND"),
     NOT_ALLOWED(405, "NOT ALLOWED"),
@@ -21,5 +20,9 @@ public enum HttpStatus {
 
     public String getReasonPhrase() {
         return reasonPhrase;
+    }
+
+    public boolean isError() {
+        return this.equals(NOT_ALLOWED) || this.equals(FORBIDDEN);
     }
 }

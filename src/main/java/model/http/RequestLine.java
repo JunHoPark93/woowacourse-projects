@@ -40,27 +40,22 @@ public class RequestLine {
     }
 
     public String getDirectory() {
-        if (path.substring(0, path.lastIndexOf("/")).length() == 0) {
-            return "/"; // root
+        if (isRootDirectoryRequest()) {
+            return "/";
         }
         return path.substring(0, path.lastIndexOf("/"));
     }
 
+    private boolean isRootDirectoryRequest() {
+        return path.substring(0, path.lastIndexOf("/")).length() == 0;
+    }
+
     public String getResource() {
-        // resource가 없는 요청일 경우
         if (isRootRequest()) {
             return "index.html";
         }
 
-        if (isRestRequest()) {
-            // TODO rest api
-        }
-
         return path.substring(path.lastIndexOf("/") + 1);
-    }
-
-    private boolean isRestRequest() {
-        return !path.contains(".");
     }
 
     private boolean isRootRequest() {

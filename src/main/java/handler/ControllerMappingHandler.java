@@ -22,7 +22,7 @@ public class ControllerMappingHandler implements Handler {
             View view = new View(httpResponse.getLocation());
             Map<String, Object> map = new HashMap<>();
 
-            // TODO post 면 map 에 담아줄 것
+            // TODO 리턴 데이터가 있으면 map 에 담아줄 것
             return new ModelAndView(view, map, false);
         }
         throw new RuntimeException("controller not initialized");

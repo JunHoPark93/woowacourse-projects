@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpResponse {
-    private Map<String, String> headers = new HashMap<>();
+    // TODO model 맵의 역할
+    private Map<String, String> body = new HashMap<>();
     private String resource;
     private String location;
     private HttpStatus httpStatus;
     private MediaType mediaType;
+    private String errorMsg;
 
     public HttpResponse() {
     }
@@ -36,13 +38,13 @@ public class HttpResponse {
         return location;
     }
 
-    public void sendError(HttpStatus status, String msg) {
-
+    public void sendError(HttpStatus httpStatus, String msg) {
+        this.httpStatus = httpStatus;
+        this.errorMsg = msg;
     }
 
     public boolean hasError() {
-        // TODO enum error 메시지 확인
-        return httpStatus.equals(HttpStatus.FORBIDDEN) || httpStatus.equals(HttpStatus.NOT_ALLOWED);
+        return httpStatus.isError();
     }
 
     public String getLocation() {
