@@ -13,4 +13,8 @@ public class RequestHeader {
     public String getHeaderValue(String header) {
         return headers.get(header);
     }
+
+    public int getContentLength() {
+        return Integer.valueOf(headers.get("Content-Length"));
+    }
 }

@@ -25,20 +25,15 @@ public class RequestHeaderParser {
         RequestHeader requestHeader = extractRequestHeaders(br);
 
         if (requestLine.isBodyExists()) {
-            StringBuilder sb = new StringBuilder();
-            String bodyLine = br.readLine();
-            do {
-                sb.append(bodyLine);
-                bodyLine = br.readLine();
-            } while (bodyLine != null);
-
-            RequestBody requestBody = new RequestBody(sb.toString());
+            String body = IOUtils.readData(br, requestHeader.getContentLength());
+            RequestBody requestBody = new RequestBody(body);
 
             return new HttpRequest(requestLine, requestHeader, requestBody);
         }
 
         return new HttpRequest(requestLine, requestHeader);
     }
+
 
     private static RequestLine extractRequestLine(BufferedReader br) throws IOException {
         String line = br.readLine();

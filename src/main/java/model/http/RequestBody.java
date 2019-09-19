@@ -1,10 +1,18 @@
 package model.http;
 
-public class RequestBody {
+import utils.QueryParser;
 
-    private String body;
+import java.util.Collections;
+import java.util.Map;
+
+public class RequestBody {
+    private Map<String, String> body;
 
     public RequestBody(String body) {
-        this.body = body;
+        this.body = QueryParser.parseRequest(body);
+    }
+
+    public Map<String, String> getBody() {
+        return Collections.unmodifiableMap(body);
     }
 }

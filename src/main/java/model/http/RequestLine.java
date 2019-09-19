@@ -1,6 +1,7 @@
 package model.http;
 
 import utils.HttpMethod;
+import utils.QueryParser;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,17 +21,9 @@ public class RequestLine {
 
     private void initPath(String path) {
         if (path.contains("?")) {
-            String query = path.substring(path.indexOf("?") + 1);
-            String[] queries = query.split("&");
-
-            for (String eachQuery : queries) {
-                String[] splitedQuery = eachQuery.split("=");
-                queryParams.put(splitedQuery[0], splitedQuery[1]);
-            }
-
+            this.queryParams = QueryParser.parseRequest(path.substring(path.indexOf("?") + 1));
             path = path.substring(0, path.indexOf("?"));
         }
-
         this.path = path;
     }
 
