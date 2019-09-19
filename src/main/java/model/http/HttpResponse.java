@@ -43,4 +43,8 @@ public class HttpResponse {
     public void setHttpStatus(HttpStatus httpStatus) {
         this.httpStatus = httpStatus;
     }
+
+    public String getLocation() {
+        return location;
+    }
 }

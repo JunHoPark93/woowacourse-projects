@@ -40,6 +40,12 @@ public class RequestHeaderParser {
         return new HttpRequest(requestLine, requestHeader);
     }
 
+    private static RequestLine extractRequestLine(BufferedReader br) throws IOException {
+        String line = br.readLine();
+        String[] startLines = line.split(BLANK);
+        return new RequestLine(startLines[METHOD_INDEX], startLines[TARGET_INDEX], startLines[VERSION_INDEX]);
+    }
+
     private static RequestHeader extractRequestHeaders(BufferedReader br) throws IOException {
         RequestHeader requestHeader = new RequestHeader();
 
@@ -52,11 +58,5 @@ public class RequestHeaderParser {
             requestHeader.add(headers[HEADER_KEY], headers[HEADER_VALUE]);
         }
         return requestHeader;
-    }
-
-    private static RequestLine extractRequestLine(BufferedReader br) throws IOException {
-        String line = br.readLine();
-        String[] startLines = line.split(BLANK);
-        return new RequestLine(startLines[METHOD_INDEX], startLines[TARGET_INDEX], startLines[VERSION_INDEX]);
     }
 }

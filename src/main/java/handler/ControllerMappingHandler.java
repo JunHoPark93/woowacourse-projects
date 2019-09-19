@@ -19,7 +19,7 @@ public class ControllerMappingHandler implements Handler {
             // 실제 controller 를 호출하는 부분
             controller.service(httpRequest, httpResponse);
 
-            View view = new View(httpRequest.getResource());
+            View view = new View(httpResponse.getLocation());
             Map<String, Object> map = new HashMap<>();
 
             // TODO post 면 map 에 담아줄 것

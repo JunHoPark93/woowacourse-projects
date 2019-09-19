@@ -65,7 +65,8 @@ public class RequestHandler implements Runnable {
     private Handler getHandler(HttpRequest httpRequest) {
         for (Handler handler : HandlerList.LIST) {
             // TODO optional
-            Handler targetHandler = handler.getHandler(httpRequest.getDirectory());
+            String temp = httpRequest.getDirectory();
+            Handler targetHandler = handler.getHandler(temp);
             if (targetHandler != null) {
                 return targetHandler;
             }
