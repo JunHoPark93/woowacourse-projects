@@ -1,19 +1,18 @@
-package model.http;
+package webserver.http.request;
 
-import utils.HttpMethod;
-import utils.QueryParser;
+import webserver.http.HttpMethod;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestLine {
+class RequestLine {
     private HttpMethod method;
     private String path;
     private Map<String, String> queryParams = new HashMap<>();
     private String version;
 
-    public RequestLine(String method, String path, String version) {
+    RequestLine(String method, String path, String version) {
         this.method = HttpMethod.valueOf(method);
         initPath(path);
         this.version = version;
@@ -27,19 +26,19 @@ public class RequestLine {
         this.path = path;
     }
 
-    public boolean isBodyExists() {
+    boolean isBodyExists() {
         return method.isBodyExists();
     }
 
-    public boolean isSameHttpMethod(HttpMethod httpMethod) {
+    boolean isSameHttpMethod(HttpMethod httpMethod) {
         return method.equals(httpMethod);
     }
 
-    public String getPath() {
+    String getPath() {
         return path;
     }
 
-    public String getDirectory() {
+    String getDirectory() {
         if (isRootDirectoryRequest()) {
             return "/";
         }
@@ -50,7 +49,7 @@ public class RequestLine {
         return path.substring(0, path.lastIndexOf("/")).length() == 0;
     }
 
-    public String getResource() {
+    String getResource() {
         if (isRootRequest()) {
             return "index.html";
         }
@@ -62,11 +61,11 @@ public class RequestLine {
         return path.equals("/");
     }
 
-    public HttpMethod getMethod() {
+    HttpMethod getMethod() {
         return method;
     }
 
-    public Map<String, String> getQueryParams() {
+    Map<String, String> getQueryParams() {
         return Collections.unmodifiableMap(queryParams);
     }
 }

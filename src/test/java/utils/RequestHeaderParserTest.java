@@ -1,8 +1,10 @@
 package utils;
 
-import model.http.HttpRequest;
+import webserver.http.request.RequestHeaderParser;
+import webserver.http.request.HttpRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import webserver.http.HttpMethod;
 
 import java.io.FileInputStream;
 import java.io.IOException;

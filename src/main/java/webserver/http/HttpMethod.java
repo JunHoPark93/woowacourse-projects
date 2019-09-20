@@ -1,4 +1,4 @@
-package utils;
+package webserver.http;
 
 public enum HttpMethod {
     GET(Body.NOT_EXISTS),

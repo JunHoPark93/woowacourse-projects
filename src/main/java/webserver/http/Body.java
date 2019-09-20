@@ -1,4 +1,4 @@
-package utils;
+package webserver.http;
 
 public enum Body {
     EXISTS(true),

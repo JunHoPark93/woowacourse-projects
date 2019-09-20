@@ -1,14 +1,14 @@
 package webserver;
 
-import handler.Handler;
-import handler.HandlerList;
-import model.http.HttpRequest;
-import model.http.HttpResponse;
-import model.http.ModelAndView;
+import webserver.handler.Handler;
+import webserver.handler.HandlerList;
+import webserver.http.request.HttpRequest;
+import webserver.http.response.HttpResponse;
+import webserver.http.request.RequestHeaderParser;
+import webserver.view.ModelAndView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.FileIoUtils;
-import utils.RequestHeaderParser;
 
 import java.io.*;
 import java.net.Socket;
@@ -52,7 +52,7 @@ public class RequestHandler implements Runnable {
 
     private HttpResponse checkResponse(HttpResponse httpResponse) {
         if (httpResponse.isNotInitialized()) {
-            httpResponse = HttpResponse.createErrorResponse();
+            httpResponse = HttpResponse.createError();
         }
         return httpResponse;
     }

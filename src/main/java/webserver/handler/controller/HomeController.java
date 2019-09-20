@@ -1,8 +1,8 @@
-package controller;
+package webserver.handler.controller;
 
-import model.http.HttpRequest;
-import model.http.HttpResponse;
-import utils.HttpStatus;
+import webserver.http.request.HttpRequest;
+import webserver.http.response.HttpResponse;
+import webserver.http.HttpStatus;
 
 public class HomeController extends AbstractController {
     @Override

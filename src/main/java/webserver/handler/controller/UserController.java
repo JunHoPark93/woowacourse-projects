@@ -1,10 +1,10 @@
-package controller;
+package webserver.handler.controller;
 
 import db.DataBase;
 import model.User;
-import model.http.HttpRequest;
-import model.http.HttpResponse;
-import utils.HttpStatus;
+import webserver.http.request.HttpRequest;
+import webserver.http.response.HttpResponse;
+import webserver.http.HttpStatus;
 
 import java.util.Map;
 

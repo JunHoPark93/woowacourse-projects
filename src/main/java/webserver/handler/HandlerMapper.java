@@ -1,13 +1,13 @@
-package utils;
+package webserver.handler;
 
-import controller.Controller;
-import controller.HomeController;
-import controller.UserController;
+import webserver.handler.controller.Controller;
+import webserver.handler.controller.HomeController;
+import webserver.handler.controller.UserController;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class HandlerMapper {
+public final class HandlerMapper {
     private static final Map<String, Controller> mapper = new HashMap<>();
 
     static {

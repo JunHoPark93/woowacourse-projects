@@ -1,20 +1,20 @@
-package model.http;
+package webserver.http.request;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestHeader {
+class RequestHeader {
     private Map<String, String> headers = new HashMap<>();
 
-    public void add(String key, String value) {
+    void add(String key, String value) {
         headers.put(key, value);
     }
 
-    public String getHeaderValue(String header) {
+    String getHeaderValue(String header) {
         return headers.get(header);
     }
 
-    public int getContentLength() {
+    int getContentLength() {
         return Integer.valueOf(headers.get("Content-Length"));
     }
 }

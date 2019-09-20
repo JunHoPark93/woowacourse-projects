@@ -1,8 +1,13 @@
-package handler;
+package webserver.handler.strategy;
 
-import controller.Controller;
-import model.http.*;
-import utils.HandlerMapper;
+import webserver.handler.controller.Controller;
+import webserver.handler.Handler;
+import webserver.handler.HandlerMapper;
+import webserver.http.request.HttpRequest;
+import webserver.http.response.HttpResponse;
+import webserver.view.ModelAndView;
+import webserver.view.View;
+import webserver.view.ViewLocation;
 
 import java.util.HashMap;
 import java.util.Map;

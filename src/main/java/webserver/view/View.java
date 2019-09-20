@@ -1,6 +1,6 @@
-package model.http;
+package webserver.view;
 
-public class View {
+public final class View {
     private final String name;
     private final ViewLocation viewLocation;
 
@@ -13,12 +13,11 @@ public class View {
         return name;
     }
 
-    public String getViewLocation() {
+    String getViewLocation() {
         return viewLocation.getLocation();
     }
 
-    public String getFullPath() {
+    String getFullPath() {
         return "./" + viewLocation.getLocation() + "/" + name;
     }
-
 }

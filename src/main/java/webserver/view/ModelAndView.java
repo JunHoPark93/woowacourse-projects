@@ -1,8 +1,8 @@
-package model.http;
+package webserver.view;
 
 import java.util.Map;
 
-public class ModelAndView {
+public final class ModelAndView {
     private View view;
     private Map<String, Object> model;
 

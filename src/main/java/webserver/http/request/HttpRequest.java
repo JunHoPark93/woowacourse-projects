@@ -1,6 +1,6 @@
-package model.http;
+package webserver.http.request;
 
-import utils.HttpMethod;
+import webserver.http.HttpMethod;
 
 import java.util.Map;
 

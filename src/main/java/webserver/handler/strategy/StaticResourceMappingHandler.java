@@ -1,7 +1,13 @@
-package handler;
+package webserver.handler.strategy;
 
-import model.http.*;
-import utils.HttpStatus;
+import webserver.handler.Handler;
+import webserver.handler.StaticResourcePath;
+import webserver.http.HttpStatus;
+import webserver.http.request.HttpRequest;
+import webserver.http.response.HttpResponse;
+import webserver.view.ModelAndView;
+import webserver.view.View;
+import webserver.view.ViewLocation;
 
 public class StaticResourceMappingHandler implements Handler {
 

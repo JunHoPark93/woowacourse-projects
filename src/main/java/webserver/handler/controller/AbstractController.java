@@ -1,9 +1,9 @@
-package controller;
+package webserver.handler.controller;
 
-import model.http.HttpRequest;
-import model.http.HttpResponse;
-import utils.HttpMethod;
-import utils.HttpStatus;
+import webserver.http.request.HttpRequest;
+import webserver.http.response.HttpResponse;
+import webserver.http.HttpMethod;
+import webserver.http.HttpStatus;
 
 public abstract class AbstractController implements Controller {
     @Override

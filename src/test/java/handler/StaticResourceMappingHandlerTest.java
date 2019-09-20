@@ -1,6 +1,10 @@
 package handler;
 
+import webserver.handler.strategy.ControllerMappingHandler;
+import webserver.handler.strategy.StaticResourceMappingHandler;
 import org.junit.jupiter.api.Test;
+import webserver.handler.Handler;
+import webserver.handler.HandlerList;
 
 import java.util.ArrayList;
 import java.util.List;

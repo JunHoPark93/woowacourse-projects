@@ -1,7 +1,7 @@
 package handler;
 
-import controller.Controller;
-import controller.UserController;
+import webserver.handler.controller.Controller;
+import webserver.handler.controller.UserController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

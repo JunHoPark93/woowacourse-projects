@@ -1,7 +1,7 @@
-package model.http;
+package webserver.http.response;
 
-import utils.HttpStatus;
-import utils.MediaType;
+import webserver.http.HttpStatus;
+import webserver.http.MediaType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class HttpResponse {
         return new HttpResponse();
     }
 
-    public static HttpResponse createErrorResponse() {
+    public static HttpResponse createError() {
         HttpResponse httpResponse = new HttpResponse();
         httpResponse.resource = "error.html";
         httpResponse.httpStatus = HttpStatus.NOT_FOUND;

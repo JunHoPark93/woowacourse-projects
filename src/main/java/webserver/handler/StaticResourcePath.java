@@ -1,4 +1,4 @@
-package handler;
+package webserver.handler;
 
 import java.util.Arrays;
 

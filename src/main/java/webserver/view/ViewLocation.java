@@ -1,4 +1,4 @@
-package model.http;
+package webserver.view;
 
 public enum ViewLocation {
     TEMPLATE("templates"),
