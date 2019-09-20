@@ -1,13 +1,14 @@
 package webserver.http.request;
 
-import java.util.HashMap;
-import java.util.Map;
+final class RequestHeader {
+    private RequestHeaderParams headers;
 
-class RequestHeader {
-    private Map<String, String> headers = new HashMap<>();
+    private RequestHeader(RequestHeaderParams headers) {
+        this.headers = headers;
+    }
 
-    void add(String key, String value) {
-        headers.put(key, value);
+    static RequestHeader of(RequestHeaderParams headers) {
+        return new RequestHeader(headers);
     }
 
     String getHeaderValue(String header) {

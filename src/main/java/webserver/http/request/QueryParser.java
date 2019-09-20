@@ -9,7 +9,7 @@ final class QueryParser {
     private static final int KEY_INDEX = 0;
     private static final int VALUE_INDEX = 1;
 
-    static Map<String, String> parseRequest(String path) {
+    static QueryParams parseRequest(String path) {
         Map<String, String> queryParams = new HashMap<>();
         String[] queries = path.split(QUERY_DELIMITER);
 
@@ -18,6 +18,6 @@ final class QueryParser {
             queryParams.put(spliced[KEY_INDEX], spliced[VALUE_INDEX]);
         }
 
-        return queryParams;
+        return new QueryParams(queryParams);
     }
 }

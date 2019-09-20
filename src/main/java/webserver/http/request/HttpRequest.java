@@ -2,22 +2,28 @@ package webserver.http.request;
 
 import webserver.http.HttpMethod;
 
-import java.util.Map;
-
-public class HttpRequest {
+public final class HttpRequest {
     private RequestLine requestLine;
     private RequestHeader requestHeader;
     private RequestBody requestBody;
 
-    public HttpRequest(RequestLine requestLine, RequestHeader requestHeader, RequestBody requestBody) {
+    private HttpRequest(RequestLine requestLine, RequestHeader requestHeader, RequestBody requestBody) {
         this.requestLine = requestLine;
         this.requestHeader = requestHeader;
         this.requestBody = requestBody;
     }
 
-    public HttpRequest(RequestLine requestLine, RequestHeader requestHeader) {
+    private HttpRequest(RequestLine requestLine, RequestHeader requestHeader) {
         this.requestLine = requestLine;
         this.requestHeader = requestHeader;
+    }
+
+    static HttpRequest createWithBody(RequestLine requestLine, RequestHeader requestHeader, RequestBody requestBody) {
+        return new HttpRequest(requestLine, requestHeader, requestBody);
+    }
+
+    static HttpRequest createWithoutBody(RequestLine requestLine, RequestHeader requestHeader) {
+        return new HttpRequest(requestLine, requestHeader);
     }
 
     public boolean isSameHttpMethod(HttpMethod httpMethod) {
@@ -36,7 +42,7 @@ public class HttpRequest {
         return requestLine.getDirectory();
     }
 
-    public Map<String, String> getQueryParams() {
+    public QueryParams getQueryParams() {
         return requestLine.getQueryParams();
     }
 
@@ -48,7 +54,18 @@ public class HttpRequest {
         return requestHeader.getHeaderValue(header);
     }
 
-    public Map<String, String> getBody() {
-        return requestBody.getBody();
+    public boolean isBodyExists() {
+        return requestBody != null;
+    }
+
+    public QueryParams getBody() {
+        if (requestBody != null) {
+            return requestBody.getBody();
+        }
+        throw new RuntimeException("Body 가 있는 요청이 아닙니다");
+    }
+
+    public String getVersion() {
+        return requestLine.getVersion();
     }
 }

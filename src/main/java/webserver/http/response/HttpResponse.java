@@ -44,14 +44,6 @@ public class HttpResponse {
         this.mediaType = MediaType.find(resource.substring(resource.lastIndexOf(".") + 1).toUpperCase());
     }
 
-    public String getForward() {
-        return resource;
-    }
-
-    public String getSendRedirect() {
-        return location;
-    }
-
     public void sendError(HttpStatus httpStatus, String msg) {
         this.httpStatus = httpStatus;
         this.errorMsg = msg;

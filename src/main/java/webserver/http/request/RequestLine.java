@@ -2,20 +2,20 @@ package webserver.http.request;
 
 import webserver.http.HttpMethod;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-class RequestLine {
+final class RequestLine {
     private HttpMethod method;
     private String path;
-    private Map<String, String> queryParams = new HashMap<>();
+    private QueryParams queryParams;
     private String version;
 
-    RequestLine(String method, String path, String version) {
+    private RequestLine(String method, String path, String version) {
         this.method = HttpMethod.valueOf(method);
         initPath(path);
         this.version = version;
+    }
+
+    static RequestLine from(String method, String path, String version) {
+        return new RequestLine(method, path, version);
     }
 
     private void initPath(String path) {
@@ -65,7 +65,11 @@ class RequestLine {
         return method;
     }
 
-    Map<String, String> getQueryParams() {
-        return Collections.unmodifiableMap(queryParams);
+    QueryParams getQueryParams() {
+        return queryParams;
+    }
+
+    String getVersion() {
+        return version;
     }
 }

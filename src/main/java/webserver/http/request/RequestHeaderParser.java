@@ -5,6 +5,8 @@ import utils.IOUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class RequestHeaderParser {
     private static final String BLANK = " ";
@@ -23,23 +25,23 @@ public final class RequestHeaderParser {
 
         if (requestLine.isBodyExists()) {
             String body = IOUtils.readData(br, requestHeader.getContentLength());
-            RequestBody requestBody = new RequestBody(body);
+            RequestBody requestBody = RequestBody.of(body);
 
-            return new HttpRequest(requestLine, requestHeader, requestBody);
+            return HttpRequest.createWithBody(requestLine, requestHeader, requestBody);
         }
 
-        return new HttpRequest(requestLine, requestHeader);
+        return HttpRequest.createWithoutBody(requestLine, requestHeader);
     }
 
 
     private static RequestLine extractRequestLine(BufferedReader br) throws IOException {
         String line = br.readLine();
         String[] startLines = line.split(BLANK);
-        return new RequestLine(startLines[METHOD_INDEX], startLines[TARGET_INDEX], startLines[VERSION_INDEX]);
+        return RequestLine.from(startLines[METHOD_INDEX], startLines[TARGET_INDEX], startLines[VERSION_INDEX]);
     }
 
     private static RequestHeader extractRequestHeaders(BufferedReader br) throws IOException {
-        RequestHeader requestHeader = new RequestHeader();
+        Map<String, String> requestHeaders = new HashMap<>();
 
         while (true) {
             String line = br.readLine();
@@ -47,8 +49,9 @@ public final class RequestHeaderParser {
                 break;
             }
             String[] headers = line.split(HEADER_SEPARATOR);
-            requestHeader.add(headers[HEADER_KEY], headers[HEADER_VALUE]);
+            requestHeaders.put(headers[HEADER_KEY], headers[HEADER_VALUE]);
         }
-        return requestHeader;
+
+        return RequestHeader.of(RequestHeaderParams.of(requestHeaders));
     }
 }

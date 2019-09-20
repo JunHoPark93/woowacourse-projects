@@ -1,16 +1,17 @@
 package webserver.http.request;
 
-import java.util.Collections;
-import java.util.Map;
+public final class RequestBody {
+    private final QueryParams body;
 
-public class RequestBody {
-    private Map<String, String> body;
-
-    RequestBody(String body) {
+    private RequestBody(String body) {
         this.body = QueryParser.parseRequest(body);
     }
 
-    public Map<String, String> getBody() {
-        return Collections.unmodifiableMap(body);
+    static RequestBody of(String body) {
+        return new RequestBody(body);
+    }
+
+    public QueryParams getBody() {
+        return body;
     }
 }
