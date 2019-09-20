@@ -1,10 +1,10 @@
 package handler;
 
-import webserver.handler.strategy.ControllerMappingHandler;
-import webserver.handler.strategy.StaticResourceMappingHandler;
 import org.junit.jupiter.api.Test;
 import webserver.handler.Handler;
 import webserver.handler.HandlerList;
+import webserver.handler.strategy.ControllerMappingHandler;
+import webserver.handler.strategy.StaticResourceMappingHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +21,19 @@ class StaticResourceMappingHandlerTest {
 
     @Test
     void css_자원_폴더에대한_요청핸들러() {
-        Handler handler = getHandler("/css/");
+        Handler handler = getHandler("/css");
         assertTrue(handler instanceof StaticResourceMappingHandler);
     }
 
     @Test
     void js_자원_폴더에대한_요청핸들러() {
-        Handler handler = getHandler("/js/");
+        Handler handler = getHandler("/js");
         assertTrue(handler instanceof StaticResourceMappingHandler);
     }
 
     @Test
     void font_자원_폴더에대한_요청핸들러() {
-        Handler handler = getHandler("/fonts/");
+        Handler handler = getHandler("/fonts");
         assertTrue(handler instanceof StaticResourceMappingHandler);
     }
 

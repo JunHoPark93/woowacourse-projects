@@ -17,8 +17,8 @@ import java.nio.charset.StandardCharsets;
 
 public class RequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
-    private static final String STATIC_PATH = "static";
-    private static final String TEMPLATE_PATH = "templates";
+
+    private static final String DEFAULT_ERROR_PATH = "./templates/error.html";
 
     private Socket connection;
 
@@ -36,8 +36,7 @@ public class RequestHandler implements Runnable {
 
             Handler mappingHandler = getHandler(httpRequest);
             if (mappingHandler == null) {
-                // TODO httpResponse.sendError("no handler found");
-                throw new RuntimeException();
+                throw new RuntimeException("no mapping handler found");
             }
 
             ModelAndView mav = mappingHandler.handle(httpRequest, httpResponse);
@@ -59,7 +58,7 @@ public class RequestHandler implements Runnable {
 
     private Handler getHandler(HttpRequest httpRequest) {
         for (Handler handler : HandlerList.LIST) {
-            // TODO optional
+            // TODO optional 을 반환할 것인가 null 리턴해도 괜찮은가
             String temp = httpRequest.getDirectory();
             Handler targetHandler = handler.getHandler(temp);
             if (targetHandler != null) {
@@ -73,7 +72,7 @@ public class RequestHandler implements Runnable {
             , URISyntaxException {
         DataOutputStream dos = new DataOutputStream(out);
         if (httpResponse.isNotInitialized() || httpResponse.hasError()) {
-            byte[] body = FileIoUtils.loadFileFromClasspath("./templates/error.html");
+            byte[] body = FileIoUtils.loadFileFromClasspath(DEFAULT_ERROR_PATH);
             createResponse(httpResponse, dos, body);
             return;
         }

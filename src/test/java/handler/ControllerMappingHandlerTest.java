@@ -1,9 +1,9 @@
 package handler;
 
-import webserver.handler.controller.Controller;
-import webserver.handler.controller.UserController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import webserver.handler.controller.Controller;
+import webserver.handler.controller.UserController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ class ControllerMappingHandlerTest {
 
     @BeforeEach
     void setUp() {
-        // Handler 초기화 과정
+        // Handler 초기화 과정 흉내
         mapper.put("/user", new UserController());
     }
 
