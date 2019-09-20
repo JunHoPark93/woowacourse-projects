@@ -1,10 +1,7 @@
 package handler;
 
 import controller.Controller;
-import model.http.HttpRequest;
-import model.http.HttpResponse;
-import model.http.ModelAndView;
-import model.http.View;
+import model.http.*;
 import utils.HandlerMapper;
 
 import java.util.HashMap;
@@ -19,11 +16,11 @@ public class ControllerMappingHandler implements Handler {
             // 실제 controller 를 호출하는 부분
             controller.service(httpRequest, httpResponse);
 
-            View view = new View(httpResponse.getLocation());
+            View view = new View(httpResponse.getLocation(), ViewLocation.TEMPLATE);
             Map<String, Object> map = new HashMap<>();
 
             // TODO 리턴 데이터가 있으면 map 에 담아줄 것
-            return new ModelAndView(view, map, false);
+            return new ModelAndView(view, map);
         }
         throw new RuntimeException("controller not initialized");
     }

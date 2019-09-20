@@ -15,7 +15,21 @@ public class HttpResponse {
     private MediaType mediaType;
     private String errorMsg;
 
-    public HttpResponse() {
+    private HttpResponse() {
+        this.httpStatus = HttpStatus.DEFAULT;
+    }
+
+    public static HttpResponse of() {
+        return new HttpResponse();
+    }
+
+    public static HttpResponse createErrorResponse() {
+        HttpResponse httpResponse = new HttpResponse();
+        httpResponse.resource = "error.html";
+        httpResponse.httpStatus = HttpStatus.NOT_FOUND;
+        httpResponse.mediaType = MediaType.HTML;
+        httpResponse.location = "templates";
+        return httpResponse;
     }
 
     public void sendRedirect(String location, HttpStatus httpStatus) {
@@ -65,5 +79,9 @@ public class HttpResponse {
 
     public boolean isRedirect() {
         return httpStatus.equals(HttpStatus.REDIRECT);
+    }
+
+    public boolean isNotInitialized() {
+        return httpStatus.isNotInitialized();
     }
 }

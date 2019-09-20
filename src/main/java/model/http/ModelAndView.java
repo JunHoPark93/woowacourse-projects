@@ -5,17 +5,9 @@ import java.util.Map;
 public class ModelAndView {
     private View view;
     private Map<String, Object> model;
-    private boolean isStaticFolderResource;
 
-    public ModelAndView(View view, Map<String, Object> model, boolean isStaticFolderResource) {
+    public ModelAndView(View view) {
         this.view = view;
-        this.model = model;
-        this.isStaticFolderResource = isStaticFolderResource;
-    }
-
-    public ModelAndView(View view, boolean isStaticFolderResource) {
-        this.view = view;
-        this.isStaticFolderResource = isStaticFolderResource;
     }
 
     public ModelAndView(View view, Map<String, Object> model) {
@@ -27,7 +19,12 @@ public class ModelAndView {
         return view.getName();
     }
 
-    public boolean isStaticFolderResource() {
-        return isStaticFolderResource;
+    public String getDir() {
+        return view.getViewLocation();
     }
+
+    public String getFullPath() {
+        return view.getFullPath();
+    }
+
 }

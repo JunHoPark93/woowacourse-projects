@@ -32,7 +32,7 @@ public class RequestHandler implements Runnable {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             HttpRequest httpRequest = RequestHeaderParser.parseRequest(new InputStreamReader(in, StandardCharsets.UTF_8));
-            HttpResponse httpResponse = new HttpResponse();
+            HttpResponse httpResponse = HttpResponse.of();
 
             Handler mappingHandler = getHandler(httpRequest);
             if (mappingHandler == null) {
@@ -41,24 +41,20 @@ public class RequestHandler implements Runnable {
             }
 
             ModelAndView mav = mappingHandler.handle(httpRequest, httpResponse);
-
-            // TODO ViewResolver
-            if (httpResponse.hasError()) {
-                handleOutputStream(out, "error.html", httpResponse, TEMPLATE_PATH);
-                return;
-            }
-
-            if (mav.isStaticFolderResource()) {
-                handleOutputStream(out, mav.getViewName(), httpResponse, STATIC_PATH);
-                return;
-            }
-
-            handleOutputStream(out, mav.getViewName(), httpResponse, TEMPLATE_PATH);
+            httpResponse = checkResponse(httpResponse);
+            handleOutputStream(out, mav, httpResponse);
         } catch (IOException e) {
             logger.error(e.getMessage());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    private HttpResponse checkResponse(HttpResponse httpResponse) {
+        if (httpResponse.isNotInitialized()) {
+            httpResponse = HttpResponse.createErrorResponse();
+        }
+        return httpResponse;
     }
 
     private Handler getHandler(HttpRequest httpRequest) {
@@ -73,10 +69,20 @@ public class RequestHandler implements Runnable {
         return null;
     }
 
-    private void handleOutputStream(OutputStream out, String requestTarget, HttpResponse httpResponse, String dirPath) throws IOException, URISyntaxException {
+    private void handleOutputStream(OutputStream out, ModelAndView mav, HttpResponse httpResponse) throws IOException
+            , URISyntaxException {
         DataOutputStream dos = new DataOutputStream(out);
-        byte[] body = FileIoUtils.loadFileFromClasspath("./" + dirPath + "/" + requestTarget);
+        if (httpResponse.isNotInitialized() || httpResponse.hasError()) {
+            byte[] body = FileIoUtils.loadFileFromClasspath("./templates/error.html");
+            createResponse(httpResponse, dos, body);
+            return;
+        }
+        byte[] body = FileIoUtils.loadFileFromClasspath(mav.getFullPath());
 
+        createResponse(httpResponse, dos, body);
+    }
+
+    private void createResponse(HttpResponse httpResponse, DataOutputStream dos, byte[] body) {
         responseHeader(dos, body.length, httpResponse);
         responseBody(dos, body);
     }
