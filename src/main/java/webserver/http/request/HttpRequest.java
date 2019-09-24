@@ -33,11 +33,11 @@ public final class HttpRequest {
         return requestBody != null;
     }
 
-    public QueryParams getBody() {
-        if (isBodyExists()) {
-            return requestBody.getBody();
+    public String getParameter(String key) {
+        if (!isBodyExists()) {
+            throw new RuntimeException("Body 가 있는 요청이 아닙니다");
         }
-        throw new RuntimeException("Body 가 있는 요청이 아닙니다");
+        return requestBody.getParameter(key);
     }
 
     public String getVersion() {

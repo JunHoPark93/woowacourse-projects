@@ -23,12 +23,8 @@ public enum MediaType {
 
     public static MediaType find(String path) {
         return Arrays.stream(values())
-                .filter(mediaType -> mediaType.equals(valueOf(extractExtensions(path))))
+                .filter(mediaType -> mediaType.equals(valueOf(path)))
                 .findFirst()
                 .orElse(MediaType.NOT_SUPPORT);
-    }
-
-    private static String extractExtensions(String path) {
-        return path.substring(path.lastIndexOf(".") + 1).toUpperCase();
     }
 }

@@ -14,4 +14,8 @@ public final class RequestBody {
     public QueryParams getBody() {
         return body;
     }
+
+    public String getParameter(String key) {
+        return body.get(key);
+    }
 }

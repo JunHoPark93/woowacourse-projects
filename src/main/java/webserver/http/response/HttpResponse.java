@@ -21,9 +21,11 @@ public class HttpResponse {
 
     // TODO model 맵의 역할
     private Map<String, String> model = new HashMap<>();
-    private ResponseHeader responseHeader;
+    private ResponseHeader responseHeader = new ResponseHeader();
+    private Cookie cookie = new Cookie();
     private String path;
     private HttpStatus httpStatus;
+    private MediaType mediaType;
     private String errorMsg;
     private byte[] body;
 
@@ -35,23 +37,52 @@ public class HttpResponse {
         return new HttpResponse();
     }
 
-    public void ok(String path, ResponseHeader responseHeader) throws IOException, URISyntaxException {
+    public void ok(String path) throws IOException, URISyntaxException {
         this.path = path;
-        this.responseHeader = responseHeader;
         this.body = FileIoUtils.loadFileFromClasspath(path);
         this.httpStatus = HttpStatus.OK;
+        this.mediaType = MediaType.find(extractExtensions(path));
+        createHeader();
     }
 
-    public void redirect(String path, ResponseHeader responseHeader) throws IOException, URISyntaxException {
+    private String extractExtensions(String path) {
+        return path.substring(path.lastIndexOf(EXTENSION_DELIMITER) + 1).toUpperCase();
+    }
+
+    private void createHeader() {
+        if (isRedirect()) {
+            responseHeader.add("Location", excludePathPrefix(path));
+        }
+        if (cookie.isCookieExists()) {
+            responseHeader.add("Set-Cookie", cookie.create());
+        }
+        responseHeader.add("Content-Type", mediaType.getContentType());
+        responseHeader.add("Content-Length", body.length + ";charset=utf-8\r\n");
+    }
+
+    private boolean isRedirect() {
+        return httpStatus.equals(HttpStatus.REDIRECT);
+    }
+
+    private String excludePathPrefix(String path) {
+        return path.substring(path.indexOf(SLASH));
+    }
+
+    public void redirect(String path) throws IOException, URISyntaxException {
         this.path = path;
-        this.responseHeader = responseHeader;
         this.body = FileIoUtils.loadFileFromClasspath(path);
         this.httpStatus = HttpStatus.REDIRECT;
+        this.mediaType = MediaType.find(extractExtensions(path));
+        createHeader();
     }
 
     public void sendError(HttpStatus httpStatus, String msg) {
         this.httpStatus = httpStatus;
         this.errorMsg = msg;
+    }
+
+    public void addCookie(String key, String value) {
+        cookie.add(key, value);
     }
 
     public int getHttpStatusCode() {
@@ -80,7 +111,10 @@ public class HttpResponse {
         try {
             dos.writeBytes("HTTP/1.1 " + httpStatus.getValue() + " " + httpStatus.getReasonPhrase() + " \r\n");
             if (responseHeader.contains("Location")) {
-                dos.writeBytes("Location: " + responseHeader.get("Location"));
+                dos.writeBytes("Location: " + responseHeader.get("Location") + "\r\n");
+            }
+            if (responseHeader.contains("Set-Cookie")) {
+                dos.writeBytes("Set-Cookie: " + responseHeader.get("Set-Cookie"));
             }
             dos.writeBytes("Content-Type: " + responseHeader.get("Content-Type") + ";charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + body.length + "\r\n");
@@ -98,4 +132,5 @@ public class HttpResponse {
             logger.error(e.getMessage());
         }
     }
+
 }
