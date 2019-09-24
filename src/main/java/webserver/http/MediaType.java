@@ -21,10 +21,14 @@ public enum MediaType {
         return contentType;
     }
 
-    public static MediaType find(String name) {
+    public static MediaType find(String path) {
         return Arrays.stream(values())
-                .filter(mediaType -> mediaType.equals(valueOf(name)))
+                .filter(mediaType -> mediaType.equals(valueOf(extractExtensions(path))))
                 .findFirst()
                 .orElse(MediaType.NOT_SUPPORT);
+    }
+
+    private static String extractExtensions(String path) {
+        return path.substring(path.lastIndexOf(".") + 1).toUpperCase();
     }
 }

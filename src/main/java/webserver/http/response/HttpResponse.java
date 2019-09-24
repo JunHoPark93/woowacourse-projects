@@ -21,10 +21,9 @@ public class HttpResponse {
 
     // TODO model 맵의 역할
     private Map<String, String> model = new HashMap<>();
-    private Map<String, String> headers = new HashMap<>();
+    private ResponseHeader responseHeader;
     private String path;
     private HttpStatus httpStatus;
-    private MediaType mediaType;
     private String errorMsg;
     private byte[] body;
 
@@ -36,28 +35,18 @@ public class HttpResponse {
         return new HttpResponse();
     }
 
-    public void send(String path, HttpStatus httpStatus) throws IOException, URISyntaxException {
+    public void ok(String path, ResponseHeader responseHeader) throws IOException, URISyntaxException {
         this.path = path;
+        this.responseHeader = responseHeader;
         this.body = FileIoUtils.loadFileFromClasspath(path);
-        this.httpStatus = httpStatus;
-        this.mediaType = MediaType.find(extractExtensions(path));
-        createHeader();
+        this.httpStatus = HttpStatus.OK;
     }
 
-    private String extractExtensions(String path) {
-        return path.substring(path.lastIndexOf(EXTENSION_DELIMITER) + 1).toUpperCase();
-    }
-
-    private void createHeader() {
-        if (isRedirect()) {
-            headers.put("Location", excludePathPrefix(path) + "\r\n");
-        }
-        headers.put("Content-Type", mediaType.getContentType() + ";charset=utf-8\r\n");
-        headers.put("Content-Length", body.length + ";charset=utf-8\r\n");
-    }
-
-    private String excludePathPrefix(String path) {
-        return path.substring(path.indexOf(SLASH));
+    public void redirect(String path, ResponseHeader responseHeader) throws IOException, URISyntaxException {
+        this.path = path;
+        this.responseHeader = responseHeader;
+        this.body = FileIoUtils.loadFileFromClasspath(path);
+        this.httpStatus = HttpStatus.REDIRECT;
     }
 
     public void sendError(HttpStatus httpStatus, String msg) {
@@ -65,16 +54,8 @@ public class HttpResponse {
         this.errorMsg = msg;
     }
 
-    private boolean isRedirect() {
-        return httpStatus.equals(HttpStatus.REDIRECT);
-    }
-
     public int getHttpStatusCode() {
         return httpStatus.getValue();
-    }
-
-    public String getMediaType() {
-        return mediaType.getContentType();
     }
 
     public String getPath() {
@@ -86,6 +67,10 @@ public class HttpResponse {
         createResponse(dos);
     }
 
+    public String getHeaders(String key) {
+        return responseHeader.get(key);
+    }
+
     private void createResponse(DataOutputStream dos) {
         responseHeader(dos);
         responseBody(dos, this.body);
@@ -94,11 +79,11 @@ public class HttpResponse {
     private void responseHeader(DataOutputStream dos) {
         try {
             dos.writeBytes("HTTP/1.1 " + httpStatus.getValue() + " " + httpStatus.getReasonPhrase() + " \r\n");
-            if (isRedirect()) {
-                dos.writeBytes("Location: " + headers.get("Location"));
+            if (responseHeader.contains("Location")) {
+                dos.writeBytes("Location: " + responseHeader.get("Location"));
             }
-            dos.writeBytes("Content-Type: " + headers.get("Content-Type") + ";charset=utf-8\r\n");
-            dos.writeBytes("Content-Length: " + headers.get("Content-Length") + "\r\n");
+            dos.writeBytes("Content-Type: " + responseHeader.get("Content-Type") + ";charset=utf-8\r\n");
+            dos.writeBytes("Content-Length: " + body.length + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
             logger.error(e.getMessage());

@@ -25,6 +25,6 @@ class ResourceControllerTest {
 
         assertThat(httpResponse.getPath()).isEqualTo(ViewLocation.STATIC.getLocation() + "/css/styles.css");
         assertThat(httpResponse.getHttpStatusCode()).isEqualTo(HttpStatus.OK.getValue());
-        assertThat(httpResponse.getMediaType()).isEqualTo(MediaType.CSS.getContentType());
+        assertThat(httpResponse.getHeaders("Content-Type")).isEqualTo(MediaType.CSS.getContentType());
     }
 }

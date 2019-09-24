@@ -26,7 +26,7 @@ class HomeControllerTest {
 
         assertThat(httpResponse.getPath()).isEqualTo(ViewLocation.TEMPLATE.getLocation() + "/index.html");
         assertThat(httpResponse.getHttpStatusCode()).isEqualTo(HttpStatus.OK.getValue());
-        assertThat(httpResponse.getMediaType()).isEqualTo(MediaType.HTML.getContentType());
+        assertThat(httpResponse.getHeaders("Content-Type")).isEqualTo(MediaType.HTML.getContentType());
     }
 
 

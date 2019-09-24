@@ -26,7 +26,7 @@ class UserControllerTest {
 
         assertThat(httpResponse.getPath()).isEqualTo(ViewLocation.TEMPLATE.getLocation() + "/user/form.html");
         assertThat(httpResponse.getHttpStatusCode()).isEqualTo(HttpStatus.OK.getValue());
-        assertThat(httpResponse.getMediaType()).isEqualTo(MediaType.HTML.getContentType());
+        assertThat(httpResponse.getHeaders("Content-Type")).isEqualTo(MediaType.HTML.getContentType());
     }
 
     @Test
@@ -41,6 +41,6 @@ class UserControllerTest {
         // 회원 가입이 성공하면 메인 페이지로 redirect 되어야 한다
         assertThat(httpResponse.getPath()).isEqualTo(ViewLocation.TEMPLATE.getLocation() + "/index.html");
         assertThat(httpResponse.getHttpStatusCode()).isEqualTo(HttpStatus.REDIRECT.getValue());
-        assertThat(httpResponse.getMediaType()).isEqualTo(MediaType.HTML.getContentType());
+        assertThat(httpResponse.getHeaders("Content-Type")).isEqualTo(MediaType.HTML.getContentType());
     }
 }
