@@ -11,7 +11,7 @@ import slipp.controller.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestMapping implements HandlerMapping {
+public class ManualHandlerMapping implements HandlerMapping {
     private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
     private Map<String, Controller> mappings = new HashMap<>();
 
