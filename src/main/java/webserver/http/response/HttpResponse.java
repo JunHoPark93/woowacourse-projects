@@ -22,7 +22,7 @@ public class HttpResponse {
     // TODO model 맵의 역할
     private Map<String, String> model = new HashMap<>();
     private ResponseHeader responseHeader = new ResponseHeader();
-    private Cookie cookie = new Cookie();
+    private Cookie cookie = Cookie.emptyCookie();
     private String path;
     private HttpStatus httpStatus;
     private MediaType mediaType;
@@ -114,7 +114,7 @@ public class HttpResponse {
                 dos.writeBytes("Location: " + responseHeader.get("Location") + "\r\n");
             }
             if (responseHeader.contains("Set-Cookie")) {
-                dos.writeBytes("Set-Cookie: " + responseHeader.get("Set-Cookie"));
+                dos.writeBytes("Set-Cookie: " + responseHeader.get("Set-Cookie") + "\r\n");
             }
             dos.writeBytes("Content-Type: " + responseHeader.get("Content-Type") + ";charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + body.length + "\r\n");

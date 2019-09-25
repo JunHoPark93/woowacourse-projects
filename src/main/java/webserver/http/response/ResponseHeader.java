@@ -6,15 +6,15 @@ import java.util.Map;
 public final class ResponseHeader {
     private final Map<String, String> headers;
 
-    public ResponseHeader() {
+    ResponseHeader() {
         this.headers = new HashMap<>();
     }
 
-    public boolean contains(String key) {
+    boolean contains(String key) {
         return headers.containsKey(key);
     }
 
-    public void add(String key, String value) {
+    void add(String key, String value) {
         headers.put(key, value);
     }
 

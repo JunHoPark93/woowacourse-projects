@@ -1,6 +1,5 @@
 package webserver.http.response;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -8,12 +7,17 @@ import java.util.stream.Collectors;
 public class Cookie {
     private static final String VALUE_DELIMITER = "=";
     private static final String COOKIE_DELIMITER = "; ";
+    private static final String EMPTY_VALUE = "";
 
     private final Map<String, String> cookies;
 
-    public Cookie() {
+    private Cookie() {
         // cookie 에 들어오는 값의 순서를 보장한다.
         this.cookies = new LinkedHashMap<>();
+    }
+
+    public static Cookie emptyCookie() {
+        return new Cookie();
     }
 
     public void add(String key, String value) {
@@ -26,7 +30,12 @@ public class Cookie {
                 .collect(Collectors.joining(COOKIE_DELIMITER));
     }
 
-    public boolean isCookieExists() {
+    boolean isCookieExists() {
         return cookies.size() != 0;
+    }
+
+    public String get(String key) {
+        String value = cookies.get(key);
+        return value != null ? value : EMPTY_VALUE;
     }
 }

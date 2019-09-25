@@ -1,7 +1,9 @@
 package webserver.http.request;
 
 final class RequestHeader {
-    private RequestHeaderParams headers;
+    private static final String COOKIE = "Cookie";
+
+    private final RequestHeaderParams headers;
 
     private RequestHeader(RequestHeaderParams headers) {
         this.headers = headers;
@@ -17,5 +19,9 @@ final class RequestHeader {
 
     int getContentLength() {
         return Integer.valueOf(headers.get("Content-Length"));
+    }
+
+    boolean isCookieExists() {
+        return headers.get(COOKIE) != null;
     }
 }

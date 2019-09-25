@@ -1,6 +1,7 @@
 package webserver.http.request;
 
 import webserver.http.HttpMethod;
+import webserver.http.response.Cookie;
 
 public final class HttpRequest {
     private RequestLine requestLine;
@@ -42,6 +43,13 @@ public final class HttpRequest {
 
     public String getVersion() {
         return requestLine.getVersion();
+    }
+
+    public Cookie getCookie() {
+        if (requestHeader.isCookieExists()) {
+            return CookieParser.parse(requestHeader.getHeaderValue("Cookie"));
+        }
+        return Cookie.emptyCookie();
     }
 
     static final class Builder {

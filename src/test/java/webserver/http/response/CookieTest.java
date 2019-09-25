@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CookieTest {
     @Test
     void 쿠키_생성() {
-        Cookie cookie = new Cookie();
+        Cookie cookie = Cookie.emptyCookie();
         cookie.add("logined", "true");
         cookie.add("Path", "/");
 
