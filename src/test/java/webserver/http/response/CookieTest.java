@@ -11,7 +11,7 @@ class CookieTest {
         cookie.add("logined", "true");
         cookie.add("Path", "/");
 
-        String result = "logined=true; Path=/";
+        String result = "logined=true\r\nPath=/";
 
         assertThat(cookie.create()).isEqualTo(result);
     }

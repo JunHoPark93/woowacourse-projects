@@ -9,7 +9,7 @@ public final class RequestHeaderParams {
         this.headerParams = headerParams;
     }
 
-    static RequestHeaderParams of(Map<String, String> headerParams) {
+    public static RequestHeaderParams of(Map<String, String> headerParams) {
         return new RequestHeaderParams(headerParams);
     }
 

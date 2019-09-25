@@ -12,7 +12,8 @@ import java.util.Map;
 public class HandlebarResourceResolver implements ViewResolver {
     private TemplateLoader loader = new ClassPathTemplateLoader();
 
-    // TODO 중복제거 path와 model을 감싸는 객체를 만들어서 하나로 통일할까?
+    // TODO 중복제거 path와 model을 감싸는 객체를 만들어서 하나로 통일할까. ModelAndView 를 만들어도 model 이 없는
+    //  객체의 필드는 null이다.
     @Override
     public ViewResolveResult resolve(String path) throws Exception {
         Template template = setTemplate(path);

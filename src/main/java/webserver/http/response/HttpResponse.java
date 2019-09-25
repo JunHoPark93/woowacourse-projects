@@ -9,17 +9,12 @@ import webserver.view.ViewResolveResult;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 public class HttpResponse {
     private static final Logger logger = LoggerFactory.getLogger(HttpResponse.class);
 
     private static final String EXTENSION_DELIMITER = ".";
-    private static final String SLASH = "/";
 
-    // TODO model 맵의 역할
-    private Map<String, String> model = new HashMap<>();
     private ResponseHeader responseHeader = new ResponseHeader();
     private Cookie cookie = Cookie.newInstance();
     private HttpStatus httpStatus;
@@ -77,6 +72,14 @@ public class HttpResponse {
         cookie.add(key, value);
     }
 
+    public void addCookieValues(String key, String addValue) {
+        cookie.addAttribute(key, addValue);
+    }
+
+    public void setCookieHttpOnly(String key) {
+        cookie.setHttpOnly(key);
+    }
+
     public int getHttpStatusCode() {
         return httpStatus.getValue();
     }
@@ -106,13 +109,20 @@ public class HttpResponse {
                 dos.writeBytes("Location: " + responseHeader.get("Location") + "\r\n");
             }
             if (responseHeader.contains("Set-Cookie")) {
-                dos.writeBytes("Set-Cookie: " + responseHeader.get("Set-Cookie") + "\r\n");
+                setEachCookie(dos);
             }
             dos.writeBytes("Content-Type: " + responseHeader.get("Content-Type") + ";charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + viewResolveResult.getBodyLength() + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
             logger.error(e.getMessage());
+        }
+    }
+
+    private void setEachCookie(DataOutputStream dos) throws IOException {
+        String[] split = responseHeader.get("Set-Cookie").split("\r\n");
+        for (String s : split) {
+            dos.writeBytes("Set-Cookie: " + s + "\r\n");
         }
     }
 

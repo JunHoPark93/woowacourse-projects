@@ -2,7 +2,7 @@ package webserver.http.request;
 
 import webserver.http.HttpMethod;
 
-final class RequestLine {
+public final class RequestLine {
     private static final String QUERY_START_DELIMITER = "?";
 
     private HttpMethod method;
@@ -16,7 +16,7 @@ final class RequestLine {
         this.version = version;
     }
 
-    static RequestLine from(String method, String path, String version) {
+    public static RequestLine from(String method, String path, String version) {
         return new RequestLine(method, path, version);
     }
 

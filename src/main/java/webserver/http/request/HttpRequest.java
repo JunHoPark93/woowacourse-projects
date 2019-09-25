@@ -52,20 +52,20 @@ public final class HttpRequest {
         return Cookie.newInstance();
     }
 
-    static final class Builder {
+    public static final class Builder {
         private RequestLine requestLine;
         private RequestHeader requestHeader;
         private RequestBody requestBody;
 
-        Builder() {
+        public Builder() {
         }
 
-        Builder requestLine(RequestLine val) {
+        public Builder requestLine(RequestLine val) {
             requestLine = val;
             return this;
         }
 
-        Builder requestHeader(RequestHeader val) {
+        public Builder requestHeader(RequestHeader val) {
             requestHeader = val;
             return this;
         }
@@ -75,7 +75,7 @@ public final class HttpRequest {
             return this;
         }
 
-        HttpRequest build() {
+        public HttpRequest build() {
             return new HttpRequest(this);
         }
     }

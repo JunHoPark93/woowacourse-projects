@@ -6,6 +6,7 @@ import webserver.handler.controller.AbstractController;
 import webserver.http.request.HttpRequest;
 import webserver.http.response.Cookie;
 import webserver.http.response.HttpResponse;
+import webserver.http.session.SessionContextHolder;
 import webserver.view.ViewResolver;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.Map;
 
 public class UserListController extends AbstractController {
     private static final String MAPPING_PATH = "/user/list.html";
+    private static final String KEY_USERS = "users";
+    private static final String SESSION = "session";
 
     public UserListController(ViewResolver viewResolver) {
         super(viewResolver);
@@ -23,15 +26,22 @@ public class UserListController extends AbstractController {
     @Override
     protected void doGet(HttpRequest request, HttpResponse response) throws Exception {
         Cookie cookie = request.getCookie();
-        if (cookie.get("logined").equals("true")) {
-            Collection<User> users =  DataBase.findAll();
-            Map<String, Object> map = new HashMap<>();
-            map.put("users", new ArrayList<>(users));
-
+        String sessionId = cookie.get(SESSION);
+        if (SessionContextHolder.isExists(sessionId)) {
+            Map<String, Object> map = findAllUsers();
             response.ok(viewResolver.resolve("/user/list.html", map));
             return;
         }
+
         response.redirect(viewResolver.resolve("/user/login.html"));
+    }
+
+    private Map<String, Object> findAllUsers() {
+        Collection<User> users = DataBase.findAll();
+        Map<String, Object> map = new HashMap<>();
+        map.put(KEY_USERS, new ArrayList<>(users));
+
+        return map;
     }
 
     @Override

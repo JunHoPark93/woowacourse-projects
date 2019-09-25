@@ -1,6 +1,6 @@
 package webserver.http.request;
 
-final class RequestHeader {
+public final class RequestHeader {
     private static final String COOKIE = "Cookie";
 
     private final RequestHeaderParams headers;
@@ -9,7 +9,7 @@ final class RequestHeader {
         this.headers = headers;
     }
 
-    static RequestHeader of(RequestHeaderParams headers) {
+    public static RequestHeader of(RequestHeaderParams headers) {
         return new RequestHeader(headers);
     }
 

@@ -15,7 +15,7 @@ public class TemplateResourceResolver implements ViewResolver {
     }
 
     @Override
-    public ViewResolveResult resolve(String path, Map<String, Object> model) throws Exception {
+    public ViewResolveResult resolve(String path, Map<String, Object> model) {
         throw new RuntimeException("템플릿 resolver 는 model 을 내려줄 수 없습니다");
     }
 }
