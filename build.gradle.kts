@@ -27,6 +27,8 @@ subprojects {
 
 		implementation("ch.qos.logback:logback-classic:1.2.3")
 		implementation("com.google.guava:guava:28.0-jre")
+		implementation("org.apache.commons:commons-lang3:3.9")
+		implementation("org.reflections:reflections:0.9.11")
 
 		testImplementation("org.junit.jupiter:junit-jupiter:5.5.1")
 		testImplementation("org.assertj:assertj-core:3.12.2")
