@@ -1,6 +1,6 @@
 package slipp.controller;
 
-import slipp.model.User;
+import slipp.domain.User;
 import slipp.support.db.DataBase;
 import nextstep.mvc.asis.Controller;
 import org.slf4j.Logger;

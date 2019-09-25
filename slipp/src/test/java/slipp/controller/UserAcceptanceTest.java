@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import slipp.dto.UserCreatedDto;
 import slipp.dto.UserUpdatedDto;
-import slipp.model.User;
+import slipp.domain.User;
 import support.test.NsWebTestClient;
 
 import java.net.URI;

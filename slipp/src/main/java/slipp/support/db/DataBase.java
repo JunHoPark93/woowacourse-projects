@@ -1,7 +1,7 @@
 package slipp.support.db;
 
 import com.google.common.collect.Maps;
-import slipp.model.User;
+import slipp.domain.User;
 
 import java.util.Collection;
 import java.util.Map;

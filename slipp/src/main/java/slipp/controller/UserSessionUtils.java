@@ -1,6 +1,6 @@
 package slipp.controller;
 
-import slipp.model.User;
+import slipp.domain.User;
 
 import javax.servlet.http.HttpSession;
 

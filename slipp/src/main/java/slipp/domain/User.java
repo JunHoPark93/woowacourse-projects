@@ -1,4 +1,4 @@
-package slipp.model;
+package slipp.domain;
 
 public class User {
     private String userId;
