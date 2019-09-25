@@ -1,10 +1,14 @@
 package slipp.domain;
 
+import slipp.dto.UserUpdatedDto;
+
 public class User {
     private String userId;
     private String password;
     private String name;
     private String email;
+
+    public User() {}
 
     public User(String userId, String password, String name, String email) {
         this.userId = userId;
@@ -29,10 +33,10 @@ public class User {
         return email;
     }
 
-    public void update(User updateUser) {
-        this.password = updateUser.password;
-        this.name = updateUser.name;
-        this.email = updateUser.email;
+    public void update(UserUpdatedDto updateUser) {
+        this.password = updateUser.getPassword();
+        this.name = updateUser.getName();
+        this.email = updateUser.getEmail();
     }
 
     public boolean matchPassword(String password) {

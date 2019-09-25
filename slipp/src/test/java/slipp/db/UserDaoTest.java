@@ -6,6 +6,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import slipp.domain.User;
+import slipp.dto.UserUpdatedDto;
 import slipp.support.db.ConnectionManager;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class UserDaoTest {
         User actual = userDao.findByUserId(expected.getUserId());
         assertThat(actual).isEqualTo(expected);
 
-        expected.update(new User("userId", "password2", "name2", "sanjigi@email.com"));
+        expected.update(new UserUpdatedDto("password2", "name2", "sanjigi@email.com"));
         userDao.update(expected);
         actual = userDao.findByUserId(expected.getUserId());
         assertThat(actual).isEqualTo(expected);

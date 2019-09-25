@@ -1,6 +1,7 @@
 package slipp.controller;
 
 import slipp.domain.User;
+import slipp.dto.UserUpdatedDto;
 import slipp.support.db.DataBase;
 import nextstep.mvc.asis.Controller;
 import org.slf4j.Logger;
@@ -19,7 +20,9 @@ public class UpdateUserController implements Controller {
             throw new IllegalStateException("다른 사용자의 정보를 수정할 수 없습니다.");
         }
 
-        User updateUser = new User(req.getParameter("userId"), req.getParameter("password"), req.getParameter("name"),
+        UserUpdatedDto updateUser = new UserUpdatedDto(
+                req.getParameter("password"),
+                req.getParameter("name"),
                 req.getParameter("email"));
         log.debug("Update User : {}", updateUser);
         user.update(updateUser);
