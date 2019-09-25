@@ -8,7 +8,6 @@ import webserver.http.MediaType;
 import webserver.http.request.HttpRequest;
 import webserver.http.response.HttpResponse;
 import webserver.view.TemplateResourceResolver;
-import webserver.view.ViewLocation;
 import webserver.view.ViewResolver;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +22,7 @@ class TemplateControllerTest {
         Controller controller = new TemplateController(viewResolver);
         controller.service(httpRequest, httpResponse);
 
-        assertThat(httpResponse.getPath()).isEqualTo(ViewLocation.TEMPLATE.getLocation() + "/user/form.html");
+        assertThat(httpResponse.getPath()).isEqualTo("/user/form.html");
         assertThat(httpResponse.getHttpStatusCode()).isEqualTo(HttpStatus.OK.getValue());
         assertThat(httpResponse.getHeaders("Content-Type")).isEqualTo(MediaType.HTML.getContentType());
     }

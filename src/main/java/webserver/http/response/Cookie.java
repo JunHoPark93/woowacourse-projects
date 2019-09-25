@@ -16,7 +16,7 @@ public class Cookie {
         this.cookies = new LinkedHashMap<>();
     }
 
-    public static Cookie emptyCookie() {
+    public static Cookie newInstance() {
         return new Cookie();
     }
 

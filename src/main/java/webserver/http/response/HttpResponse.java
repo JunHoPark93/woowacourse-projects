@@ -2,14 +2,13 @@ package webserver.http.response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.FileIoUtils;
 import webserver.http.HttpStatus;
 import webserver.http.MediaType;
+import webserver.view.ViewResolveResult;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,12 +21,11 @@ public class HttpResponse {
     // TODO model 맵의 역할
     private Map<String, String> model = new HashMap<>();
     private ResponseHeader responseHeader = new ResponseHeader();
-    private Cookie cookie = Cookie.emptyCookie();
-    private String path;
+    private Cookie cookie = Cookie.newInstance();
     private HttpStatus httpStatus;
     private MediaType mediaType;
     private String errorMsg;
-    private byte[] body;
+    private ViewResolveResult viewResolveResult;
 
     private HttpResponse() {
         this.httpStatus = HttpStatus.DEFAULT;
@@ -37,11 +35,10 @@ public class HttpResponse {
         return new HttpResponse();
     }
 
-    public void ok(String path) throws IOException, URISyntaxException {
-        this.path = path;
-        this.body = FileIoUtils.loadFileFromClasspath(path);
+    public void ok(ViewResolveResult viewResolveResult) {
+        this.viewResolveResult = viewResolveResult;
         this.httpStatus = HttpStatus.OK;
-        this.mediaType = MediaType.find(extractExtensions(path));
+        this.mediaType = MediaType.find(extractExtensions(viewResolveResult.getPath()));
         createHeader();
     }
 
@@ -51,28 +48,23 @@ public class HttpResponse {
 
     private void createHeader() {
         if (isRedirect()) {
-            responseHeader.add("Location", excludePathPrefix(path));
+            responseHeader.add("Location", viewResolveResult.getPath());
         }
         if (cookie.isCookieExists()) {
             responseHeader.add("Set-Cookie", cookie.create());
         }
         responseHeader.add("Content-Type", mediaType.getContentType());
-        responseHeader.add("Content-Length", body.length + ";charset=utf-8\r\n");
+        responseHeader.add("Content-Length", viewResolveResult.getBodyLength() + ";charset=utf-8\r\n");
     }
 
     private boolean isRedirect() {
         return httpStatus.equals(HttpStatus.REDIRECT);
     }
 
-    private String excludePathPrefix(String path) {
-        return path.substring(path.indexOf(SLASH));
-    }
-
-    public void redirect(String path) throws IOException, URISyntaxException {
-        this.path = path;
-        this.body = FileIoUtils.loadFileFromClasspath(path);
+    public void redirect(ViewResolveResult viewResolveResult) {
+        this.viewResolveResult = viewResolveResult;
         this.httpStatus = HttpStatus.REDIRECT;
-        this.mediaType = MediaType.find(extractExtensions(path));
+        this.mediaType = MediaType.find(extractExtensions(viewResolveResult.getPath()));
         createHeader();
     }
 
@@ -89,10 +81,6 @@ public class HttpResponse {
         return httpStatus.getValue();
     }
 
-    public String getPath() {
-        return path;
-    }
-
     public void flush(OutputStream out) {
         DataOutputStream dos = new DataOutputStream(out);
         createResponse(dos);
@@ -102,9 +90,13 @@ public class HttpResponse {
         return responseHeader.get(key);
     }
 
+    public String getPath() {
+        return viewResolveResult.getPath();
+    }
+
     private void createResponse(DataOutputStream dos) {
         responseHeader(dos);
-        responseBody(dos, this.body);
+        responseBody(dos, viewResolveResult.getBody());
     }
 
     private void responseHeader(DataOutputStream dos) {
@@ -117,7 +109,7 @@ public class HttpResponse {
                 dos.writeBytes("Set-Cookie: " + responseHeader.get("Set-Cookie") + "\r\n");
             }
             dos.writeBytes("Content-Type: " + responseHeader.get("Content-Type") + ";charset=utf-8\r\n");
-            dos.writeBytes("Content-Length: " + body.length + "\r\n");
+            dos.writeBytes("Content-Length: " + viewResolveResult.getBodyLength() + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
             logger.error(e.getMessage());
@@ -132,5 +124,4 @@ public class HttpResponse {
             logger.error(e.getMessage());
         }
     }
-
 }

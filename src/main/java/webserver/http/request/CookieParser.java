@@ -11,7 +11,7 @@ public class CookieParser {
     private static final int VALUE = 1;
 
     public static Cookie parse(String cookieString) {
-        Cookie cookie = Cookie.emptyCookie();
+        Cookie cookie = Cookie.newInstance();
         String[] cookies = cookieString.split(COOKIE_DELIMITER);
         for (String c : cookies) {
             parse(cookie, c);

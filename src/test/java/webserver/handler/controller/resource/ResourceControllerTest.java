@@ -8,7 +8,6 @@ import webserver.http.MediaType;
 import webserver.http.request.HttpRequest;
 import webserver.http.response.HttpResponse;
 import webserver.view.StaticResourceResolver;
-import webserver.view.ViewLocation;
 import webserver.view.ViewResolver;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +22,7 @@ class ResourceControllerTest {
         Controller controller = new ResourceController(viewResolver);
         controller.service(httpRequest, httpResponse);
 
-        assertThat(httpResponse.getPath()).isEqualTo(ViewLocation.STATIC.getLocation() + "/css/styles.css");
+        assertThat(httpResponse.getPath()).isEqualTo("/css/styles.css");
         assertThat(httpResponse.getHttpStatusCode()).isEqualTo(HttpStatus.OK.getValue());
         assertThat(httpResponse.getHeaders("Content-Type")).isEqualTo(MediaType.CSS.getContentType());
     }

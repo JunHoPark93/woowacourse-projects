@@ -49,7 +49,7 @@ public final class HttpRequest {
         if (requestHeader.isCookieExists()) {
             return CookieParser.parse(requestHeader.getHeaderValue("Cookie"));
         }
-        return Cookie.emptyCookie();
+        return Cookie.newInstance();
     }
 
     static final class Builder {

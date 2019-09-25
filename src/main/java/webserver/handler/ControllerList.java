@@ -7,7 +7,6 @@ import webserver.handler.controller.custom.UserController;
 import webserver.handler.controller.custom.UserListController;
 import webserver.handler.controller.resource.ResourceController;
 import webserver.handler.controller.resource.TemplateController;
-import webserver.view.ViewResolver;
 import webserver.view.ViewResolvers;
 
 import java.util.Arrays;
@@ -19,7 +18,7 @@ public final class ControllerList {
             new HomeController(ViewResolvers.TEMPLATE_RESOLVER),
             new UserController(ViewResolvers.TEMPLATE_RESOLVER),
             new LoginController(ViewResolvers.TEMPLATE_RESOLVER),
-            new UserListController(ViewResolvers.TEMPLATE_RESOLVER),
+            new UserListController(ViewResolvers.HANDLEBAR_RESOLVER),
             new TemplateController(ViewResolvers.TEMPLATE_RESOLVER),
             new ResourceController(ViewResolvers.STATIC_RESOLVER)
     };
