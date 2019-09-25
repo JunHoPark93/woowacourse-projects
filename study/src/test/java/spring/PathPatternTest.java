@@ -1,4 +1,4 @@
-package nextstep.mvc.tobe;
+package spring;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.server.PathContainer;

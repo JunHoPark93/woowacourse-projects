@@ -1,5 +1,6 @@
-package nextstep.mvc;
+package nextstep.utils;
 
+import nextstep.mvc.tobe.Car;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

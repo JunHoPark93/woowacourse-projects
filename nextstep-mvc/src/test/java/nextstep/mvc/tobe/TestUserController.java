@@ -1,6 +1,5 @@
 package nextstep.mvc.tobe;
 
-import nextstep.mvc.ModelAndView;
 import nextstep.web.annotation.PathVariable;
 import nextstep.web.annotation.RequestMapping;
 import nextstep.web.annotation.RequestMethod;

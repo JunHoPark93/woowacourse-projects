@@ -1,4 +1,4 @@
-package nextstep.mvc;
+package nextstep.mvc.tobe;
 
 import java.util.Collections;
 import java.util.HashMap;

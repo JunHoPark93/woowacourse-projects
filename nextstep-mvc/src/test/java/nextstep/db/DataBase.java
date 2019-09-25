@@ -1,6 +1,7 @@
-package nextstep.mvc.tobe;
+package nextstep.db;
 
 import com.google.common.collect.Maps;
+import nextstep.mvc.tobe.User;
 
 import java.util.Collection;
 import java.util.Map;
