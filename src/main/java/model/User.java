@@ -1,5 +1,7 @@
 package model;
 
+import webserver.exception.UserPasswordMismatchException;
+
 import java.util.Objects;
 
 public class User {
@@ -13,6 +15,12 @@ public class User {
         this.password = password;
         this.name = name;
         this.email = email;
+    }
+
+    public void checkPassword(String password) {
+        if (!this.password.equals(password)) {
+            throw new UserPasswordMismatchException("비밀번호가 틀렸습니다");
+        }
     }
 
     public String getUserId() {

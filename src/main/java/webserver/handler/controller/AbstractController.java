@@ -29,7 +29,7 @@ public abstract class AbstractController implements Controller {
      * @param request  HttpRequest
      * @param response HttpResponse
      */
-    protected void doGet(HttpRequest request, HttpResponse response) throws Exception {
+    protected void doGet(HttpRequest request, HttpResponse response) {
         response.sendError(HttpStatus.NOT_ALLOWED, "잘못된 doGet 메서드의 호출입니다");
     }
 
@@ -58,6 +58,7 @@ public abstract class AbstractController implements Controller {
 
     /**
      * AbstractController 를 상속하는 Controller 의 mapping path 주소를 반환하면 된다.
+     * Default Controller 는 매핑 URL 이 존재하지 않는다.
      *
      * @return String
      */

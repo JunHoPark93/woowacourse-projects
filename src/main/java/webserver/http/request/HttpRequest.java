@@ -2,20 +2,40 @@ package webserver.http.request;
 
 import webserver.http.HttpMethod;
 import webserver.http.response.Cookie;
+import webserver.http.session.HttpSession;
+import webserver.http.session.SessionContextHolder;
 
 public final class HttpRequest {
     private RequestLine requestLine;
     private RequestHeader requestHeader;
     private RequestBody requestBody;
+    private Cookie cookie;
 
     private HttpRequest(Builder builder) {
         requestLine = builder.requestLine;
         requestHeader = builder.requestHeader;
         requestBody = builder.requestBody;
+        if (requestHeader.isCookieExists()) {
+            cookie = CookieParser.parse(requestHeader.getHeaderValue("Cookie"));
+            return;
+        }
+        cookie = Cookie.newInstance();
     }
 
     public boolean isSameHttpMethod(HttpMethod httpMethod) {
         return requestLine.isSameHttpMethod(httpMethod);
+    }
+
+    public HttpSession getSession() {
+        String id = cookie.get("session");
+        if (checkSessionId(id)) {
+            return HttpSession.newInstance();
+        }
+        return SessionContextHolder.get(id);
+    }
+
+    private boolean checkSessionId(String id) {
+        return id == null || !SessionContextHolder.isExists(id);
     }
 
     public String getPath() {
@@ -46,10 +66,7 @@ public final class HttpRequest {
     }
 
     public Cookie getCookie() {
-        if (requestHeader.isCookieExists()) {
-            return CookieParser.parse(requestHeader.getHeaderValue("Cookie"));
-        }
-        return Cookie.newInstance();
+        return cookie;
     }
 
     public static final class Builder {

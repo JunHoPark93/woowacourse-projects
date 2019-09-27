@@ -13,7 +13,7 @@ public class HomeController extends AbstractController {
     }
 
     @Override
-    protected void doGet(HttpRequest request, HttpResponse response) throws Exception {
+    protected void doGet(HttpRequest request, HttpResponse response) {
         response.ok(viewResolver.resolve("/index.html"));
     }
 

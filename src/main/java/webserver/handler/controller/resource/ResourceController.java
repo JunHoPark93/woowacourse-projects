@@ -1,5 +1,6 @@
 package webserver.handler.controller.resource;
 
+import webserver.exception.ResourceNotFoundException;
 import webserver.handler.controller.AbstractController;
 import webserver.http.request.HttpRequest;
 import webserver.http.response.HttpResponse;
@@ -13,8 +14,12 @@ public class ResourceController extends AbstractController {
     }
 
     @Override
-    protected void doGet(HttpRequest request, HttpResponse response) throws Exception {
-        response.ok(viewResolver.resolve(request.getPath()));
+    protected void doGet(HttpRequest request, HttpResponse response) {
+        try {
+            response.ok(viewResolver.resolve(request.getPath()));
+        } catch (ResourceNotFoundException e) {
+            response.notFound(request.getPath());
+        }
     }
 
     @Override

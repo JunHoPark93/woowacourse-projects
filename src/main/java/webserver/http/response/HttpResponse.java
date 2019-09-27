@@ -30,6 +30,20 @@ public class HttpResponse {
         return new HttpResponse();
     }
 
+    public void notFound(String path) {
+        this.viewResolveResult = new ViewResolveResult(new byte[0], path);
+        this.httpStatus = HttpStatus.NOT_FOUND;
+        this.mediaType = MediaType.HTML;
+        createHeader();
+    }
+
+    public void notFound(ViewResolveResult viewResolveResult) {
+        this.viewResolveResult = viewResolveResult;
+        this.httpStatus = HttpStatus.NOT_FOUND;
+        this.mediaType = MediaType.find(extractExtensions(viewResolveResult.getPath()));
+        createHeader();
+    }
+
     public void ok(ViewResolveResult viewResolveResult) {
         this.viewResolveResult = viewResolveResult;
         this.httpStatus = HttpStatus.OK;
@@ -84,7 +98,7 @@ public class HttpResponse {
         return httpStatus.getValue();
     }
 
-    public void flush(OutputStream out) {
+    public void send(OutputStream out) {
         DataOutputStream dos = new DataOutputStream(out);
         createResponse(dos);
     }

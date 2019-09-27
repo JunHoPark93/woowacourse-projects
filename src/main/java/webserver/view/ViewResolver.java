@@ -8,9 +8,8 @@ public interface ViewResolver {
      *
      * @param path 요청 path
      * @return ViewResolveResult
-     * @throws Exception
      */
-    ViewResolveResult resolve(String path) throws Exception;
+    ViewResolveResult resolve(String path);
 
     /**
      * 내려줄 데이터가 있는 경우 설정을 해준다.
@@ -18,7 +17,6 @@ public interface ViewResolver {
      * @param path  요청 path
      * @param model 데이터
      * @return ViewResolveResult
-     * @throws Exception
      */
-    ViewResolveResult resolve(String path, Map<String, Object> model) throws Exception;
+    ViewResolveResult resolve(String path, Map<String, Object> model);
 }

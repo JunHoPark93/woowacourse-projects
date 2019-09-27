@@ -17,4 +17,8 @@ public class SessionContextHolder {
     public static boolean isExists(String id) {
         return context.containsKey(id);
     }
+
+    public static HttpSession get(String id) {
+        return context.get(id);
+    }
 }

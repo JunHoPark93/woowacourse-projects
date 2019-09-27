@@ -2,11 +2,14 @@ package webserver.http.session;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class HttpSession {
+    private final String id;
     private final Map<String, Object> attributes;
 
     private HttpSession() {
+        this.id = createRandomId();
         this.attributes = new HashMap<>();
     }
 
@@ -14,8 +17,12 @@ public class HttpSession {
         return new HttpSession();
     }
 
+    private String createRandomId() {
+        return UUID.randomUUID().toString();
+    }
+
     public String getId() {
-        return null;
+        return id;
     }
 
     public void setAttribute(String key, Object value) {

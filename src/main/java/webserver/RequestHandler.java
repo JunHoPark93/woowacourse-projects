@@ -3,9 +3,11 @@ package webserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.handler.ControllerList;
+import webserver.handler.controller.DefaultController;
 import webserver.http.request.HttpRequest;
 import webserver.http.request.RequestHeaderParser;
 import webserver.http.response.HttpResponse;
+import webserver.view.TemplateResourceResolver;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,10 +35,10 @@ public class RequestHandler implements Runnable {
             ControllerList.CONTROLLERS.stream()
                     .filter(controller -> controller.isMapping(httpRequest))
                     .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("requested url invalid"))
+                    .orElse(new DefaultController(new TemplateResourceResolver()))
                     .service(httpRequest, httpResponse);
 
-            httpResponse.flush(out);
+            httpResponse.send(out);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

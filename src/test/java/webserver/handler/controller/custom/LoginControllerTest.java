@@ -40,12 +40,15 @@ class LoginControllerTest {
         assertThat(httpResponse.getHeaders("Content-Type")).isEqualTo(MediaType.HTML.getContentType());
 
         // cookie 를 검증한다. 세션이 javascript 단에서 수정되면 안되기 때문에 항상 HttpOnly 로 설정된다.
-        for (String cookie : cookies) {
-            String value = cookie.substring(cookie.indexOf("=") + 1);
-            String[] split = value.split(COOKIE_DELIMITER);
-            assertThat(split[COOKIE_FIRST_IDX].length()).isEqualTo(LENGTH_OF_UUID);
-            assertThat(split[COOKIE_SECOND_IDX]).isEqualTo("HttpOnly");
-            assertThat(split[COOKIE_THIRD_IDX]).isEqualTo("Path=/");
-        }
+        String firstVal = cookies[0].substring(cookies[0].indexOf("=") + 1);
+        String[] firstSplit = firstVal.split(COOKIE_DELIMITER);
+        assertThat(firstSplit[COOKIE_FIRST_IDX].length()).isEqualTo(LENGTH_OF_UUID);
+        assertThat(firstSplit[COOKIE_SECOND_IDX]).isEqualTo("HttpOnly");
+        assertThat(firstSplit[COOKIE_THIRD_IDX]).isEqualTo("Path=/");
+
+        String secondVal = cookies[1].substring(cookies[1].indexOf("=") + 1);
+        String[] secondSplit = secondVal.split(COOKIE_DELIMITER);
+        assertThat(secondSplit[COOKIE_FIRST_IDX]).isEqualTo("true");
+        assertThat(secondSplit[COOKIE_SECOND_IDX]).isEqualTo("Path=/");
     }
 }

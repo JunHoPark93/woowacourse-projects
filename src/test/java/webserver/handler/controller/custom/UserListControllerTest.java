@@ -66,7 +66,7 @@ class UserListControllerTest {
         requestHeaders.put("Host", "localhost:8080");
         requestHeaders.put("Connection", "keep-alive");
         requestHeaders.put("Accept", "*/*");
-        requestHeaders.put("Cookie", "session=" + sessionId); // uuid 로 생성한 sessionId를 가져온다.
+        requestHeaders.put("Cookie", "session=" + sessionId + "; logined=true"); // uuid 로 생성한 sessionId를 가져온다.
         RequestHeaderParams requestHeaderParams = RequestHeaderParams.of(requestHeaders);
         RequestHeader requestHeader = RequestHeader.of(requestHeaderParams);
 

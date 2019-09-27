@@ -4,6 +4,7 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
+import webserver.exception.ResourceLoadException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,29 +13,40 @@ import java.util.Map;
 public class HandlebarResourceResolver implements ViewResolver {
     private TemplateLoader loader = new ClassPathTemplateLoader();
 
-    // TODO 중복제거 path와 model을 감싸는 객체를 만들어서 하나로 통일할까. ModelAndView 를 만들어도 model 이 없는
-    //  객체의 필드는 null이다.
     @Override
-    public ViewResolveResult resolve(String path) throws Exception {
+    public ViewResolveResult resolve(String path) {
+        return resolve(path, new HashMap<>());
+    }
+
+    @Override
+    public ViewResolveResult resolve(String path, Map<String, Object> model) {
         Template template = setTemplate(path);
-        String resultResource = template.apply(new HashMap<>());
+        String resultResource = applyTemplate(model, template);
 
         return new ViewResolveResult(resultResource.getBytes(), path);
     }
 
-    @Override
-    public ViewResolveResult resolve(String path, Map<String, Object> model) throws Exception {
-        Template template = setTemplate(path);
-        String resultResource = template.apply(model);
-
-        return new ViewResolveResult(resultResource.getBytes(), path);
-    }
-
-    private Template setTemplate(String path) throws IOException {
+    private Template setTemplate(String path) {
         loader.setPrefix("/" + ViewLocation.TEMPLATE.getLocation());
         loader.setSuffix(".html");
         Handlebars handlebars = new Handlebars(loader);
 
-        return handlebars.compile(path.substring(0, path.lastIndexOf(".")));
+        return compileTemplate(path, handlebars);
+    }
+
+    private String applyTemplate(Map<String, Object> model, Template template) {
+        try {
+            return template.apply(model);
+        } catch (IOException e) {
+            throw new ResourceLoadException("handler 에 model 을 적용할 수 없습니다");
+        }
+    }
+
+    private Template compileTemplate(String path, Handlebars handlebars) {
+        try {
+            return handlebars.compile(path.substring(0, path.lastIndexOf(".")));
+        } catch (IOException e) {
+            throw new ResourceLoadException("handler 를 컴파일 할 수 없습니다");
+        }
     }
 }
