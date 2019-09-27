@@ -28,9 +28,9 @@ public class LoginController extends AbstractController {
                     createLogInSuccessResponse(response, session.getId());
                     return true;
                 }).orElseGet(() -> {
-            createLoginFailResponse(response);
-            return false;
-        });
+                    createLoginFailResponse(response);
+                    return false;
+                });
     }
 
     private HttpSession setSession(HttpRequest request, User user) {
