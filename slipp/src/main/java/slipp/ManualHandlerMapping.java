@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import slipp.controller.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class ManualHandlerMapping implements HandlerMapping {
 
     @Override
     public void initialize() {
-        mappings.put("/", new HomeController());
+        //mappings.put("/", new HomeController()); 애노테이션 기반 컨트롤러 사용으로 인한 삭제
         mappings.put("/users/form", new ForwardController("/user/form.jsp"));
         mappings.put("/users/loginForm", new ForwardController("/user/login.jsp"));
         mappings.put("/users", new ListUserController());
@@ -35,8 +36,8 @@ public class ManualHandlerMapping implements HandlerMapping {
     }
 
     @Override
-    public Controller getHandler(String requestUri) {
-        return mappings.get(requestUri);
+    public Controller getHandler(HttpServletRequest httpServletRequest) {
+        return mappings.get(httpServletRequest.getRequestURI());
     }
 
     void put(String url, Controller controller) {
