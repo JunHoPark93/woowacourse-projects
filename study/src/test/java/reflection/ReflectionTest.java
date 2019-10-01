@@ -5,16 +5,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 
 public class ReflectionTest {
     private static final Logger logger = LoggerFactory.getLogger(ReflectionTest.class);
 
     @Test
-    public void showClass() {
-        Class<Question> clazz = Question.class;
-        logger.debug(clazz.getName());
-
+    public void showClass() throws NoSuchMethodException {
         // TODO Question 클래스의 모든 필드, 생성자, 메소드에 대한 정보를 출력한다.
+        Class<Question> clazz = Question.class;
+        logger.debug(Arrays.toString(clazz.getDeclaredFields())); // 모든 필드 (접근제한자 상관없이)
+        Constructor<?>[] constructors = clazz.getConstructors();
+        for (Constructor<?> constructor : constructors) {
+            logger.debug(String.valueOf(constructor));
+        }
+        logger.debug(Arrays.toString(clazz.getMethods()));
+
+        // 특정 생성자를 가져오는 방법
+        Class[] classes = {String.class, String.class, String.class};
+        logger.debug(String.valueOf(clazz.getConstructor(classes)));
     }
 
     @Test
