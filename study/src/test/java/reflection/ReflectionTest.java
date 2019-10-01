@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,16 +34,20 @@ public class ReflectionTest {
     @SuppressWarnings("rawtypes")
     public void constructor_with_args() throws Exception {
         Class<Question> clazz = Question.class;
-        Constructor[] constructors = clazz.getConstructors();
-        for (Constructor constructor : constructors) {
-            Class[] parameterTypes = constructor.getParameterTypes();
-            logger.debug("paramer length : {}", parameterTypes.length);
-            for (Class paramType : parameterTypes) {
-                logger.debug("param type : {}", paramType);
-            }
-        }
 
-        // TODO 인자를 가진 생성자를 활용해 인스턴스를 생성한다.
+        Question expectedQuestion1 = new Question("title", "age", "aa");
+        Class[] parameterTypes1 = {String.class, String.class, String.class};
+        Constructor<Question> constructor1 = clazz.getConstructor(parameterTypes1);
+        Question question1 = constructor1.newInstance("title", "age", "aa");
+
+        assertThat(question1).isEqualTo(expectedQuestion1);
+
+        Question expectedQuestion2 = new Question(1L, "age", "aa", "bb", new Date(), 1);
+        Class[] parameterTypes2 = {long.class, String.class, String.class, String.class, Date.class, int.class};
+        Constructor<Question> constructor2 = clazz.getConstructor(parameterTypes2);
+        Question question2 = constructor2.newInstance(1L, "age", "aa", "bb", new Date(), 1);
+
+        assertThat(question2).isEqualTo(expectedQuestion2);
     }
 
     @Test
