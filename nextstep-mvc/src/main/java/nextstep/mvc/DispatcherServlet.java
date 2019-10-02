@@ -3,6 +3,7 @@ package nextstep.mvc;
 import nextstep.mvc.asis.Controller;
 import nextstep.mvc.exception.ControllerNotFoundException;
 import nextstep.mvc.exception.HandlerNotFoundException;
+import nextstep.mvc.tobe.Handler;
 import nextstep.mvc.tobe.HandlerExecution;
 import nextstep.mvc.tobe.JspView;
 import nextstep.mvc.tobe.ModelAndView;
@@ -21,7 +22,6 @@ import java.util.List;
 public class DispatcherServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
-    private static final String DEFAULT_REDIRECT_PREFIX = "redirect:";
 
     private List<HandlerMapping> handlerMappings;
 
@@ -40,25 +40,11 @@ public class DispatcherServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String requestUri = req.getRequestURI();
         logger.debug("Method : {}, Request URI : {}", req.getMethod(), requestUri);
-        Object o = findHandler(req);
+        Handler handler = (Handler) findHandler(req);
 
-        // TODO 점진적 리팩토링으로 인한 legacy controller 의 String 반환 때문에 분기가 생김
         try {
-            if (o instanceof Controller) {
-                String execute = ((Controller) o).execute(req, resp);
-                ModelAndView mav = new ModelAndView(new JspView(execute));
-                mav.getView().render(mav.getModel(), req, resp);
-                return;
-            }
-
-            if (o instanceof HandlerExecution) {
-                ModelAndView mav = ((HandlerExecution) o).handle(req, resp);
-                mav.getView().render(mav.getModel(), req, resp);
-                return;
-            }
-
-            throw new ControllerNotFoundException("controller not found");
-
+            ModelAndView mav = ViewResolver.resolve(handler.execute(req, resp));
+            mav.getView().render(mav.getModel(), req, resp);
         } catch (Exception e) {
             logger.error("Exception : {}", e);
             throw new ServletException(e.getMessage());
@@ -66,13 +52,9 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     private Object findHandler(HttpServletRequest req) {
-        for (HandlerMapping handlerMapping : handlerMappings) {
-            Object handler = handlerMapping.getHandler(req);
-            if (handler != null) {
-                return handler;
-            }
-        }
-
-        throw new HandlerNotFoundException("handler not found");
+        return handlerMappings.stream()
+                .filter(handlerMapping -> handlerMapping.getHandler(req) != null)
+                .findFirst()
+                .orElseThrow(() -> new HandlerNotFoundException("handler not found"));
     }
 }
