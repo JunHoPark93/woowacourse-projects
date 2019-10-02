@@ -1,11 +1,7 @@
 package nextstep.mvc;
 
-import nextstep.mvc.asis.Controller;
-import nextstep.mvc.exception.ControllerNotFoundException;
 import nextstep.mvc.exception.HandlerNotFoundException;
 import nextstep.mvc.tobe.Handler;
-import nextstep.mvc.tobe.HandlerExecution;
-import nextstep.mvc.tobe.JspView;
 import nextstep.mvc.tobe.ModelAndView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +26,7 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         for (HandlerMapping handlerMapping : handlerMappings) {
             handlerMapping.initialize();
         }
@@ -54,6 +50,7 @@ public class DispatcherServlet extends HttpServlet {
     private Object findHandler(HttpServletRequest req) {
         return handlerMappings.stream()
                 .filter(handlerMapping -> handlerMapping.getHandler(req) != null)
+                .map(handlerMapping -> handlerMapping.getHandler(req))
                 .findFirst()
                 .orElseThrow(() -> new HandlerNotFoundException("handler not found"));
     }
