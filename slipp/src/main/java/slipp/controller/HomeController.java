@@ -18,4 +18,9 @@ public class HomeController {
         mav.addObject("users", DataBase.findAll());
         return mav;
     }
+
+    @RequestMapping(value = "/users/loginForm", method = RequestMethod.GET)
+    public ModelAndView login(HttpServletRequest req, HttpServletResponse resp) {
+        return new ModelAndView(new JspView("/user/login.jsp"));
+    }
 }
