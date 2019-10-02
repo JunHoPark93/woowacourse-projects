@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.mock.web.MockHttpServletRequest;
+import samples.TestUserController;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;

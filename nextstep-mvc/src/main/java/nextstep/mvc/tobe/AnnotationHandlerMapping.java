@@ -11,8 +11,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class AnnotationHandlerMapping implements HandlerMapping {
     private static final Logger logger = LoggerFactory.getLogger(AnnotationHandlerMapping.class);
@@ -33,15 +36,27 @@ public class AnnotationHandlerMapping implements HandlerMapping {
             RequestMapping rm = method.getAnnotation(RequestMapping.class);
             logger.debug("register handlerExecution : url is {}, request method : {}, method is {}",
                     rm.value(), rm.method(), method);
-            handlerExecutions.put(createHandlerKey(rm),
-                    new HandlerExecution(controllers.get(method.getDeclaringClass()), method));
+            addHandlerExecutions(controllers, method, rm);
         }
 
         logger.info("Initialized AnnotationHandlerMapping!");
     }
 
-    private HandlerKey createHandlerKey(RequestMapping rm) {
-        return new HandlerKey(rm.value(), rm.method());
+    private void addHandlerExecutions(Map<Class<?>, Object> controllers, Method method, RequestMapping rm) {
+        List<HandlerKey> handlerKeys = mapHandlerKeys(rm.value(), rm.method());
+        handlerKeys.forEach(handlerKey -> {
+            handlerExecutions.put(handlerKey, new HandlerExecution(controllers.get(method.getDeclaringClass()), method));
+        });
+    }
+
+    private List<HandlerKey> mapHandlerKeys(final String value, final RequestMethod[] originalMethods) {
+        RequestMethod[] targetMethods = originalMethods;
+        if (targetMethods.length == 0) {
+            targetMethods = RequestMethod.values();
+        }
+        return Arrays.stream(targetMethods)
+                .map(method -> new HandlerKey(value, method))
+                .collect(Collectors.toList());
     }
 
     @SuppressWarnings("unchecked")

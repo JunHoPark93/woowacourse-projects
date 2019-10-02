@@ -1,4 +1,4 @@
-package nextstep.mvc.tobe;
+package samples;
 
 import nextstep.mvc.ModelAndView;
 import nextstep.web.annotation.PathVariable;

@@ -1,4 +1,4 @@
-package nextstep.mvc.tobe;
+package samples;
 
 public class TestUser {
     private String userId;
