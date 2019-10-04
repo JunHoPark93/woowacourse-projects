@@ -2,6 +2,8 @@ package slipp;
 
 import nextstep.mvc.DispatcherServlet;
 import nextstep.mvc.tobe.AnnotationHandlerMapping;
+import nextstep.mvc.tobe.adapter.AnnotationHandlerAdapter;
+import nextstep.mvc.tobe.adapter.LegacyHandlerAdapter;
 import nextstep.web.WebApplicationInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,10 @@ public class SlippWebApplicationInitializer  implements WebApplicationInitialize
                 Arrays.asList(
                         new ManualHandlerMapping(),
                         new AnnotationHandlerMapping("slipp")
+                ),
+                Arrays.asList(
+                        new LegacyHandlerAdapter(),
+                        new AnnotationHandlerAdapter()
                 )
         );
 

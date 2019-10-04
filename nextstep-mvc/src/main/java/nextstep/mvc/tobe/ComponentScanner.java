@@ -5,10 +5,10 @@ import org.reflections.Reflections;
 
 import java.util.Set;
 
-public class ControllerScanner {
+public class ComponentScanner {
     private Reflections reflections;
 
-    public ControllerScanner(Object[] basePackage) {
+    public ComponentScanner(Object[] basePackage) {
         reflections = new Reflections(basePackage);
     }
 
