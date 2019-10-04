@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AnnotationHandlerAdapter implements HandlerAdapter {
     @Override
-    public boolean isSupport(Object handler) {
+    public boolean supports(Object handler) {
         return handler instanceof HandlerExecution;
     }
 

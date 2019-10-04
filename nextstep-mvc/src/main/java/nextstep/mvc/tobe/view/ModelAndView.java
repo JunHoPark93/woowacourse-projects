@@ -1,20 +1,22 @@
 package nextstep.mvc.tobe.view;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ModelAndView {
-    private View view;
+    private String viewName;
     private Map<String, Object> model = new HashMap<String, Object>();
 
-    public ModelAndView() {
+    private ModelAndView() {
     }
 
-    public ModelAndView(View view) {
-        this.view = view;
+    public static ModelAndView from() {
+        return new ModelAndView();
+    }
+
+    public void setViewName(String view) {
+        this.viewName = view;
     }
 
     public ModelAndView addObject(String attributeName, Object attributeValue) {
@@ -26,11 +28,15 @@ public class ModelAndView {
         return model.get(attributeName);
     }
 
+    public String getViewName() {
+        return viewName;
+    }
+
     public Map<String, Object> getModel() {
         return Collections.unmodifiableMap(model);
     }
 
-    public void render(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        view.render(model, req, resp);
+    public boolean isViewNameExist() {
+        return viewName != null;
     }
 }

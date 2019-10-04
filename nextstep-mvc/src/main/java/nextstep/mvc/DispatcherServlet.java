@@ -2,8 +2,10 @@ package nextstep.mvc;
 
 import nextstep.mvc.exception.AdapterNotFoundException;
 import nextstep.mvc.exception.HandlerNotFoundException;
-import nextstep.mvc.tobe.view.ModelAndView;
 import nextstep.mvc.tobe.adapter.HandlerAdapter;
+import nextstep.mvc.tobe.view.ModelAndView;
+import nextstep.mvc.tobe.view.View;
+import nextstep.mvc.tobe.viewresolver.ViewResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,10 +25,14 @@ public class DispatcherServlet extends HttpServlet {
 
     private List<HandlerMapping> handlerMappings;
     private List<HandlerAdapter> handlerAdapters;
+    private List<ViewResolver> viewResolvers;
 
-    public DispatcherServlet(List<HandlerMapping> handlerMappings, List<HandlerAdapter> handlerAdapters) {
+    public DispatcherServlet(List<HandlerMapping> handlerMappings,
+                             List<HandlerAdapter> handlerAdapters,
+                             List<ViewResolver> viewResolvers) {
         this.handlerMappings = handlerMappings;
         this.handlerAdapters = handlerAdapters;
+        this.viewResolvers = viewResolvers;
     }
 
     @Override
@@ -45,18 +51,12 @@ public class DispatcherServlet extends HttpServlet {
             Object handler = findHandler(req);
             HandlerAdapter handlerAdapter = findAdapter(handler);
             ModelAndView mav = handlerAdapter.handle(req, resp, handler);
-            mav.render(req, resp);
+            View view = findView(mav);
+            view.render(mav.getModel(), req, resp);
         } catch (Exception e) {
             logger.error("Exception : {}", e);
             throw new ServletException(e.getMessage());
         }
-    }
-
-    private HandlerAdapter findAdapter(Object handler) {
-        return handlerAdapters.stream()
-                .filter(handlerAdapter -> handlerAdapter.isSupport(handler))
-                .findFirst()
-                .orElseThrow(() -> new AdapterNotFoundException("adapter not found"));
     }
 
     private Object findHandler(HttpServletRequest req) {
@@ -65,5 +65,20 @@ public class DispatcherServlet extends HttpServlet {
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElseThrow(() -> new HandlerNotFoundException("handler not found"));
+    }
+
+    private HandlerAdapter findAdapter(Object handler) {
+        return handlerAdapters.stream()
+                .filter(handlerAdapter -> handlerAdapter.supports(handler))
+                .findFirst()
+                .orElseThrow(() -> new AdapterNotFoundException("adapter not found"));
+    }
+
+    private View findView(ModelAndView mav) {
+        return viewResolvers.stream()
+                .filter(viewResolver -> viewResolver.supports(mav))
+                .findFirst()
+                .map(ViewResolver::resolve)
+                .orElseThrow(RuntimeException::new);
     }
 }

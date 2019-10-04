@@ -1,6 +1,5 @@
 package slipp.controller;
 
-import nextstep.mvc.tobe.view.JspView;
 import nextstep.mvc.tobe.view.ModelAndView;
 import nextstep.web.annotation.Controller;
 import nextstep.web.annotation.RequestMapping;
@@ -21,6 +20,32 @@ public class UserController {
 
         DataBase.addUser(user);
 
-        return new ModelAndView(new JspView("redirect:/"));
+        ModelAndView mav = ModelAndView.from();
+        mav.setViewName("redirect:/");
+        return mav;
+    }
+
+    @RequestMapping(value = "/api/users", method = RequestMethod.POST)
+    public ModelAndView create2(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        User user = new User(req.getParameter("userId"), req.getParameter("password"), req.getParameter("name"),
+                req.getParameter("email"));
+        DataBase.addUser(user);
+
+        resp.setStatus(201);
+        ModelAndView mav = ModelAndView.from();
+        mav.addObject("user", user);
+
+        return mav;
+    }
+
+    // TODO GET
+    @RequestMapping(value = "/api/users", method = RequestMethod.GET)
+    public void create3(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        User user = new User(req.getParameter("userId"), req.getParameter("password"), req.getParameter("name"),
+                req.getParameter("email"));
+
+        DataBase.addUser(user);
+        resp.setStatus(404);
+        //new JsonView().render(new HashMap<>(), req, resp);
     }
 }

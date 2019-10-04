@@ -1,9 +1,11 @@
 package slipp;
 
 import nextstep.mvc.DispatcherServlet;
-import nextstep.mvc.tobe.handler.AnnotationHandlerMapping;
 import nextstep.mvc.tobe.adapter.AnnotationHandlerAdapter;
 import nextstep.mvc.tobe.adapter.LegacyHandlerAdapter;
+import nextstep.mvc.tobe.handler.AnnotationHandlerMapping;
+import nextstep.mvc.tobe.viewresolver.JsonViewResolver;
+import nextstep.mvc.tobe.viewresolver.JspViewResolver;
 import nextstep.web.WebApplicationInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,10 @@ public class SlippWebApplicationInitializer  implements WebApplicationInitialize
                 Arrays.asList(
                         new LegacyHandlerAdapter(),
                         new AnnotationHandlerAdapter()
+                ),
+                Arrays.asList(
+                        new JsonViewResolver(),
+                        new JspViewResolver()
                 )
         );
 
