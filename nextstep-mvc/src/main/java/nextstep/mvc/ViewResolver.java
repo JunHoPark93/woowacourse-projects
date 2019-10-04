@@ -1,14 +1,6 @@
 package nextstep.mvc;
 
-import nextstep.mvc.tobe.JspView;
-import nextstep.mvc.tobe.ModelAndView;
+// TODO step 2에서 view 개선
+public interface ViewResolver {
 
-public class ViewResolver {
-    public static ModelAndView resolve(Object object) {
-        if (object instanceof String) {
-            return new ModelAndView(new JspView((String) object));
-        }
-
-        return (ModelAndView) object;
-    }
 }
