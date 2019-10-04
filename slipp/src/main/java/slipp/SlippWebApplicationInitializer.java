@@ -1,7 +1,7 @@
 package slipp;
 
 import nextstep.mvc.DispatcherServlet;
-import nextstep.mvc.tobe.AnnotationHandlerMapping;
+import nextstep.mvc.tobe.handler.AnnotationHandlerMapping;
 import nextstep.mvc.tobe.adapter.AnnotationHandlerAdapter;
 import nextstep.mvc.tobe.adapter.LegacyHandlerAdapter;
 import nextstep.web.WebApplicationInitializer;

@@ -4,6 +4,7 @@ import nextstep.db.DataBase;
 import nextstep.mvc.HandlerMapping;
 import nextstep.mvc.tobe.adapter.AnnotationHandlerAdapter;
 import nextstep.mvc.tobe.adapter.HandlerAdapter;
+import nextstep.mvc.tobe.handler.AnnotationHandlerMapping;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
