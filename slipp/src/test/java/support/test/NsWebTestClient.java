@@ -1,7 +1,10 @@
 package support.test;
 
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
+import org.springframework.test.web.reactive.server.StatusAssertions;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -26,6 +29,23 @@ public class NsWebTestClient {
     public NsWebTestClient basicAuth(String username, String password) {
         this.testClientBuilder = testClientBuilder.filter(basicAuthentication(username, password));
         return this;
+    }
+
+    public StatusAssertions getRequest(String url) {
+        return testClientBuilder.build()
+                .get()
+                .uri(url)
+                .exchange()
+                .expectStatus();
+    }
+
+    public StatusAssertions postRequest(String url, MultiValueMap<String, String> data) {
+        return testClientBuilder.build()
+                .post()
+                .uri(url)
+                .body(BodyInserters.fromFormData(data))
+                .exchange()
+                .expectStatus();
     }
 
     public <T> URI createResource(String url, T body, Class<T> clazz) {
