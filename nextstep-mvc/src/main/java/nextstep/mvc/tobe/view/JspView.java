@@ -8,7 +8,7 @@ import java.util.Map;
 public class JspView implements View {
     private static final String DEFAULT_REDIRECT_PREFIX = "redirect:";
 
-    private String viewName;
+    private final String viewName;
 
     public JspView(String viewName) {
         this.viewName = viewName;
@@ -17,11 +17,15 @@ public class JspView implements View {
     @Override
     public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (viewName.startsWith(DEFAULT_REDIRECT_PREFIX)) {
-            response.sendRedirect(viewName.substring(DEFAULT_REDIRECT_PREFIX.length()));
+            new RedirectView(extractViewName()).render(model, request, response);
             return;
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher(viewName);
-        rd.forward(request, response);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(viewName);
+        requestDispatcher.forward(request, response);
+    }
+
+    private String extractViewName() {
+        return viewName.substring(DEFAULT_REDIRECT_PREFIX.length());
     }
 }

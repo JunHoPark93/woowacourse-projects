@@ -2,6 +2,7 @@ package nextstep.mvc;
 
 import nextstep.mvc.exception.AdapterNotFoundException;
 import nextstep.mvc.exception.HandlerNotFoundException;
+import nextstep.mvc.exception.ViewResolverNotFoundException;
 import nextstep.mvc.tobe.adapter.HandlerAdapter;
 import nextstep.mvc.tobe.view.ModelAndView;
 import nextstep.mvc.tobe.view.View;
@@ -79,6 +80,6 @@ public class DispatcherServlet extends HttpServlet {
                 .filter(viewResolver -> viewResolver.supports(mav))
                 .findFirst()
                 .map(ViewResolver::resolve)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new ViewResolverNotFoundException("view resolver not found"));
     }
 }

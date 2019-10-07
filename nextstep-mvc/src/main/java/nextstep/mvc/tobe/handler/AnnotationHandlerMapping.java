@@ -43,10 +43,10 @@ public class AnnotationHandlerMapping implements HandlerMapping {
             RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
             RequestMethod[] requestMethods = getRequestMethods(requestMapping);
 
-            Object instance = createInstance(clazz);
+            HandlerExecution handlerExecution = new HandlerExecution(createInstance(clazz), method);
             Arrays.stream(requestMethods)
                     .map(value -> new HandlerKey(requestMapping.value(), value))
-                    .forEach(key -> handlerExecutions.put(key, new HandlerExecution(instance, method)));
+                    .forEach(key -> handlerExecutions.put(key, handlerExecution));
         }
     }
 
@@ -59,7 +59,7 @@ public class AnnotationHandlerMapping implements HandlerMapping {
         }
     }
 
-    private RequestMethod[] getRequestMethods(final RequestMapping requestMapping) {
+    private RequestMethod[] getRequestMethods(RequestMapping requestMapping) {
         RequestMethod[] requestMethods = requestMapping.method();
 
         if (requestMethods.length == 0) {
