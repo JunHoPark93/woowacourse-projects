@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.util.Objects;
 
 import static org.springframework.web.reactive.function.client.ExchangeFilterFunctions.basicAuthentication;
 
@@ -46,6 +47,34 @@ public class NsWebTestClient {
                 .body(BodyInserters.fromFormData(data))
                 .exchange()
                 .expectStatus();
+    }
+
+    public StatusAssertions loginGetRequest(String url, MultiValueMap<String, String> userData) {
+        return testClientBuilder.build()
+                .get()
+                .uri(url)
+                .cookie("JSESSIONID", getLoginSessionId(userData))
+                .exchange()
+                .expectStatus();
+    }
+
+    public StatusAssertions loginPostRequest(String url, MultiValueMap<String, String> userData, MultiValueMap<String, String> updateUserData) {
+        return testClientBuilder.build()
+                .post()
+                .uri(url)
+                .cookie("JSESSIONID", getLoginSessionId(userData))
+                .body(BodyInserters.fromFormData(updateUserData))
+                .exchange()
+                .expectStatus();
+    }
+
+    public String getLoginSessionId(MultiValueMap<String, String> data) {
+        return Objects.requireNonNull(postRequest("/users/login", data)
+                .isFound()
+                .returnResult(String.class)
+                .getResponseCookies()
+                .getFirst("JSESSIONID"))
+                .getValue();
     }
 
     public <T> URI createResource(String url, T body, Class<T> clazz) {
