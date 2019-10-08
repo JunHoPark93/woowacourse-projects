@@ -6,7 +6,7 @@ import nextstep.mvc.exception.ViewResolverNotFoundException;
 import nextstep.mvc.tobe.adapter.HandlerAdapter;
 import nextstep.mvc.tobe.view.ModelAndView;
 import nextstep.mvc.tobe.view.View;
-import nextstep.mvc.tobe.viewresolver.ViewResolver;
+import nextstep.mvc.tobe.viewresolver.ResponseResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,14 +26,14 @@ public class DispatcherServlet extends HttpServlet {
 
     private List<HandlerMapping> handlerMappings;
     private List<HandlerAdapter> handlerAdapters;
-    private List<ViewResolver> viewResolvers;
+    private List<ResponseResolver> responseResolvers;
 
     public DispatcherServlet(List<HandlerMapping> handlerMappings,
                              List<HandlerAdapter> handlerAdapters,
-                             List<ViewResolver> viewResolvers) {
+                             List<ResponseResolver> responseResolvers) {
         this.handlerMappings = handlerMappings;
         this.handlerAdapters = handlerAdapters;
-        this.viewResolvers = viewResolvers;
+        this.responseResolvers = responseResolvers;
     }
 
     @Override
@@ -76,10 +76,10 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     private View findView(ModelAndView mav) {
-        return viewResolvers.stream()
-                .filter(viewResolver -> viewResolver.supports(mav))
+        return responseResolvers.stream()
+                .filter(responseResolver -> responseResolver.supports(mav))
                 .findFirst()
-                .map(ViewResolver::resolve)
+                .map(ResponseResolver::resolve)
                 .orElseThrow(() -> new ViewResolverNotFoundException("view resolver not found"));
     }
 }

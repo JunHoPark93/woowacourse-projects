@@ -5,7 +5,7 @@ import nextstep.mvc.tobe.view.JspView;
 import nextstep.mvc.tobe.view.ModelAndView;
 import nextstep.mvc.tobe.view.View;
 
-public class JspViewResolver implements ViewResolver {
+public class JspResponseResolver implements ResponseResolver {
     private static final String JSP_SUFFIX = ".jsp";
     private static final String REDIRECT_PREFIX = "redirect:";
 

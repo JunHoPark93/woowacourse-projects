@@ -4,7 +4,7 @@ import nextstep.mvc.tobe.view.JsonView;
 import nextstep.mvc.tobe.view.ModelAndView;
 import nextstep.mvc.tobe.view.View;
 
-public class JsonViewResolver implements ViewResolver {
+public class JsonResponseResolver implements ResponseResolver {
     @Override
     public boolean supports(ModelAndView mav) {
         return !mav.isViewNameExist(); // view 가 없을 때 JsonViewResolver
