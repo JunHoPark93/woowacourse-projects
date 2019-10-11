@@ -7,3 +7,29 @@
 
 ## 우아한테크코스 코드리뷰
 * [온라인 코드 리뷰 과정](https://github.com/woowacourse/woowacourse-docs/blob/master/maincourse/README.md)
+
+
+## DB
+
+- [도커 다운로드](https://www.docker.com/products/docker-desktop)
+
+### 실행 방법
+
+1. IntelliJ IDEA에서 `docker-compose.yml`로 이동 후, Run 버튼 클릭
+2. 혹은 프로젝트 디렉터리에서 아래의 명령어를 터미널에 입력
+
+```bash
+cd docker
+docker-compose up -d
+```
+
+- 대용량 데이터 처리를 위한 Dataset Download
+
+> [stack-overflow-2018-developer-survey](https://www.kaggle.com/stackoverflow/stack-overflow-2018-developer-survey)
+
+- 아래의 메뉴얼을 확인하여 다운받은 CSV파일을 import한다.
+
+> https://dev.mysql.com/doc/workbench/en/wb-admin-export-import-table.html
+
+
+
