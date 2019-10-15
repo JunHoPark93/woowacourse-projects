@@ -1,5 +1,6 @@
 package slipp.dao;
 
+import nextstep.jdbc.JdbcTemplate;
 import slipp.domain.User;
 import slipp.support.db.ConnectionManager;
 
@@ -19,15 +20,14 @@ public class UserDao {
     private Connection con;
     private PreparedStatement pstmt;
 
-    public void insert(User user) throws SQLException {
-        try {
-            con = ConnectionManager.getConnection();
-            pstmt = con.prepareStatement(INSERT_QUERY);
-            setInsertParameters(user);
-            pstmt.executeUpdate();
-        } finally {
-            closeResources();
-        }
+    public void insert(User user) {
+        JdbcTemplate jdbcTemplate = JdbcTemplate.builder()
+                .driver("org.h2.Driver")
+                .url("jdbc:h2:mem:jwp-framework")
+                .userName("sa")
+                .password("")
+                .build();
+        jdbcTemplate.insert(INSERT_QUERY, user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
     }
 
     public void update(User user) throws SQLException {
