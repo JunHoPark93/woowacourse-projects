@@ -2,14 +2,10 @@ package slipp.dao;
 
 import nextstep.jdbc.JdbcTemplate;
 import slipp.domain.User;
-import slipp.support.db.ConnectionManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UserDao {
     private static final String INSERT_QUERY = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
@@ -17,110 +13,36 @@ public class UserDao {
     private static final String SELECT_ALL_QUERY = "SELECT userId, password, name, email FROM USERS";
     private static final String SELECT_QUERY = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
 
-    private Connection con;
-    private PreparedStatement pstmt;
+    private JdbcTemplate jdbcTemplate = JdbcTemplate.builder()
+            .driver("org.h2.Driver")
+            .url("jdbc:h2:mem:jwp-framework")
+            .userName("sa")
+            .password("")
+            .build();
 
     public void insert(User user) {
-        JdbcTemplate jdbcTemplate = JdbcTemplate.builder()
-                .driver("org.h2.Driver")
-                .url("jdbc:h2:mem:jwp-framework")
-                .userName("sa")
-                .password("")
-                .build();
         jdbcTemplate.execute(INSERT_QUERY, user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
     }
 
-    public void update(User user) throws SQLException {
-        JdbcTemplate jdbcTemplate = JdbcTemplate.builder()
-                .driver("org.h2.Driver")
-                .url("jdbc:h2:mem:jwp-framework")
-                .userName("sa")
-                .password("")
-                .build();
-        jdbcTemplate.execute(UPDATE_QUERY, user.getPassword(), user.getName(), user.getEmail(),user.getUserId());
+    public void update(User user) {
+        jdbcTemplate.execute(UPDATE_QUERY, user.getPassword(), user.getName(), user.getEmail(), user.getUserId());
     }
 
-    public List<User> findAll() throws SQLException {
-        try {
-            con = ConnectionManager.getConnection();
-            pstmt = con.prepareStatement(SELECT_ALL_QUERY);
-            ResultSet resultSet = pstmt.executeQuery();
-
-            return getUsers(resultSet);
-        } finally {
-            closeResources();
-        }
-    }
-
-    public User findByUserId(String userId) throws SQLException {
-        ResultSet rs = null;
-        try {
-            con = ConnectionManager.getConnection();
-            pstmt = con.prepareStatement(SELECT_QUERY);
-            pstmt.setString(1, userId);
-
-            rs = pstmt.executeQuery();
-
-            return getUser(rs);
-
-        } finally {
-            closeResources(rs);
-        }
-    }
-
-    private void setUpdateParameters(User user) throws SQLException {
-        pstmt.setString(1, user.getPassword());
-        pstmt.setString(2, user.getName());
-        pstmt.setString(3, user.getEmail());
-        pstmt.setString(4, user.getUserId());
-    }
-
-    private List<User> getUsers(ResultSet resultSet) throws SQLException {
+    public List<User> findAll() {
+        List<Map<String, String>> result = jdbcTemplate.selectAll(SELECT_ALL_QUERY);
         List<User> users = new ArrayList<>();
-        while (resultSet.next()) {
-            String userId = resultSet.getString("userId");
-            String password = resultSet.getString("password");
-            String name = resultSet.getString("name");
-            String email = resultSet.getString("email");
-            users.add(new User(userId, password, name, email));
+        for (Map<String, String> map : result) {
+            users.add(createUser(map));
         }
         return users;
     }
 
-    private User getUser(ResultSet rs) throws SQLException {
-        User user = null;
-        if (rs.next()) {
-            user = new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
-                    rs.getString("email"));
-        }
-        return user;
+    public User findByUserId(String userId) {
+        Map<String, String> result = jdbcTemplate.select(SELECT_QUERY, userId);
+        return createUser(result);
     }
 
-    private void closeResources() throws SQLException {
-        if (pstmt != null) {
-            pstmt.close();
-        }
-        if (con != null) {
-            con.close();
-        }
-    }
-
-    private void closeResources(ResultSet rs) throws SQLException {
-        if (rs != null) {
-            rs.close();
-        }
-        if (pstmt != null) {
-            pstmt.close();
-        }
-        if (con != null) {
-            con.close();
-        }
-    }
-
-    private void setInsertParameters(User user) throws SQLException {
-        pstmt.setString(1, user.getUserId());
-        pstmt.setString(2, user.getPassword());
-        pstmt.setString(3, user.getName());
-        pstmt.setString(4, user.getEmail());
+    private User createUser(Map<String, String> result) {
+        return new User(result.get("USERID"), result.get("PASSWORD"), result.get("NAME"), result.get("EMAIL"));
     }
 }
