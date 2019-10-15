@@ -37,7 +37,7 @@ public class JdbcTemplate {
         }
     }
 
-    public void insert(String sql, String... args) {
+    public void execute(String sql, String... args) {
         try (Connection conn = getConnection();
              PreparedStatement psmt = conn.prepareStatement(sql)) {
             setParams(psmt, args);

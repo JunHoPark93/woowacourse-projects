@@ -27,18 +27,17 @@ public class UserDao {
                 .userName("sa")
                 .password("")
                 .build();
-        jdbcTemplate.insert(INSERT_QUERY, user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
+        jdbcTemplate.execute(INSERT_QUERY, user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
     }
 
     public void update(User user) throws SQLException {
-        try {
-            con = ConnectionManager.getConnection();
-            pstmt = con.prepareStatement(UPDATE_QUERY);
-            setUpdateParameters(user);
-            pstmt.executeUpdate();
-        } finally {
-            closeResources();
-        }
+        JdbcTemplate jdbcTemplate = JdbcTemplate.builder()
+                .driver("org.h2.Driver")
+                .url("jdbc:h2:mem:jwp-framework")
+                .userName("sa")
+                .password("")
+                .build();
+        jdbcTemplate.execute(UPDATE_QUERY, user.getPassword(), user.getName(), user.getEmail(),user.getUserId());
     }
 
     public List<User> findAll() throws SQLException {
