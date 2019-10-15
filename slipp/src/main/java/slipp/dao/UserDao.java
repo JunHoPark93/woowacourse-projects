@@ -1,4 +1,4 @@
-package slipp.db;
+package slipp.dao;
 
 import slipp.domain.User;
 import slipp.support.db.ConnectionManager;
