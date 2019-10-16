@@ -1,8 +1,5 @@
 package nextstep.jdbc;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,45 +7,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcTemplate {
-    private final String driver;
-    private final String url;
-    private final String userName;
-    private final String password;
+    private final ConnectionManager connectionManager;
 
     private JdbcTemplate(Builder builder) {
-        driver = builder.driver;
-        url = builder.url;
-        userName = builder.userName;
-        password = builder.password;
+        connectionManager = new ConnectionManager(builder.driver, builder.url, builder.userName, builder.password);
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
-    private Connection getConnection() {
-        BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName(driver);
-        ds.setUrl(url);
-        ds.setUsername(userName);
-        ds.setPassword(password);
-        try {
-            return ds.getConnection();
+    public void execute(String sql, String... args) {
+        try (PreparedStatement psmt = prepare(sql)) {
+            setParams(psmt, args);
+            psmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new IllegalArgumentException();
         }
     }
 
-    public void execute(String sql, String... args) {
-        try (Connection conn = getConnection();
-             PreparedStatement psmt = conn.prepareStatement(sql)) {
-            setParams(psmt, args);
-            psmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException();
-        }
+    private PreparedStatement prepare(String sql) throws SQLException {
+        return this.connectionManager.getConnection().prepareStatement(sql);
     }
 
     private void setParams(PreparedStatement psmt, String... args) {
@@ -56,15 +35,13 @@ public class JdbcTemplate {
             try {
                 psmt.setString(i + 1, args[i]);
             } catch (SQLException e) {
-                e.printStackTrace();
                 throw new IllegalArgumentException();
             }
         }
     }
 
     public <T> T select(String sql, ResultSetMappingStrategy<T> strategy, String... args) {
-        try (Connection conn = getConnection();
-             PreparedStatement psmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement psmt = prepare(sql)) {
             setParams(psmt, args);
             ResultSet rs = psmt.executeQuery();
             if (rs.next()) {
@@ -72,25 +49,26 @@ public class JdbcTemplate {
             }
             throw new IllegalArgumentException();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new IllegalArgumentException();
         }
     }
 
     public <T> List<T> selectAll(String sql, ResultSetMappingStrategy<T> strategy, String... args) {
-        try (Connection conn = getConnection();
-             PreparedStatement psmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement psmt = prepare(sql)) {
             setParams(psmt, args);
             ResultSet rs = psmt.executeQuery();
-            List<T> result = new ArrayList<>();
-            while (rs.next()) {
-                result.add(strategy.map(rs));
-            }
-            return result;
+            return mapResultSet(strategy, rs);
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new IllegalArgumentException();
         }
+    }
+
+    private <T> List<T> mapResultSet(ResultSetMappingStrategy<T> strategy, ResultSet rs) throws SQLException {
+        List<T> result = new ArrayList<>();
+        while (rs.next()) {
+            result.add(strategy.map(rs));
+        }
+        return result;
     }
 
     public static final class Builder {
