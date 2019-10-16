@@ -20,19 +20,19 @@ public class UserDao {
     }
 
     public void insert(User user) {
-        jdbcTemplate.execute(INSERT_QUERY, user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
+        jdbcTemplate.executeUpdate(INSERT_QUERY, user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
     }
 
     public void update(User user) {
-        jdbcTemplate.execute(UPDATE_QUERY, user.getPassword(), user.getName(), user.getEmail(), user.getUserId());
+        jdbcTemplate.executeUpdate(UPDATE_QUERY, user.getPassword(), user.getName(), user.getEmail(), user.getUserId());
     }
 
     public List<User> findAll() {
-        return jdbcTemplate.selectAll(SELECT_ALL_QUERY, this::userMappingStrategy);
+        return jdbcTemplate.query(SELECT_ALL_QUERY, this::userMappingStrategy);
     }
 
     public User findByUserId(String userId) {
-        return jdbcTemplate.select(SELECT_QUERY, this::userMappingStrategy, userId);
+        return jdbcTemplate.queryForObject(SELECT_QUERY, this::userMappingStrategy, userId);
     }
 
     private User userMappingStrategy(ResultSet rs) throws SQLException {

@@ -10,14 +10,15 @@ public class JdbcTemplate {
     private final ConnectionManager connectionManager;
 
     private JdbcTemplate(Builder builder) {
-        connectionManager = new ConnectionManager(builder.driver, builder.url, builder.userName, builder.password);
+        connectionManager = new ConnectionManager(builder.driver, builder.url,
+                builder.userName, builder.password);
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
-    public void execute(String sql, String... args) {
+    public void executeUpdate(String sql, Object... args) {
         try (PreparedStatement psmt = prepare(sql)) {
             setParams(psmt, args);
             psmt.executeUpdate();
@@ -30,17 +31,22 @@ public class JdbcTemplate {
         return this.connectionManager.getConnection().prepareStatement(sql);
     }
 
-    private void setParams(PreparedStatement psmt, String... args) {
+    private void setParams(PreparedStatement psmt, Object... args) {
         for (int i = 0; i < args.length; i++) {
-            try {
-                psmt.setString(i + 1, args[i]);
-            } catch (SQLException e) {
-                throw new IllegalArgumentException();
-            }
+            setParamValues(psmt, i, args[i]);
         }
     }
 
-    public <T> T select(String sql, ResultSetMappingStrategy<T> strategy, String... args) {
+    private void setParamValues(PreparedStatement psmt, int parameterIndex, Object arg) {
+        try {
+            // PreparedStatement 의 parameter index 는 1부터 시작한다.
+            psmt.setObject(parameterIndex + 1, arg);
+        } catch (SQLException e) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public <T> T queryForObject(String sql, ResultSetMappingStrategy<T> strategy, Object... args) {
         try (PreparedStatement psmt = prepare(sql)) {
             setParams(psmt, args);
             ResultSet rs = psmt.executeQuery();
@@ -53,7 +59,7 @@ public class JdbcTemplate {
         }
     }
 
-    public <T> List<T> selectAll(String sql, ResultSetMappingStrategy<T> strategy, String... args) {
+    public <T> List<T> query(String sql, ResultSetMappingStrategy<T> strategy, Object... args) {
         try (PreparedStatement psmt = prepare(sql)) {
             setParams(psmt, args);
             ResultSet rs = psmt.executeQuery();
