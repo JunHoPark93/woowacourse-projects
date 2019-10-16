@@ -2,11 +2,12 @@ package nextstep.jdbc;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class JdbcTemplate {
     private final String driver;
@@ -46,6 +47,7 @@ public class JdbcTemplate {
             psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new IllegalArgumentException();
         }
     }
 
@@ -55,17 +57,18 @@ public class JdbcTemplate {
                 psmt.setString(i + 1, args[i]);
             } catch (SQLException e) {
                 e.printStackTrace();
+                throw new IllegalArgumentException();
             }
         }
     }
 
-    public Map<String, String> select(String sql, String... args) {
+    public <T> T select(String sql, ResultSetMappingStrategy<T> strategy, String... args) {
         try (Connection conn = getConnection();
              PreparedStatement psmt = conn.prepareStatement(sql)) {
             setParams(psmt, args);
             ResultSet rs = psmt.executeQuery();
             if (rs.next()) {
-                return toMap(rs);
+                return strategy.map(rs);
             }
             throw new IllegalArgumentException();
         } catch (SQLException e) {
@@ -74,25 +77,14 @@ public class JdbcTemplate {
         }
     }
 
-    private Map<String, String> toMap(ResultSet rs) throws SQLException {
-        ResultSetMetaData metaData = rs.getMetaData();
-        Map<String, String> map = new HashMap<>();
-        int cnt = metaData.getColumnCount();
-        for (int i = 1; i <= cnt; i++) {
-            map.put(metaData.getColumnName(i), rs.getString(i));
-        }
-        return map;
-    }
-
-    public List<Map<String, String>> selectAll(String sql, String... args) {
+    public <T> List<T> selectAll(String sql, ResultSetMappingStrategy<T> strategy, String... args) {
         try (Connection conn = getConnection();
              PreparedStatement psmt = conn.prepareStatement(sql)) {
             setParams(psmt, args);
             ResultSet rs = psmt.executeQuery();
-
-            List<Map<String, String>> result = new ArrayList<>();
+            List<T> result = new ArrayList<>();
             while (rs.next()) {
-                result.add(toMap(rs));
+                result.add(strategy.map(rs));
             }
             return result;
         } catch (SQLException e) {
@@ -107,7 +99,7 @@ public class JdbcTemplate {
         private String userName;
         private String password;
 
-        public Builder() {
+        private Builder() {
         }
 
         public Builder driver(String driver) {

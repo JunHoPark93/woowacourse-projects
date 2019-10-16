@@ -3,9 +3,9 @@ package slipp.dao;
 import nextstep.jdbc.JdbcTemplate;
 import slipp.domain.User;
 
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 public class UserDao {
     private static final String INSERT_QUERY = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
@@ -29,20 +29,15 @@ public class UserDao {
     }
 
     public List<User> findAll() {
-        List<Map<String, String>> result = jdbcTemplate.selectAll(SELECT_ALL_QUERY);
-        List<User> users = new ArrayList<>();
-        for (Map<String, String> map : result) {
-            users.add(createUser(map));
-        }
-        return users;
+        return jdbcTemplate.selectAll(SELECT_ALL_QUERY, this::userMappingStrategy);
     }
 
     public User findByUserId(String userId) {
-        Map<String, String> result = jdbcTemplate.select(SELECT_QUERY, userId);
-        return createUser(result);
+        return jdbcTemplate.select(SELECT_QUERY, this::userMappingStrategy, userId);
     }
 
-    private User createUser(Map<String, String> result) {
-        return new User(result.get("USERID"), result.get("PASSWORD"), result.get("NAME"), result.get("EMAIL"));
+    private User userMappingStrategy(ResultSet rs) throws SQLException {
+        return new User(rs.getString("userId"), rs.getString("password"),
+                rs.getString("name"), rs.getString("email"));
     }
 }
