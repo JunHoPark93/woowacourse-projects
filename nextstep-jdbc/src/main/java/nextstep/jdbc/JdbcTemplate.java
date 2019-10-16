@@ -1,5 +1,8 @@
 package nextstep.jdbc;
 
+import nextstep.jdbc.exception.InvalidQueryException;
+import nextstep.jdbc.exception.InvalidQueryParameterException;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +26,7 @@ public class JdbcTemplate {
             setParams(psmt, args);
             psmt.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalArgumentException();
+            throw new InvalidQueryException();
         }
     }
 
@@ -42,7 +45,7 @@ public class JdbcTemplate {
             // PreparedStatement 의 parameter index 는 1부터 시작한다.
             psmt.setObject(parameterIndex + 1, arg);
         } catch (SQLException e) {
-            throw new IllegalArgumentException();
+            throw new InvalidQueryParameterException();
         }
     }
 
@@ -53,9 +56,9 @@ public class JdbcTemplate {
             if (rs.next()) {
                 return strategy.map(rs);
             }
-            throw new IllegalArgumentException();
+            throw new InvalidQueryException();
         } catch (SQLException e) {
-            throw new IllegalArgumentException();
+            throw new InvalidQueryException();
         }
     }
 
