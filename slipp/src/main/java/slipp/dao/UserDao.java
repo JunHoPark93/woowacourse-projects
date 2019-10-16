@@ -13,12 +13,11 @@ public class UserDao {
     private static final String SELECT_ALL_QUERY = "SELECT userId, password, name, email FROM USERS";
     private static final String SELECT_QUERY = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
 
-    private JdbcTemplate jdbcTemplate = JdbcTemplate.builder()
-            .driver("org.h2.Driver")
-            .url("jdbc:h2:mem:jwp-framework")
-            .userName("sa")
-            .password("")
-            .build();
+    private final JdbcTemplate jdbcTemplate;
+
+    public UserDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public void insert(User user) {
         jdbcTemplate.execute(INSERT_QUERY, user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
