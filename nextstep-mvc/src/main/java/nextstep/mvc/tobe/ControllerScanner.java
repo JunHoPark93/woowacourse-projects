@@ -1,7 +1,7 @@
 package nextstep.mvc.tobe;
 
 import com.google.common.collect.Maps;
-import nextstep.web.annotation.Controller;
+import nextstep.stereotype.Controller;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

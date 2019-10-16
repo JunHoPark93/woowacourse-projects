@@ -1,7 +1,7 @@
 package nextstep.di.factory.example;
 
 import nextstep.annotation.Inject;
-import nextstep.annotation.Service;
+import nextstep.stereotype.Service;
 
 @Service
 public class MyQnaService {

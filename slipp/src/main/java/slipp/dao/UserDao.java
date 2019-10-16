@@ -5,6 +5,7 @@ import nextstep.jdbc.RowMapper;
 import slipp.domain.User;
 import slipp.support.db.ConnectionManager;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,17 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao {
-    private static UserDao userDao;
-    private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
+    private final JdbcTemplate jdbcTemplate;
 
-    private UserDao() {
-    }
-
-    public static UserDao getInstance() {
-        if (userDao == null) {
-            userDao = new UserDao();
-        }
-        return userDao;
+    public UserDao(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public void insert(User user) {

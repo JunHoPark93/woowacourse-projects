@@ -3,15 +3,17 @@ package slipp.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nextstep.mvc.JsonView;
 import nextstep.mvc.ModelAndView;
-import nextstep.web.annotation.Controller;
+import nextstep.stereotype.Controller;
 import nextstep.web.annotation.RequestMapping;
 import nextstep.web.annotation.RequestMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import slipp.dao.UserDao;
 import slipp.domain.User;
 import slipp.dto.UserCreatedDto;
 import slipp.dto.UserUpdatedDto;
+import slipp.support.db.ConnectionManager;
 import slipp.support.db.DataBase;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,13 +25,18 @@ public class ApiUserController {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    private UserDao userDao;
+
+    public ApiUserController() {
+        this.userDao = new UserDao(ConnectionManager.getDataSource());
+    }
+
     @RequestMapping(value = "/api/users", method = RequestMethod.POST)
     public ModelAndView create(HttpServletRequest request, HttpServletResponse response) throws Exception {
         UserCreatedDto createdDto = objectMapper.readValue(request.getInputStream(), UserCreatedDto.class);
         logger.debug("Created User : {}", createdDto);
 
-
-        DataBase.addUser(new User(
+        userDao.insert(new User(
                 createdDto.getUserId(),
                 createdDto.getPassword(),
                 createdDto.getName(),
@@ -47,7 +54,7 @@ public class ApiUserController {
         logger.debug("userId : {}", userId);
 
         ModelAndView mav = new ModelAndView(new JsonView());
-        mav.addObject("user", DataBase.findUserById(userId));
+        mav.addObject("user", userDao.findByUserId(userId));
         return mav;
     }
 
@@ -58,8 +65,9 @@ public class ApiUserController {
         UserUpdatedDto updateDto = objectMapper.readValue(request.getInputStream(), UserUpdatedDto.class);
         logger.debug("Updated User : {}", updateDto);
 
-        User user = DataBase.findUserById(userId);
+        User user = userDao.findByUserId(userId);
         user.update(updateDto);
+        userDao.update(user);
 
         return new ModelAndView(new JsonView());
     }

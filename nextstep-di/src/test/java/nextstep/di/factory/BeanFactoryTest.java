@@ -1,8 +1,10 @@
 package nextstep.di.factory;
 
 import com.google.common.collect.Sets;
-import nextstep.annotation.Repository;
-import nextstep.annotation.Service;
+import nextstep.di.factory.example.QnaController;
+import nextstep.stereotype.Controller;
+import nextstep.stereotype.Repository;
+import nextstep.stereotype.Service;
 import nextstep.di.factory.example.MyQnaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,14 +23,19 @@ public class BeanFactoryTest {
     @SuppressWarnings("unchecked")
     public void setup() {
         reflections = new Reflections("nextstep.di.factory.example");
-        Set<Class<?>> preInstanticateClazz = getTypesAnnotatedWith(Service.class, Repository.class);
+        Set<Class<?>> preInstanticateClazz = getTypesAnnotatedWith(Controller.class, Service.class, Repository.class);
         beanFactory = new BeanFactory(preInstanticateClazz);
         beanFactory.initialize();
     }
 
     @Test
     public void di() throws Exception {
-        MyQnaService qnaService = beanFactory.getBean(MyQnaService.class);
+        QnaController qnaController = beanFactory.getBean(QnaController.class);
+
+        assertNotNull(qnaController);
+        assertNotNull(qnaController.getQnaService());
+
+        MyQnaService qnaService = qnaController.getQnaService();
         assertNotNull(qnaService.getUserRepository());
         assertNotNull(qnaService.getQuestionRepository());
     }
