@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class JdbcTemplate {
     private final ConnectionManager connectionManager;
@@ -21,10 +22,15 @@ public class JdbcTemplate {
         return new Builder();
     }
 
-    public void executeUpdate(String sql, Object... args) {
+    public <T> Optional<List<T>> executeQuery(String sql, ResultSetMappingStrategy<T> resultSetMappingStrategy, Object... args) {
         try (PreparedStatement psmt = prepare(sql)) {
             setParams(psmt, args);
+            if (resultSetMappingStrategy != null) {
+                ResultSet rs = psmt.executeQuery();
+                return Optional.of(mapResultSet(resultSetMappingStrategy, rs));
+            }
             psmt.executeUpdate();
+            return Optional.empty();
         } catch (SQLException e) {
             throw new InvalidQueryException();
         }
@@ -46,29 +52,6 @@ public class JdbcTemplate {
             psmt.setObject(parameterIndex + 1, arg);
         } catch (SQLException e) {
             throw new InvalidQueryParameterException();
-        }
-    }
-
-    public <T> T queryForObject(String sql, ResultSetMappingStrategy<T> strategy, Object... args) {
-        try (PreparedStatement psmt = prepare(sql)) {
-            setParams(psmt, args);
-            ResultSet rs = psmt.executeQuery();
-            if (rs.next()) {
-                return strategy.map(rs);
-            }
-            throw new InvalidQueryException();
-        } catch (SQLException e) {
-            throw new InvalidQueryException();
-        }
-    }
-
-    public <T> List<T> query(String sql, ResultSetMappingStrategy<T> strategy, Object... args) {
-        try (PreparedStatement psmt = prepare(sql)) {
-            setParams(psmt, args);
-            ResultSet rs = psmt.executeQuery();
-            return mapResultSet(strategy, rs);
-        } catch (SQLException e) {
-            throw new IllegalArgumentException();
         }
     }
 
