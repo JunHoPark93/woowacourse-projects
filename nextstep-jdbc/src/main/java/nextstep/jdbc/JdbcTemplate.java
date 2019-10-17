@@ -1,7 +1,6 @@
 package nextstep.jdbc;
 
 import nextstep.jdbc.exception.InvalidQueryException;
-import nextstep.jdbc.exception.InvalidQueryParameterException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,9 +21,12 @@ public class JdbcTemplate {
         return new Builder();
     }
 
-    public <T> Optional<List<T>> executeQuery(String sql, ResultSetMappingStrategy<T> resultSetMappingStrategy, Object... args) {
+    public <T> Optional<List<T>> executeQuery(String sql, ResultSetParameterStrategy resultSetParameterStrategy,
+                                              ResultSetMappingStrategy<T> resultSetMappingStrategy, Object... args) {
         try (PreparedStatement psmt = prepare(sql)) {
-            setParams(psmt, args);
+            if (resultSetParameterStrategy != null) {
+                resultSetParameterStrategy.setParams(psmt, args);
+            }
             if (resultSetMappingStrategy != null) {
                 ResultSet rs = psmt.executeQuery();
                 return Optional.of(mapResultSet(resultSetMappingStrategy, rs));
@@ -38,21 +40,6 @@ public class JdbcTemplate {
 
     private PreparedStatement prepare(String sql) throws SQLException {
         return this.connectionManager.getConnection().prepareStatement(sql);
-    }
-
-    private void setParams(PreparedStatement psmt, Object... args) {
-        for (int i = 0; i < args.length; i++) {
-            setParamValues(psmt, i, args[i]);
-        }
-    }
-
-    private void setParamValues(PreparedStatement psmt, int parameterIndex, Object arg) {
-        try {
-            // PreparedStatement 의 parameter index 는 1부터 시작한다.
-            psmt.setObject(parameterIndex + 1, arg);
-        } catch (SQLException e) {
-            throw new InvalidQueryParameterException();
-        }
     }
 
     private <T> List<T> mapResultSet(ResultSetMappingStrategy<T> strategy, ResultSet rs) throws SQLException {
