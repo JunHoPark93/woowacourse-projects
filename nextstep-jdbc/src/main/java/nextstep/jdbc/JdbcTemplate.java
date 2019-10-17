@@ -21,18 +21,27 @@ public class JdbcTemplate {
         return new Builder();
     }
 
+    public <T> Optional<List<T>> executeQuery(String sql, ResultSetMappingStrategy<T> resultSetMappingStrategy) {
+        return executeQuery(sql, null, resultSetMappingStrategy);
+    }
+
     public <T> Optional<List<T>> executeQuery(String sql, ResultSetParameterStrategy resultSetParameterStrategy,
-                                              ResultSetMappingStrategy<T> resultSetMappingStrategy, Object... args) {
+                                              ResultSetMappingStrategy<T> resultSetMappingStrategy) {
         try (PreparedStatement psmt = prepare(sql)) {
             if (resultSetParameterStrategy != null) {
-                resultSetParameterStrategy.setParams(psmt, args);
+                resultSetParameterStrategy.setParams(psmt);
             }
-            if (resultSetMappingStrategy != null) {
-                ResultSet rs = psmt.executeQuery();
-                return Optional.of(mapResultSet(resultSetMappingStrategy, rs));
-            }
+            ResultSet rs = psmt.executeQuery();
+            return Optional.of(mapResultSet(resultSetMappingStrategy, rs));
+        } catch (SQLException e) {
+            throw new InvalidQueryException();
+        }
+    }
+
+    public void executeQuery(String sql, ResultSetParameterStrategy resultSetParameterStrategy) {
+        try (PreparedStatement psmt = prepare(sql)) {
+            resultSetParameterStrategy.setParams(psmt);
             psmt.executeUpdate();
-            return Optional.empty();
         } catch (SQLException e) {
             throw new InvalidQueryException();
         }
