@@ -1,11 +1,15 @@
 package slipp;
 
+import nextstep.jdbc.ConnectionManager;
 import nextstep.mvc.DispatcherServlet;
 import nextstep.mvc.asis.ControllerHandlerAdapter;
 import nextstep.mvc.tobe.AnnotationHandlerMapping;
 import nextstep.mvc.tobe.HandlerExecutionHandlerAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import slipp.controller.UserSessionUtils;
@@ -20,8 +24,11 @@ class DispatcherServletTest {
 
     @BeforeEach
     void setUp() throws Exception {
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("jwp.sql"));
+        DatabasePopulatorUtils.execute(populator, ConnectionManager.getDataSource());
+
         dispatcher = new DispatcherServlet();
-        dispatcher.addHandlerMpping(new ManualHandlerMapping());
         dispatcher.addHandlerMpping(new AnnotationHandlerMapping("slipp.controller"));
 
         dispatcher.addHandlerAdapter(new HandlerExecutionHandlerAdapter());

@@ -13,8 +13,6 @@ import slipp.dao.UserDao;
 import slipp.domain.User;
 import slipp.dto.UserCreatedDto;
 import slipp.dto.UserUpdatedDto;
-import slipp.support.db.ConnectionManager;
-import slipp.support.db.DataBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,11 +23,8 @@ public class ApiUserController {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    private UserDao userDao;
+    private UserDao userDao = UserDao.getInstance();
 
-    public ApiUserController() {
-        this.userDao = new UserDao(ConnectionManager.getDataSource());
-    }
 
     @RequestMapping(value = "/api/users", method = RequestMethod.POST)
     public ModelAndView create(HttpServletRequest request, HttpServletResponse response) throws Exception {

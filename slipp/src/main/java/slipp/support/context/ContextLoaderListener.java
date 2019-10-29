@@ -1,6 +1,6 @@
 package slipp.support.context;
 
-import slipp.support.db.ConnectionManager;
+import nextstep.jdbc.ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;

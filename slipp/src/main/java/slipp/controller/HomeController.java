@@ -1,23 +1,19 @@
 package slipp.controller;
 
-import slipp.dao.UserDao;
-import slipp.support.db.ConnectionManager;
-import slipp.support.db.DataBase;
-import nextstep.mvc.asis.Controller;
+import nextstep.mvc.ModelAndView;
+import nextstep.mvc.tobe.AbstractNewController;
+import nextstep.stereotype.Controller;
+import nextstep.web.annotation.RequestMapping;
+import nextstep.web.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class HomeController implements Controller {
-    private UserDao userDao;
+@Controller
+public class HomeController extends AbstractNewController {
 
-    public HomeController(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        req.setAttribute("users", userDao.findAll());
-        return "home.jsp";
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return jspView("home.jsp");
     }
 }
