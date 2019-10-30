@@ -4,5 +4,6 @@ import nextstep.stereotype.Repository;
 
 @Repository
 public class JdbcQuestionRepository implements QuestionRepository {
-
+    public JdbcQuestionRepository() {
+    }
 }

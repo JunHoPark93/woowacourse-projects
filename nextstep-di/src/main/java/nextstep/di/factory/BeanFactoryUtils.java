@@ -2,8 +2,12 @@ package nextstep.di.factory;
 
 import com.google.common.collect.Sets;
 import nextstep.annotation.Inject;
+import nextstep.di.factory.exception.BeanInvokeException;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.reflections.ReflectionUtils.getAllConstructors;
@@ -48,4 +52,15 @@ public class BeanFactoryUtils {
 
         throw new IllegalStateException(injectedClazz + "인터페이스를 구현하는 Bean이 존재하지 않는다.");
     }
+
+//    static Object invoke(Class<?> clazz, Method method) {
+//        try {
+//
+////            Constructor<?> declaredConstructor = clazz.getDeclaredConstructor();
+////            declaredConstructor.setAccessible(true);
+////            return method.invoke(declaredConstructor.newInstance());
+//        } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
+//            throw new BeanInvokeException(e);
+//        }
+//    }
 }
