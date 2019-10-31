@@ -29,7 +29,7 @@ subprojects {
 		implementation("com.google.guava:guava:28.0-jre")
 		implementation("org.apache.commons:commons-lang3:3.9")
 		implementation("org.reflections:reflections:0.9.11")
-
+		implementation("org.springframework:spring-beans:5.2.0.RELEASE")
 		testImplementation("org.junit.jupiter:junit-jupiter:5.5.1")
 		testImplementation("org.assertj:assertj-core:3.12.2")
 		testImplementation("org.springframework:spring-test:$springVersion")

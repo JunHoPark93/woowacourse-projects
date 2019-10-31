@@ -8,9 +8,6 @@ public class MyQnaService {
     private UserRepository userRepository;
     private QuestionRepository questionRepository;
 
-    public MyQnaService() {
-    }
-
     @Inject
     public MyQnaService(UserRepository userRepository, QuestionRepository questionRepository) {
         this.userRepository = userRepository;
