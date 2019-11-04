@@ -1,6 +1,7 @@
 package nextstep.di.factory;
 
 import com.google.common.collect.Maps;
+import nextstep.di.factory.exception.DefaultConstructorInitException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -29,37 +30,48 @@ public class BeanFactory {
     }
 
     public void initialize() {
-        preInstanticateBeans.forEach(this::addBean);
+        for (Class<?> bean : preInstanticateBeans) {
+            beans.put(bean, createInstance(bean));
+        }
     }
 
-    private void addBean(Class<?> clazz) {
-        Constructor<?> injectedConstructor = BeanFactoryUtils.getInjectedConstructor(clazz);
+    private Object createInstance(Class<?> clazz)  {
+        if (isBeanExists(clazz)) {
+            return getBean(clazz);
+        }
+        Constructor<?> constructor = getConstructor(clazz);
+        List<Object> paramInstances = initParameters(constructor);
+        return BeanUtils.instantiateClass(constructor, paramInstances.toArray());
+    }
+
+    private boolean isBeanExists(Class<?> clazz) {
+        return getBean(clazz) != null;
+    }
+
+    private Constructor<?> getConstructor(Class<?> clazz)  {
+        Constructor injectedConstructor = BeanFactoryUtils.getInjectedConstructor(clazz);
         if (injectedConstructor == null) {
-            beans.put(clazz, BeanUtils.instantiateClass(clazz));
-            return;
+            return getDefaultConstructor(clazz);
         }
-        beans.put(clazz, BeanUtils.instantiateClass(injectedConstructor, createParameterObjects(injectedConstructor).toArray()));
+        return injectedConstructor;
     }
 
-    private List<Object> createParameterObjects(Constructor<?> injectedConstructor) {
-        List<Object> parameterObjects = new ArrayList<>();
-        Parameter[] parameters = injectedConstructor.getParameters();
+    private Constructor getDefaultConstructor(Class<?> clazz) {
+        try {
+            return clazz.getDeclaredConstructor();
+        } catch (NoSuchMethodException e) {
+            logger.error("Error : {0}", e);
+            throw new DefaultConstructorInitException(e);
+        }
+    }
+
+    private List<Object> initParameters(Constructor constructor) {
+        Parameter[] parameters = constructor.getParameters();
+        List<Object> paramInstances = new ArrayList<>();
         for (Parameter parameter : parameters) {
-            initArgs(parameterObjects, parameter);
+            Class<?> clazz = BeanFactoryUtils.findConcreteClass(parameter.getType(), preInstanticateBeans);
+            paramInstances.add(createInstance(clazz));
         }
-        return parameterObjects;
-    }
-
-    private void initArgs(List<Object> parameterObjects, Parameter parameter) {
-        Class<?> concreteClass = BeanFactoryUtils.findConcreteClass(parameter.getType(), preInstanticateBeans);
-        if (isBeanInitialized(concreteClass)) {
-            parameterObjects.add(beans.get(concreteClass));
-            return;
-        }
-        parameterObjects.add(BeanUtils.instantiateClass(concreteClass));
-    }
-
-    private boolean isBeanInitialized(Class<?> concreteClass) {
-        return beans.containsKey(concreteClass);
+        return paramInstances;
     }
 }

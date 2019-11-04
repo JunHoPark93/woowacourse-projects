@@ -33,7 +33,7 @@ public class BeanFactoryTest {
     }
 
     @Test
-    public void di() throws Exception {
+    public void di() {
         QnaController qnaController = beanFactory.getBean(QnaController.class);
 
         assertNotNull(qnaController);
