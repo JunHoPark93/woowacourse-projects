@@ -6,12 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class BeanFactory {
     private static final Logger logger = LoggerFactory.getLogger(BeanFactory.class);
@@ -22,6 +25,16 @@ public class BeanFactory {
 
     public BeanFactory(Set<Class<?>> preInstanticateBeans) {
         this.preInstanticateBeans = preInstanticateBeans;
+    }
+
+    public BeanFactory(Scanner scanner) {
+        this.preInstanticateBeans = scanner.getAnnotatedClasses();
+    }
+
+    public Map<Class<?>, Object> getBeansWithType(Class<? extends Annotation> type) {
+        return this.beans.entrySet().stream()
+                .filter(x -> x.getKey().isAnnotationPresent(type))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     @SuppressWarnings("unchecked")
@@ -35,7 +48,7 @@ public class BeanFactory {
         }
     }
 
-    private Object createInstance(Class<?> clazz)  {
+    private Object createInstance(Class<?> clazz) {
         if (isBeanExists(clazz)) {
             return getBean(clazz);
         }
@@ -48,7 +61,7 @@ public class BeanFactory {
         return getBean(clazz) != null;
     }
 
-    private Constructor<?> getConstructor(Class<?> clazz)  {
+    private Constructor<?> getConstructor(Class<?> clazz) {
         Constructor injectedConstructor = BeanFactoryUtils.getInjectedConstructor(clazz);
         if (injectedConstructor == null) {
             return getDefaultConstructor(clazz);
