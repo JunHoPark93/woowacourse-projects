@@ -3,7 +3,6 @@ package nextstep.mvc.tobe;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import nextstep.di.factory.BeanFactory;
-import nextstep.di.factory.Scanner;
 import nextstep.mvc.HandlerMapping;
 import nextstep.stereotype.Controller;
 import nextstep.web.annotation.RequestMapping;
@@ -23,18 +22,15 @@ import java.util.stream.Collectors;
 public class AnnotationHandlerMapping implements HandlerMapping {
     private static final Logger logger = LoggerFactory.getLogger(AnnotationHandlerMapping.class);
 
-    private Object[] basePackage;
-
+    private BeanFactory beanFactory;
     private Map<HandlerKey, HandlerExecution> handlerExecutions = Maps.newHashMap();
 
-    public AnnotationHandlerMapping(Object... basePackage) {
-        this.basePackage = basePackage;
+    public AnnotationHandlerMapping(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
     }
 
     public void initialize() {
-        Scanner scanner = new BeanScanner(basePackage);
-        BeanFactory beanFactory = new BeanFactory(scanner);
-        beanFactory.initialize();
+
         Map<Class<?>, Object> controllers = beanFactory.getBeansWithType(Controller.class);
         Set<Method> methods = getRequestMappingMethods(controllers.keySet());
         for (Method method : methods) {

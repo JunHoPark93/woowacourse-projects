@@ -1,39 +1,24 @@
 package nextstep.di.factory;
 
-import com.google.common.collect.Sets;
-import nextstep.di.factory.example.MyQnaService;
-import nextstep.di.factory.example.QnaController;
-import nextstep.stereotype.Controller;
-import nextstep.stereotype.Repository;
-import nextstep.stereotype.Service;
-import org.junit.jupiter.api.BeforeEach;
+import nextstep.di.factory.example.*;
+import nextstep.di.factory.exception.InvalidBeanClassTypeException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.annotation.Annotation;
-import java.util.Set;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BeanFactoryTest {
     private static final Logger log = LoggerFactory.getLogger(BeanFactoryTest.class);
 
-    private Reflections reflections;
-    private BeanFactory beanFactory;
-
-    @BeforeEach
-    @SuppressWarnings("unchecked")
-    public void setup() {
-        reflections = new Reflections("nextstep.di.factory.example");
-        Set<Class<?>> preInstanticateClazz = getTypesAnnotatedWith(Controller.class, Service.class, Repository.class);
-        beanFactory = new BeanFactory(preInstanticateClazz);
-        beanFactory.initialize();
-    }
-
     @Test
     public void di() {
+        Scanner scanner = new TestScanner("nextstep.di.factory.example");
+        BeanFactory beanFactory = new BeanFactory(scanner);
+        beanFactory.initialize();
         QnaController qnaController = beanFactory.getBean(QnaController.class);
 
         assertNotNull(qnaController);
@@ -44,13 +29,22 @@ public class BeanFactoryTest {
         assertNotNull(qnaService.getQuestionRepository());
     }
 
-    @SuppressWarnings("unchecked")
-    private Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation>... annotations) {
-        Set<Class<?>> beans = Sets.newHashSet();
-        for (Class<? extends Annotation> annotation : annotations) {
-            beans.addAll(reflections.getTypesAnnotatedWith(annotation));
-        }
-        log.debug("Scan Beans Type : {}", beans);
-        return beans;
+    @Test
+    void 애노테이션이_있는_인터페이스() {
+        Scanner scanner = new TestScanner("nextstep.di.factory.fail");
+        BeanFactory beanFactory = new BeanFactory(scanner);
+        assertThrows(InvalidBeanClassTypeException.class, () -> {
+            beanFactory.initialize();
+        });
+    }
+
+    @Test
+    void 빈_싱글턴_보장_여부() {
+        Scanner scanner = new TestScanner("nextstep.di.factory.example");
+        BeanFactory beanFactory = new BeanFactory(scanner);
+        beanFactory.initialize();
+        SingletonTest1 singletonTest1 = beanFactory.getBean(SingletonTest1.class);
+        SingletonTest2 singletonTest2 = beanFactory.getBean(SingletonTest2.class);
+        assertThat(singletonTest1.getQnaService()).isEqualTo(singletonTest2.getQnaService());
     }
 }

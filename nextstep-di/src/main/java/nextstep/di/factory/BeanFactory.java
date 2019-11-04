@@ -2,6 +2,7 @@ package nextstep.di.factory;
 
 import com.google.common.collect.Maps;
 import nextstep.di.factory.exception.DefaultConstructorInitException;
+import nextstep.di.factory.exception.InvalidBeanClassTypeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -62,7 +63,7 @@ public class BeanFactory {
         return BeanUtils.instantiateClass(constructor, paramInstances.toArray());
     }
 
-    private boolean isBeanExists(Class<?> bean) {
+    private  boolean isBeanExists (Class<?> bean) {
         return beans.containsKey(bean);
     }
 

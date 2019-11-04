@@ -1,4 +1,4 @@
-package nextstep.di.factory;
+package nextstep.di.factory.exception;
 
 public class InvalidBeanClassTypeException extends RuntimeException {
     public InvalidBeanClassTypeException() {
