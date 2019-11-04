@@ -22,11 +22,12 @@ public class BeanScanner implements Scanner {
         reflections = new Reflections(basePackage);
     }
 
+    @SuppressWarnings("unchecked")
     public Set<Class<?>> getAnnotatedClasses() {
-        Set<Class<?>> preInitiatedControllers = getTypesAnnotatedWith(Controller.class, Service.class, Repository.class);
-        return preInitiatedControllers;
+        return getTypesAnnotatedWith(Controller.class, Service.class, Repository.class);
     }
 
+    @SuppressWarnings("unchecked")
     private Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation>... annotations) {
         Set<Class<?>> beans = Sets.newHashSet();
         for (Class<? extends Annotation> annotation : annotations) {

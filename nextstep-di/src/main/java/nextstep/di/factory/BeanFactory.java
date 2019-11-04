@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class BeanFactory {
@@ -22,10 +21,6 @@ public class BeanFactory {
     private Set<Class<?>> preInstanticateBeans;
 
     private Map<Class<?>, Object> beans = Maps.newHashMap();
-
-    public BeanFactory(Set<Class<?>> preInstanticateBeans) {
-        this.preInstanticateBeans = preInstanticateBeans;
-    }
 
     public BeanFactory(Scanner scanner) {
         this.preInstanticateBeans = scanner.getAnnotatedClasses();
@@ -44,7 +39,17 @@ public class BeanFactory {
 
     public void initialize() {
         for (Class<?> bean : preInstanticateBeans) {
+            checkIfInterface(bean);
+            if (isBeanExists(bean)) {
+                return;
+            }
             beans.put(bean, createInstance(bean));
+        }
+    }
+
+    private void checkIfInterface(Class<?> bean) {
+        if (bean.isInterface()) {
+            throw new InvalidBeanClassTypeException();
         }
     }
 
@@ -57,8 +62,8 @@ public class BeanFactory {
         return BeanUtils.instantiateClass(constructor, paramInstances.toArray());
     }
 
-    private boolean isBeanExists(Class<?> clazz) {
-        return getBean(clazz) != null;
+    private boolean isBeanExists(Class<?> bean) {
+        return beans.containsKey(bean);
     }
 
     private Constructor<?> getConstructor(Class<?> clazz) {
