@@ -41,10 +41,7 @@ public class BeanFactory {
     public void initialize() {
         for (Class<?> bean : preInstanticateBeans) {
             checkIfInterface(bean);
-            if (isBeanExists(bean)) {
-                return;
-            }
-            beans.put(bean, createInstance(bean));
+            enrollBean(bean);
         }
     }
 
@@ -54,16 +51,22 @@ public class BeanFactory {
         }
     }
 
-    private Object createInstance(Class<?> clazz) {
+    private Object enrollBean(Class<?> clazz) {
         if (isBeanExists(clazz)) {
             return getBean(clazz);
         }
+        Object object = createBeanInstance(clazz);
+        beans.put(clazz, object);
+        return object;
+    }
+
+    private Object createBeanInstance(Class<?> clazz) {
         Constructor<?> constructor = getConstructor(clazz);
         List<Object> paramInstances = initParameters(constructor);
         return BeanUtils.instantiateClass(constructor, paramInstances.toArray());
     }
 
-    private  boolean isBeanExists (Class<?> bean) {
+    private boolean isBeanExists(Class<?> bean) {
         return beans.containsKey(bean);
     }
 
@@ -89,7 +92,7 @@ public class BeanFactory {
         List<Object> paramInstances = new ArrayList<>();
         for (Parameter parameter : parameters) {
             Class<?> clazz = BeanFactoryUtils.findConcreteClass(parameter.getType(), preInstanticateBeans);
-            paramInstances.add(createInstance(clazz));
+            paramInstances.add(enrollBean(clazz));
         }
         return paramInstances;
     }

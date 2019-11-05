@@ -2,7 +2,6 @@ package nextstep.di.factory;
 
 import nextstep.di.factory.example.*;
 import nextstep.di.factory.exception.InvalidBeanClassTypeException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +32,7 @@ public class BeanFactoryTest {
     void 애노테이션이_있는_인터페이스() {
         Scanner scanner = new TestScanner("nextstep.di.factory.fail");
         BeanFactory beanFactory = new BeanFactory(scanner);
-        assertThrows(InvalidBeanClassTypeException.class, () -> {
-            beanFactory.initialize();
-        });
+        assertThrows(InvalidBeanClassTypeException.class, beanFactory::initialize);
     }
 
     @Test
