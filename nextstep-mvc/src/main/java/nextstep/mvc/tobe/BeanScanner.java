@@ -15,6 +15,7 @@ import java.util.Set;
 
 public class BeanScanner implements Scanner {
     private static final Logger log = LoggerFactory.getLogger(BeanScanner.class);
+    private static final Class[] AVAILABLE_ANNOTATIONS = {Controller.class, Service.class, Repository.class};
 
     private Reflections reflections;
 
@@ -24,7 +25,7 @@ public class BeanScanner implements Scanner {
 
     @SuppressWarnings("unchecked")
     public Set<Class<?>> getAnnotatedClasses() {
-        return getTypesAnnotatedWith(Controller.class, Service.class, Repository.class);
+        return getTypesAnnotatedWith(AVAILABLE_ANNOTATIONS);
     }
 
     @SuppressWarnings("unchecked")
