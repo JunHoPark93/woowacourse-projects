@@ -30,6 +30,6 @@ class BeanScannerTest {
         Arrays.stream(annotations)
                 .filter(annotation -> Arrays.asList(AVAILABLE_ANNOTATIONS).contains(annotation.annotationType()))
                 .findFirst()
-                .orElseThrow(AnnotationNotFoundException::new);
+                .orElseThrow(() -> new AnnotationNotFoundException("Error: Annotation not available"));
     }
 }
