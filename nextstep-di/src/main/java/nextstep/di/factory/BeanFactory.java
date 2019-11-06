@@ -29,7 +29,7 @@ public class BeanFactory {
 
     public Map<Class<?>, Object> getBeansWithType(Class<? extends Annotation> type) {
         return this.beans.entrySet().stream()
-                .filter(x -> x.getKey().isAnnotationPresent(type))
+                .filter(bean -> bean.getKey().isAnnotationPresent(type))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
