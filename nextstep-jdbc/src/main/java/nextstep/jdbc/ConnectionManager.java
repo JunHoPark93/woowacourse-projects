@@ -10,15 +10,17 @@ class ConnectionManager {
     private final String url;
     private final String userName;
     private final String password;
+    private Connection connection;
 
     ConnectionManager(String driver, String url, String userName, String password) {
         this.driver = driver;
         this.url = url;
         this.userName = userName;
         this.password = password;
+        this.connection = initConnection();
     }
 
-    Connection getConnection() {
+    private Connection initConnection() {
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName(driver);
         ds.setUrl(url);
@@ -30,5 +32,9 @@ class ConnectionManager {
             e.printStackTrace();
             throw new IllegalArgumentException();
         }
+    }
+
+    Connection getConnection() {
+        return this.connection;
     }
 }
