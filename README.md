@@ -17,6 +17,8 @@
 ### 로또
 - [java-lotto-precourse](https://github.com/JunHoPark93/woowacourse-projects/tree/level0-java-lotto)
 - [PR 링크](https://github.com/woowacourse/java-lotto-precourse/pull/38)
+### 컨벤션 번역
+- [java-google-convention](https://github.com/JunHoPark93/google-java-styleguide)
 ### 후기
 - [프리코스 후기](https://pjh3749.tistory.com/236?category=779223)
 
