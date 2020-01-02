@@ -103,4 +103,10 @@
 ### 레벨 3 후기 
 - [레벨3후기 작성중]
 
-## 💜 Level 4 - processing...
+## 💜 Level 4 - 팀 프로젝트 (개장모 - 개발자 장비 모임)
+- [개장모 서비스](https://gaejangmo.com)
+- [레포링크](https://github.com/gae-jang-mo)
+### ✏️ 글쓰기
+- [회고-우테코2기에게](https://github.com/woowacourse/woowa-writing-1/pull/187)
+### 레벨 4 후기
+- [레벨4후기 작성중]
