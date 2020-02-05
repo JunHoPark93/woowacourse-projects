@@ -109,4 +109,4 @@
 ### ✏️ 글쓰기
 - [회고-우테코2기에게](https://github.com/woowacourse/woowa-writing-1/pull/187)
 ### 레벨 4 후기
-- [레벨4후기 작성중]
+- [레벨4후기 & 2019년 회고](https://pjh3749.tistory.com/278)
